@@ -8,13 +8,21 @@
                         "manipulators": [
                             {
                                 "from": {
-                                    "key_code": "escape",
-                                    "modifiers": { "mandatory": ["control"] }
+                                    "key_code": "l",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "control",
+                                            "shift"
+                                        ]
+                                    }
                                 },
                                 "to": [
                                     {
                                         "key_code": "q",
-                                        "modifiers": ["left_control", "left_command"]
+                                        "modifiers": [
+                                            "left_control",
+                                            "left_command"
+                                        ]
                                     }
                                 ],
                                 "type": "basic"
@@ -35,12 +43,18 @@
                                 ],
                                 "from": {
                                     "key_code": "q",
-                                    "modifiers": { "mandatory": ["control"] }
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "control"
+                                        ]
+                                    }
                                 },
                                 "to": [
                                     {
                                         "key_code": "q",
-                                        "modifiers": ["left_command"]
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
                                     }
                                 ],
                                 "type": "basic"
