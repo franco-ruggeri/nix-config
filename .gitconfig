@@ -1,0 +1,21 @@
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+[user]
+	name = Franco Ruggeri
+	signingkey = C9CEF044B51D6ACE737D1B150DE2520B8B4292EF
+
+[commit]
+	gpgsign = true
+
+[pull]
+	rebase = false
+
+[gpg]
+	program = gpg
+
+[core]
+	editor = vi
