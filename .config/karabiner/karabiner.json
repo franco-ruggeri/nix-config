@@ -42,10 +42,11 @@
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "q",
+                                    "key_code": "c",
                                     "modifiers": {
                                         "mandatory": [
-                                            "control"
+                                            "control",
+                                            "shift"
                                         ]
                                     }
                                 },
