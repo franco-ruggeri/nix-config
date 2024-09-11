@@ -4,19 +4,6 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "Window Manager - Terminal",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "return_or_enter",
-                                    "modifiers": { "mandatory": ["control"] }
-                                },
-                                "to": [{ "shell_command": "if ps aux | grep \"[i]Term\" > /dev/null; then osascript -e 'tell application \"iTerm\" to create window with default profile'; else open -a iTerm.app && sleep 5; fi" }],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
                         "description": "Window Manager - Lock screen",
                         "manipulators": [
                             {
@@ -1012,6 +999,14 @@
                             "to": [{ "key_code": "left_command" }]
                         },
                         {
+                            "from": { "key_code": "grave_accent_and_tilde" },
+                            "to": [{ "key_code": "non_us_backslash" }]
+                        },
+                        {
+                            "from": { "key_code": "left_command" },
+                            "to": [{ "key_code": "left_option" }]
+                        },
+                        {
                             "from": { "key_code": "left_control" },
                             "to": [{ "apple_vendor_top_case_key_code": "keyboard_fn" }]
                         },
@@ -1020,8 +1015,8 @@
                             "to": [{ "key_code": "left_control" }]
                         },
                         {
-                            "from": { "key_code": "left_command" },
-                            "to": [{ "key_code": "left_option" }]
+                            "from": { "key_code": "non_us_backslash" },
+                            "to": [{ "key_code": "grave_accent_and_tilde" }]
                         },
                         {
                             "from": { "key_code": "right_command" },
@@ -1030,14 +1025,6 @@
                         {
                             "from": { "key_code": "right_option" },
                             "to": [{ "key_code": "right_command" }]
-                        },
-                        {
-                            "from": { "key_code": "grave_accent_and_tilde" },
-                            "to": [{ "key_code": "non_us_backslash" }]
-                        },
-                        {
-                            "from": { "key_code": "non_us_backslash" },
-                            "to": [{ "key_code": "grave_accent_and_tilde" }]
                         }
                     ]
                 }
