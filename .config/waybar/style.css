@@ -21,7 +21,8 @@ window#waybar {
     min-width: 50px;
 }
 
-#tray {
+#tray,
+#pulseaudio {
     margin-right: 20px;
 }
 
