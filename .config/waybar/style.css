@@ -1,0 +1,61 @@
+* {
+    font-family: Sans;
+    font-size: 13px;
+    border-radius: 10px;
+}
+
+window#waybar {
+    background: transparent;
+}
+
+.module {
+    color: #B5E8E0;
+    background: #161320;
+    padding-left: 10px;
+    padding-right: 10px;
+    min-height: 30px;
+}
+
+#custom-launcher {
+    margin-right: 20px;
+    min-width: 50px;
+}
+
+#tray {
+    margin-right: 20px;
+}
+
+/* Same width regardless of number of digits */
+#cpu,
+#memory,
+#custom-gpu {
+    min-width: 50px;
+}
+
+/*=========================================*/
+/* No round corners to make them contiguous */
+#memory,
+#gpu {
+    border-radius: 0px;
+}
+
+#cpu,
+#custom-gpu {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+#custom-gpu,
+#network {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+/*=========================================*/
+
+
+#workspaces button.active {
+    color: #ABE9B3;
+    border-top: 2px solid #ABE9B3;
+    border-bottom: 2px solid #ABE9B3;
+}

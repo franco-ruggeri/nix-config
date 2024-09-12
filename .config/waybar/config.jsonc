@@ -1,0 +1,67 @@
+{
+    "layer": "top",
+    "margin": "10 10 0 10",
+    "modules-left": [
+        "custom/launcher",
+        "cpu",
+        "memory",
+        "custom/gpu",
+        "network"
+    ],
+    "modules-center": [
+        "hyprland/workspaces"
+    ],
+    "modules-right": [
+        "tray",
+        "backlight",
+        "pulseaudio",
+        "clock"
+    ],
+    "custom/launcher": {
+        "format": "\uf120",
+        "on-click": "rofi -show drun",
+        "on-click-right": "killall rofi"
+    },
+    "network": {
+        "format-ethernet": "\uf6ff {bandwidthDownBits} {bandwidthUpBits}",
+        "format-disconnected": "\uf126",
+        "tooltip-format": "{ifname} {ipaddr}"
+    },
+    "clock": {
+        "format": "\uf017 {:%H:%M    \uf073 %Y-%m-%d}"
+    },
+    "cpu": {
+        "format": "\uf2db {usage}%"
+    },
+    "memory": {
+        "format": "\uf538 {percentage}%"
+    },
+    "custom/gpu": {
+        "exec": "cat /sys/class/hwmon/hwmon2/device/gpu_busy_percent",
+        "format": "\ue4e5 {}%",
+        "return-type": "",
+        "interval": 1
+    },
+    "hyrpland/workspaces": {
+        "format": "{icon}",
+        "on-scroll-up": "hyprctl dispatch workspace e+1",
+        "on-scroll-down": "hyprctl dispatch workspace e-1",
+        "on-click": "activate"
+    },
+    "tray": {
+        "spacing": 20
+    },
+    "pulseaudio": {
+        "scroll-step": 5,
+        "format": "{icon} {volume}%",
+        "format-muted": "\uf6a9 {volume}%",
+        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "format-icons": {
+            "default": [
+                "\uf026",
+                "\uf027",
+                "\uf028"
+            ]
+        }
+    }
+}
