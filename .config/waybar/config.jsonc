@@ -61,6 +61,6 @@
         }
     },
     "clock": {
-        "format": "\uf017 {:%H:%M    \uf073 %Y-%m-%d}"
+        "format": "\uf073 {:%Y-%m-%d    \uf017 %H:%M}"
     }
 }
