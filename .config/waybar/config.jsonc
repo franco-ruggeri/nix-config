@@ -26,9 +26,6 @@
         "format-disconnected": "\uf126",
         "tooltip-format": "{ifname} {ipaddr}"
     },
-    "clock": {
-        "format": "\uf017 {:%H:%M    \uf073 %Y-%m-%d}"
-    },
     "cpu": {
         "format": "\uf2db {usage}%"
     },
@@ -62,5 +59,8 @@
                 "\uf028"
             ]
         }
+    },
+    "clock": {
+        "format": "\uf017 {:%H:%M    \uf073 %Y-%m-%d}"
     }
 }
