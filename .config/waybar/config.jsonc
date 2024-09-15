@@ -1,6 +1,6 @@
 {
     "layer": "top",
-    "margin": "10 10 0 10",
+    "margin": "5 5 0 5",
     "modules-left": [
         "custom/launcher",
         "cpu",
