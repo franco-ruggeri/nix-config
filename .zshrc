@@ -1,3 +1,9 @@
+# Prompt theme
+# See https://wiki.archlinux.org/title/Zsh#Prompt_themes
+autoload promptinit
+promptinit
+prompt off
+
 # Command completion
 # See https://wiki.archlinux.org/title/Zsh#Command_completion
 autoload compinit
@@ -16,6 +22,7 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Command not found handler
+# See https://wiki.archlinux.org/title/Zsh#pkgfile_%22command_not_found%22_handler
 source /usr/share/doc/pkgfile/command-not-found.zsh
 
 # ZLE vi mode
@@ -56,3 +63,8 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bind_key "$terminfo[kcuu1]" up-line-or-beginning-search
 bind_key "$terminfo[kcud1]" down-line-or-beginning-search
+
+# Aliases
+alias ls="ls --color=auto"
+alias ll="ls -lh"
+alias la="ls -lAh "
