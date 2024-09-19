@@ -1,3 +1,16 @@
+function maybe_source {
+    local file="$1"
+    if [[ -f "$file" ]]; then
+        source "$file"
+    fi
+}
+
+function bind_key() {
+    local key="$1"
+    local action="$2"
+    [[ -n "$key" ]] && bindkey -- "$key" "$action"
+}
+
 # Prompt theme
 # See https://wiki.archlinux.org/title/Zsh#Prompt_themes
 autoload promptinit
@@ -12,11 +25,12 @@ zstyle ':completion:*' menu select
 
 # Fish-like syntax highlighting
 # See https://wiki.archlinux.org/title/Zsh#Fish-like_syntax_highlighting_and_autosuggestions
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+maybe_source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+maybe_source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# Command not found handler
+# Command-not-found handler
 # See https://wiki.archlinux.org/title/Zsh#pkgfile_%22command_not_found%22_handler
-source /usr/share/doc/pkgfile/command-not-found.zsh
+maybe_source /usr/share/doc/pkgfile/command-not-found.zsh
 
 # ZLE vi mode
 # See https://wiki.archlinux.org/title/Zsh#Key_bindings
@@ -35,13 +49,6 @@ if [[ -n "$terminfo[smkx]" && -n "$terminfo[rmkx]" ]]; then
     add-zle-hook-widget -Uz zle-line-init zle_application_mode_start
     add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
 fi
-
-# Bind key function
-function bind_key() {
-    local key="$1"    # Get the key from the first argument
-    local action="$2" # Get the action from the second argument
-    [[ -n "$key" ]] && bindkey -- "$key" "$action"
-}
 
 # Basic key bindings
 bind_key "$terminfo[khome]" beginning-of-line
