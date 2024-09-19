@@ -10,16 +10,9 @@ autoload compinit
 compinit
 zstyle ':completion:*' menu select
 
-# Prompt theme
-autoload promptinit
-promptinit
-prompt off
-
 # Fish-like syntax highlighting
+# See https://wiki.archlinux.org/title/Zsh#Fish-like_syntax_highlighting_and_autosuggestions
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# Fish-like autosuggestions
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Command not found handler
 # See https://wiki.archlinux.org/title/Zsh#pkgfile_%22command_not_found%22_handler
