@@ -1,8 +1,58 @@
-# Oh My Zsh configurations
-# See ~/.oh-my-zsh/templates/zshrc.zsh-template
-export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="robbyrussell"
-HIST_STAMPS="yyyy-mm-dd"
-zstyle ':omz:update' mode auto # update automatically without asking
-plugins=(git poetry poetry-env)
-source $ZSH/oh-my-zsh.sh
+# Command completion
+# See https://wiki.archlinux.org/title/Zsh#Command_completion
+autoload compinit
+compinit
+zstyle ':completion:*' menu select
+
+# Prompt theme
+autoload promptinit
+promptinit
+prompt off
+
+# Fish-like syntax highlighting
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# Fish-like autosuggestions
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# Command not found handler
+source /usr/share/doc/pkgfile/command-not-found.zsh
+
+# ZLE vi mode
+# See https://wiki.archlinux.org/title/Zsh#Key_bindings
+bindkey -v
+
+# Terminal application mode (to make $terminfo valid)
+# See https://wiki.archlinux.org/title/Zsh#Key_bindings
+if [[ -n "$terminfo[smkx]" && -n "$terminfo[rmkx]" ]]; then
+    autoload add-zle-hook-widget
+    function zle_application_mode_start {
+        echoti smkx
+    }
+    function zle_application_mode_stop {
+        echoti rmkx
+    }
+    add-zle-hook-widget -Uz zle-line-init zle_application_mode_start
+    add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
+fi
+
+# Bind key function
+function bind_key() {
+    local key="$1"    # Get the key from the first argument
+    local action="$2" # Get the action from the second argument
+    [[ -n "$key" ]] && bindkey -- "$key" "$action"
+}
+
+# Basic key bindings
+bind_key "$terminfo[khome]" beginning-of-line
+bind_key "$terminfo[kend]" end-of-line
+bind_key "$terminfo[kdch1]" delete-char
+bind_key "$terminfo[kcbt]" reverse-menu-complete
+
+# Key bindings for history search of matching commands
+# See https://wiki.archlinux.org/title/Zsh#History_search
+autoload up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bind_key "$terminfo[kcuu1]" up-line-or-beginning-search
+bind_key "$terminfo[kcud1]" down-line-or-beginning-search
