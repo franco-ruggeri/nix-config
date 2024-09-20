@@ -1,1 +1,1 @@
-ctrl - return : /Applications/iTerm.app/Contents/MacOS/iTerm2
+ctrl - return : kitty --directory ~
