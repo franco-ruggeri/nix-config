@@ -1,3 +1,7 @@
+# Default editor
+VISUAL=vim
+EDITOR=vim
+
 # Dark theme
 # See https://wiki.archlinux.org/title/Dark_mode_switching
 export GTK_THEME=Adwaita:dark

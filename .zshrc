@@ -74,4 +74,4 @@ bind_key "$terminfo[kcud1]" down-line-or-beginning-search
 # Aliases
 alias ls="ls --color=auto"
 alias ll="ls -lh"
-alias la="ls -lAh "
+alias la="ls -lAh"
