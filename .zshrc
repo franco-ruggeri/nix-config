@@ -28,6 +28,7 @@ zstyle ':completion:*' menu select
 # Fish-like syntax highlighting
 # See https://wiki.archlinux.org/title/Zsh#Fish-like_syntax_highlighting_and_autosuggestions
 maybe_source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+maybe_source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 maybe_source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 maybe_source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
