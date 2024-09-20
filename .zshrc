@@ -1,7 +1,8 @@
-maybe_source() {
-    local file="$1"
-    if [[ -f "$file" ]]; then
-        source "$file"
+maybe_exec() {
+    local cmd="$1"
+    local file="$2"
+    if command -v "$cmd" &> /dev/null && [[ -f "$file" ]]; then
+        "$cmd" "$file"
     fi
 }
 
@@ -13,7 +14,7 @@ bind_key() {
 
 
 # Homebrew
-eval "$(/opt/homebrew/bin/brew shellenv)"
+eval "$(maybe_exec /opt/homebrew/bin/brew shellenv)"
 
 # Prompt theme (with Oh My Posh)
 # See https://ohmyposh.dev/docs/installation/customize
@@ -27,14 +28,14 @@ zstyle ':completion:*' menu select
 
 # Fish-like syntax highlighting
 # See https://wiki.archlinux.org/title/Zsh#Fish-like_syntax_highlighting_and_autosuggestions
-maybe_source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-maybe_source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-maybe_source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-maybe_source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+maybe_exec source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+maybe_exec source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+maybe_exec source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+maybe_exec source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Command-not-found handler
 # See https://wiki.archlinux.org/title/Zsh#pkgfile_%22command_not_found%22_handler
-maybe_source /usr/share/doc/pkgfile/command-not-found.zsh
+maybe_exec source /usr/share/doc/pkgfile/command-not-found.zsh
 
 # ZLE vi mode
 # See https://wiki.archlinux.org/title/Zsh#Key_bindings
