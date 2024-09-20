@@ -7,3 +7,6 @@ export QT_STYLE_OVERRIDE=Adwaita-Dark
 # Gnome keyring for ssh-agent
 # See https://wiki.archlinux.org/title/GNOME/Keyring#Setup_gcr
 export SSH_AUTH_SOCK="/run/user/1000/gcr/ssh"
+
+# Pipx
+path=("/Users/erugfra/.local/bin" $path)
