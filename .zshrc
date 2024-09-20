@@ -1,20 +1,21 @@
-maybe_source() {
-    local cmd="$1"
-    local file="$2"
-    if [[ -f "$file" ]]; then
-        source "$file"
+is_linux() {
+    if [[ "$(uname)" == "Linux" ]]; then
+        return 0  # true
+    else
+        return 1  # false
     fi
 }
 
-bind_key() {
-    local key="$1"
-    local action="$2"
-    [[ -n "$key" ]] && bindkey -- "$key" "$action"
+is_macos() {
+    if [[ "$(uname)" == "Darwin" ]]; then
+        return 0  # true
+    else
+        return 1  # false
+    fi
 }
 
-
 # Homebrew
-if [[ -f /opt/homebrew/bin/brew ]]; then
+if is_macos; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
@@ -30,14 +31,19 @@ zstyle ':completion:*' menu select
 
 # Fish-like syntax highlighting
 # See https://wiki.archlinux.org/title/Zsh#Fish-like_syntax_highlighting_and_autosuggestions
-maybe_source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-maybe_source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-maybe_source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-maybe_source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+if is_macos; then
+    source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+elif is_linux; then
+    source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
 
 # Command-not-found handler
 # See https://wiki.archlinux.org/title/Zsh#pkgfile_%22command_not_found%22_handler
-maybe_source /usr/share/doc/pkgfile/command-not-found.zsh
+if is_linux; then
+    source /usr/share/doc/pkgfile/command-not-found.zsh
+fi
 
 # ZLE vi mode
 # See https://wiki.archlinux.org/title/Zsh#Key_bindings
@@ -56,6 +62,12 @@ if [[ -n "$terminfo[smkx]" && -n "$terminfo[rmkx]" ]]; then
     add-zle-hook-widget -Uz zle-line-init zle_application_mode_start
     add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
 fi
+
+bind_key() {
+    local key="$1"
+    local action="$2"
+    [[ -n "$key" ]] && bindkey -- "$key" "$action"
+}
 
 # Basic key bindings
 bind_key "$terminfo[khome]" beginning-of-line
