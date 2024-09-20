@@ -11,6 +11,10 @@ bind_key() {
     [[ -n "$key" ]] && bindkey -- "$key" "$action"
 }
 
+
+# Homebrew
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 # Prompt theme (with Oh My Posh)
 # See https://ohmyposh.dev/docs/installation/customize
 eval "$(oh-my-posh init zsh --config https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/robbyrussell.omp.json)"
@@ -67,3 +71,6 @@ bind_key "$terminfo[kcud1]" down-line-or-beginning-search
 alias ls="ls --color=auto"
 alias ll="ls -lh"
 alias la="ls -lAh "
+
+# Pipx
+path=("/Users/erugfra/.local/bin" $path)
