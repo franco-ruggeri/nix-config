@@ -45,10 +45,6 @@ if is_linux; then
     source /usr/share/doc/pkgfile/command-not-found.zsh
 fi
 
-# ZLE vi mode
-# See https://wiki.archlinux.org/title/Zsh#Key_bindings
-bindkey -v
-
 # Terminal application mode (to make $terminfo valid)
 # See https://wiki.archlinux.org/title/Zsh#Key_bindings
 if [[ -n "$terminfo[smkx]" && -n "$terminfo[rmkx]" ]]; then

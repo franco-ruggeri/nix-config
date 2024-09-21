@@ -1,6 +1,9 @@
 # Default editor
-VISUAL=vim
-EDITOR=vim
+# It also defines the key bindings for zsh and tmux.
+# See https://wiki.archlinux.org/title/Zsh#Key_bindings
+# See https://github.com/tmux/tmux/wiki/Getting-Started#vi1-key-bindings
+export VISUAL=vim
+export EDITOR=vim
 
 # Dark theme
 # See https://wiki.archlinux.org/title/Dark_mode_switching
