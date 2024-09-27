@@ -21,7 +21,7 @@ fi
 
 # Prompt theme (with Oh My Posh)
 # See https://ohmyposh.dev/docs/installation/customize
-eval "$(oh-my-posh init zsh --config https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/robbyrussell.omp.json)"
+eval "$(oh-my-posh init zsh --config ~/.local/share/oh-my-posh/theme.omp.json)"
 
 # Command completion
 # See https://wiki.archlinux.org/title/Zsh#Command_completion
