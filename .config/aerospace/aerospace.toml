@@ -21,7 +21,8 @@ outer.right = 10
 
 [mode.main.binding]
 
-# Switch workspace
+# Manage workspaces and windows
+# ------------------------------
 ctrl-1 = "workspace 1"
 ctrl-2 = "workspace 2"
 ctrl-3 = "workspace 3"
@@ -33,11 +34,6 @@ ctrl-8 = "workspace 8"
 ctrl-9 = "workspace 9"
 ctrl-0 = "workspace 10"
 
-# Move workspace to monitor
-ctrl-o = "focus-monitor --wrap-around next"
-ctrl-shift-o = "move-workspace-to-monitor --wrap-around next"
-
-# Move window to workspace
 ctrl-shift-1 = ["move-node-to-workspace 1", "workspace 1"]
 ctrl-shift-2 = ["move-node-to-workspace 2", "workspace 2"]
 ctrl-shift-3 = ["move-node-to-workspace 3", "workspace 3"]
@@ -49,22 +45,22 @@ ctrl-shift-8 = ["move-node-to-workspace 8", "workspace 8"]
 ctrl-shift-9 = ["move-node-to-workspace 9", "workspace 9"]
 ctrl-shift-0 = ["move-node-to-workspace 10", "workspace 10"]
 
-# Move focus in the layout
+ctrl-o = "focus-monitor --wrap-around next"
+ctrl-shift-o = "move-workspace-to-monitor --wrap-around next"
+
 ctrl-h = "focus left"
 ctrl-j = "focus down"
 ctrl-k = "focus up"
 ctrl-l = "focus right"
 
-# Move window in the layout
 ctrl-shift-h = "move left"
 ctrl-shift-j = "move down"
 ctrl-shift-k = "move up"
 ctrl-shift-l = "move right"
 
-# Resize window
 ctrl-shift-minus = "resize smart -50"
 ctrl-shift-equal = "resize smart +50"
 
-# Manage layouts
-ctrl-space = "layout horizontal vertical"
+ctrl-space = "layout h_tiles v_tiles"
 ctrl-f = "fullscreen"
+# ------------------------------
