@@ -85,7 +85,9 @@ alias ll="ls -lh"
 alias la="ls -lAh"
 
 # Kubernetes
-source <(kubectl completion zsh)
+if command -v kubectl 2>&1 >/dev/null; then
+    source <(kubectl completion zsh)
+fi
 
 # ER Cloud
 if is_macos; then
