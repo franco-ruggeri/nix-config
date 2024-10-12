@@ -83,3 +83,11 @@ bind_key "$terminfo[kcud1]" down-line-or-beginning-search
 alias ls="ls --color=auto"
 alias ll="ls -lh"
 alias la="ls -lAh"
+
+# Kubernetes
+source <(kubectl completion zsh)
+
+# ER Cloud
+if is_macos; then
+    source .ercloud
+fi
