@@ -91,5 +91,5 @@ fi
 
 # ER Cloud
 if is_macos; then
-    source .ercloud
+    source $HOME/.ercloud
 fi
