@@ -48,10 +48,10 @@ ctrl-shift-0 = ["move-node-to-workspace 10", "workspace 10"]
 ctrl-o = "focus-monitor --wrap-around next"
 ctrl-shift-o = "move-workspace-to-monitor --wrap-around next"
 
-ctrl-h = "focus left"
-ctrl-j = "focus down"
-ctrl-k = "focus up"
-ctrl-l = "focus right"
+ctrl-h = "focus left --boundaries-action stop"
+ctrl-j = "focus down --boundaries-action stop"
+ctrl-k = "focus up --boundaries-action stop"
+ctrl-l = "focus right --boundaries-action stop"
 
 ctrl-shift-h = "move left"
 ctrl-shift-j = "move down"
