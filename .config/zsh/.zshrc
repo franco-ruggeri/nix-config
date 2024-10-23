@@ -1,18 +1,4 @@
-is_linux() {
-    if [[ "$(uname)" == "Linux" ]]; then
-        return 0  # true
-    else
-        return 1  # false
-    fi
-}
-
-is_macos() {
-    if [[ "$(uname)" == "Darwin" ]]; then
-        return 0  # true
-    else
-        return 1  # false
-    fi
-}
+source $ZDOTDIR/.zshutils
 
 # Homebrew
 if is_macos; then
