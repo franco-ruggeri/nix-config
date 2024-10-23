@@ -75,6 +75,13 @@ if command -v kubectl 2>&1 >/dev/null; then
     source <(kubectl completion zsh)
 fi
 
+# TMUX plugin manager
+if is_linux; then
+  export TPM_PATH="$HOME/.tmux/plugins/tpm"
+elif is_macos; then
+  export TPM_PATH="/opt/homebrew/opt/tpm/share/tpm/tpm"
+fi
+
 # ER Cloud
 if is_macos; then
     source $HOME/.ercloud
