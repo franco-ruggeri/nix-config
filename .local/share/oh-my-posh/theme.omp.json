@@ -11,9 +11,12 @@
           "type": "text"
         },
         {
-          "type": "python",
           "style": "plain",
-          "template": " ({{ .Venv }})"
+          "template": " ({{ .Venv }})",
+          "properties": {
+            "home_enabled": true
+          },
+          "type": "python"
         },
         {
           "foreground": "#56B6C2",
