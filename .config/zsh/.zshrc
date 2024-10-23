@@ -95,6 +95,15 @@ else
 fi
 unset __conda_setup
 
+# Workaround for poetry shell not working with custom prompt
+poetry() {
+    if [[ "$1" = "shell" ]]; then
+        source "$(dirname $(poetry run which python))/activate"
+    else
+        command poetry "$@"
+    fi
+}
+
 # ER Cloud
 if is_macos; then
     source $HOME/.ercloud
