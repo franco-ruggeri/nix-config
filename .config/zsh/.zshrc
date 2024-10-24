@@ -98,7 +98,8 @@ unset __conda_setup
 # Workaround for poetry shell not working with custom prompt
 poetry() {
     if [[ "$1" = "shell" ]]; then
-        source "$(dirname $(poetry run which python))/activate"
+        cmd='source "$(dirname $(poetry run which python))/activate"'
+        zsh -ic "$cmd; exec zsh"
     else
         command poetry "$@"
     fi
