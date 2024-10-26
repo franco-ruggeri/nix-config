@@ -1,18 +1,4 @@
-is_linux() {
-    if [[ "$(uname)" == "Linux" ]]; then
-        return 0  # true
-    else
-        return 1  # false
-    fi
-}
-
-is_macos() {
-    if [[ "$(uname)" == "Darwin" ]]; then
-        return 0  # true
-    else
-        return 1  # false
-    fi
-}
+source $ZDOTDIR/.zshutils
 
 # Homebrew
 if is_macos; then
@@ -88,6 +74,36 @@ alias la="ls -lAh"
 if command -v kubectl 2>&1 >/dev/null; then
     source <(kubectl completion zsh)
 fi
+
+# TMUX plugin manager
+if is_linux; then
+  export TPM_PATH="$HOME/.tmux/plugins/tpm"
+elif is_macos; then
+  export TPM_PATH="/opt/homebrew/opt/tpm/share/tpm/tpm"
+fi
+
+# Conda
+__conda_setup="$('/opt/homebrew/Caskroom/miniforge/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh" ]; then
+        . "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh"
+    else
+        export PATH="/opt/homebrew/Caskroom/miniforge/base/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+
+# Workaround for poetry shell not working with custom prompt
+poetry() {
+    if [[ "$1" = "shell" ]]; then
+        cmd='source "$(dirname $(poetry run which python))/activate"'
+        zsh -ic "$cmd; exec zsh"
+    else
+        command poetry "$@"
+    fi
+}
 
 # ER Cloud
 if is_macos; then
