@@ -69,6 +69,9 @@ bind_key "$terminfo[kcud1]" down-line-or-beginning-search
 alias ls="ls --color=auto"
 alias ll="ls -lh"
 alias la="ls -lAh"
+if is_linux; then
+    alias open="xdg-open"
+fi
 
 # Kubernetes
 if command -v kubectl 2>&1 >/dev/null; then
