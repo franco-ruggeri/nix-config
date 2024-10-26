@@ -26,5 +26,5 @@ Install dotfiles:
 
 ```bash
 cd ~/.dotfiles
-stow .
+stow --no-folding .
 ```
