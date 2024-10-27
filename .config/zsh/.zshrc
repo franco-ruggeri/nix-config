@@ -78,13 +78,6 @@ if command -v kubectl 2>&1 >/dev/null; then
     source <(kubectl completion zsh)
 fi
 
-# TMUX plugin manager
-if is_linux; then
-  export TPM_PATH="$HOME/.tmux/plugins/tpm"
-elif is_macos; then
-  export TPM_PATH="/opt/homebrew/opt/tpm/share/tpm/tpm"
-fi
-
 # Conda
 __conda_setup="$('/opt/homebrew/Caskroom/miniforge/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
