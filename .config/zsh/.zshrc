@@ -1,4 +1,6 @@
-source $ZDOTDIR/.zshutils
+source $ZDOTDIR/.zsh_utils
+source $ZDOTDIR/.zsh_env
+source $ZDOTDIR/.zsh_aliases
 
 # Homebrew
 if is_macos; then
@@ -65,14 +67,6 @@ zle -N down-line-or-beginning-search
 bind_key "$terminfo[kcuu1]" up-line-or-beginning-search
 bind_key "$terminfo[kcud1]" down-line-or-beginning-search
 
-# Aliases
-alias ls="ls --color=auto"
-alias ll="ls -lh"
-alias la="ls -lAh"
-if is_linux; then
-    alias open="xdg-open"
-fi
-
 # Kubernetes
 if command -v kubectl 2>&1 >/dev/null; then
     source <(kubectl completion zsh)
@@ -91,15 +85,6 @@ else
 fi
 unset __conda_setup
 
-# Workaround for poetry shell not working with custom prompt
-poetry() {
-    if [[ "$1" = "shell" ]]; then
-        cmd='source "$(dirname $(poetry run which python))/activate"'
-        zsh -ic "$cmd; exec zsh"
-    else
-        command poetry "$@"
-    fi
-}
 
 # ER Cloud
 if is_macos; then

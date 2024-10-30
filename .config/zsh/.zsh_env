@@ -1,4 +1,4 @@
-source $ZDOTDIR/.zshutils
+source $ZDOTDIR/.zsh_utils
 
 if is_linux; then
   # Dark theme
