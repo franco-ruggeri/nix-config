@@ -13,3 +13,9 @@ is_macos() {
         return 1  # false
     fi
 }
+
+bind_key() {
+    local key="$1"
+    local action="$2"
+    [[ -n "$key" ]] && bindkey -- "$key" "$action"
+}

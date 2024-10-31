@@ -1,11 +1,6 @@
-source $ZDOTDIR/.zsh_utils
-source $ZDOTDIR/.zsh_env
-source $ZDOTDIR/.zsh_aliases
-
-# Homebrew
-if is_macos; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
+source $ZDOTDIR/.utils
+source $ZDOTDIR/.aliases
+source $ZDOTDIR/.keybindings
 
 # Prompt theme (with Oh My Posh)
 # See https://ohmyposh.dev/docs/installation/customize
@@ -20,8 +15,8 @@ zstyle ':completion:*' menu select
 # Fish-like syntax highlighting
 # See https://wiki.archlinux.org/title/Zsh#Fish-like_syntax_highlighting_and_autosuggestions
 if is_macos; then
-    source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-    source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+    source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 elif is_linux; then
     source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
     source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -33,58 +28,17 @@ if is_linux; then
     source /usr/share/doc/pkgfile/command-not-found.zsh
 fi
 
-# Terminal application mode (to make $terminfo valid)
-# See https://wiki.archlinux.org/title/Zsh#Key_bindings
-if [[ -n "$terminfo[smkx]" && -n "$terminfo[rmkx]" ]]; then
-    autoload add-zle-hook-widget
-    function zle_application_mode_start {
-        echoti smkx
-    }
-    function zle_application_mode_stop {
-        echoti rmkx
-    }
-    add-zle-hook-widget -Uz zle-line-init zle_application_mode_start
-    add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
+# Tmux plugin manager
+if is_linux; then
+    export TPM_PATH="$HOME/.tmux/plugins/tpm/tpm"
+elif is_macos; then
+    export TPM_PATH="$HOMEBREW_PREFIX/opt/tpm/share/tpm/tpm"
 fi
-
-bind_key() {
-    local key="$1"
-    local action="$2"
-    [[ -n "$key" ]] && bindkey -- "$key" "$action"
-}
-
-# Basic key bindings
-bind_key "$terminfo[khome]" beginning-of-line
-bind_key "$terminfo[kend]" end-of-line
-bind_key "$terminfo[kdch1]" delete-char
-bind_key "$terminfo[kcbt]" reverse-menu-complete
-
-# Key bindings for history search of matching commands
-# See https://wiki.archlinux.org/title/Zsh#History_search
-autoload up-line-or-beginning-search down-line-or-beginning-search
-zle -N up-line-or-beginning-search
-zle -N down-line-or-beginning-search
-bind_key "$terminfo[kcuu1]" up-line-or-beginning-search
-bind_key "$terminfo[kcud1]" down-line-or-beginning-search
 
 # Kubernetes
 if command -v kubectl 2>&1 >/dev/null; then
     source <(kubectl completion zsh)
 fi
-
-# Conda
-__conda_setup="$('/opt/homebrew/Caskroom/miniforge/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh" ]; then
-        . "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh"
-    else
-        export PATH="/opt/homebrew/Caskroom/miniforge/base/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-
 
 # ER Cloud
 if is_macos; then
