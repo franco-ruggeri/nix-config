@@ -330,6 +330,14 @@
                         "description": "Linux - Tmux",
                         "manipulators": [
                             {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "net.kovidgoyal.kitty"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
                                 "from": {
                                     "key_code": "b",
                                     "modifiers": { "mandatory": ["command"] }
