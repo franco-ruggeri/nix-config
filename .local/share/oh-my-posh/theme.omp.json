@@ -2,50 +2,59 @@
   "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
   "blocks": [
     {
+      "type": "prompt",
       "alignment": "left",
       "segments": [
         {
+          "properties": {
+            "cache_duration": "none"
+          },
+          "template": "➜",
           "foreground": "#98C379",
-          "style": "plain",
-          "template": "\u279c",
-          "type": "text"
+          "type": "text",
+          "style": "plain"
         },
         {
-          "style": "plain",
-          "template": " ({{ .Venv }})",
           "properties": {
+            "cache_duration": "none",
             "home_enabled": true
           },
-          "type": "python"
+          "template": " ({{ .Venv }})",
+          "type": "python",
+          "style": "plain"
         },
         {
-          "foreground": "#56B6C2",
           "properties": {
+            "cache_duration": "none",
             "style": "folder"
           },
-          "style": "plain",
           "template": " {{ .Path }} ",
-          "type": "path"
+          "foreground": "#56B6C2",
+          "type": "path",
+          "style": "plain"
         },
         {
-          "foreground": "#D0666F",
           "properties": {
-            "branch_icon": ""
+            "branch_icon": "",
+            "cache_duration": "none"
           },
-          "style": "plain",
           "template": "<#5FAAE8>git:(</>{{ .HEAD }}<#5FAAE8>)</>",
-          "type": "git"
+          "foreground": "#D0666F",
+          "type": "git",
+          "style": "plain"
         },
         {
+          "properties": {
+            "cache_duration": "none"
+          },
+          "template": " ✗",
           "foreground": "#BF616A",
-          "style": "plain",
-          "template": " \u2717",
-          "type": "status"
+          "type": "status",
+          "style": "plain"
         }
-      ],
-      "type": "prompt"
+      ]
     }
   ],
-  "final_space": true,
-  "version": 2
+  "version": 3,
+  "final_space": true
 }
