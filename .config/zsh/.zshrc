@@ -28,13 +28,6 @@ if is_linux; then
     source /usr/share/doc/pkgfile/command-not-found.zsh
 fi
 
-# Tmux plugin manager
-if is_linux; then
-    export TPM_PATH="$HOME/.tmux/plugins/tpm/tpm"
-elif is_macos; then
-    export TPM_PATH="$HOMEBREW_PREFIX/opt/tpm/share/tpm/tpm"
-fi
-
 # Kubernetes
 if command -v kubectl 2>&1 >/dev/null; then
     source <(kubectl completion zsh)

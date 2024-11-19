@@ -31,3 +31,10 @@ typeset -U path PATH
 
 # Pipx and poetry
 path+=($HOME/.local/bin)
+
+# Tmux plugin manager
+if is_linux; then
+    export TPM_PATH="$HOME/.tmux/plugins/tpm/tpm"
+elif is_macos; then
+    export TPM_PATH="$HOMEBREW_PREFIX/opt/tpm/share/tpm/tpm"
+fi
