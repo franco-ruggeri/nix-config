@@ -22,9 +22,9 @@ return {
     -- Automatic LSP client setup for each LSP server installed with Mason.
     -- Otherwise, we'd need to setup the LSP client explicitly for every LSP server.
     require("mason-lspconfig").setup_handlers({
-        function (server_name)
-            require("lspconfig")[server_name].setup({}) -- table is required
-        end,
+      function (server_name)
+        require("lspconfig")[server_name].setup({}) -- table is required
+      end,
     })
   end,
 }
