@@ -16,7 +16,7 @@ return {
 
     require("mason").setup()
     require("mason-lspconfig").setup({
-      ensure_installed = { "lua_ls", "pyright" },
+      ensure_installed = { "lua_ls" },
     })
 
     -- Automatic LSP client setup for each LSP server installed with Mason.
