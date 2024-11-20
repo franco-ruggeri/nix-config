@@ -1,5 +1,6 @@
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<cr>", { desc = "Clear search highlights" })
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+vim.keymap.set("n", "<leader>e", "<cmd>Explore<cr>", { desc = "Explore with netrw" })
 
 -- Disable arrow keys
 vim.keymap.set("n", "<left>", "<cmd>echo 'Use h to move left!'<cr>")
