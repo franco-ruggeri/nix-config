@@ -38,3 +38,8 @@ if is_linux; then
 elif is_macos; then
     export TPM_PATH="$HOMEBREW_PREFIX/opt/tpm/share/tpm/tpm"
 fi
+
+# Zathura
+if is_macos; then
+    export DBUS_SESSION_BUS_ADDRESS="unix:path=$DBUS_LAUNCHD_SESSION_BUS_SOCKET"
+fi

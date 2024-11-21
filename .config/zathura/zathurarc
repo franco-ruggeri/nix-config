@@ -1,0 +1,4 @@
+# Inverse search for latex
+# https://blog.epheme.re/software/nvim-latex.html
+set synctex true
+set synctex-editor-command "nvim --headless -c \"VimtexInverseSearch %{line} '%{input}'\""

@@ -6,6 +6,9 @@ return {
 		ensure_installed = "all",
 		auto_install = true,
 		highlight = { enable = true },
-		indent = { enable = true },
+    indent = { 
+      enable = true, 
+      disable = { "latex" } -- let vimtex take care of latex
+    },
 	},
 }
