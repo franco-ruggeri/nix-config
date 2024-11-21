@@ -6,6 +6,8 @@ return {
     { "williamboman/mason.nvim" },
     -- mason-lspconfig automates the LSP client setup
     { "williamboman/mason-lspconfig.nvim" },
+    -- cmp-nvim-lsp provides extra capabilities for autocompletion
+    { "hrsh7th/cmp-nvim-lsp" },
   },
   config = function()
     vim.api.nvim_create_autocmd("LspAttach", {
@@ -21,9 +23,10 @@ return {
 
     -- Automatic LSP client setup for each LSP server installed with Mason.
     -- Otherwise, we'd need to setup the LSP client explicitly for every LSP server.
+    local capabilities = require('cmp_nvim_lsp').default_capabilities()
     require("mason-lspconfig").setup_handlers({
       function (server_name)
-        require("lspconfig")[server_name].setup({}) -- table is required
+        require("lspconfig")[server_name].setup({capabilities = capabilities})
       end,
     })
   end,
