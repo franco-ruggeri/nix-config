@@ -5,10 +5,7 @@ return {
 	opts = {
 		ensure_installed = "all",
 		auto_install = true,
-		highlight = { enable = true },
-    indent = { 
-      enable = true, 
-      disable = { "latex" } -- let vimtex take care of latex
-    },
+		highlight = { enable = true, disable = { "latex" } },
+    indent = { enable = true, disable = { "latex" } },
 	},
 }
