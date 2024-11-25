@@ -1,3 +1,6 @@
+# Smooth scroll with touchpad
+set smooth-scroll true
+
 # Inverse search for latex
 # https://blog.epheme.re/software/nvim-latex.html
 set synctex true
