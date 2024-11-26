@@ -4,21 +4,15 @@ return {
 	dependencies = {
     "neovim/nvim-lspconfig",
     "hrsh7th/cmp-nvim-lsp",
-    "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-cmdline",
-    "hrsh7th/nvim-cmp",
-    "hrsh7th/vim-vsnip",
+    "hrsh7th/cmp-buffer",
 	},
 	config = function()
 		local cmp = require("cmp")
 
+    -- Completion in text
     cmp.setup({
-      snippet = {
-        expand = function(args)
-          vim.fn["vsnip#anonymous"](args.body)
-        end,
-      },
       mapping = cmp.mapping.preset.insert({
         ["<C-n>"] = cmp.mapping.select_next_item(),
         ["<C-p>"] = cmp.mapping.select_prev_item(),
@@ -28,12 +22,31 @@ return {
         ["<C-Space>"] = cmp.mapping.complete {},
       }),
       sources = cmp.config.sources({
-        { name = 'nvim_lsp' },
-        { name = 'vsnip' },
+        { name = "nvim_lsp" },
+        { name = "path" },
+        { name = "cmdline" },
       }, {
-          { name = 'buffer' },
+          { name = "buffer" },
         }
       )
+    })
+
+    -- Completion in search mode
+    cmp.setup.cmdline({ '/', '?' }, {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = {
+        { name = 'buffer' }
+      }
+    })
+
+    -- Completion in command-line mode
+    cmp.setup.cmdline(':', {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = cmp.config.sources({
+        { name = 'path' }
+      }, {
+          { name = 'cmdline' }
+        }),
     })
   end,
 }
