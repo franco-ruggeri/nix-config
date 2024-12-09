@@ -13,6 +13,7 @@ enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
 
 [gaps]
+
 inner.horizontal = 10
 inner.vertical = 10
 outer.left = 10
