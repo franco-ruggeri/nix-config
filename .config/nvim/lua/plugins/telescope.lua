@@ -3,7 +3,9 @@ return {
   branch = "0.1.x",
   dependencies = {
     -- Required dependency
-    { "nvim-lua/plenary.nvim" },
+    "nvim-lua/plenary.nvim",
+    -- Icons
+    "nvim-tree/nvim-web-devicons",
     -- Improve sorting performance
     {
       "nvim-telescope/telescope-fzf-native.nvim",
