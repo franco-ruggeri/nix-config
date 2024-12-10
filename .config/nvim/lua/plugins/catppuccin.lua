@@ -1,9 +1,7 @@
 return {
   "catppuccin/nvim",
   priority = 1000,
-  opts = {
-    transparent_background = true,
-  },
+  opts = {},
   config = function(_, opts)
     require("catppuccin").setup(opts)
     vim.cmd.colorscheme("catppuccin")
