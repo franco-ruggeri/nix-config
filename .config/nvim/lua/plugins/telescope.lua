@@ -5,8 +5,8 @@ return {
     -- Required dependency
     { "nvim-lua/plenary.nvim" },
     -- Improve sorting performance
-    { 
-      "nvim-telescope/telescope-fzf-native.nvim", 
+    {
+      "nvim-telescope/telescope-fzf-native.nvim",
       build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release",
     },
   },
@@ -14,8 +14,8 @@ return {
     require("telescope").setup({})
 
     local builtin = require("telescope.builtin")
-    vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Telescope find files" })
-    vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live grep" })
-    vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" })
+    vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[f]ind [f]ile" })
+    vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "[f]ind string with [g]rep" })
+    vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "[f]ind [b]uffer" })
   end,
 }
