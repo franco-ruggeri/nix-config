@@ -45,8 +45,8 @@ ctrl-shift-e = ["move-node-to-workspace e", "workspace e"]
 ctrl-shift-r = ["move-node-to-workspace r", "workspace r"]
 ctrl-shift-t = ["move-node-to-workspace t", "workspace t"]
 
-ctrl-o = "focus-monitor --wrap-around next"
-ctrl-shift-o = "move-workspace-to-monitor --wrap-around next"
+ctrl-d = "focus-monitor --wrap-around next"
+ctrl-shift-d = "move-workspace-to-monitor --wrap-around next"
 
 ctrl-h = "focus left --boundaries-action stop"
 ctrl-j = "focus down --boundaries-action stop"
