@@ -25,6 +25,6 @@ git clone git@github.com:franco-ruggeri/dotfiles.git ~/dotfiles
 Install dotfiles:
 
 ```bash
-cd ~/.dotfiles
+cd ~/dotfiles
 stow --no-folding .
 ```
