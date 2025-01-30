@@ -8,6 +8,9 @@ end)
 vim.opt.number = true
 vim.opt.relativenumber = true
 
+-- Highlight cursor line
+vim.opt.cursorline = true
+
 -- Indent wrapped lines (long lines that don't fit the screen)
 vim.opt.breakindent = true
 
