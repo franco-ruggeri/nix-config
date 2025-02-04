@@ -261,7 +261,7 @@
                 "to": [
                   {
                     "key_code": "w",
-                    "modifiers": ["left_control"]
+                    "modifiers": ["left_option"]
                   }
                 ],
                 "type": "basic"
