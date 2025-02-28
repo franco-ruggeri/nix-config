@@ -28,6 +28,10 @@ if is_linux; then
     source /usr/share/doc/pkgfile/command-not-found.zsh
 fi
 
+# Don't add to history commands starting with space, like in Bash
+# See https://unix.stackexchange.com/questions/6094/is-there-any-way-to-keep-a-command-from-being-added-to-your-history
+setopt HIST_IGNORE_SPACE
+
 # Kubernetes
 if command -v kubectl 2>&1 >/dev/null; then
     source <(kubectl completion zsh)
