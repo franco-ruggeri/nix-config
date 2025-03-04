@@ -218,6 +218,22 @@
                                 },
                                 "to": [{ "key_code": "vk_none" }],
                                 "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "net.kovidgoyal.kitty"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "t",
+                                    "modifiers": { "mandatory": ["command"] }
+                                },
+                                "to": [{ "key_code": "vk_none" }],
+                                "type": "basic"
                             }
                         ]
                     },
@@ -297,12 +313,33 @@
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "t",
+                                    "key_code": "o",
                                     "modifiers": { "mandatory": ["command"] }
                                 },
                                 "to": [
                                     {
-                                        "key_code": "t",
+                                        "key_code": "o",
+                                        "modifiers": ["left_control"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "net.kovidgoyal.kitty"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "i",
+                                    "modifiers": { "mandatory": ["command"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "i",
                                         "modifiers": ["left_control"]
                                     }
                                 ],
