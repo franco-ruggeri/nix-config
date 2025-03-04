@@ -12,28 +12,17 @@ return {
   config = function()
     vim.api.nvim_create_autocmd("LspAttach", {
       callback = function(event)
-        local map = function(keys, func, desc, mode)
-          mode = mode or 'n'
-          vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
-        end
         local telescope = require("telescope.builtin")
 
         -- Note: you can press <C-t> to jump back
-        map('gd', telescope.lsp_definitions, '[G]oto [D]efinition')
-        map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-        map('gr', telescope.lsp_references, '[G]oto [R]eferences')
-        map('gI', telescope.lsp_implementations, '[G]oto [I]mplementation')
-        map('<leader>ds', telescope.lsp_document_symbols, '[D]ocument [S]ymbols')
-        map('<leader>ws', telescope.lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
-        map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-        map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
-        map('<leader>td', telescope.lsp_type_definitions, '[T]ype [D]efinition')
+        vim.keymap.set("n", "gd", telescope.lsp_definitions, { buffer = event.buf, desc = "[g]oto [d]efinition" })
+        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = event.buf, desc = "[g]oto [d]eclaration" })
       end,
     })
 
     require("mason").setup()
     require("mason-lspconfig").setup({
-      ensure_installed = { "lua_ls" },
+      ensure_installed = {},
       automatic_installation = false,
     })
 
