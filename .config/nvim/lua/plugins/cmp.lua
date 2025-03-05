@@ -1,6 +1,5 @@
 return {
   "hrsh7th/nvim-cmp",
-  event = "InsertEnter",
   dependencies = {
     "neovim/nvim-lspconfig",
     "hrsh7th/cmp-nvim-lsp",
@@ -11,7 +10,7 @@ return {
   config = function()
     local cmp = require("cmp")
 
-    -- Completion in text
+    -- Global settings
     cmp.setup({
       mapping = cmp.mapping.preset.insert(),
       sources = cmp.config.sources({
@@ -22,7 +21,7 @@ return {
       }),
     })
 
-    -- Completion in search mode
+    -- Settings in search mode
     cmp.setup.cmdline({ "/", "?" }, {
       mapping = cmp.mapping.preset.cmdline(),
       sources = {
@@ -30,7 +29,7 @@ return {
       }
     })
 
-    -- Completion in command-line mode
+    -- Settings in command-line mode
     cmp.setup.cmdline(":", {
       mapping = cmp.mapping.preset.cmdline(),
       sources = cmp.config.sources({
