@@ -1,16 +1,15 @@
 return {
-  "CopilotC-Nvim/CopilotChat.nvim",
-  dependencies = {
-    "github/copilot.vim",
-    -- for curl, log and async functions (see docs)
-    { "nvim-lua/plenary.nvim", branch = "master" },
-  },
-  build = "make tiktoken",
-  opts = {
-    mappings = {
-      complete = {
-        insert = "", -- disable <Tab> as it conflicts with copilot.vim
-      }
-    }
-  },
+	"CopilotC-Nvim/CopilotChat.nvim",
+	dependencies = {
+		"zbirenbaum/copilot.lua",
+		{
+			"nvim-lua/plenary.nvim", -- for curl, log and async functions (see docs)
+			branch = "master",
+		},
+	},
+	build = "make tiktoken",
+	opts = {},
+	keys = { -- lazy load on first toggle + define keymap
+		{ "<leader>ac", "<cmd>CopilotChatToggle<cr>", desc = "[A]I copilot [c]hat" },
+	},
 }
