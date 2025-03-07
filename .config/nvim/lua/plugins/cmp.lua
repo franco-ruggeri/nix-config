@@ -25,17 +25,17 @@ return {
     cmp.setup.cmdline({ "/", "?" }, {
       mapping = cmp.mapping.preset.cmdline(),
       sources = {
-        { name = "buffer" }
-      }
+        { name = "buffer" },
+      },
     })
 
     -- Settings in command-line mode
     cmp.setup.cmdline(":", {
       mapping = cmp.mapping.preset.cmdline(),
       sources = cmp.config.sources({
-        { name = "path" }
+        { name = "path" },
       }, {
-        { name = "cmdline" }
+        { name = "cmdline" },
       }),
     })
   end,
