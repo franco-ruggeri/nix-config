@@ -1,8 +1,10 @@
 local function format(buf)
-	local filetype = vim.bo[buf].filetype
-	local generators = require("null-ls.generators")
-	local methods = require("null-ls.methods")
-	local has_formatter = #generators.get_available(filetype, methods.internal.FORMATTING) > 0
+	local null_ls = require("null-ls")
+	local sources = null_ls.get_source({
+		filetype = vim.bo[buf].filetype,
+		method = null_ls.methods.FORMATTING,
+	})
+	local has_formatter = #sources > 0
 
 	local filter
 	if has_formatter then -- null-ls provides a formatter, use only that
@@ -27,11 +29,18 @@ return {
 		require("null-ls").setup()
 
 		vim.api.nvim_create_autocmd("LspAttach", {
-			callback = function(event)
+			callback = function(args)
+				local client = vim.lsp.get_client_by_id(args.data.client_id)
+				if not client then
+					error("client not found")
+				elseif client.name ~= "null-ls" then
+					return
+				end
+
 				vim.api.nvim_create_autocmd("BufWritePre", {
-					buffer = event.buf,
+					buffer = args.buf,
 					callback = function()
-						format(event.buf)
+						format(args.buf)
 					end,
 				})
 			end,
