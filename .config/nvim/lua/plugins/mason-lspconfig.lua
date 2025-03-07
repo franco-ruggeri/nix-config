@@ -6,6 +6,7 @@ return {
 		"williamboman/mason.nvim", -- package manager for LSP servers
 		"neovim/nvim-lspconfig",
 		"hrsh7th/cmp-nvim-lsp", -- provides extra capabilities for autocompletion
+		"artemave/workspace-diagnostics.nvim",
 	},
 	config = function()
 		local lspconfig = require("lspconfig")
