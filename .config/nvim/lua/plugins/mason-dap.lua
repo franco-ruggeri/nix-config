@@ -6,7 +6,6 @@ return {
 		"mfussenegger/nvim-dap-python", -- default config for debugpy
 	},
 	config = function()
-		-- Automatic configuration of DAP client for each debug adapter installed with Mason
 		local mason_dap = require("mason-nvim-dap")
 		mason_dap.setup({
 			ensure_installed = {},

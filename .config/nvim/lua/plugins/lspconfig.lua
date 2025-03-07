@@ -2,9 +2,9 @@ return {
 	"neovim/nvim-lspconfig",
 	config = function()
 		vim.api.nvim_create_autocmd("LspAttach", {
-			callback = function(event)
+			callback = function(args)
 				local function map(mode, key, action, desc)
-					vim.keymap.set(mode, key, action, { buffer = event.buf, desc = desc or "" })
+					vim.keymap.set(mode, key, action, { buffer = args.buf, desc = desc or "" })
 				end
 
 				local telescope = require("telescope.builtin")
