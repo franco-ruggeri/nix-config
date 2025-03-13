@@ -1,3 +1,5 @@
+local utils = require("utils")
+
 return {
 	"folke/which-key.nvim",
 	event = "VeryLazy",
@@ -11,7 +13,7 @@ return {
 		-- Thus, I use the following trick:
 		-- 1. I remap <D-w> to <M-w> in Karabiner (system level).
 		-- 2. I remap <M-w> to <C-w> in Neovim (application level).
-		if vim.fn.has("macunix") then
+		if utils.os.is_macos() then
 			wk.add({
 				{ "<M-w>", proxy = "<C-w>", group = "windows" },
 			})
