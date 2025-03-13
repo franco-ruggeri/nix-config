@@ -7,6 +7,7 @@ return {
 		"neovim/nvim-lspconfig",
 		"hrsh7th/cmp-nvim-lsp", -- provides extra capabilities for autocompletion
 		"artemave/workspace-diagnostics.nvim",
+		"nvim-telescope/telescope.nvim", -- for LSP pickers (used in on_attach)
 	},
 	config = function()
 		local lspconfig = require("lspconfig")
@@ -19,6 +20,22 @@ return {
 				lspconfig[server_name].setup({
 					capabilities = capabilities,
 					on_attach = utils.lsp.on_attach,
+				})
+			end,
+
+			pylsp = function()
+				lspconfig.pylsp.setup({
+					capabilities = capabilities,
+					on_attach = utils.lsp.on_attach,
+					settings = {
+						pylsp = {
+							plugins = {
+								pycodestyle = {
+									enabled = false,
+								},
+							},
+						},
+					},
 				})
 			end,
 		})
