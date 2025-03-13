@@ -12,7 +12,7 @@ autoload compinit
 compinit
 zstyle ':completion:*' menu select
 
-# Fish-like syntax highlighting
+# Fish-like syntax highlighting and autosuggestions
 # See https://wiki.archlinux.org/title/Zsh#Fish-like_syntax_highlighting_and_autosuggestions
 if is_macos; then
     source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -37,7 +37,7 @@ if command -v kubectl 2>&1 >/dev/null; then
     source <(kubectl completion zsh)
 fi
 
-# ER Cloud
+# Ericsson
 if is_macos; then
-    source $HOME/.ercloud
+    source $HOME/.ericsson
 fi
