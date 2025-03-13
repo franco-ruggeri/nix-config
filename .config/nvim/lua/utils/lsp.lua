@@ -35,6 +35,8 @@ local function get_format_filter(buffer)
 end
 
 function M.on_attach(client, buffer)
+	local format_filter = get_format_filter(buffer)
+
 	-- Enable workspace diagnostics
 	local workspace_diagnostics = require("workspace-diagnostics")
 	workspace_diagnostics.populate_workspace_diagnostics(client, buffer)
@@ -43,11 +45,17 @@ function M.on_attach(client, buffer)
 	local function map(mode, key, action, desc)
 		vim.keymap.set(mode, key, action, { buffer = buffer, desc = desc or "" })
 	end
+	local function range_format()
+		local esc = vim.api.nvim_replace_termcodes("<esc>", true, false, true)
+		vim.lsp.buf.format({ filter = format_filter }) -- format
+		vim.api.nvim_feedkeys(esc, "x", false) -- return to normal mode
+	end
 	local telescope = require("telescope.builtin")
 	map("n", "gd", telescope.lsp_definitions, "[g]oto [d]efinition")
 	map("n", "gD", vim.lsp.buf.declaration, "[g]oto [d]eclaration")
 	map("n", "<leader>lr", vim.lsp.buf.rename, "[L]SP [r]ename")
 	map("n", "<leader>lc", vim.lsp.buf.code_action, "[L]SP [c]ode action")
+	map("v", "=", range_format, "format selection")
 
 	-- Format on save
 	-- Multiple LSP servers might provide formatting.
@@ -56,7 +64,7 @@ function M.on_attach(client, buffer)
 		group = vim.api.nvim_create_augroup("my-lsp-format", { clear = false }),
 		buffer = buffer,
 		callback = function()
-			vim.lsp.buf.format({ async = false, filter = get_format_filter(buffer) })
+			vim.lsp.buf.format({ filter = format_filter })
 		end,
 	})
 end
