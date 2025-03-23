@@ -1,7 +1,14 @@
 # Dotfiles
 
-You can install the dotfiles using [GNU Stow](https://www.gnu.org/software/stow/):
+Install:
 
 ```bash
 stow --target=$HOME --no-folding .
 ```
+
+Uninstall:
+
+```bash
+stow --delete --target=$HOME .
+```
+
