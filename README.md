@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-You need GNU Stow.
+You need [GNU Stow](https://www.gnu.org/software/stow/).
 
 On Arch Linux:
 
