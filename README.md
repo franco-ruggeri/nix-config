@@ -1,32 +1,7 @@
 # Dotfiles
 
-## Prerequisites
-
-You need [GNU Stow](https://www.gnu.org/software/stow/).
-
-On Arch Linux:
+You can install the dotfiles using [GNU Stow](https://www.gnu.org/software/stow/):
 
 ```bash
-pacman -S stow
-```
-
-On macOS:
-
-```bash
-brew install stow
-```
-
-## Install
-
-Clone repository:
-
-```bash
-git clone git@github.com:franco-ruggeri/dotfiles.git ~/dotfiles
-```
-
-Install dotfiles:
-
-```bash
-cd ~/dotfiles
 stow --target=$HOME --no-folding .
 ```
