@@ -1,6 +1,8 @@
 # Dotfiles
 
-## Install GNU Stow
+## Prerequisites
+
+You need GNU Stow.
 
 On Arch Linux:
 
@@ -14,7 +16,7 @@ On macOS:
 brew install stow
 ```
 
-## Install dotfiles
+## Install
 
 Clone repository:
 
