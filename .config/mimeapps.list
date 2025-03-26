@@ -1,1 +1,3 @@
 [Default Applications]
+application/pdf=org.kde.okular.desktop
+inode/directory=nemo.desktop
