@@ -32,6 +32,9 @@ typeset -U path PATH
 # Pipx and poetry
 path+=($HOME/.local/bin)
 
+# Go
+path+=($(go env GOPATH)/bin)
+
 # Tmux plugin manager
 if is_linux; then
     export TPM_PATH="$HOME/.tmux/plugins/tpm/tpm"
