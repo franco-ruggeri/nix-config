@@ -33,14 +33,7 @@ typeset -U path PATH
 path+=($HOME/.local/bin)
 
 # Go
-if command -v go 2>&1 >/dev/null; then
-    path+=($(go env GOPATH)/bin)
-fi
-
-# Okular on macOS
-if is_macos; then
-    path+=(/Applications/okular.app/Contents/MacOS)
-fi
+path+=($(go env GOPATH)/bin)
 
 # Tmux plugin manager
 if is_linux; then
