@@ -23,7 +23,7 @@ return {
 				-- Always use formatters, preferring the binary from the venv.
 				-- Reason: formatting can be done from outside venv and it is always useful.
 				black = function()
-					overrides = {}
+					local overrides = {}
 					if is_venv then
 						overrides["command"] = vim.env.VIRTUAL_ENV .. "/bin/black"
 					end
