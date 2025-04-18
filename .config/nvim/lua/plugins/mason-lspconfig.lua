@@ -8,6 +8,7 @@ return {
     "hrsh7th/cmp-nvim-lsp",          -- provides extra capabilities for autocompletion
     "artemave/workspace-diagnostics.nvim",
     "nvim-telescope/telescope.nvim", -- for LSP pickers (used in on_attach)
+    "towolf/vim-helm",               -- required to make helm-ls work
   },
   config = function()
     local lspconfig = require("lspconfig")
