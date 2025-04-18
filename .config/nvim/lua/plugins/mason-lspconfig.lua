@@ -22,21 +22,6 @@ return {
           on_attach = utils.lsp.on_attach,
         })
       end,
-      pylsp = function()
-        lspconfig.pylsp.setup({
-          capabilities = capabilities,
-          on_attach = utils.lsp.on_attach,
-          settings = {
-            pylsp = {
-              plugins = {
-                pycodestyle = {
-                  enabled = false,
-                },
-              },
-            },
-          },
-        })
-      end,
       helm_ls = function()
         lspconfig.helm_ls.setup({
           settings = {
