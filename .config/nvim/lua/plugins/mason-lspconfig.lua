@@ -22,17 +22,6 @@ return {
           on_attach = utils.lsp.on_attach,
         })
       end,
-      helm_ls = function()
-        lspconfig.helm_ls.setup({
-          settings = {
-            ["helm-ls"] = {
-              yamlls = {
-                path = "yaml-language-server",
-              }
-            }
-          }
-        })
-      end,
     })
   end,
 }
