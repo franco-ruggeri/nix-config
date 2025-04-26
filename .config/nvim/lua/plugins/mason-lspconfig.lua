@@ -30,9 +30,8 @@ return {
 					settings = {
 						pylsp = {
 							plugins = {
-								pycodestyle = {
-									enabled = false,
-								},
+								pycodestyle = { enabled = false },
+								autopep8 = { enabled = false },
 							},
 						},
 					},
