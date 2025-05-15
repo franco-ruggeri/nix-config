@@ -4,9 +4,15 @@ return {
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 	},
-	config = function()
+	opts = {
+		settings = {
+			save_on_toggle = true,
+			save_on_ui_close = true,
+		},
+	},
+	config = function(_, opts)
 		local harpoon = require("harpoon")
-		harpoon:setup()
+		harpoon:setup(opts)
 
 		vim.keymap.set("n", "<leader>ha", function()
 			harpoon:list():add()
@@ -24,7 +30,7 @@ return {
 			harpoon:list():next()
 		end, { desc = "[h]arpoon [n]ext buffer" })
 
-		for i = 1, 5 do
+		for i = 1, 9 do
 			vim.keymap.set("n", "<leader>h" .. i, function()
 				harpoon:list():select(i)
 			end, { desc = "[h]arpoon [" .. i .. "]-th buffer" })
