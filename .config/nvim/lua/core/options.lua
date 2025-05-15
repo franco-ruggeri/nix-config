@@ -5,7 +5,6 @@ vim.schedule(function()
 end)
 
 -- Show relative line numbers
-vim.opt.number = true
 vim.opt.relativenumber = true
 
 -- Highlight cursor line
@@ -20,9 +19,6 @@ vim.opt.undofile = true
 -- Case-insensitive search unless the pattern contains capital letters
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
-
--- Show effect of substitution interactively
-vim.opt.inccommand = "split"
 
 -- Keep minimum number of lines above and below the cursor line
 vim.opt.scrolloff = 10
