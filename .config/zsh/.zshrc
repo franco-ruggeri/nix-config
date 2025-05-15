@@ -37,6 +37,9 @@ if command -v kubectl 2>&1 >/dev/null; then
     source <(kubectl completion zsh)
 fi
 
+# fzf
+source <(fzf --zsh)
+
 # Ericsson
 if is_macos; then
     source $HOME/.ericsson
