@@ -10,9 +10,6 @@ vim.opt.relativenumber = true
 -- Highlight cursor line
 vim.opt.cursorline = true
 
--- Indent wrapped lines (long lines that don't fit the screen)
-vim.opt.breakindent = true
-
 -- Save undo history (kept if you close and re-open a file)
 vim.opt.undofile = true
 
@@ -31,6 +28,10 @@ vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.et = true
+vim.opt.smartindent = true
+
+-- Indent wrapped lines (long lines that don't fit the screen)
+vim.opt.breakindent = true
 
 -- Set default split behavior to right/below
 vim.opt.splitright = true
