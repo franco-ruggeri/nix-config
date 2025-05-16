@@ -39,6 +39,7 @@ fi
 
 # fzf
 source <(fzf --zsh)
+export FZF_DEFAULT_OPTS="--style full --preview 'fzf-preview.sh {}'"
 
 # Ericsson
 if is_macos; then
