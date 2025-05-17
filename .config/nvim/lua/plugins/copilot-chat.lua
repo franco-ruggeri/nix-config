@@ -10,6 +10,6 @@ return {
 	build = "make tiktoken",
 	opts = {},
 	keys = {
-		{ "<leader>ac", "<cmd>CopilotChatToggle<cr>", desc = "[A]I code assistant [c]hat" },
+		{ "<leader>a", "<cmd>CopilotChatToggle<cr>", desc = "[A]I code assistant chat" },
 	},
 }

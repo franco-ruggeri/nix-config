@@ -23,6 +23,6 @@ return {
 		},
 	},
 	keys = {
-		{ "<leader>ac", "<cmd>Codeium Chat<cr>", desc = "[A]I code assistant [c]hat" },
+		{ "<leader>a", "<cmd>Codeium Chat<cr>", desc = "[A]I code assistant chat" },
 	},
 }
