@@ -17,8 +17,8 @@ return {
 				-- Special handler for python. We use dap-python to have better default config.
 				-- Since dap-python takes care of the setup, we don't need to call:
 				-- `require("mason-nvim-dap").default_setup(config)`
-				python = function(_)
-					local debugpy_path = vim.fn.expand("$MASON/packages/debugpy") .. "/venv/bin/python"
+				python = function()
+					local debugpy_path = vim.fn.expand("$MASON/packages/debugpy")
 					require("dap-python").setup(debugpy_path .. "/venv/bin/python")
 				end,
 			},
