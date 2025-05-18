@@ -5,7 +5,7 @@ source $ZDOTDIR/.keybindings
 # Prompt theme (with Oh My Posh)
 # See https://ohmyposh.dev/docs/installation/customize
 if is_command_available oh-my-posh; then
-  eval "$(oh-my-posh init zsh --config ~/.local/share/oh-my-posh/theme.omp.json)"
+  eval "$(oh-my-posh init zsh --config $HOME/.local/share/oh-my-posh/theme.omp.json)"
 fi
 
 # Command completion
