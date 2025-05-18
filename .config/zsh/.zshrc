@@ -4,7 +4,9 @@ source $ZDOTDIR/.keybindings
 
 # Prompt theme (with Oh My Posh)
 # See https://ohmyposh.dev/docs/installation/customize
-eval "$(oh-my-posh init zsh --config ~/.local/share/oh-my-posh/theme.omp.json)"
+if is_command_available oh-my-posh; then
+  eval "$(oh-my-posh init zsh --config ~/.local/share/oh-my-posh/theme.omp.json)"
+fi
 
 # Command completion
 # See https://wiki.archlinux.org/title/Zsh#Command_completion
@@ -44,7 +46,9 @@ if is_command_available fzf; then
 fi
 
 # Devpod
-source <(devpod completion zsh)
+if is_command_available devpod; then
+  source <(devpod completion zsh)
+fi
 
 # Ericsson
 if is_macos; then

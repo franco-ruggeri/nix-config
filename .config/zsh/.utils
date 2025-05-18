@@ -19,4 +19,8 @@ bind_key() {
 	local action="$2"
 	[[ -n "$key" ]] && bindkey -- "$key" "$action"
 }
+
+is_command_available() {
+	local cmd="$1"
+	command -v "$cmd" &>/dev/null
 }
