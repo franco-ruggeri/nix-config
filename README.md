@@ -4,12 +4,6 @@ This repository contains my dotfiles.
 
 ## Using locally
 
-Clone the repo:
-
-```bash
-git clone git@github.com:franco-ruggeri/dotfiles.git
-```
-
 Install dotfiles:
 
 ```bash
