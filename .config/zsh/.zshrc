@@ -10,7 +10,7 @@ fi
 
 # Command completion
 # See https://wiki.archlinux.org/title/Zsh#Command_completion
-autoload compinit
+autoload -Uz compinit
 compinit
 zstyle ':completion:*' menu select
 

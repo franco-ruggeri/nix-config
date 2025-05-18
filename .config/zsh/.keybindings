@@ -1,7 +1,7 @@
 # Terminal application mode (to make $terminfo valid)
 # See https://wiki.archlinux.org/title/Zsh#Key_bindings
 if [[ -n "$terminfo[smkx]" && -n "$terminfo[rmkx]" ]]; then
-	autoload add-zle-hook-widget
+	autoload -Uz add-zle-hook-widget
 	function zle_application_mode_start {
 		echoti smkx
 	}
@@ -20,7 +20,7 @@ bind_key "$terminfo[kcbt]" reverse-menu-complete
 
 # Key bindings for history search of matching commands
 # See https://wiki.archlinux.org/title/Zsh#History_search
-autoload up-line-or-beginning-search down-line-or-beginning-search
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bind_key "$terminfo[kcuu1]" up-line-or-beginning-search
