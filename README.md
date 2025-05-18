@@ -26,6 +26,8 @@ Uninstall dotfiles:
 
 The repository is compatible with [`devpod`](https://devpod.sh/) for usage within dev containers.
 
+The dev container must have [`stow`](https://www.gnu.org/software/stow/) for the installation to succeed. You can use [this feature](https://github.com/kreemer/features/tree/main/src/stow) to install `stow`.
+
 Install dotfiles:
 
 ```bash
