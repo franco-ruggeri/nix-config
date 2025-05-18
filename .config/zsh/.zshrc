@@ -15,17 +15,17 @@ zstyle ':completion:*' menu select
 # Fish-like syntax highlighting and autosuggestions
 # See https://wiki.archlinux.org/title/Zsh#Fish-like_syntax_highlighting_and_autosuggestions
 if is_macos; then
-    source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-    source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+	source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+	source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 elif is_linux; then
-    source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-    source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+	source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+	source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 
 # Command-not-found handler
 # See https://wiki.archlinux.org/title/Zsh#pkgfile_%22command_not_found%22_handler
 if is_linux; then
-    source /usr/share/doc/pkgfile/command-not-found.zsh
+	source /usr/share/doc/pkgfile/command-not-found.zsh
 fi
 
 # Don't add to history commands starting with space, like in Bash
@@ -33,18 +33,20 @@ fi
 setopt HIST_IGNORE_SPACE
 
 # Kubernetes
-if command -v kubectl 2>&1 >/dev/null; then
-    source <(kubectl completion zsh)
+if is_command_available kubectl; then
+	source <(kubectl completion zsh)
 fi
 
 # fzf
-source <(fzf --zsh)
-export FZF_DEFAULT_OPTS="--style full --preview 'fzf-preview.sh {}'"
- 
+if is_command_available fzf; then
+	source <(fzf --zsh)
+	export FZF_DEFAULT_OPTS="--style full --preview 'fzf-preview.sh {}'"
+fi
+
 # Devpod
 source <(devpod completion zsh)
 
 # Ericsson
 if is_macos; then
-    source $HOME/.ericsson
+	source $HOME/.ericsson
 fi

@@ -2,21 +2,21 @@ source $ZDOTDIR/.utils
 
 # Homebrew
 if is_macos; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
+	eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
 # Dark theme
 # See https://wiki.archlinux.org/title/Dark_mode_switching
 if is_linux; then
-    export GTK_THEME=Adwaita:dark
-    export GTK2_RC_FILES=/usr/share/themes/Adwaita-dark/gtk-2.0/gtkrc
-    export QT_STYLE_OVERRIDE=Adwaita-Dark
+	export GTK_THEME=Adwaita:dark
+	export GTK2_RC_FILES=/usr/share/themes/Adwaita-dark/gtk-2.0/gtkrc
+	export QT_STYLE_OVERRIDE=Adwaita-Dark
 fi
 
 # Gnome keyring for ssh-agent
 # See https://wiki.archlinux.org/title/GNOME/Keyring#Setup_gcr
 if is_linux; then
-    export SSH_AUTH_SOCK="/run/user/1000/gcr/ssh"
+	export SSH_AUTH_SOCK="/run/user/1000/gcr/ssh"
 fi
 
 # Default editor
@@ -34,12 +34,12 @@ path+=($HOME/.local/bin)
 
 # Tmux plugin manager
 if is_linux; then
-    export TPM_PATH="$HOME/.tmux/plugins/tpm/tpm"
+	export TPM_PATH="$HOME/.tmux/plugins/tpm/tpm"
 elif is_macos; then
-    export TPM_PATH="$HOMEBREW_PREFIX/opt/tpm/share/tpm/tpm"
+	export TPM_PATH="$HOMEBREW_PREFIX/opt/tpm/share/tpm/tpm"
 fi
 
 # Zathura
 if is_macos; then
-    export DBUS_SESSION_BUS_ADDRESS="unix:path=$DBUS_LAUNCHD_SESSION_BUS_SOCKET"
+	export DBUS_SESSION_BUS_ADDRESS="unix:path=$DBUS_LAUNCHD_SESSION_BUS_SOCKET"
 fi

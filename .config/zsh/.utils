@@ -1,21 +1,22 @@
 is_linux() {
-    if [[ "$(uname)" == "Linux" ]]; then
-        return 0  # true
-    else
-        return 1  # false
-    fi
+	if [[ "$(uname)" == "Linux" ]]; then
+		return 0 # true
+	else
+		return 1 # false
+	fi
 }
 
 is_macos() {
-    if [[ "$(uname)" == "Darwin" ]]; then
-        return 0  # true
-    else
-        return 1  # false
-    fi
+	if [[ "$(uname)" == "Darwin" ]]; then
+		return 0 # true
+	else
+		return 1 # false
+	fi
 }
 
 bind_key() {
-    local key="$1"
-    local action="$2"
-    [[ -n "$key" ]] && bindkey -- "$key" "$action"
+	local key="$1"
+	local action="$2"
+	[[ -n "$key" ]] && bindkey -- "$key" "$action"
+}
 }

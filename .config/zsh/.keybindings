@@ -1,15 +1,15 @@
 # Terminal application mode (to make $terminfo valid)
 # See https://wiki.archlinux.org/title/Zsh#Key_bindings
 if [[ -n "$terminfo[smkx]" && -n "$terminfo[rmkx]" ]]; then
-    autoload add-zle-hook-widget
-    function zle_application_mode_start {
-        echoti smkx
-    }
-    function zle_application_mode_stop {
-        echoti rmkx
-    }
-    add-zle-hook-widget -Uz zle-line-init zle_application_mode_start
-    add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
+	autoload add-zle-hook-widget
+	function zle_application_mode_start {
+		echoti smkx
+	}
+	function zle_application_mode_stop {
+		echoti rmkx
+	}
+	add-zle-hook-widget -Uz zle-line-init zle_application_mode_start
+	add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
 fi
 
 # Basic key bindings
