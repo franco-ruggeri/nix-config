@@ -7,13 +7,13 @@ This repository contains my dotfiles.
 Clone the repo:
 
 ```bash
-git clone
+git clone git@github.com:franco-ruggeri/dotfiles.git
 ```
 
 Install dotfiles:
 
 ```bash
-install.sh
+./install.sh
 ```
 
 Uninstall dotfiles:
@@ -26,7 +26,10 @@ Uninstall dotfiles:
 
 The repository is compatible with [`devpod`](https://devpod.sh/) for usage within dev containers.
 
-The dev container must have [`stow`](https://www.gnu.org/software/stow/) for the installation to succeed. You can use [this feature](https://github.com/kreemer/features/tree/main/src/stow) to install `stow`.
+Requirements:
+
+- [`stow`](https://www.gnu.org/software/stow/) (e.g., use [this feature](https://github.com/kreemer/features/tree/main/src/stow))
+- [`node`](https://nodejs.org/en) (e.g., use [this feature](https://github.com/devcontainers/features/tree/main/src/node))
 
 Install dotfiles:
 
