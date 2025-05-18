@@ -29,5 +29,5 @@ The repository is compatible with [`devpod`](https://devpod.sh/) for usage withi
 Install it with:
 
 ```bash
-devpod up --dotfile git@github.com:franco-ruggeri/dotfiles.git <workspace-path|workspace-id>
+devpod up --dotfiles git@github.com:franco-ruggeri/dotfiles.git <workspace-path|workspace-id>
 ```
