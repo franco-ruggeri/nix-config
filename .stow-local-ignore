@@ -1,4 +1,6 @@
 \.DS_Store
 \.gitignore
 \.git
-README.md
+^/README.md$
+^/install\.sh$
+^/uninstall\.sh$
