@@ -6,17 +6,17 @@ This repository contains my dotfiles.
 
 Clone the repo:
 
-````bash
+```bash
 git clone
 ```
 
-Install:
+Install dotfiles:
 
 ```bash
 install.sh
-````
+```
 
-Uninstall:
+Uninstall dotfiles:
 
 ```bash
 ./uninstall.sh
@@ -26,7 +26,7 @@ Uninstall:
 
 The repository is compatible with [`devpod`](https://devpod.sh/) for usage within dev containers.
 
-Install it with:
+Install dotfiles:
 
 ```bash
 devpod up --dotfiles git@github.com:franco-ruggeri/dotfiles.git <workspace-path|workspace-id>
