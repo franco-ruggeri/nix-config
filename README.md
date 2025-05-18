@@ -24,15 +24,9 @@ Uninstall dotfiles:
 
 ## Using in dev containers
 
-The repository is compatible with [`devpod`](https://devpod.sh/) for usage within dev containers.
+The repository is compatible with [`devpod`](https://devpod.sh/) for usage within dev containers. Follow [the documentation](https://devpod.sh/docs/developing-in-workspaces/dotfiles-in-a-workspace) for instructions.
 
 Requirements:
 
 - [`stow`](https://www.gnu.org/software/stow/) (e.g., use [this feature](https://github.com/kreemer/features/tree/main/src/stow))
 - [`node`](https://nodejs.org/en) (e.g., use [this feature](https://github.com/devcontainers/features/tree/main/src/node))
-
-Install dotfiles:
-
-```bash
-devpod up --dotfiles git@github.com:franco-ruggeri/dotfiles.git <workspace-path|workspace-id>
-```
