@@ -18,8 +18,12 @@ if is_macos; then
 	source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 	source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 elif is_linux; then
-	source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-	source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+  # Source from several locations to support different distro
+	source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh &> /dev/null
+	source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh &> /dev/null
+
+	source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh &> /dev/null
+	source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh &> /dev/null
 fi
 
 # Command-not-found handler
