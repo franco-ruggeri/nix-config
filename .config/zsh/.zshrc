@@ -29,7 +29,7 @@ fi
 # Command-not-found handler
 # See https://wiki.archlinux.org/title/Zsh#pkgfile_%22command_not_found%22_handler
 if is_linux; then
-	source /usr/share/doc/pkgfile/command-not-found.zsh
+	source /usr/share/doc/pkgfile/command-not-found.zsh &> /dev/null
 fi
 
 # Don't add to history commands starting with space, like in Bash
