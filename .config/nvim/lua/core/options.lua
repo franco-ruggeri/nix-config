@@ -5,6 +5,7 @@ vim.schedule(function()
 end)
 
 -- Show relative line numbers
+vim.opt.number = true
 vim.opt.relativenumber = true
 
 -- Highlight cursor line
