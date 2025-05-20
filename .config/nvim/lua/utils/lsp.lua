@@ -47,8 +47,6 @@ function M.on_attach(client, buffer)
 	end
 	map("n", "gd", vim.lsp.buf.definition, "[g]oto [d]efinition")
 	map("n", "gD", vim.lsp.buf.declaration, "[g]oto [d]eclaration")
-	map("n", "<leader>lr", vim.lsp.buf.rename, "[L]SP [r]ename")
-	map("n", "<leader>lc", vim.lsp.buf.code_action, "[L]SP [c]ode action")
 
 	-- Format on save
 	-- Multiple LSP servers might provide formatting.
