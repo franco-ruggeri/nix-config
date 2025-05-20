@@ -41,6 +41,13 @@ function M.setup()
 	vim.opt.splitright = true
 	vim.opt.splitbelow = true
 
+	-- Configure diagnostics popups
+	vim.diagnostic.config({
+		float = {
+			source = true,
+			border = "single",
+		},
+	})
 end
 
 return M

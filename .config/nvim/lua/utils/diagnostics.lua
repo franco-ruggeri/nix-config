@@ -1,0 +1,19 @@
+local M = {}
+
+function M.toggle()
+	local info = vim.fn.getqflist({ title = 1, winid = 1 })
+	local title = info.title
+	local window_id = info.winid
+
+	if title == "Diagnostics" and window_id ~= 0 then
+		vim.cmd("cclose")
+	else
+		vim.diagnostic.setqflist({ open = true })
+	end
+end
+
+function M.refresh()
+	vim.diagnostic.setqflist({ open = false })
+end
+
+return M

@@ -10,6 +10,12 @@ function M.setup()
 		end,
 	})
 
+	vim.api.nvim_create_autocmd("DiagnosticChanged", {
+		desc = "Update quickfix list when diagnostics change",
+		callback = function()
+			utils.diagnostics.refresh()
+		end,
+	})
 end
 
 return M
