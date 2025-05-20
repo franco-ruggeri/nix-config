@@ -34,20 +34,15 @@ local function get_format_filter(buffer)
 	end
 end
 
-function M.on_attach(client, buffer)
-	local format_filter = get_format_filter(buffer)
-
-	-- Enable workspace diagnostics
-	local workspace_diagnostics = require("workspace-diagnostics")
-	workspace_diagnostics.populate_workspace_diagnostics(client, buffer)
-
-	-- Keymaps
+function M.set_keymaps(buffer)
 	local function map(mode, key, action, desc)
-		vim.keymap.set(mode, key, action, { buffer = buffer, desc = desc or "" })
+		vim.keymap.set(mode, key, action, { buffer = buffer, desc = desc })
 	end
 	map("n", "gd", vim.lsp.buf.definition, "[g]oto [d]efinition")
 	map("n", "gD", vim.lsp.buf.declaration, "[g]oto [d]eclaration")
+end
 
+function M.set_autocommands(buffer)
 	-- Format on save
 	-- Multiple LSP servers might provide formatting.
 	-- To avoid conflicts, we use a filter so that only one of them go through.
