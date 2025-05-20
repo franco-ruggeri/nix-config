@@ -41,7 +41,7 @@ function M.on_attach(client, buffer)
 	local workspace_diagnostics = require("workspace-diagnostics")
 	workspace_diagnostics.populate_workspace_diagnostics(client, buffer)
 
-	-- Keymaps for main LSP methods
+	-- Keymaps
 	local function map(mode, key, action, desc)
 		vim.keymap.set(mode, key, action, { buffer = buffer, desc = desc or "" })
 	end
