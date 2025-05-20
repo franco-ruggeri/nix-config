@@ -50,7 +50,7 @@ function M.set_autocommands(buffer)
 		group = vim.api.nvim_create_augroup("my-lsp-format", { clear = false }),
 		buffer = buffer,
 		callback = function()
-			vim.lsp.buf.format({ filter = format_filter })
+			vim.lsp.buf.format({ filter = get_format_filter(buffer) })
 		end,
 	})
 end
