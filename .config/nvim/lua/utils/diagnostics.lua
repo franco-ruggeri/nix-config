@@ -8,7 +8,8 @@ function M.toggle()
 	if title == "Diagnostics" and window_id ~= 0 then
 		vim.cmd("cclose")
 	else
-		vim.diagnostic.setqflist({ open = true })
+		vim.diagnostic.setqflist()
+		vim.cmd("copen") -- open anyway, even if there are no diagnostics
 	end
 end
 
