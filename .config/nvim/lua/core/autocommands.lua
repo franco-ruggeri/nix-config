@@ -13,7 +13,7 @@ M.setup = function()
 	vim.api.nvim_create_autocmd("DiagnosticChanged", {
 		desc = "Update diagnostics quickfix list",
 		callback = function()
-			utils.diagnostics.refresh_window()
+			utils.diagnostics.refresh()
 		end,
 	})
 
