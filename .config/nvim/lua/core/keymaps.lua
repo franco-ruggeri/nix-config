@@ -9,6 +9,7 @@ M.setup = function()
 	vim.keymap.set("n", "<M-p>", "<cmd>cprevious<cr>", { desc = "Quickfix list previous" })
 	vim.keymap.set("n", "<leader>e", "<cmd>Explore<cr>", { desc = "[e]xplore with netrw" })
 	vim.keymap.set("n", "<leader>xx", utils.diagnostics.toggle, { desc = "diagnostics quickfix list toggle" })
+	vim.keymap.set("n", "<leader>ldr", vim.diagnostic.reset, { desc = "[L]SP [d]iagnostics [r]eset" })
 
 	-- Disable arrow keys
 	vim.keymap.set("n", "<left>", "<cmd>echo 'Use h to move left!'<cr>")
