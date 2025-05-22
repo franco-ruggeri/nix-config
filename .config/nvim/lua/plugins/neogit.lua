@@ -7,6 +7,6 @@ return {
 	},
 	config = function()
 		require("neogit").setup({})
-		vim.keymap.set("n", "<leader>gs", "<cmd>Neogit<cr>", { desc = "[g]it [s]tatus" })
+		vim.keymap.set("n", "<leader>gs", "<Cmd>Neogit<CR>", { desc = "[g]it [s]tatus" })
 	end,
 }
