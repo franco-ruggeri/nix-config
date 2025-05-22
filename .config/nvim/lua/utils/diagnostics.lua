@@ -1,6 +1,6 @@
 local M = {}
 
-function M.toggle()
+M.toggle_window = function()
 	local info = vim.fn.getqflist({ title = 1, winid = 1 })
 	local title = info.title
 	local window_id = info.winid
@@ -13,7 +13,7 @@ function M.toggle()
 	end
 end
 
-function M.refresh()
+M.refresh_window = function()
 	vim.diagnostic.setqflist({ open = false })
 end
 

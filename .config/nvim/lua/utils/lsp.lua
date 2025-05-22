@@ -34,7 +34,7 @@ local function get_format_filter(buffer)
 	end
 end
 
-function M.set_keymaps(buffer)
+M.set_keymaps = function(buffer)
 	local function map(mode, key, action, desc)
 		vim.keymap.set(mode, key, action, { buffer = buffer, desc = desc })
 	end
@@ -42,7 +42,7 @@ function M.set_keymaps(buffer)
 	map("n", "gD", vim.lsp.buf.declaration, "[g]oto [d]eclaration")
 end
 
-function M.set_autocommands(buffer)
+M.set_autocommands = function(buffer)
 	-- Format on save
 	-- Multiple LSP servers might provide formatting.
 	-- To avoid conflicts, we use a filter so that only one of them go through.

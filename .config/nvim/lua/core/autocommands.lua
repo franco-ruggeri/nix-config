@@ -2,7 +2,7 @@ local utils = require("utils")
 
 local M = {}
 
-function M.setup()
+M.setup = function()
 	vim.api.nvim_create_autocmd("TextYankPost", {
 		desc = "Highlight when copying text",
 		callback = function()
@@ -11,9 +11,9 @@ function M.setup()
 	})
 
 	vim.api.nvim_create_autocmd("DiagnosticChanged", {
-		desc = "Update quickfix list",
+		desc = "Update diagnostics quickfix list",
 		callback = function()
-			utils.diagnostics.refresh()
+			utils.diagnostics.refresh_window()
 		end,
 	})
 

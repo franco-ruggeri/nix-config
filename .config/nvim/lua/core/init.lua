@@ -5,7 +5,7 @@ M.keymaps = require("core.keymaps")
 M.autocommands = require("core.autocommands")
 M.plugins = require("core.plugins")
 
-function M.setup()
+M.setup = function()
 	M.options.setup()
 	M.keymaps.setup()
 	M.autocommands.setup()

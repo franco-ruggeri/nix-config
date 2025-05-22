@@ -12,7 +12,7 @@ local function install()
 	vim.opt.rtp:prepend(lazypath)
 end
 
-function M.setup()
+M.setup = function()
 	install()
 	require("lazy").setup({
 		spec = {

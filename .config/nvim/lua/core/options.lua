@@ -1,6 +1,6 @@
 local M = {}
 
-function M.setup()
+M.setup = function()
 	-- Share clipboard with OS
 	-- Schedule it after `UiEnter` because it can increase startup-time
 	vim.schedule(function()
