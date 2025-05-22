@@ -25,21 +25,32 @@ if vim.env.VIRTUAL_ENV then
   python_prefer_local = vim.env.VIRTUAL_ENV .. "/bin"
 end
 
-local linters_workspace = {}
-local linters_buffer = {}
-local workspace_mode = false
+local sources = {
+  linters_workspace = {},
+  linters_buffer = {},
+  others = {},
+}
+local lint_workspace = false
 
-local function toggle_workspace_mode()
+local function register_sources()
   local null_ls = require("null-ls")
 
-  workspace_mode = not workspace_mode
   null_ls.reset_sources()
 
-  local linters = workspace_mode and linters_workspace or linters_buffer
-  for _, linter in ipairs(linters) do
-    null_ls.register(linter)
+  local sources_active = {
+    unpack(lint_workspace and sources.linters_workspace or sources.linters_buffer),
+    unpack(sources.others),
+  }
+  for _, source in ipairs(sources_active) do
+    null_ls.register(source)
   end
+
   vim.diagnostic.reset()
+end
+
+local function toggle_linting_mode()
+  lint_workspace = not lint_workspace
+  register_sources()
 end
 
 local function add_pylint_buffer()
@@ -47,7 +58,7 @@ local function add_pylint_buffer()
     env = python_env,
     prefer_local = python_prefer_local,
   })
-  table.insert(linters_buffer, linter)
+  table.insert(sources.linters_buffer, linter)
 end
 
 local function add_pylint_workspace()
@@ -95,7 +106,7 @@ local function add_pylint_workspace()
     },
   })
 
-  table.insert(linters_workspace, linter)
+  table.insert(sources.linters_workspace, linter)
 end
 
 local function add_mypy_buffer()
@@ -111,7 +122,7 @@ local function add_mypy_buffer()
     generator_opts = generator_opts,
   })
 
-  table.insert(linters_buffer, linter)
+  table.insert(sources.linters_buffer, linter)
 end
 
 local function add_mypy_workspace()
@@ -138,7 +149,7 @@ local function add_mypy_workspace()
     to_temp_file = false,
   })
 
-  table.insert(linters_workspace, linter)
+  table.insert(sources.linters_workspace, linter)
 end
 
 return {
@@ -151,16 +162,17 @@ return {
   },
   config = function()
     local mason_null_ls = require("mason-null-ls")
+    local null_ls = require("null-ls")
 
     mason_null_ls.setup({
       ensure_installed = {},
       automatic_installation = false,
       handlers = {
-        -- Default handler: nothing special, just use the default setup
-        function(source_name, methods)
-          mason_null_ls.default_setup(source_name, methods)
+        function(source, types)
+          vim.tbl_map(function(type)
+            table.insert(sources.others, null_ls.builtins[type][source])
+          end, types)
         end,
-        -- Custom handlers
         pylint = function()
           add_pylint_buffer()
           add_pylint_workspace()
@@ -171,7 +183,7 @@ return {
         end,
       },
     })
-
-    vim.keymap.set("n", "<leader>xm", toggle_workspace_mode, { desc = "diagnostics [m]ode toggle" })
+    register_sources()
+    vim.keymap.set("n", "<leader>ldm", toggle_linting_mode, { desc = "[L]SP [d]iagnostics [m]ode toggle" })
   end,
 }
