@@ -19,171 +19,171 @@
 local python_env = {}
 local python_prefer_local = nil
 if vim.env.VIRTUAL_ENV then
-  -- ... set PYTHONPATH so that Mason packages can see Python packages installed in venv
-  python_env = { PYTHONPATH = vim.fn.glob(vim.env.VIRTUAL_ENV .. "/lib/python*/site-packages") }
-  -- ... use venv binary over Mason binary when linter is installed in venv
-  python_prefer_local = vim.env.VIRTUAL_ENV .. "/bin"
+	-- ... set PYTHONPATH so that Mason packages can see Python packages installed in venv
+	python_env = { PYTHONPATH = vim.fn.glob(vim.env.VIRTUAL_ENV .. "/lib/python*/site-packages") }
+	-- ... use venv binary over Mason binary when linter is installed in venv
+	python_prefer_local = vim.env.VIRTUAL_ENV .. "/bin"
 end
 
 local sources = {
-  linters_workspace = {},
-  linters_buffer = {},
-  others = {},
+	linters_workspace = {},
+	linters_buffer = {},
+	others = {},
 }
 local lint_workspace = false
 
 local function register_sources()
-  local null_ls = require("null-ls")
+	local null_ls = require("null-ls")
 
-  null_ls.reset_sources()
+	null_ls.reset_sources()
 
-  local sources_active = {
-    unpack(lint_workspace and sources.linters_workspace or sources.linters_buffer),
-    unpack(sources.others),
-  }
-  for _, source in ipairs(sources_active) do
-    null_ls.register(source)
-  end
+	local sources_active = {
+		unpack(lint_workspace and sources.linters_workspace or sources.linters_buffer),
+		unpack(sources.others),
+	}
+	for _, source in ipairs(sources_active) do
+		null_ls.register(source)
+	end
 
-  vim.diagnostic.reset()
+	vim.diagnostic.reset()
 end
 
 local function toggle_linting_mode()
-  lint_workspace = not lint_workspace
-  register_sources()
+	lint_workspace = not lint_workspace
+	register_sources()
 end
 
 local function add_pylint_buffer()
-  local linter = require("null-ls").builtins.diagnostics.pylint.with({
-    env = python_env,
-    prefer_local = python_prefer_local,
-  })
-  table.insert(sources.linters_buffer, linter)
+	local linter = require("null-ls").builtins.diagnostics.pylint.with({
+		env = python_env,
+		prefer_local = python_prefer_local,
+	})
+	table.insert(sources.linters_buffer, linter)
 end
 
 local function add_pylint_workspace()
-  local null_ls = require("null-ls")
-  local helpers = require("null-ls.helpers")
+	local null_ls = require("null-ls")
+	local helpers = require("null-ls.helpers")
 
-  local generator_opts = vim.tbl_extend("force", null_ls.builtins.diagnostics.pylint.generator.opts, {
-    -- Multiple files so that every linting clears previous diagnostics. Otherwise, diagnostics would be duplicated.
-    multiple_files = true,
-    -- Same as default, but adding filename [*]. Otherwise, all the diagnostics would be assigned to the current buffer.
-    on_output = helpers.diagnostics.from_json({
-      attributes = {
-        row = "line",
-        col = "column",
-        code = "symbol",
-        severity = "type",
-        message = "message",
-        message_id = "message-id",
-        symbol = "symbol",
-        source = "pylint",
-        filename = "path", -- [*] additional diagnostic attribute
-      },
-      severities = {
-        convention = helpers.diagnostics.severities["information"],
-        refactor = helpers.diagnostics.severities["information"],
-      },
-      offsets = {
-        col = 1,
-        end_col = 1,
-      },
-    }),
-  })
+	local generator_opts = vim.tbl_extend("force", null_ls.builtins.diagnostics.pylint.generator.opts, {
+		-- Multiple files so that every linting clears previous diagnostics. Otherwise, diagnostics would be duplicated.
+		multiple_files = true,
+		-- Same as default, but adding filename [*]. Otherwise, all the diagnostics would be assigned to the current buffer.
+		on_output = helpers.diagnostics.from_json({
+			attributes = {
+				row = "line",
+				col = "column",
+				code = "symbol",
+				severity = "type",
+				message = "message",
+				message_id = "message-id",
+				symbol = "symbol",
+				source = "pylint",
+				filename = "path", -- [*] additional diagnostic attribute
+			},
+			severities = {
+				convention = helpers.diagnostics.severities["information"],
+				refactor = helpers.diagnostics.severities["information"],
+			},
+			offsets = {
+				col = 1,
+				end_col = 1,
+			},
+		}),
+	})
 
-  local linter = null_ls.builtins.diagnostics.pylint.with({
-    method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
-    generator_opts = generator_opts,
-    env = python_env,
-    prefer_local = python_prefer_local,
-    args = {
-      -- Defaults
-      "--output-format",
-      "json",
-      -- Lint the whole workspace
-      "$ROOT",
-    },
-  })
+	local linter = null_ls.builtins.diagnostics.pylint.with({
+		method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+		generator_opts = generator_opts,
+		env = python_env,
+		prefer_local = python_prefer_local,
+		args = {
+			-- Defaults
+			"--output-format",
+			"json",
+			-- Lint the whole workspace
+			"$ROOT",
+		},
+	})
 
-  table.insert(sources.linters_workspace, linter)
+	table.insert(sources.linters_workspace, linter)
 end
 
 local function add_mypy_buffer()
-  local null_ls = require("null-ls")
+	local null_ls = require("null-ls")
 
-  local generator_opts = vim.tbl_extend("force", null_ls.builtins.diagnostics.mypy.generator.opts, {
-    multiple_files = false, -- the default was true, strangely, see general notes
-  })
+	local generator_opts = vim.tbl_extend("force", null_ls.builtins.diagnostics.mypy.generator.opts, {
+		multiple_files = false, -- the default was true, strangely, see general notes
+	})
 
-  local linter = null_ls.builtins.diagnostics.mypy.with({
-    env = python_env,
-    prefer_local = python_prefer_local,
-    generator_opts = generator_opts,
-  })
+	local linter = null_ls.builtins.diagnostics.mypy.with({
+		env = python_env,
+		prefer_local = python_prefer_local,
+		generator_opts = generator_opts,
+	})
 
-  table.insert(sources.linters_buffer, linter)
+	table.insert(sources.linters_buffer, linter)
 end
 
 local function add_mypy_workspace()
-  local null_ls = require("null-ls")
+	local null_ls = require("null-ls")
 
-  local linter = null_ls.builtins.diagnostics.mypy.with({
-    method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
-    env = python_env,
-    prefer_local = python_prefer_local,
-    args = {
-      -- Defaults
-      "--hide-error-codes",
-      "--hide-error-context",
-      "--no-color-output",
-      "--show-absolute-path",
-      "--show-column-numbers",
-      "--show-error-codes",
-      "--no-error-summary",
-      "--no-pretty",
-      -- Lint the whole workspace
-      "$ROOT",
-    },
-    -- Since we don't lint the buffer, to_temp_file isn't necessary
-    to_temp_file = false,
-  })
+	local linter = null_ls.builtins.diagnostics.mypy.with({
+		method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+		env = python_env,
+		prefer_local = python_prefer_local,
+		args = {
+			-- Defaults
+			"--hide-error-codes",
+			"--hide-error-context",
+			"--no-color-output",
+			"--show-absolute-path",
+			"--show-column-numbers",
+			"--show-error-codes",
+			"--no-error-summary",
+			"--no-pretty",
+			-- Lint the whole workspace
+			"$ROOT",
+		},
+		-- Since we don't lint the buffer, to_temp_file isn't necessary
+		to_temp_file = false,
+	})
 
-  table.insert(sources.linters_workspace, linter)
+	table.insert(sources.linters_workspace, linter)
 end
 
 return {
-  "jay-babu/mason-null-ls.nvim",
-  dependencies = {
-    "williamboman/mason.nvim",       -- package manager for linters and formatters
-    "nvimtools/none-ls.nvim",
-    "nvim-lua/plenary.nvim",         -- required
-    "nvim-telescope/telescope.nvim", -- for LSP pickers (used in on_attach)
-  },
-  config = function()
-    local mason_null_ls = require("mason-null-ls")
-    local null_ls = require("null-ls")
+	"jay-babu/mason-null-ls.nvim",
+	dependencies = {
+		"williamboman/mason.nvim", -- package manager for linters and formatters
+		"nvimtools/none-ls.nvim",
+		"nvim-lua/plenary.nvim", -- required
+		"nvim-telescope/telescope.nvim", -- for LSP pickers (used in on_attach)
+	},
+	config = function()
+		local mason_null_ls = require("mason-null-ls")
+		local null_ls = require("null-ls")
 
-    mason_null_ls.setup({
-      ensure_installed = {},
-      automatic_installation = false,
-      handlers = {
-        function(source, types)
-          vim.tbl_map(function(type)
-            table.insert(sources.others, null_ls.builtins[type][source])
-          end, types)
-        end,
-        pylint = function()
-          add_pylint_buffer()
-          add_pylint_workspace()
-        end,
-        mypy = function()
-          add_mypy_buffer()
-          add_mypy_workspace()
-        end,
-      },
-    })
-    register_sources()
-    vim.keymap.set("n", "<leader>ldm", toggle_linting_mode, { desc = "[L]SP [d]iagnostics [m]ode toggle" })
-  end,
+		mason_null_ls.setup({
+			ensure_installed = {},
+			automatic_installation = false,
+			handlers = {
+				function(source, types)
+					vim.tbl_map(function(type)
+						table.insert(sources.others, null_ls.builtins[type][source])
+					end, types)
+				end,
+				pylint = function()
+					add_pylint_buffer()
+					add_pylint_workspace()
+				end,
+				mypy = function()
+					add_mypy_buffer()
+					add_mypy_workspace()
+				end,
+			},
+		})
+		register_sources()
+		vim.keymap.set("n", "<leader>ldm", toggle_linting_mode, { desc = "[L]SP [d]iagnostics [m]ode toggle" })
+	end,
 }
