@@ -1,11 +1,9 @@
-local utils = require("utils")
-
 return {
 	"CopilotC-Nvim/CopilotChat.nvim",
-	enabled = utils.os.is_linux(),
+	enabled = true,
 	dependencies = {
 		"zbirenbaum/copilot.lua",
-		{ "nvim-lua/plenary.nvim", branch = "master" }, -- required
+		"nvim-lua/plenary.nvim", -- required
 	},
 	build = "make tiktoken",
 	opts = {},

@@ -1,8 +1,6 @@
-local utils = require("utils")
-
 return {
 	"Exafunction/codeium.nvim",
-	enabled = utils.os.is_macos(),
+	enabled = false,
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 	},
