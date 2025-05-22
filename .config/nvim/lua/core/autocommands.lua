@@ -10,6 +10,13 @@ M.setup = function()
 		end,
 	})
 
+	vim.api.nvim_create_autocmd("DiagnosticChanged", {
+		desc = "Update diagnostics quickfix list",
+		callback = function()
+			utils.diagnostics.refresh()
+		end,
+	})
+
 	vim.api.nvim_create_autocmd("LspAttach", {
 		desc = "Set keymaps and autocommands",
 		callback = function(args)
