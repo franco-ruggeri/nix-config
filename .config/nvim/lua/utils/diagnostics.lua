@@ -55,9 +55,7 @@ M.toggle = function()
 		vim.cmd("cclose")
 	else
 		M.refresh()
-		local window_id_prev = vim.api.nvim_get_current_win()
 		vim.cmd("copen")
-		vim.api.nvim_set_current_win(window_id_prev) -- refocus on previous window
 	end
 end
 
