@@ -25,9 +25,8 @@ M.setup = function()
 		end,
 	})
 
-	-- TODO: need to set width of loc list (right)
 	vim.api.nvim_create_autocmd("BufWinEnter", {
-		desc = "Set layout",
+		desc = "Set position of quickfix and location lists",
 		callback = function()
 			local window_id = vim.api.nvim_get_current_win()
 			local window_info = vim.fn.getwininfo(window_id)[1]
@@ -38,6 +37,19 @@ M.setup = function()
 				else
 					vim.cmd("wincmd J") -- quickfix list --> bottom
 				end
+			end
+		end,
+	})
+
+	vim.api.nvim_create_autocmd("BufWinEnter", {
+		desc = "Close quickfix and location list on selection",
+		callback = function()
+			local window_id = vim.api.nvim_get_current_win()
+			local window_info = vim.fn.getwininfo(window_id)[1]
+
+			if window_info.quickfix == 1 then
+				local close_cmd = window_info.loclist == 1 and "lclose" or "cclose"
+				vim.keymap.set("n", "<CR>", ("<CR><Cmd>%s<CR>"):format(close_cmd), { buffer = true })
 			end
 		end,
 	})
