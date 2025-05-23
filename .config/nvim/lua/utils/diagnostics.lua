@@ -1,5 +1,7 @@
 local M = {}
 
+M.quickfix_title = "Diagnostics"
+
 local function format_quickfix_list(info)
 	-- Default format extended with source and symbol
 	local format = "%s|%d col %d-%d %s| %s%s%s"
@@ -41,7 +43,7 @@ M.refresh = function()
 
 	vim.fn.setqflist({}, "r", {
 		items = quickfix_items,
-		title = "Diagnostics",
+		title = M.quickfix_title,
 		quickfixtextfunc = format_quickfix_list,
 	})
 end
@@ -51,7 +53,7 @@ M.toggle = function()
 	local title = info.title
 	local window_id = info.winid
 
-	if title == "Diagnostics" and window_id ~= 0 then
+	if title == M.quickfix_title and window_id ~= 0 then
 		vim.cmd("cclose")
 	else
 		M.refresh()

@@ -53,7 +53,7 @@ M.setup = function()
 				local close_cmd = nil
 
 				if window_info.loclist == 0 then
-					should_close = quickfix_title ~= "Diagnostics"
+					should_close = quickfix_title ~= utils.diagnostics.quickfix_title
 					close_cmd = "cclose"
 				else
 					should_close = true
