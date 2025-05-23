@@ -46,10 +46,23 @@ M.setup = function()
 		callback = function()
 			local window_id = vim.api.nvim_get_current_win()
 			local window_info = vim.fn.getwininfo(window_id)[1]
+			local quickfix_title = vim.fn.getqflist({ title = 1 }).title
 
 			if window_info.quickfix == 1 then
-				local close_cmd = window_info.loclist == 1 and "lclose" or "cclose"
-				vim.keymap.set("n", "<CR>", ("<CR><Cmd>%s<CR>"):format(close_cmd), { buffer = true })
+				local should_close = false
+				local close_cmd = nil
+
+				if window_info.loclist == 0 then
+					should_close = quickfix_title ~= "Diagnostics"
+					close_cmd = "cclose"
+				else
+					should_close = true
+					close_cmd = "lclose"
+				end
+
+				if should_close then
+					vim.keymap.set("n", "<CR>", ("<CR><Cmd>%s<CR>"):format(close_cmd), { buffer = true })
+				end
 			end
 		end,
 	})
