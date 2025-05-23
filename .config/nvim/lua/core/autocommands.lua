@@ -1,5 +1,3 @@
-local utils = require("utils")
-
 local M = {}
 
 local function get_format_filter(buffer)
