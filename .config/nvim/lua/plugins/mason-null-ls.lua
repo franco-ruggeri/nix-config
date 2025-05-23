@@ -184,6 +184,6 @@ return {
 			},
 		})
 		register_sources()
-		vim.keymap.set("n", "<leader>ldm", toggle_linting_mode, { desc = "[L]SP [d]iagnostics [m]ode toggle" })
+		vim.keymap.set("n", "<leader>xm", toggle_linting_mode, { desc = "Diagnostics [m]ode toggle" })
 	end,
 }

@@ -1,15 +1,10 @@
-local utils = require("utils")
-
 local M = {}
 
 M.setup = function()
 	vim.keymap.set("n", "<Esc>", "<Cmd>nohlsearch<CR>", { desc = "Clear search highlights" })
 	vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
-	vim.keymap.set("n", "<M-n>", "<Cmd>cnext<CR>", { desc = "Quickfix list next" })
-	vim.keymap.set("n", "<M-p>", "<Cmd>cprevious<CR>", { desc = "Quickfix list previous" })
 	vim.keymap.set("n", "<leader>e", "<Cmd>Explore<CR>", { desc = "[e]xplore with netrw" })
-	vim.keymap.set("n", "<leader>x", utils.diagnostics.toggle, { desc = "diagnostics quickfix list toggle" })
-	vim.keymap.set("n", "<leader>ldr", vim.diagnostic.reset, { desc = "[L]SP [d]iagnostics [r]eset" })
+	vim.keymap.set("n", "<leader>xr", vim.diagnostic.reset, { desc = "Diagnostics [r]eset" })
 
 	-- Disable arrow keys
 	vim.keymap.set("n", "<left>", "<Cmd>echo 'Use h to move left!'<CR>")
