@@ -19,7 +19,9 @@
 
 [core]
 	editor = vi
+
 [init]
 	defaultBranch = main
+
 [status]
 	submodulesummary = 1
