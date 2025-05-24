@@ -48,6 +48,9 @@ M.setup = function()
 			border = "single",
 		},
 	})
+
+	-- Enable local config
+	vim.opt.exrc = true
 end
 
 return M
