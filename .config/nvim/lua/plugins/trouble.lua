@@ -10,11 +10,6 @@ return {
 	},
 	opts = {
 		open_no_results = true, -- useful to open windows just for layout
-		modes = {
-			symbols = {
-				win = { position = "left" }, -- better than right, so code gets more centered
-			},
-		},
 	},
 	config = function(_, opts)
 		local trouble = require("trouble")
