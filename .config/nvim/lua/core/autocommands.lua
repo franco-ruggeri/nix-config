@@ -62,6 +62,22 @@ M.setup = function()
 			})
 		end,
 	})
+
+	vim.api.nvim_create_autocmd("FileType", {
+		desc = "Set colorcolumns",
+		callback = function(args)
+			local textwidth = vim.o.textwidth
+			if textwidth and textwidth > 0 then
+				vim.opt.colorcolumn = tostring(textwidth) --
+				if args.match == "gitcommit" then
+					vim.o.colorcolumn = vim.o.colorcolumn .. ",50" -- for subject line
+				end
+			end
+		end,
+	})
+
+	-- In git commits, highlight as errors subject lines longer than 50 characters
+	vim.cmd.highlight("link gitcommitOverflow Error")
 end
 
 return M
