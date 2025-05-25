@@ -63,15 +63,17 @@ M.setup = function()
 		end,
 	})
 
-	vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+	-- Both events are needed, as textwidth could be set at different times.
+	vim.api.nvim_create_autocmd({ "FileType", "BufWinEnter" }, {
 		desc = "Set colorcolumn based on textwidth",
 		callback = function(args)
 			local textwidth = vim.bo.textwidth
 			if textwidth > 0 then
-				vim.wo.colorcolumn = tostring(textwidth + 1)
+				local colorcolumn = tostring(textwidth + 1)
 				if vim.bo.filetype == "gitcommit" then
-					vim.wo.colorcolumn = vim.wo.colorcolumn .. ",51" -- for subject line
+					colorcolumn = colorcolumn .. ",51" -- for subject line
 				end
+				vim.wo.colorcolumn = colorcolumn
 			end
 		end,
 	})
