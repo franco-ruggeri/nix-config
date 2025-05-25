@@ -20,7 +20,7 @@ return {
 
 		vim.keymap.set("n", "<leader>hh", function()
 			harpoon.ui:toggle_quick_menu(harpoon:list())
-		end, { desc = "[h]arpoon toggle menu" })
+		end, { desc = "[h]arpoon menu toggle" })
 
 		vim.keymap.set("n", "<leader>hp", function()
 			harpoon:list():prev()

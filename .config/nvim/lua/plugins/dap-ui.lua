@@ -17,7 +17,6 @@ local function close_dapui()
 end
 
 local function toggle_dapui()
-	print("toggling")
 	if is_open then
 		close_dapui()
 	else

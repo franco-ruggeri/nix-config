@@ -1,3 +1,5 @@
+-- TODO: refactor with object-oriented approach
+--
 -- General notes:
 -- --------------------
 -- For buffer linters, we use:
