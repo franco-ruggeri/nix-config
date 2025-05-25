@@ -48,6 +48,9 @@ M.setup = function()
 
 	-- Enable local config
 	vim.opt.exrc = true
+
+	-- Open buffers without folding
+	vim.opt.foldenable = false
 end
 
 return M

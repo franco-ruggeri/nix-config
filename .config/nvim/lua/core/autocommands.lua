@@ -45,11 +45,6 @@ M.setup = function()
 	vim.api.nvim_create_autocmd("LspAttach", {
 		desc = "Set keymaps and autocommands",
 		callback = function(args)
-			local function map(mode, key, action, desc)
-				vim.keymap.set(mode, key, action, { buffer = args.buf, desc = desc })
-			end
-			map("n", "gD", vim.lsp.buf.declaration, "[g]oto [d]eclaration")
-
 			-- Format on save
 			-- Multiple LSP servers might provide formatting.
 			-- To avoid conflicts, we use a filter so that only one of them go through.
@@ -60,6 +55,13 @@ M.setup = function()
 					vim.lsp.buf.format({ filter = get_format_filter(args.buf) })
 				end,
 			})
+
+			-- Fold using LSP server
+			vim.opt.foldmethod = "expr"
+			vim.opt.foldexpr = "v:lua.vim.lsp.foldexpr()"
+
+			-- Keymaps
+			vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = args.buf, desc = "[g]oto [d]eclaration" })
 		end,
 	})
 
