@@ -11,9 +11,6 @@ M.setup = function()
 	vim.opt.number = true
 	vim.opt.relativenumber = true
 
-	-- Highlight cursor line
-	vim.opt.cursorline = true
-
 	-- Save undo history (kept if you close and re-open a file)
 	vim.opt.undofile = true
 
@@ -48,9 +45,6 @@ M.setup = function()
 			border = "single",
 		},
 	})
-
-	-- In git commits, highlight as errors subject lines longer than 50 characters
-	vim.cmd.highlight("link gitcommitOverflow Error")
 
 	-- Enable local config
 	vim.opt.exrc = true
