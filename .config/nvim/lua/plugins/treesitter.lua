@@ -4,7 +4,18 @@ return {
 	main = "nvim-treesitter.configs",
 	opts = {
 		ensure_installed = "all",
-		highlight = { enable = true, disable = { "latex" } },
-		indent = { enable = true, disable = { "latex" } },
+		highlight = {
+			enable = true,
+			disable = {
+				"latex", -- conflicts with VimTeX
+				"gitcommit", -- conflicts with default syntax higlighting
+			},
+		},
+		indent = {
+			enable = true,
+			disable = {
+				"latex", -- conflicts with VimTeX
+			},
+		},
 	},
 }
