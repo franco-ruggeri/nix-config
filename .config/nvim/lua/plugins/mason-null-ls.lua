@@ -43,7 +43,9 @@ local function register_sources()
 		unpack(lint_workspace and sources.linters_workspace or sources.linters_buffer),
 		unpack(sources.others),
 	}
-	for _, source in ipairs(sources_active) do
+
+	-- Warning: don't use ipairs here, as the previous operations mess up the indices.
+	for _, source in pairs(sources_active) do
 		null_ls.register(source)
 	end
 
@@ -171,9 +173,9 @@ return {
 			automatic_installation = false,
 			handlers = {
 				function(source, types)
-					vim.tbl_map(function(type)
+					for _, type in ipairs(types) do
 						table.insert(sources.others, null_ls.builtins[type][source])
-					end, types)
+					end
 				end,
 				pylint = function()
 					add_pylint_buffer()
