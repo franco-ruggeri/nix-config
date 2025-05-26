@@ -67,7 +67,7 @@ M.setup = function()
 
 	-- Both events are needed, as textwidth could be set at different times.
 	vim.api.nvim_create_autocmd({ "FileType", "BufWinEnter" }, {
-		desc = "Set colorcolumn based on textwidth",
+		desc = "Set colored columns based on textwidth",
 		callback = function(args)
 			local textwidth = vim.o.textwidth
 			if textwidth > 0 then
@@ -76,6 +76,8 @@ M.setup = function()
 					colorcolumn = colorcolumn .. ",51" -- for subject line
 				end
 				vim.o.colorcolumn = colorcolumn
+			else
+				vim.o.colorcolumn = "" -- reset to avoid showing those from other buffers (window-scoped)
 			end
 		end,
 	})
