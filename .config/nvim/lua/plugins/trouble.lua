@@ -41,10 +41,10 @@ return {
 	},
 	opts = {
 		open_no_results = true, -- useful to open windows just for layout
+		win = {
+			size = { width = 50, height = 15 }, -- larger than defaults
+		},
 		modes = {
-			symbols = {
-				win = { size = 50 },
-			},
 			todo = {
 				-- Default is { "buf[0]", "filename", "pos", "message" }
 				-- That is, the items in the current buffer are always on top.
