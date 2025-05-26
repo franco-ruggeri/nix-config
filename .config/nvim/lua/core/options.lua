@@ -18,8 +18,10 @@ M.setup = function()
 	vim.opt.ignorecase = true
 	vim.opt.smartcase = true
 
-	-- Keep minimum number of lines above and below the cursor line
-	vim.opt.scrolloff = 10
+	-- Keep cursor in the center
+  -- Note that scrolloff defines the minimum number of lines above and below the cursor line.
+  -- Setting it to a very high value effectively keeps the cursor in the center of the screen.
+	vim.opt.scrolloff = 1000
 
 	-- Keep signcolumn on by default
 	vim.opt.signcolumn = "yes"
