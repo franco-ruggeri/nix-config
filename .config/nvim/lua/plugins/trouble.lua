@@ -41,9 +41,9 @@ return {
 	},
 	opts = {
 		open_no_results = true, -- useful to open windows just for layout
-		win = {
-			size = { width = 50, height = 15 }, -- larger than defaults
-		},
+		-- win = {
+		-- 	size = { width = 50, height = 15 }, -- larger than defaults
+		-- },
 		modes = {
 			todo = {
 				-- Default is { "buf[0]", "filename", "pos", "message" }
