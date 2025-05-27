@@ -39,13 +39,11 @@ local function register_sources()
 
 	null_ls.reset_sources()
 
-	local sources_active = {
-		unpack(lint_workspace and sources.linters_workspace or sources.linters_buffer),
-		unpack(sources.others),
-	}
+	local sources_active = {}
+	vim.list_extend(sources_active, lint_workspace and sources.linters_workspace or sources.linters_buffer)
+	vim.list_extend(sources_active, sources.others)
 
-	-- Warning: don't use ipairs here, as the previous operations mess up the indices.
-	for _, source in pairs(sources_active) do
+	for _, source in ipairs(sources_active) do
 		null_ls.register(source)
 	end
 
