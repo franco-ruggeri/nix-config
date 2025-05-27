@@ -3,7 +3,6 @@ local M = {}
 M.setup = function()
 	vim.keymap.set("n", "<Esc>", "<Cmd>nohlsearch<CR>", { desc = "Clear search highlights" })
 	vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
-	vim.keymap.set("n", "<leader>e", "<Cmd>Explore<CR>", { desc = "[e]xplore with netrw" })
 	vim.keymap.set("n", "<leader>xr", vim.diagnostic.reset, { desc = "Diagnostics [r]eset" })
 
 	-- Disable arrow keys
