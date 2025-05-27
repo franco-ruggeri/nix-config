@@ -6,4 +6,7 @@ return {
 	keys = {
 		{ "<leader>mp", "<Cmd>MarkdownPreviewToggle<CR>", desc = "[m]arkdown [p]review toggle" },
 	},
+	init = function()
+		vim.g.mkdp_echo_preview_url = 1
+	end,
 }
