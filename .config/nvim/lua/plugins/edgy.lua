@@ -1,4 +1,7 @@
--- TODO: doesn't work now, need to fix
+local function is_location_list(window)
+	return vim.fn.getwininfo(window)[1].loclist == 1
+end
+
 return {
 	"folke/edgy.nvim",
 	event = "VeryLazy",
@@ -7,15 +10,47 @@ return {
 		vim.opt.splitkeep = "screen"
 	end,
 	opts = {
+		options = {
+			left = { size = 50 },
+			right = { size = 50 },
+			bottom = { size = 15 },
+		},
+		animate = {
+			enabled = false,
+		},
+		exit_when_last = true, -- don't consider edgebars and panels when exiting neovim
 		bottom = {
-			"Trouble",
-			{ ft = "qf", title = "QuickFix", height = 50 },
 			{
-				ft = "help",
-				size = { height = 20 },
-				filter = function(buf)
-					return vim.bo[buf].buftype == "help"
+				title = "Diagnostics",
+				ft = "trouble-diagnostics",
+			},
+			{
+				title = "Todo Comments",
+				ft = "trouble-todo",
+			},
+			{
+				title = "QuickFix",
+				ft = "qf",
+				filter = function(_, window)
+					return not is_location_list(window)
 				end,
+			},
+			{
+				title = "Location List",
+				ft = "qf",
+				filter = function(_, window)
+					return is_location_list(window)
+				end,
+			},
+		},
+		left = {
+			{ ft = "undotree" },
+			{ ft = "diff" },
+		},
+		right = {
+			{
+				title = "Document Symbols",
+				ft = "trouble-document-symbols",
 			},
 		},
 	},
