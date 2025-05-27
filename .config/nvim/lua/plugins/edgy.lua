@@ -18,7 +18,6 @@ return {
 		animate = {
 			enabled = false,
 		},
-		exit_when_last = true, -- don't consider edgebars and panels when exiting neovim
 		bottom = {
 			{
 				title = "Diagnostics",
@@ -44,10 +43,9 @@ return {
 			},
 		},
 		left = {
+			{ ft = "neo-tree" },
 			{ ft = "undotree" },
 			{ ft = "diff" },
-		},
-		right = {
 			{
 				title = "Document Symbols",
 				ft = "trouble-document-symbols",

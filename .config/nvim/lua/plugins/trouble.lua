@@ -44,7 +44,7 @@ return {
 		require("trouble").setup(opts)
 
 		vim.keymap.set("n", "<leader>xx", "<Cmd>Trouble diagnostics toggle<CR>", { desc = "Diagnostics toggle" })
-		vim.keymap.set("n", "<leader>t", "<Cmd>Trouble todo toggle<CR>", { desc = "[t]odo comments toggle" })
+		vim.keymap.set("n", "<leader>t", "<Cmd>Trouble todo toggle focus=true<CR>", { desc = "[t]odo comments toggle" })
 		vim.keymap.set("n", "<M-n>", "<Cmd>Trouble diagnostics next jump=true<CR>", { desc = "[n]ext todo" })
 		vim.keymap.set("n", "<M-p>", "<Cmd>Trouble diagnostics prev jump=true<CR>", { desc = "[p]rev todo" })
 
