@@ -18,7 +18,7 @@ return {
 		vim.keymap.set("n", "<leader>fs", builtin.live_grep, { desc = "[f]ind [s]tring" })
 
 		vim.api.nvim_create_autocmd("LspAttach", {
-			desc = "Bind LSP functions to Telescope",
+			desc = "Bind LSP methods to Telescope",
 			callback = function(args)
 				vim.keymap.set("n", "gd", builtin.lsp_definitions, { buffer = args.buf, desc = "[g]oto [d]efinition" })
 				vim.keymap.set(

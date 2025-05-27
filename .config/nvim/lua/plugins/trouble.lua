@@ -53,7 +53,7 @@ return {
 		-- Trouble takes care of calling vim.lsp.buf.document_symbol().
 		-- So, we just need to bind the keymap to open the document symbols with focus.
 		vim.api.nvim_create_autocmd("LspAttach", {
-			desc = "Bind LSP functions to Trouble",
+			desc = "Bind LSP methods to Trouble",
 			callback = function(args)
 				vim.keymap.set(
 					"n",
