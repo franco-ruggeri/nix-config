@@ -9,7 +9,7 @@ return {
 		auto_preview = false, -- disable preview window, annoying when jumping between windows
 		open_no_results = true, -- useful to open windows just for layout
 		modes = {
-			diagonstics = {
+			diagnostics = {
 				win = { bo = { filetype = "trouble-diagnostics" } }, -- for filtering in edgy.nvim
 			},
 			todo = {
