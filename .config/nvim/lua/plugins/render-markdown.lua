@@ -10,7 +10,6 @@ return {
 	},
 	opts = {
 		completions = {
-			-- TODO: migrate to blink for completion
 			blink = { enabled = true },
 		},
 	},

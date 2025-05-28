@@ -1,4 +1,3 @@
--- TODO: add integration with telescope
 return {
 	"folke/trouble.nvim",
 	dependencies = {
