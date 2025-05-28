@@ -22,12 +22,15 @@ return {
 				"--column",
 				"--smart-case",
 				-- ====================
-				"--no-ignore", -- include files ignored by .gitignore
 				"--hidden", -- include hidden files
 			},
 			file_ignore_patterns = {
-				"node_modules",
-				".git",
+				".git", -- exclude .git/ (hidden but not ignored)
+			},
+		},
+		pickers = {
+			find_files = {
+				hidden = true, -- include hidden files
 			},
 		},
 	},
@@ -36,7 +39,6 @@ return {
 
 		local builtin = require("telescope.builtin")
 		vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[f]ind [f]ile" })
-		vim.keymap.set("n", "<leader>fg", builtin.git_files, { desc = "[f]ind [g]it file" })
 		vim.keymap.set("n", "<leader>fs", builtin.live_grep, { desc = "[f]ind [s]tring" })
 
 		vim.api.nvim_create_autocmd("LspAttach", {
