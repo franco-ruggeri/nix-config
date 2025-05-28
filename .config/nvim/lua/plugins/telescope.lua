@@ -9,8 +9,30 @@ return {
 			build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release",
 		},
 	},
-	config = function()
-		require("telescope").setup({})
+	opts = {
+		defaults = {
+			vimgrep_arguments = {
+				-- Defaults (:h telescope.defaults.vimgrep_arguments)
+				-- ====================
+				"rg",
+				"--color=never",
+				"--no-heading",
+				"--with-filename",
+				"--line-number",
+				"--column",
+				"--smart-case",
+				-- ====================
+				"--no-ignore", -- include files ignored by .gitignore
+				"--hidden", -- include hidden files
+			},
+			file_ignore_patterns = {
+				"node_modules",
+				".git",
+			},
+		},
+	},
+	config = function(_, opts)
+		require("telescope").setup(opts)
 
 		local builtin = require("telescope.builtin")
 		vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[f]ind [f]ile" })
