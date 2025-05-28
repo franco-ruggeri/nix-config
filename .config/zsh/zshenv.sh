@@ -1,5 +1,3 @@
-source $ZDOTDIR/.utils
-
 # Homebrew
 if is_macos; then
 	eval "$(/opt/homebrew/bin/brew shellenv)"
