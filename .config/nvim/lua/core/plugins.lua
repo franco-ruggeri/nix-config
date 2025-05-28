@@ -18,6 +18,9 @@ M.setup = function()
 		spec = {
 			{ import = "plugins" },
 		},
+		defaults = {
+			version = "*", -- only stable versions
+		},
 	})
 end
 
