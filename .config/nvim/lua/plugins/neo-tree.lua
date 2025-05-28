@@ -22,7 +22,7 @@ return {
 
 		local function toggle()
 			local bufname = vim.api.nvim_buf_get_name(0)
-			local stat = vim.loop.fs_stat(bufname)
+			local stat = vim.uv.fs_stat(bufname)
 
 			if stat and stat.type == "file" then
 				vim.cmd("Neotree reveal")
