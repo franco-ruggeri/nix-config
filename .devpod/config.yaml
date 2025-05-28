@@ -36,7 +36,7 @@ contexts:
           KUBERNETES_CONFIG: {}
           KUBERNETES_CONTEXT: {}
           KUBERNETES_NAMESPACE:
-            value: "default"
+            value: default
           KUBERNETES_PULL_SECRETS_ENABLED:
             value: "true"
           LABELS: {}
