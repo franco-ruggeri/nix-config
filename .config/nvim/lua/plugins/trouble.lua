@@ -6,7 +6,8 @@ return {
 		"folke/todo-comments.nvim", -- for integration with todo comments
 	},
 	opts = {
-		auto_preview = false, -- disable preview window, annoying when jumping between windows
+		focus = true, -- for consistency with built-in quickfix and other plugins
+		auto_preview = false, -- preview is annoying when jumping between windows
 		open_no_results = true, -- useful to open windows just for layout
 		modes = {
 			diagnostics = {
@@ -68,8 +69,8 @@ return {
 	config = function(_, opts)
 		require("trouble").setup(opts)
 
-		vim.keymap.set("n", "<leader>xx", "<Cmd>Trouble diagnostics toggle<CR>", { desc = "Diagnostics toggle" })
-		vim.keymap.set("n", "<leader>t", "<Cmd>Trouble todo toggle focus=true<CR>", { desc = "[t]odo comments toggle" })
+		vim.keymap.set("n", "<leader>xx", "<Cmd>Trouble diagnostics open<CR>", { desc = "Diagnostics" })
+		vim.keymap.set("n", "<leader>t", "<Cmd>Trouble todo open<CR>", { desc = "[t]odo comments" })
 		vim.keymap.set("n", "<M-n>", "<Cmd>Trouble diagnostics next jump=true<CR>", { desc = "[n]ext todo" })
 		vim.keymap.set("n", "<M-p>", "<Cmd>Trouble diagnostics prev jump=true<CR>", { desc = "[p]rev todo" })
 
