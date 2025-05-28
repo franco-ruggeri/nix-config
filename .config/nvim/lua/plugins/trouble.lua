@@ -21,9 +21,9 @@ return {
 				win = { bo = { filetype = "trouble-todo" } }, -- for filtering in edgy.nvim
 			},
 			-- Custom mode for LSP document symbols
-			-- Based on defaults from https://github.com/folke/trouble.nvim/blob/85bedb7eb7fa331a2ccbecb9202d8abba64d37b3/lua/trouble/sources/lsp.lua#L51
 			my_lsp_document_symbols = {
-				desc = "document symbols (without title)",
+				-- From defaults: https://github.com/folke/trouble.nvim/blob/85bedb7eb7fa331a2ccbecb9202d8abba64d37b3/lua/trouble/sources/lsp.lua#L51
+				-- ====================
 				events = {
 					"BufEnter",
 					{ event = "TextChanged", main = true },
@@ -36,6 +36,31 @@ return {
 				},
 				sort = { "filename", "pos", "text" },
 				format = "{kind_icon} {symbol.name} {text:Comment} {pos}",
+				-- ====================
+				-- Custom filter, based on https://github.com/folke/trouble.nvim?tab=readme-ov-file#%EF%B8%8F-configuration
+				filter = {
+					any = {
+						-- For help and markdown, keep all symbol kinds
+						ft = { "help", "markdown" },
+						-- For other file types, keep this set of symbol kinds
+						kind = {
+							"Class",
+							"Constructor",
+							"Enum",
+							"Field",
+							"Function",
+							"Interface",
+							"Method",
+							"Module",
+							"Namespace",
+							"Package",
+							"Property",
+							"Struct",
+							"Trait",
+						},
+					},
+				},
+				desc = "document symbols (without title)",
 				win = { bo = { filetype = "trouble-document-symbols" } }, -- for filtering in edgy.nvim
 			},
 		},
