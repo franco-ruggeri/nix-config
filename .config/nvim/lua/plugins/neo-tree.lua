@@ -16,6 +16,9 @@ return {
 				hide_gitignored = false,
 			},
 		},
+		window = {
+			position = "current",
+		},
 	},
 	config = function(_, opts)
 		require("neo-tree").setup(opts)
@@ -25,9 +28,9 @@ return {
 			local stat = vim.uv.fs_stat(bufname)
 
 			if stat and stat.type == "file" then
-				vim.cmd("Neotree reveal position=current")
+				vim.cmd("Neotree reveal")
 			else
-				vim.cmd("Neotree position=current")
+				vim.cmd("Neotree")
 			end
 		end
 
