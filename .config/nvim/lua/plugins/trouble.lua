@@ -73,19 +73,23 @@ return {
 		vim.keymap.set("n", "<M-n>", "<Cmd>Trouble diagnostics next jump=true<CR>", { desc = "[n]ext todo" })
 		vim.keymap.set("n", "<M-p>", "<Cmd>Trouble diagnostics prev jump=true<CR>", { desc = "[p]rev todo" })
 
-		-- By default, gO opens the document symbols in a location list and focus on it.
-		-- We want to get the same behavior but using Trouble instead of the location list.
-		-- Trouble takes care of calling vim.lsp.buf.document_symbol().
-		-- So, we just need to bind the keymap to open the document symbols with focus.
-		vim.api.nvim_create_autocmd("LspAttach", {
+		vim.api.nvim_create_autocmd("FileType", {
 			desc = "Bind LSP methods to Trouble",
 			callback = function(args)
-				vim.keymap.set(
-					"n",
-					"gO",
-					"<cmd>Trouble my_lsp_document_symbols open focus=true<CR>",
-					{ buffer = args.buf, desc = "[g]oto [o]utline (document symbols)" }
-				)
+				-- The default behavior of gO depends on the filetype:
+				-- * For help and man buffers, gO opens the outline in a location list. We want to keep that behavior.
+				-- * For buffers with LSP clients attached, gO opens the document symbols in a location list. We want to change that to open Trouble's document symbols.
+				-- * For other filetypes, gO does nothing. We want to open Trouble's document symbols anyway, as it's nice to have it open for layout reasons.
+				--
+				-- Trouble takes care of calling vim.lsp.buf.document_symbol(). So, it's enough to open Trouble's document symbols.
+				if not vim.tbl_contains({ "help", "man" }, args.match) then
+					vim.keymap.set(
+						"n",
+						"gO",
+						"<cmd>Trouble my_lsp_document_symbols open focus=true<CR>",
+						{ buffer = args.buf, desc = "[g]oto [o]utline (document symbols)" }
+					)
+				end
 			end,
 		})
 	end,
