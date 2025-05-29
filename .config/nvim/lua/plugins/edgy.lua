@@ -43,7 +43,6 @@ return {
 			},
 		},
 		left = {
-			{ ft = "neo-tree" },
 			{
 				title = "Document Symbols",
 				ft = "trouble-document-symbols",

@@ -20,17 +20,17 @@ return {
 	config = function(_, opts)
 		require("neo-tree").setup(opts)
 
-		local function toggle()
+		local function open()
 			local bufname = vim.api.nvim_buf_get_name(0)
 			local stat = vim.uv.fs_stat(bufname)
 
 			if stat and stat.type == "file" then
-				vim.cmd("Neotree reveal")
+				vim.cmd("Neotree reveal position=current")
 			else
-				vim.cmd("Neotree")
+				vim.cmd("Neotree position=current")
 			end
 		end
 
-		vim.keymap.set("n", "<leader>e", toggle, { desc = "[e]xplore" })
+		vim.keymap.set("n", "<leader>e", open, { desc = "[e]xplore files (tree)" })
 	end,
 }
