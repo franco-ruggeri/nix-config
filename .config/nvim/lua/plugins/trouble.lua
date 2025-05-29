@@ -86,7 +86,7 @@ return {
 					vim.keymap.set(
 						"n",
 						"gO",
-						"<cmd>Trouble my_lsp_document_symbols open focus=true<CR>",
+						"<cmd>Trouble my_lsp_document_symbols open<CR>",
 						{ buffer = args.buf, desc = "[g]oto [o]utline (document symbols)" }
 					)
 				end
