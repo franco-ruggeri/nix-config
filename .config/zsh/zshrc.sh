@@ -1,3 +1,7 @@
+source $ZDOTDIR/utils-init.sh
+source $ZDOTDIR/aliases.sh
+source $ZDOTDIR/keybindings.sh
+
 # Prompt theme (with Oh My Posh)
 # See https://ohmyposh.dev/docs/installation/customize
 eval "$(oh-my-posh init zsh --config $HOME/.local/share/oh-my-posh/theme.omp.json)"
@@ -64,3 +68,5 @@ fi
 if is_macos; then
 	source $HOME/.ericsson
 fi
+
+source $ZDOTDIR/utils-clear.sh

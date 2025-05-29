@@ -1,3 +1,5 @@
+source $ZDOTDIR/utils-init.sh
+
 # Homebrew
 if is_macos; then
 	eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -5,10 +7,11 @@ fi
 
 # Dark theme
 # See https://wiki.archlinux.org/title/Dark_mode_switching
+# TODO: I'm trying to use rose-pine. If it works, remove this. Apparently, there's no stable theme for Qt apps.
 if is_linux; then
-	export GTK_THEME=Adwaita:dark
-	export GTK2_RC_FILES=/usr/share/themes/Adwaita-dark/gtk-2.0/gtkrc
-	export QT_STYLE_OVERRIDE=Adwaita-Dark
+	export GTK_THEME="Adwaita:dark"
+	export GTK2_RC_FILES="/usr/share/themes/Adwaita-dark/gtk-2.0/gtkrc"
+	export QT_STYLE_OVERRIDE="Adwaita-Dark"
 fi
 
 # Gnome keyring for ssh-agent
@@ -41,3 +44,5 @@ fi
 if is_macos; then
 	export DBUS_SESSION_BUS_ADDRESS="unix:path=$DBUS_LAUNCHD_SESSION_BUS_SOCKET"
 fi
+
+source $ZDOTDIR/utils-clear.sh
