@@ -9,7 +9,7 @@ return {
 		},
 		tabline = {
 			lualine_a = { "tabs" },
-			lualine_c = { "filename" },
+			lualine_b = { "filename" },
 		},
 	},
 }
