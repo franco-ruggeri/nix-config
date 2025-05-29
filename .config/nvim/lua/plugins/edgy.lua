@@ -44,12 +44,12 @@ return {
 		},
 		left = {
 			{ ft = "neo-tree" },
-			{ ft = "undotree" },
-			{ ft = "diff" },
 			{
 				title = "Document Symbols",
 				ft = "trouble-document-symbols",
 			},
+			{ ft = "undotree" },
+			{ ft = "diff" },
 		},
 	},
 }
