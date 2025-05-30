@@ -8,7 +8,6 @@ return {
 			"nvim-telescope/telescope-fzf-native.nvim", -- improves sorting performance
 			build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release",
 		},
-		"folke/trouble.nvim", -- for integration with trouble
 	},
 	opts = {
 		defaults = {
@@ -36,17 +35,6 @@ return {
 		},
 	},
 	config = function(_, opts)
-		-- Integration with trouble
-		-- ====================
-		local open_with_trouble = require("trouble.sources.telescope").open
-		vim.tbl_deep_extend("force", opts, {
-			mappings = {
-				i = { ["<C-t>"] = open_with_trouble },
-				n = { ["<C-t>"] = open_with_trouble },
-			},
-		})
-		-- ====================
-
 		require("telescope").setup(opts)
 
 		local builtin = require("telescope.builtin")
