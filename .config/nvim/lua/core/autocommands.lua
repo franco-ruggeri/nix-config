@@ -43,7 +43,7 @@ M.setup = function()
 	})
 
 	vim.api.nvim_create_autocmd("LspAttach", {
-		desc = "Set keymaps and autocommands",
+		desc = "Set LSP keymaps and autocommands",
 		callback = function(args)
 			-- Format on save
 			-- Multiple LSP servers might provide formatting.
@@ -62,6 +62,14 @@ M.setup = function()
 
 			-- Keymaps
 			vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = args.buf, desc = "[g]oto [d]eclaration" })
+		end,
+	})
+
+	vim.api.nvim_create_autocmd("FileType", {
+		desc = "Set textwidth for markdown",
+		pattern = "markdown",
+		callback = function()
+			vim.opt_local.textwidth = 80
 		end,
 	})
 
