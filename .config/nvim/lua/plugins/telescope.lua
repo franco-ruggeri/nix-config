@@ -25,7 +25,7 @@ return {
 				"--hidden", -- include hidden files
 			},
 			file_ignore_patterns = {
-				".git/", -- exclude .git/ (hidden but not ignored)
+				"%.git/", -- exclude .git/ (hidden but not ignored)
 			},
 		},
 		pickers = {
