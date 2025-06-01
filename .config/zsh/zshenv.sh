@@ -15,7 +15,7 @@ fi
 
 # Gnome keyring for ssh-agent
 # See https://wiki.archlinux.org/title/GNOME/Keyring#Setup_gcr
-if is_linux; then
+if is_linux && [ -z "$SSH_AUTH_SOCK" ]; then
 	export SSH_AUTH_SOCK="/run/user/1000/gcr/ssh"
 fi
 
