@@ -1,15 +1,15 @@
 is_linux() {
-	[[ "$(uname)" == "Linux" ]]
+	[ "$(uname)" = "Linux" ]
 }
 
 is_macos() {
-	[[ "$(uname)" == "Darwin" ]]
+	[ "$(uname)" = "Darwin" ]
 }
 
 bind_key() {
 	local key="$1"
 	local action="$2"
-	[[ -n "$key" ]] && bindkey -- "$key" "$action"
+	[ -n "$key" ] && bindkey -- "$key" "$action"
 }
 
 is_command_available() {

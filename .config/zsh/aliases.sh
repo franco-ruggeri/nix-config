@@ -10,7 +10,7 @@ fi
 # Workaround for poetry shell not working with custom prompt
 # See https://github.com/python-poetry/poetry-plugin-shell/issues/9
 poetry() {
-	if [[ "$1" = "shell" ]]; then
+	if [ "$1" = "shell" ]; then
 		cmd='source "$(dirname $(poetry run which python))/activate"'
 		zsh -ic "$cmd; exec zsh"
 	else

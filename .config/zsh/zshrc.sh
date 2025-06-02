@@ -21,7 +21,7 @@ if is_linux; then
 		"/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 	)
 	source_first_found "${filepaths[@]}"
-	if [[ $? -ne 0 ]]; then
+	if [ $? -ne 0 ]; then
 		echo "Warning: zsh-syntax-highlighting not found."
 	fi
 
@@ -30,7 +30,7 @@ if is_linux; then
 		"/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 	)
 	source_first_found "${filepaths[@]}"
-	if [[ $? -ne 0 ]]; then
+	if [ $? -ne 0 ]; then
 		echo "Warning: zsh-autosuggestions not found."
 	fi
 elif is_macos; then
