@@ -32,13 +32,6 @@ typeset -U path PATH
 # Pipx and poetry
 path+=($HOME/.local/bin)
 
-# Tmux plugin manager
-if is_linux; then
-	export TPM_PATH="$HOME/.config/tmux/plugins/tpm/tpm"
-elif is_macos; then
-	export TPM_PATH="$HOMEBREW_PREFIX/opt/tpm/share/tpm/tpm"
-fi
-
 # Zathura
 if is_macos; then
 	export DBUS_SESSION_BUS_ADDRESS="unix:path=$DBUS_LAUNCHD_SESSION_BUS_SOCKET"
