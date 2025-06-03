@@ -53,6 +53,11 @@ local function toggle_linting_mode()
 	register_sources()
 end
 
+local function add_source(source, type)
+	local null_ls = require("null-ls")
+	table.insert(sources.others, null_ls.builtins[type][source])
+end
+
 local function add_pylint_buffer()
 	local linter = require("null-ls").builtins.diagnostics.pylint.with({
 		env = python_env,
@@ -152,6 +157,25 @@ local function add_mypy_workspace()
 	table.insert(sources.linters_workspace, linter)
 end
 
+local function add_prettier()
+	local null_ls = require("null-ls")
+	local filetypes = null_ls.builtins.formatting.prettier.filetypes
+
+	-- Remove markdown to avoid collisions with markdownlint
+	local filetypes_new = {}
+	for _, filetype in ipairs(filetypes) do
+		if filetype ~= "markdown" then
+			table.insert(filetypes_new, filetype)
+		end
+	end
+
+	local formatter = null_ls.builtins.formatting.prettier.with({
+		filetypes = filetypes_new,
+	})
+
+	table.insert(sources.others, formatter)
+end
+
 return {
 	"jay-babu/mason-null-ls.nvim",
 	dependencies = {
@@ -161,16 +185,13 @@ return {
 		"nvim-telescope/telescope.nvim", -- for LSP pickers (used in on_attach)
 	},
 	config = function()
-		local mason_null_ls = require("mason-null-ls")
-		local null_ls = require("null-ls")
-
-		mason_null_ls.setup({
+		require("mason-null-ls").setup({
 			ensure_installed = {},
 			automatic_installation = false,
 			handlers = {
 				function(source, types)
 					for _, type in ipairs(types) do
-						table.insert(sources.others, null_ls.builtins[type][source])
+						add_source(source, type)
 					end
 				end,
 				pylint = function()
@@ -180,6 +201,9 @@ return {
 				mypy = function()
 					add_mypy_buffer()
 					add_mypy_workspace()
+				end,
+				prettier = function()
+					add_prettier()
 				end,
 			},
 		})
