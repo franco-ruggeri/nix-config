@@ -34,8 +34,7 @@
         {
           "type": "git",
           "style": "plain",
-          "foreground": "p:rose-pine-main-iris",
-          "template": " {{ .HEAD }}"
+          "foreground": "p:rose-pine-main-iris"
         },
         {
           "type": "python",
