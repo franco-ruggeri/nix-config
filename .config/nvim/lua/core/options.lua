@@ -1,11 +1,15 @@
 local M = {}
 
 M.setup = function()
-	-- Share clipboard with OS
-	-- Schedule it after `UiEnter` because it can increase startup-time
+	-- Share unnamed register ("_ register) with clipboard ("* and "+ registers).
+	-- This enables copy/paste between neovim and other applications.
+	-- Schedule it after `UiEnter` because it can increase startup time.
 	vim.schedule(function()
 		vim.opt.clipboard = "unnamedplus"
 	end)
+
+	-- Use tmux clipboard, as it works both locally and over SSH connections
+	vim.g.clipboard = "tmux"
 
 	-- Show relative line numbers
 	vim.opt.number = true
