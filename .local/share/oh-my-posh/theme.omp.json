@@ -1,56 +1,62 @@
 {
   "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "palette": {
+    "rose-pine-main-base": "#191724",
+    "rose-pine-main-surface": "#1f1d2e",
+    "rose-pine-main-overlay": "#26233a",
+    "rose-pine-main-muted": "#2a273f",
+    "rose-pine-main-subtle": "#393552",
+    "rose-pine-main-text": "#e0def4",
+    "rose-pine-main-love": "#eb6f92",
+    "rose-pine-main-gold": "#f6c177",
+    "rose-pine-main-rose": "#ebbcba",
+    "rose-pine-main-pine": "#31748f",
+    "rose-pine-main-foam": "#9ccfd8",
+    "rose-pine-main-iris": "#c4a7e7",
+    "rose-pine-main-highlight-low": "#6e6a86",
+    "rose-pine-main-highlight-med": "#908caa",
+    "rose-pine-main-highlight-high": "#c4a7e7"
+  },
   "blocks": [
     {
       "type": "prompt",
       "alignment": "left",
       "segments": [
         {
-          "properties": {
-            "cache_duration": "none"
-          },
-          "template": "➜",
-          "foreground": "#98C379",
-          "type": "text",
-          "style": "plain"
-        },
-        {
-          "properties": {
-            "cache_duration": "none",
-            "home_enabled": true
-          },
-          "template": " ({{ .Venv }})",
-          "type": "python",
-          "style": "plain"
-        },
-        {
-          "properties": {
-            "cache_duration": "none",
-            "style": "folder"
-          },
-          "template": " {{ .Path }} ",
-          "foreground": "#56B6C2",
           "type": "path",
-          "style": "plain"
+          "style": "plain",
+          "foreground": "p:rose-pine-main-foam",
+          "template": " \uF07B {{ .Path }}",
+          "properties": {
+            "style": "full"
+          }
         },
         {
-          "properties": {
-            "branch_icon": "",
-            "cache_duration": "none"
-          },
-          "template": "<#5FAAE8>git:(</>{{ .HEAD }}<#5FAAE8>)</>",
-          "foreground": "#D0666F",
           "type": "git",
-          "style": "plain"
+          "style": "plain",
+          "foreground": "p:rose-pine-main-iris",
+          "template": " {{ .HEAD }}"
         },
         {
+          "type": "python",
+          "style": "plain",
+          "foreground": "p:rose-pine-main-pine",
+          "template": " \uE235 {{ .Venv }}",
           "properties": {
-            "cache_duration": "none"
-          },
-          "template": " ✗",
-          "foreground": "#BF616A",
+            "home_enabled": true
+          }
+        },
+        {
           "type": "status",
-          "style": "plain"
+          "style": "plain",
+          "foreground": "p:rose-pine-main-love",
+          "template": " \u2717"
+        },
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground": "p:rose-pine-main-gold",
+          "template": " \u279C "
         }
       ]
     }
