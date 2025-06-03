@@ -73,10 +73,23 @@ M.setup = function()
 		end,
 	})
 
+	vim.api.nvim_create_autocmd("FileType", {
+		desc = "Set filetype to JSONC for devcontainer.json",
+		pattern = "json",
+		callback = function(args)
+			local buffer = args.buf
+			local buffer_name = vim.api.nvim_buf_get_name(buffer)
+			local filename = vim.fs.basename(buffer_name)
+			if filename == "devcontainer.json" then
+				vim.bo[buffer].filetype = "jsonc"
+			end
+		end,
+	})
+
 	-- Both events are needed, as textwidth could be set at different times.
 	vim.api.nvim_create_autocmd({ "FileType", "BufWinEnter" }, {
 		desc = "Set colored columns based on textwidth",
-		callback = function(args)
+		callback = function()
 			local textwidth = vim.o.textwidth
 			if textwidth > 0 then
 				local colorcolumn = tostring(textwidth + 1)
