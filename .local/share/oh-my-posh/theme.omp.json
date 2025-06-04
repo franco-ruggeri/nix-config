@@ -23,9 +23,15 @@
       "alignment": "left",
       "segments": [
         {
-          "type": "text",
+          "type": "session",
           "style": "plain",
           "foreground": "p:rose-pine-main-gold",
+          "template": " {{ .UserName }}"
+        },
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground": "p:rose-pine-main-rose",
           "template": " \u279C "
         },
         {
@@ -40,13 +46,14 @@
         {
           "type": "git",
           "style": "plain",
-          "foreground": "p:rose-pine-main-iris"
+          "foreground": "p:rose-pine-main-iris",
+          "template": " {{ .HEAD }}"
         },
         {
           "type": "python",
           "style": "plain",
           "foreground": "p:rose-pine-main-pine",
-          "template": "\uE235 {{ .Venv }}",
+          "template": " \uE235 {{ .Venv }}",
           "properties": {
             "home_enabled": true
           }
@@ -56,6 +63,12 @@
           "style": "plain",
           "foreground": "p:rose-pine-main-love",
           "template": " \u2717"
+        },
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground": "p:rose-pine-main-text",
+          "template": " $"
         }
       ]
     }
