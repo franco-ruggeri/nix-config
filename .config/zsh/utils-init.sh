@@ -14,14 +14,14 @@ bind_key() {
 
 is_command_available() {
 	local cmd="$1"
-	command -v "$cmd" &>/dev/null
+	command -v "$cmd" >/dev/null 2>&1
 }
 
 source_first_found() {
 	local files=("$@")
 	for file in "${files[@]}"; do
 		if [ -f "$file" ]; then
-			source "$file" &>/dev/null
+			source "$file" >/dev/null 2>&1
 			return 0
 		fi
 	done
