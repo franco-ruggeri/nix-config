@@ -67,7 +67,7 @@
         {
           "type": "text",
           "style": "plain",
-          "foreground": "p:rose-pine-main-text",
+          "foreground": "p:rose-pine-main-rose",
           "template": " $"
         }
       ]
