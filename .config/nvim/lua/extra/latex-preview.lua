@@ -1,5 +1,4 @@
--- TODO: check if server stays alive after nvim closes, it shouldn't...
--- TODO: check how other plugins log
+-- TODO: make it a plugin :)
 local M = {}
 
 local data_path = vim.fn.stdpath("data") .. "/latex-preview"
@@ -11,8 +10,8 @@ M.opts = {
 	reload_debouce = "1000",
 }
 
-local latexmk_process = nil
 local server_process = nil
+local latexmk_process = nil
 
 local function install_browser_sync()
 	local result = nil
@@ -21,7 +20,7 @@ local function install_browser_sync()
 	vim.fn.mkdir(data_path, "p")
 
 	-- Initialize npm
-	if vim.fn.filereadable(data_path .. "/package.json") == 0 then
+	if not vim.uv.fs_stat(data_path .. "/package.json") then
 		result = vim.system({ "npm", "init", "-y" }, { cwd = data_path }):wait()
 		if result.code ~= 0 then
 			error("Failed to initialize npm: " .. result.stderr)
@@ -35,34 +34,47 @@ local function install_browser_sync()
 	end
 
 	-- Install browser-sync
-	print("Installing browser-sync...")
+	vim.notify("Installing browser-sync...", vim.log.levels.INFO)
 	result = vim.system({ "npm", "install", "browser-sync" }, { cwd = data_path }):wait()
 	if result.code ~= 0 then
 		error("Failed to install browser-sync: " .. result.stderr)
 	else
-		print("Browser-sync installed successfully")
+		vim.notify("Browser-sync installed successfully")
 	end
 end
 
-M.start_preview = function()
-	-- Start latexmk in continuous mode
-	latexmk_process = vim.system({
-		"latexmk",
-		"-pdf",
-		"-pvc",
-		"-view=none",
-	})
+M.running = false
 
-	-- Get path to serve
+M.start_preview = function()
+	if M.running then
+		vim.notify("LaTeX preview is already running", vim.log.levels.INFO)
+		return
+	end
+
+	-- Get root directory from texlab LSP client
 	local lsp_clients = vim.lsp.get_clients({ name = "texlab" })
 	if #lsp_clients == 0 then
 		error("No texlab LSP client found.")
 	end
-	local server_path = lsp_clients[1].config.root_dir .. "/" .. M.opts.build_dir
+	local root_dir = lsp_clients[1].config.root_dir
+
+	-- Start latexmk in continuous mode
+	server_process = vim.fn.jobstart({
+		"latexmk",
+		"-pdf",
+		"-pvc",
+		"-view=none",
+	}, {
+		cwd = root_dir,
+		pty = true,
+	})
+	vim.notify("LaTeX build started with latexmk", vim.log.levels.INFO)
 
 	-- Start browser-sync server
+	local server_path = root_dir .. "/" .. M.opts.build_dir
+	local port = nil
 	vim.fn.mkdir(server_path, "p")
-	server_process = vim.system({
+	server_process = vim.fn.jobstart({
 		"npx",
 		"browser-sync",
 		"start",
@@ -79,20 +91,26 @@ M.start_preview = function()
 		"--no-open",
 	}, {
 		cwd = data_path,
-		stdout = function(err, data)
-			-- TODO: remove this once it works
-			if err then
-				print("Error: " .. err)
-			else
-				print(data)
+		pty = true,
+		on_stdout = function(_, data, _)
+			-- If the configured port is already in use, browser-sync increments the port until it finds one available
+			-- To output the correct port, we need to parse the output
+			for _, line in ipairs(data) do
+				port = line:match("http://localhost:(%d+)")
+				if port then
+					break
+				end
+			end
+			if not port then
+				vim.notify("Could not determine the port used by browser-sync.", vim.log.levels.WARN)
+				port = "unknown"
 			end
 		end,
 	})
-	print("Started LaTeX preview on http://localhost:" .. M.opts.port)
 
 	-- Create HTML page wrapping the PDF
 	local html_file = M.opts.build_dir .. "/index.html"
-	if vim.fn.filereadable(html_file) == 0 then
+	if not vim.uv.fs_stat(html_file) then
 		local html_content = string.format(
 			[[
 <!DOCTYPE html>
@@ -112,7 +130,6 @@ M.start_preview = function()
 ]],
 			M.opts.pdf_file
 		)
-
 		local file = io.open(html_file, "w")
 		if not file then
 			error("Could not open file for writing: " .. html_file)
@@ -120,19 +137,29 @@ M.start_preview = function()
 		file:write(html_content)
 		file:close()
 	end
+
+	M.running = true
+	vim.notify("LaTeX preview server started at http://localhost:" .. port, vim.log.levels.INFO)
 end
 
 M.stop_preview = function()
+	if not M.running then
+		vim.notify("LaTeX preview is not running", vim.log.levels.INFO)
+		return
+	end
+
 	if latexmk_process then
-		latexmk_process:kill()
+		vim.fn.jobstop(latexmk_process)
 		latexmk_process = nil
 	else
 	end
 	if server_process then
-		server_process:kill()
+		vim.fn.jobstop(server_process)
 		server_process = nil
 	end
-	print("Stopped LaTeX preview")
+
+	M.running = false
+	vim.notify("LaTeX preview server stopped", vim.log.levels.INFO)
 end
 
 M.setup = function(opts)
@@ -143,8 +170,14 @@ M.setup = function(opts)
 	vim.api.nvim_create_user_command("LatexPreviewStart", M.start_preview, {})
 	vim.api.nvim_create_user_command("LatexPreviewStop", M.stop_preview, {})
 
-	vim.keymap.set("n", "<leader>lp", "<Cmd>LatexPreviewStart<CR>", { desc = "[L]aTeX [p]review start" })
-	vim.keymap.set("n", "<leader>lP", "<Cmd>LatexPreviewStop<CR>", { desc = "[L]aTeX [p]review stop" })
+	vim.api.nvim_create_autocmd("VimLeavePre", {
+		desc = "Stop LaTeX preview on exit",
+		callback = M.stop_preview,
+	})
+
+	-- TODO: when this becomes a plugin, keymaps should be set in the lazy configuration by the user, not here (not opinionated).
+	vim.keymap.set("n", "<leader>lp", "<Cmd>LatexPreviewStart<CR>", { desc = "[l]atex [p]review start" })
+	vim.keymap.set("n", "<leader>lP", "<Cmd>LatexPreviewStop<CR>", { desc = "[l]atex [p]review stop" })
 end
 
 return M
