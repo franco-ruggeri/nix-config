@@ -67,11 +67,9 @@ M.start_preview = function()
 		cwd = root_dir,
 		pty = true,
 	})
-	vim.notify("LaTeX build started with latexmk", vim.log.levels.INFO)
 
 	-- Start browser-sync server
 	local server_path = root_dir .. "/" .. M.opts.build_dir
-	local port = nil
 	vim.fn.mkdir(server_path, "p")
 	server_process = vim.fn.jobstart({
 		"npx",
@@ -94,15 +92,13 @@ M.start_preview = function()
 		on_stdout = function(_, data, _)
 			-- If the configured port is already in use, browser-sync increments the port until it finds one available
 			-- To output the correct port, we need to parse the output
+			local port = nil
 			for _, line in ipairs(data) do
 				port = line:match("http://localhost:(%d+)")
 				if port then
+					vim.notify("Connect at http://localhost:" .. port, vim.log.levels.INFO)
 					break
 				end
-			end
-			if not port then
-				vim.notify("Could not determine the port used by browser-sync.", vim.log.levels.WARN)
-				port = "unknown"
 			end
 		end,
 	})
@@ -138,7 +134,7 @@ M.start_preview = function()
 	end
 
 	M.running = true
-	vim.notify("LaTeX preview server started at http://localhost:" .. port, vim.log.levels.INFO)
+	vim.notify("LaTeX preview server")
 end
 
 M.stop_preview = function()
