@@ -21,6 +21,11 @@ M.setup = function()
 		defaults = {
 			version = "*", -- only stable versions
 		},
+		---@diagnostic disable-next-line: assign-type-mismatch
+		dev = {
+			path = "~/codebase",
+			fallback = true,
+		},
 	})
 end
 
