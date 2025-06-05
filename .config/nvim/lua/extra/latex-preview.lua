@@ -3,6 +3,7 @@ local M = {}
 
 local data_path = vim.fn.stdpath("data") .. "/latex-preview"
 
+-- TODO: when this becomes a plugin, I should use less opinionated defaults, for example build_dir should be "."
 M.opts = {
 	build_dir = "build",
 	pdf_file = "main.pdf",
@@ -11,7 +12,6 @@ M.opts = {
 }
 
 local server_process = nil
-local latexmk_process = nil
 
 local function install_browser_sync()
 	local result = nil
@@ -56,17 +56,6 @@ M.start_preview = function()
 		error("No texlab LSP client found.")
 	end
 	local root_dir = lsp_clients[1].config.root_dir
-
-	-- Start latexmk in continuous mode
-	server_process = vim.fn.jobstart({
-		"latexmk",
-		"-pdf",
-		"-pvc",
-		"-view=none",
-	}, {
-		cwd = root_dir,
-		pty = true,
-	})
 
 	-- Start browser-sync server
 	local server_path = root_dir .. "/" .. M.opts.build_dir
@@ -143,11 +132,6 @@ M.stop_preview = function()
 		return
 	end
 
-	if latexmk_process then
-		vim.fn.jobstop(latexmk_process)
-		latexmk_process = nil
-	else
-	end
 	if server_process then
 		vim.fn.jobstop(server_process)
 		server_process = nil
