@@ -2,7 +2,7 @@
 -- TODO: check if server stays alive after nvim closes, it shouldn't...
 local M = {}
 
-local data_dir = vim.fn.stdpath("data") .. "/latex-preview"
+local data_path = vim.fn.stdpath("data") .. "/latex-preview"
 
 M.opts = {
 	build_dir = "build",
@@ -18,25 +18,25 @@ local function install_browser_sync()
 	local result = nil
 
 	-- Ensure the data directory exists
-	vim.fn.mkdir(data_dir, "p")
+	vim.fn.mkdir(data_path, "p")
 
 	-- Initialize npm
-	if vim.fn.filereadable(data_dir .. "/package.json") == 0 then
-		result = vim.system({ "npm", "init", "-y" }, { cwd = data_dir }):wait()
+	if vim.fn.filereadable(data_path .. "/package.json") == 0 then
+		result = vim.system({ "npm", "init", "-y" }, { cwd = data_path }):wait()
 		if result.code ~= 0 then
 			error("Failed to initialize npm: " .. result.stderr)
 		end
 	end
 
 	-- Check if browser-sync is already installed
-	result = vim.system({ "npm", "list", "browser-sync" }, { cwd = data_dir }):wait()
+	result = vim.system({ "npm", "list", "browser-sync" }, { cwd = data_path }):wait()
 	if result.code == 0 then
 		return
 	end
 
 	-- Install browser-sync
 	print("Installing browser-sync...")
-	result = vim.system({ "npm", "install", "browser-sync" }, { cwd = data_dir }):wait()
+	result = vim.system({ "npm", "install", "browser-sync" }, { cwd = data_path }):wait()
 	if result.code ~= 0 then
 		error("Failed to install browser-sync: " .. result.stderr)
 	else
@@ -47,10 +47,11 @@ end
 M.start_preview = function()
 	vim.fn.mkdir(M.opts.build_dir, "p")
 
-	local html_file = M.opts.build_dir .. "/index.html"
 	-- Create HTML page wrapping the PDF
+	local html_file = M.opts.build_dir .. "/index.html"
 	if vim.fn.filereadable(html_file) == 0 then
-		local html_content = ([[
+		local html_content = string.format(
+			[[
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,41 +61,52 @@ M.start_preview = function()
   <iframe src="%s"></iframe>
 </body>
 </html>
-]]).format(M.opts.pdf_file)
+]],
+			M.opts.pdf_file
+		)
 
 		local file = io.open(html_file, "w")
 		if not file then
 			error("Could not open file for writing: " .. html_file)
 		end
-
 		file:write(html_content)
 		file:close()
 	end
 
-	-- Run server
+	-- Start latexmk in continuous mode
 	latexmk_process = vim.system({
 		"latexmk",
 		"-pdf",
 		"-pvc",
 		"-view=none",
 	})
+
+	-- Get path to serve
+	local lsp_clients = vim.lsp.get_clients({ name = "texlab" })
+	if #lsp_clients == 0 then
+		error("No texlab LSP client found.")
+	end
+	local server_path = lsp_clients[1].config.root_dir .. "/" .. M.opts.build_dir
+
+	-- Start browser-sync server
 	server_process = vim.system({
 		"npx",
 		"browser-sync",
 		"start",
-		M.opts.build_dir,
+		"--server",
+		server_path,
 		"--files",
 		M.opts.pdf_file,
 		"--port",
 		M.opts.port,
 		"--reload-debounce",
 		M.opts.reload_debouce,
-		"--server",
 		"--no-ui",
 		"--no-open",
 	}, {
-		cwd = data_dir,
+		cwd = data_path,
 		stdout = function(err, data)
+			-- TODO: remove this once it works
 			if err then
 				print("Error: " .. err)
 			else
@@ -102,7 +114,7 @@ M.start_preview = function()
 			end
 		end,
 	})
-	print("Started preview server on http://localhost:5000")
+	print("Started LaTeX preview on http://localhost:" .. M.opts.port)
 end
 
 M.stop_preview = function()
@@ -115,7 +127,7 @@ M.stop_preview = function()
 		server_process:kill()
 		server_process = nil
 	end
-	print("Stopped preview server")
+	print("Stopped LaTeX preview")
 end
 
 M.setup = function(opts)
