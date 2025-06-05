@@ -6,8 +6,8 @@ local data_path = vim.fn.stdpath("data") .. "/latex-preview"
 M.opts = {
 	build_dir = "build",
 	pdf_file = "main.pdf",
-	port = "5000",
-	reload_debouce = "1000",
+	port = 5000,
+	reload_debouce = 500,
 }
 
 local server_process = nil
