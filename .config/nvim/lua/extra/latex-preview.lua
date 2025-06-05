@@ -34,12 +34,11 @@ local function install_browser_sync()
 	end
 
 	-- Install browser-sync
-	vim.notify("Installing browser-sync...", vim.log.levels.INFO)
 	result = vim.system({ "npm", "install", "browser-sync" }, { cwd = data_path }):wait()
 	if result.code ~= 0 then
 		error("Failed to install browser-sync: " .. result.stderr)
 	else
-		vim.notify("Browser-sync installed successfully")
+		vim.notify("Browser-sync successfully installed", vim.log.levels.INFO)
 	end
 end
 
