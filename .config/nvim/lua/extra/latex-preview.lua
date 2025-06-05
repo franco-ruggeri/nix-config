@@ -1,5 +1,5 @@
--- TODO: try how the error function works
 -- TODO: check if server stays alive after nvim closes, it shouldn't...
+-- TODO: check how other plugins log
 local M = {}
 
 local data_path = vim.fn.stdpath("data") .. "/latex-preview"
@@ -45,34 +45,6 @@ local function install_browser_sync()
 end
 
 M.start_preview = function()
-	vim.fn.mkdir(M.opts.build_dir, "p")
-
-	-- Create HTML page wrapping the PDF
-	local html_file = M.opts.build_dir .. "/index.html"
-	if vim.fn.filereadable(html_file) == 0 then
-		local html_content = string.format(
-			[[
-<!DOCTYPE html>
-<html>
-<head>
-  <title>PDF Preview</title>
-</head>
-<body>
-  <iframe src="%s"></iframe>
-</body>
-</html>
-]],
-			M.opts.pdf_file
-		)
-
-		local file = io.open(html_file, "w")
-		if not file then
-			error("Could not open file for writing: " .. html_file)
-		end
-		file:write(html_content)
-		file:close()
-	end
-
 	-- Start latexmk in continuous mode
 	latexmk_process = vim.system({
 		"latexmk",
@@ -89,6 +61,7 @@ M.start_preview = function()
 	local server_path = lsp_clients[1].config.root_dir .. "/" .. M.opts.build_dir
 
 	-- Start browser-sync server
+	vim.fn.mkdir(server_path, "p")
 	server_process = vim.system({
 		"npx",
 		"browser-sync",
@@ -101,6 +74,7 @@ M.start_preview = function()
 		M.opts.port,
 		"--reload-debounce",
 		M.opts.reload_debouce,
+		"--watch",
 		"--no-ui",
 		"--no-open",
 	}, {
@@ -115,6 +89,37 @@ M.start_preview = function()
 		end,
 	})
 	print("Started LaTeX preview on http://localhost:" .. M.opts.port)
+
+	-- Create HTML page wrapping the PDF
+	local html_file = M.opts.build_dir .. "/index.html"
+	if vim.fn.filereadable(html_file) == 0 then
+		local html_content = string.format(
+			[[
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>PDF Preview</title>
+  <style>
+    html, body { margin: 0; height: 100%%; overflow: hidden; }
+    iframe { width: 100%%; height: 100%%; border: none; }
+  </style>
+</head>
+<body>
+  <iframe src="%s"></iframe>
+</body>
+</html>
+]],
+			M.opts.pdf_file
+		)
+
+		local file = io.open(html_file, "w")
+		if not file then
+			error("Could not open file for writing: " .. html_file)
+		end
+		file:write(html_content)
+		file:close()
+	end
 end
 
 M.stop_preview = function()
@@ -138,8 +143,8 @@ M.setup = function(opts)
 	vim.api.nvim_create_user_command("LatexPreviewStart", M.start_preview, {})
 	vim.api.nvim_create_user_command("LatexPreviewStop", M.stop_preview, {})
 
-	vim.keymap.set("n", "<leader>lp", M.start_preview, { desc = "[L]aTeX [p]review start" })
-	vim.keymap.set("n", "<leader>lP", M.start_preview, { desc = "[L]aTeX [p]review stop" })
+	vim.keymap.set("n", "<leader>lp", "<Cmd>LatexPreviewStart<CR>", { desc = "[L]aTeX [p]review start" })
+	vim.keymap.set("n", "<leader>lP", "<Cmd>LatexPreviewStop<CR>", { desc = "[L]aTeX [p]review stop" })
 end
 
 return M
