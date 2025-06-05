@@ -23,16 +23,16 @@
       "alignment": "left",
       "segments": [
         {
-          "type": "session",
-          "style": "plain",
-          "foreground": "p:rose-pine-main-gold",
-          "template": " {{ .UserName }}"
-        },
-        {
           "type": "text",
           "style": "plain",
           "foreground": "p:rose-pine-main-rose",
           "template": " \u279C "
+        },
+        {
+          "type": "session",
+          "style": "plain",
+          "foreground": "p:rose-pine-main-gold",
+          "template": " \uF2C0 {{ .UserName }}"
         },
         {
           "type": "path",
