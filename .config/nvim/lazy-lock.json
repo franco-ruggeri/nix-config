@@ -39,7 +39,6 @@
   "trouble.nvim": { "branch": "main", "commit": "748ca2789044607f19786b1d837044544c55e80a" },
   "undotree": { "branch": "master", "commit": "b951b87b46c34356d44aa71886aecf9dd7f5788a" },
   "vim-be-good": { "branch": "master", "commit": "0ae3de14eb8efc6effe7704b5e46495e91931cc5" },
-  "vimtex": { "branch": "master", "commit": "57a03797c16a8a1e6555b6822592f78dc38834a5" },
   "which-key.nvim": { "branch": "main", "commit": "fcbf4eea17cb299c02557d576f0d568878e354a4" },
   "zen-mode.nvim": { "branch": "main", "commit": "04b52674b8c800f8b7d4609e8bd8d0212e3ffa79" }
 }
