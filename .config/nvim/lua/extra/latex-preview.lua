@@ -1,4 +1,5 @@
 -- TODO: make it a plugin :)
+-- I could probably generalize this to just browser-sync. It's not really specific to LaTeX anymore.
 local M = {}
 
 local data_path = vim.fn.stdpath("data") .. "/latex-preview"
