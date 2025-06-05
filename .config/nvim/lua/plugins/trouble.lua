@@ -59,6 +59,11 @@ return {
 							"Trait",
 						},
 					},
+					-- For lua, disable the package symbols, as language-server detects control flow structures as packages
+					["not"] = {
+						ft = "lua",
+						kind = "Package",
+					},
 				},
 				desc = "document symbols (without title)",
 				win = { bo = { filetype = "trouble-document-symbols" } }, -- for filtering in edgy.nvim
