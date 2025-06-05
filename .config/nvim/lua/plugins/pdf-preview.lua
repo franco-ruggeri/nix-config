@@ -1,5 +1,5 @@
 return {
-	"pdf-preview.nvim",
+	"franco-ruggeri/pdf-preview.nvim",
 	dev = true,
 	keys = {
 		{ "<leader>lp", "<Cmd>PdfPreviewStart<CR>", desc = "[l]atex [p]review start" },
