@@ -5,7 +5,7 @@ return {
 		{ "<leader>lp", "<Cmd>PdfPreviewStart<CR>", desc = "[l]atex [p]review start" },
 	},
 	opts = {
-		pdf_file = "build/main.pdf",
+		pdf_filepath = "build/main.pdf",
 	},
 	config = function(_, opts)
 		require("pdf-preview").setup(opts)
