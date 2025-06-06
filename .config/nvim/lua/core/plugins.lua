@@ -23,8 +23,8 @@ M.setup = function()
 		},
 		---@diagnostic disable-next-line: assign-type-mismatch
 		dev = {
-			path = "~/codebase",
-			fallback = true,
+			path = "/workspaces", -- path to projects (in devcontainer)
+			fallback = true, -- fallback to git if local plugin is not found
 		},
 	})
 end
