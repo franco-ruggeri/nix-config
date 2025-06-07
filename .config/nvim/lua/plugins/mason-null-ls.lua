@@ -48,7 +48,7 @@ local function register_sources()
 	vim.diagnostic.reset()
 end
 
-local function toggle_linting_mode()
+local function toggle_diagnostic_mode()
 	lint_workspace = not lint_workspace
 	register_sources()
 end
@@ -207,7 +207,10 @@ return {
 				end,
 			},
 		})
+
 		register_sources()
-		vim.keymap.set("n", "<leader>xm", toggle_linting_mode, { desc = "Diagnostics [m]ode toggle" })
+
+		vim.api.nvim_create_user_command("DiagnosticModeToggle", toggle_diagnostic_mode, {})
+		vim.keymap.set("n", "<leader>xm", "<Cmd>DiagnosticModeToggle<CR>", { desc = "Diagnostics [m]ode toggle" })
 	end,
 }
