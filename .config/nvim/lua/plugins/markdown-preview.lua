@@ -16,15 +16,10 @@ return {
     endfunction
     ]])
 
-		-- In SSH sessions, we do not want to open the browser on the server.
 		vim.keymap.set("n", "<leader>mp", function()
-			vim.g.mkdp_browserfunc = "Noop"
-			vim.cmd("MarkdownPreviewToggle")
-		end, { desc = "[m]arkdown [p]review toggle" })
-
-		vim.keymap.set("n", "<leader>mP", function()
-			vim.g.mkdp_browserfunc = ""
-			vim.cmd("MarkdownPreviewToggle")
-		end, { desc = "[m]arkdown [p]review toggle (with browser)" })
+			vim.g.mkdp_browserfunc = "Noop" -- in SSH sessions, we do not want to open the browser on the server
+			vim.cmd("MarkdownPreview")
+		end, { desc = "[m]arkdown [p]review start" })
+		vim.keymap.set("n", "<leader>mP", "<Cmd>MarkdownPreviewStop<CR>", { desc = "[m]arkdown [p]review stop" })
 	end,
 }
