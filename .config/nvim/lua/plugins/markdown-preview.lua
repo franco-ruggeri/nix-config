@@ -7,7 +7,7 @@ return {
 		-- For this use case, we need to...
 		vim.g.mkdp_port = 5000 -- ... use a predefined port
 		vim.g.mkdp_open_to_the_world = 1 -- ... make the server listen on all interfaces
-		vim.g.mkdp_echo_preview_url = 1 -- ... print the URL for confirmation (for convenience)
+		vim.g.mkdp_echo_preview_url = 1 -- ... print the URL
 	end,
 	config = function()
 		vim.cmd([[
