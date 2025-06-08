@@ -18,7 +18,9 @@ Uninstall dotfiles:
 
 ## Using in dev containers
 
-The repository is compatible with [`devpod`](https://devpod.sh/) for usage within dev containers. Follow [the documentation](https://devpod.sh/docs/developing-in-workspaces/dotfiles-in-a-workspace) for instructions.
+The repository is compatible with [`devpod`](https://devpod.sh/) for usage
+within dev containers. Follow [the documentation](https://devpod.sh/docs/developing-in-workspaces/dotfiles-in-a-workspace)
+for instructions.
 
 Requirements:
 
