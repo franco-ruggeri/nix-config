@@ -3,16 +3,26 @@ local is_open = false
 -- Manage DAP UI in a separate tab, so that the window layout is not affected.
 -- The DAP UI tab will have only one window with the current buffer (cleaner).
 local function open_dapui()
+	if is_open then
+		return
+	end
+
 	local buffer = vim.api.nvim_get_current_buf()
 	vim.cmd("tabnew")
 	vim.api.nvim_set_current_buf(buffer)
 	require("dapui").open()
+
 	is_open = true
 end
 
 local function close_dapui()
+	if not is_open then
+		return
+	end
+
 	require("dapui").close()
 	vim.cmd("tabclose")
+
 	is_open = false
 end
 
@@ -26,6 +36,7 @@ end
 
 return {
 	"rcarriga/nvim-dap-ui",
+	version = false, -- latest commit, see https://github.com/rcarriga/nvim-dap-ui/issues/343
 	dependencies = {
 		"nvim-neotest/nvim-nio", -- required
 		"mfussenegger/nvim-dap",
