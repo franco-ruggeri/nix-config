@@ -57,3 +57,9 @@ ctrl-shift-equal = "resize smart +50"
 
 ctrl-space = "layout h_tiles v_tiles"
 ctrl-f = "fullscreen"
+
+ctrl-backtick = ["reload-config", "mode inactive"]
+
+[mode.inactive.binding]
+
+ctrl-backtick = ["reload-config", "mode main"]
