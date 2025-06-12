@@ -16,16 +16,15 @@ return {
 				function(config)
 					mason_dap.default_setup(config)
 				end,
-				-- Special handler for python. We use dap-python to have better default config.
-				-- Since dap-python takes care of the setup, we don't need to call:
-				-- `require("mason-nvim-dap").default_setup(config)`
+				-- dap-python provides better default configurations than mason-nvim-dap
 				python = function()
 					local debugpy_path = vim.fn.expand("$MASON/packages/debugpy")
 					require("dap-python").setup(debugpy_path .. "/venv/bin/python")
 				end,
+				-- mason-nvim-dap does not provide a default setup for js-debug.
+				-- We use the recommended configuration from nvim-dap's wiki.
+				-- See https://codeberg.org/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#javascript
 				js = function()
-					-- Recommended configuration
-					-- See https://codeberg.org/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#javascript
 					dap.adapters["pwa-node"] = {
 						type = "server",
 						host = "localhost",
@@ -47,9 +46,6 @@ return {
 							cwd = "${workspaceFolder}",
 						},
 					}
-				end,
-				bash = function()
-					-- TODO: check docs
 				end,
 			},
 		})
