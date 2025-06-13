@@ -18,10 +18,15 @@ bind_key "$terminfo[kend]" end-of-line
 bind_key "$terminfo[kdch1]" delete-char
 bind_key "$terminfo[kcbt]" reverse-menu-complete
 
-# Key bindings for history search of matching commands
+# History search of matching commands
 # See https://wiki.archlinux.org/title/Zsh#History_search
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bind_key "$terminfo[kcuu1]" up-line-or-beginning-search
 bind_key "$terminfo[kcud1]" down-line-or-beginning-search
+
+# Fish-like autosuggestions
+if is_macos; then
+	bindkey "^l" autosuggest-accept
+fi
