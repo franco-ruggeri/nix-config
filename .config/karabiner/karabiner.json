@@ -1590,6 +1590,31 @@
           "identifiers": {
             "is_keyboard": true,
             "product_id": 835,
+            "vendor_id": 1457
+          },
+          "simple_modifications": [
+            {
+              "from": { "apple_vendor_top_case_key_code": "keyboard_fn" },
+              "to": [{ "key_code": "left_command" }]
+            },
+            {
+              "from": { "key_code": "left_control" },
+              "to": [{ "apple_vendor_top_case_key_code": "keyboard_fn" }]
+            },
+            {
+              "from": { "key_code": "left_option" },
+              "to": [{ "apple_vendor_top_case_key_code": "keyboard_fn" }]
+            },
+            {
+              "from": { "key_code": "left_command" },
+              "to": [{ "key_code": "left_option" }]
+            }
+          ]
+        },
+        {
+          "identifiers": {
+            "is_keyboard": true,
+            "product_id": 835,
             "vendor_id": 1452
           },
           "simple_modifications": [
@@ -1598,29 +1623,16 @@
               "to": [{ "key_code": "left_command" }]
             },
             {
-              "from": { "key_code": "left_command" },
-              "to": [{ "key_code": "left_control" }]
-            },
-            {
               "from": { "key_code": "left_control" },
-              "to": [{ "apple_vendor_top_case_key_code": "keyboard_fn" }]
-            }
-          ]
-        },
-        {
-          "identifiers": {
-            "is_keyboard": true,
-            "product_id": 552,
-            "vendor_id": 5426
-          },
-          "simple_modifications": [
-            {
-              "from": { "key_code": "left_command" },
               "to": [{ "apple_vendor_top_case_key_code": "keyboard_fn" }]
             },
             {
-              "from": { "key_code": "left_control" },
-              "to": [{ "key_code": "left_command" }]
+              "from": { "key_code": "left_option" },
+              "to": [{ "apple_vendor_top_case_key_code": "keyboard_fn" }]
+            },
+            {
+              "from": { "key_code": "left_command" },
+              "to": [{ "key_code": "left_option" }]
             }
           ]
         }
