@@ -25,8 +25,3 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bind_key "$terminfo[kcuu1]" up-line-or-beginning-search
 bind_key "$terminfo[kcud1]" down-line-or-beginning-search
-
-# Fish-like autosuggestions
-if is_macos; then
-	bindkey "^l" autosuggest-accept
-fi
