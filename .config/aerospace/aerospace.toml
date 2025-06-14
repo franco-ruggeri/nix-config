@@ -1,3 +1,7 @@
+# Important: Key mappings are defined in karabiner-elements. 
+# The reason is Aerospace does not support the `fn` modifier yet. 
+# See https://github.com/nikitabobko/AeroSpace/issues/587
+
 start-at-login = true
 key-mapping.preset = "qwerty"
 
