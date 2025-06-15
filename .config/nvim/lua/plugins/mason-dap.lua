@@ -18,8 +18,7 @@ return {
 				end,
 				-- dap-python provides better default configurations than mason-nvim-dap
 				python = function()
-					local debugpy_path = vim.fn.expand("$MASON/packages/debugpy")
-					require("dap-python").setup(debugpy_path .. "/venv/bin/python")
+					require("dap-python").setup(vim.env.MASON .. "/packages/debugpy/venv/bin/python")
 				end,
 				-- There are two main javascript debug adapters:
 				-- * node2: no longer maintained.
@@ -38,7 +37,7 @@ return {
 						executable = {
 							command = "node",
 							args = {
-								vim.fn.expand("$MASON/packages/js-debug-adapter/js-debug/src/dapDebugServer.js"),
+								vim.env.MASON .. "/packages/js-debug-adapter/js-debug/src/dapDebugServer.js",
 								"${port}",
 							},
 						},

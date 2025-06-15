@@ -4,5 +4,11 @@ return {
 		"williamboman/mason.nvim", -- package manager for language servers
 		"neovim/nvim-lspconfig", -- default configurations for LSP clients
 	},
-	opts = {},
+	opts = {
+		automatic_enable = {
+			exclude = {
+				"jdtls", -- handled separately by nvim-jdtls
+			},
+		},
+	},
 }
