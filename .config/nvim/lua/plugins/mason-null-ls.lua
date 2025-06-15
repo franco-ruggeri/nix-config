@@ -3,7 +3,7 @@
 -- For buffer linters, we use:
 -- * multiple_files=false: With this flag, the generator does not clear diagnostics and keeps diagnostics of the open buffers.
 --    Otherwise, there would be a problem when you switch to an already-open file (existing buffer). Specifically:
---    * Switching to a buffer doesn't trigger the LSP server to publish diagnostics.
+--    * Switching to a buffer doesn't trigger the language server to publish diagnostics.
 --    * Therefore, no diagnostics would be shown until the buffer changes (trigger).
 -- * method=DIAGNOSTICS: This method lints on buffer change. This is nice to see updated diagnostics while you work.
 --

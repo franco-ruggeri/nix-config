@@ -21,7 +21,7 @@ local function get_format_filter(buffer)
 		end
 	end
 
-	-- We assume there can be only two LSP servers providing formatting: null-ls and another one.
+	-- We assume there can be only two language servers providing formatting: null-ls and another one.
 	-- If there is a null-ls formatter, we use only that to solve conflicts.
 	if use_null_ls then
 		return function(client)
@@ -46,7 +46,7 @@ M.setup = function()
 		desc = "Set LSP keymaps and autocommands",
 		callback = function(args)
 			-- Format on save
-			-- Multiple LSP servers might provide formatting.
+			-- Multiple language servers might provide formatting.
 			-- To avoid conflicts, we use a filter so that only one of them go through.
 			vim.api.nvim_create_autocmd("BufWritePre", {
 				group = vim.api.nvim_create_augroup("my-lsp-format", { clear = false }),
@@ -56,7 +56,7 @@ M.setup = function()
 				end,
 			})
 
-			-- Fold using LSP server
+			-- Fold using LSP
 			vim.opt.foldmethod = "expr"
 			vim.opt.foldexpr = "v:lua.vim.lsp.foldexpr()"
 
