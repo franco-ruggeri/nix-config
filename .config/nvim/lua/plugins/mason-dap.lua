@@ -21,8 +21,14 @@ return {
 					local debugpy_path = vim.fn.expand("$MASON/packages/debugpy")
 					require("dap-python").setup(debugpy_path .. "/venv/bin/python")
 				end,
-				-- mason-nvim-dap does not provide a default setup for js-debug.
-				-- We use the recommended configuration from nvim-dap's wiki.
+				-- There are two main javascript debug adapters:
+				-- * node2: no longer maintained.
+				-- * js-debug: the modern alternative, maintained.
+				--
+				-- mason-nvim-dap provides a default setup for node2, but not for js-debug.
+				-- See https://github.com/jay-babu/mason-nvim-dap.nvim/issues/127
+				--
+				-- Thus, we set up js-debug using the recommended configuration from nvim-dap's wiki.
 				-- See https://codeberg.org/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#javascript
 				js = function()
 					dap.adapters["pwa-node"] = {
