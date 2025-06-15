@@ -32,7 +32,7 @@ M.setup = function()
 	vim.opt.tabstop = 2
 	vim.opt.softtabstop = 2
 	vim.opt.shiftwidth = 2
-	vim.opt.et = true
+	vim.opt.expandtab = true
 	vim.opt.smartindent = true
 
 	-- Set symbols for whitespace characters
