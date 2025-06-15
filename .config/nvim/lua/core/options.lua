@@ -35,10 +35,6 @@ M.setup = function()
 	vim.opt.expandtab = true
 	vim.opt.smartindent = true
 
-	-- Set symbols for whitespace characters
-	vim.opt.list = true
-	vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
-
 	-- Indent wrapped lines (long lines that don't fit the screen)
 	vim.opt.breakindent = true
 
