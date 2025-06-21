@@ -26,6 +26,14 @@ local function close_dapui()
 	is_open = false
 end
 
+-- Some debug adapters do not support termination (e.g., OpenDebugAD7 for C++).
+-- In those cases, the termination event is not emitted and the DAP UI does not
+-- get closed. Thus, we close it explicitly.
+local function terminate_session()
+	require("dap").terminate()
+	close_dapui()
+end
+
 local function toggle_dapui()
 	if is_open then
 		close_dapui()
@@ -49,5 +57,6 @@ return {
 		dap.listeners.before.event_terminated.dapui_config = close_dapui
 
 		vim.keymap.set("n", "<Leader>du", toggle_dapui, { desc = "[d]ebug [U]I toggle" })
+		vim.keymap.set("n", "<Leader>dt", terminate_session, { desc = "[d]ebug [t]erminate" })
 	end,
 }
