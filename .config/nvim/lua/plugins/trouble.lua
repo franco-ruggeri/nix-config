@@ -10,7 +10,7 @@ return {
 		open_no_results = true, -- useful to open windows just for layout
 		modes = {
 			diagnostics = {
-				win = { bo = { filetype = "trouble-diagnostics" } }, -- for filtering in edgy.nvim
+				win = { bo = { filetype = "trouble-diagnostics" } },
 			},
 			todo = {
 				-- Default is { "buf[0]", "filename", "pos", "message" }
@@ -18,7 +18,7 @@ return {
 				-- We don't want the order to change when jumping to another buffer.
 				-- Otherwise, next/prev navigation with keymaps does not work.
 				sort = { "filename", "pos", "message" },
-				win = { bo = { filetype = "trouble-todo" } }, -- for filtering in edgy.nvim
+				win = { bo = { filetype = "trouble-todo" } },
 			},
 			-- Custom mode for LSP document symbols
 			my_lsp_document_symbols = {
@@ -66,7 +66,7 @@ return {
 					},
 				},
 				desc = "document symbols (without title)",
-				win = { bo = { filetype = "trouble-document-symbols" } }, -- for filtering in edgy.nvim
+				win = { bo = { filetype = "trouble-document-symbols" } },
 			},
 		},
 	},
@@ -75,8 +75,6 @@ return {
 
 		vim.keymap.set("n", "<leader>xx", "<Cmd>Trouble diagnostics open<CR>", { desc = "Diagnostics" })
 		vim.keymap.set("n", "<leader>t", "<Cmd>Trouble todo open<CR>", { desc = "[t]odo comments" })
-		vim.keymap.set("n", "<M-n>", "<Cmd>Trouble diagnostics next jump=true<CR>", { desc = "[n]ext todo" })
-		vim.keymap.set("n", "<M-p>", "<Cmd>Trouble diagnostics prev jump=true<CR>", { desc = "[p]rev todo" })
 
 		vim.api.nvim_create_autocmd("FileType", {
 			desc = "Bind LSP methods to Trouble",

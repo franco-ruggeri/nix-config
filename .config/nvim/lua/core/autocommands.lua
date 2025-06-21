@@ -86,6 +86,30 @@ M.setup = function()
 		end,
 	})
 
+	vim.api.nvim_create_autocmd({ "FileType", "WinEnter" }, {
+		desc = "Set <M-n> and <M-p> keymaps to navigate last visited panel",
+		callback = function(args)
+			local function set_keymap(lhs, rhs, desc)
+				vim.keymap.set("n", lhs, rhs, { desc = desc })
+			end
+
+			local filetype = vim.bo[args.buf].filetype
+			if filetype == "trouble-diagnostics" then
+				set_keymap("<M-n>", "<Cmd>Trouble diagnostics next jump=true<CR>", "[n]ext diagnostic")
+				set_keymap("<M-p>", "<Cmd>Trouble diagnostics prev jump=true<CR>", "[p]rev diagnostic")
+			elseif filetype == "trouble-todo" then
+				set_keymap("<M-n>", "<Cmd>Trouble todo next jump=true<CR>", "[n]ext todo")
+				set_keymap("<M-p>", "<Cmd>Trouble todo prev jump=true<CR>", "[p]rev todo")
+			elseif filetype == "qf" then
+				local window_info = vim.fn.getwininfo(vim.api.nvim_get_current_win())[1]
+				if window_info.loclist == 0 then
+					set_keymap("<M-n>", "<Cmd>cnext<CR>", "[n]ext quickfix item")
+					set_keymap("<M-p>", "<Cmd>cprev<CR>", "[p]rev quickfix item")
+				end
+			end
+		end,
+	})
+
 	-- Both events are needed, as textwidth could be set at different times.
 	vim.api.nvim_create_autocmd({ "FileType", "BufWinEnter" }, {
 		desc = "Set colored columns based on textwidth",
