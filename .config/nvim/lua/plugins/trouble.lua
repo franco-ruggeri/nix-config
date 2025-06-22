@@ -75,6 +75,8 @@ return {
 
 		vim.keymap.set("n", "<leader>wx", "<Cmd>Trouble diagnostics open<CR>", { desc = "[w]indow diagnostics" })
 		vim.keymap.set("n", "<leader>wt", "<Cmd>Trouble todo open<CR>", { desc = "[w]indow [t]odo comments" })
+		vim.keymap.set("n", "]x", "<Cmd>Trouble diagnostics next jump=true<CR>", { desc = "Next diagnostic" })
+		vim.keymap.set("n", "[x", "<Cmd>Trouble diagnostics prev jump=true<CR>", { desc = "Previous diagnostic" })
 
 		vim.api.nvim_create_autocmd("FileType", {
 			desc = "Bind LSP methods to Trouble",
