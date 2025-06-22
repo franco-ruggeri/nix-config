@@ -3,10 +3,9 @@ return {
 	dependencies = {
 		"nvim-lua/plenary.nvim", -- required
 		"nvim-tree/nvim-web-devicons", -- icons
-		{
-			"nvim-telescope/telescope-fzf-native.nvim", -- improves sorting performance
-			build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release",
-		},
+		"nvim-telescope/telescope-ui-select.nvim", -- replaces vim.ui.select()
+		-- improves sorting performance
+		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 	},
 	opts = {
 		defaults = {
@@ -24,7 +23,7 @@ return {
 				"--hidden", -- include hidden files
 			},
 			file_ignore_patterns = {
-				"%.git/", -- exclude .git/ (hidden but not ignored)
+				"%.git/", -- exclude .git/ (not ignored)
 			},
 		},
 		pickers = {
@@ -34,7 +33,17 @@ return {
 		},
 	},
 	config = function(_, opts)
-		require("telescope").setup(opts)
+		opts.extensions = {
+			["ui-select"] = {
+				require("telescope.themes").get_dropdown(),
+			},
+		}
+
+		local telescope = require("telescope")
+		telescope.setup(opts)
+
+		telescope.load_extension("ui-select")
+		telescope.load_extension("fzf")
 
 		local builtin = require("telescope.builtin")
 		vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[f]ind [f]ile" })
