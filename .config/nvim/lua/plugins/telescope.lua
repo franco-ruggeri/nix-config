@@ -3,6 +3,7 @@ return {
 	dependencies = {
 		"nvim-lua/plenary.nvim", -- required
 		"nvim-tree/nvim-web-devicons", -- icons
+		"folke/todo-comments.nvim", -- for integration with todo comments
 		"nvim-telescope/telescope-ui-select.nvim", -- replaces vim.ui.select()
 		-- improves sorting performance
 		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
@@ -48,6 +49,7 @@ return {
 		local builtin = require("telescope.builtin")
 		vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[f]ind [f]ile" })
 		vim.keymap.set("n", "<leader>fs", builtin.live_grep, { desc = "[f]ind [s]tring" })
+		vim.keymap.set("n", "<leader>ft", "<Cmd>TodoTelescope<CR>", { desc = "[f]ind [t]odo comment" })
 
 		vim.api.nvim_create_autocmd("LspAttach", {
 			desc = "Bind LSP methods to Telescope",
