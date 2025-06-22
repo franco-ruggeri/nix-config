@@ -1,5 +1,7 @@
 local M = {}
 
+local utils = require("utils")
+
 local function get_format_filter(buffer)
 	local use_null_ls = false
 	local lsp_clients = vim.lsp.get_clients({ bufnr = buffer })
@@ -100,12 +102,9 @@ M.setup = function()
 			elseif filetype == "trouble-todo" then
 				set_keymap("<M-n>", "<Cmd>Trouble todo next jump=true<CR>", "[n]ext todo")
 				set_keymap("<M-p>", "<Cmd>Trouble todo prev jump=true<CR>", "[p]rev todo")
-			elseif filetype == "qf" then
-				local window_info = vim.fn.getwininfo(vim.api.nvim_get_current_win())[1]
-				if window_info.loclist == 0 then
-					set_keymap("<M-n>", "<Cmd>cnext<CR>", "[n]ext quickfix item")
-					set_keymap("<M-p>", "<Cmd>cprev<CR>", "[p]rev quickfix item")
-				end
+			elseif filetype == "qf" and utils.is_location_list() then
+				set_keymap("<M-n>", "<Cmd>cnext<CR>", "[n]ext quickfix item")
+				set_keymap("<M-p>", "<Cmd>cprev<CR>", "[p]rev quickfix item")
 			end
 		end,
 	})

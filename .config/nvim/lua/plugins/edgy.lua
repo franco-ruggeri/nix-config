@@ -1,6 +1,4 @@
-local function is_location_list(window)
-	return vim.fn.getwininfo(window)[1].loclist == 1
-end
+local utils = require("utils")
 
 return {
 	"folke/edgy.nvim",
@@ -31,14 +29,14 @@ return {
 				title = "QuickFix",
 				ft = "qf",
 				filter = function(_, window)
-					return not is_location_list(window)
+					return not utils.is_location_list(window)
 				end,
 			},
 			{
 				title = "Location List",
 				ft = "qf",
 				filter = function(_, window)
-					return is_location_list(window)
+					return utils.is_location_list(window)
 				end,
 			},
 		},
