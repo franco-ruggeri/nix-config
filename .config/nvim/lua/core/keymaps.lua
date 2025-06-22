@@ -12,6 +12,8 @@ M.setup = function()
 		vim.diagnostic.config({ virtual_text = not virtual_text })
 	end, { desc = "diagnostics [v]irtual text toggle" })
 
+	vim.keymap.set("n", "<leader>wq", "<Cmd>copen<CR>", { desc = "[w]indow [q]uickfix" })
+
 	vim.keymap.set("n", "K", function()
 		vim.lsp.buf.hover({ border = "rounded" })
 	end, { desc = "Hover documentation" })
