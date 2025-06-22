@@ -26,11 +26,17 @@ return {
 				ft = "trouble-todo",
 			},
 			{
-				title = "QuickFix",
+				title = "QuickFix List",
 				ft = "qf",
 				filter = function(_, window)
 					return not utils.is_location_list(window)
 				end,
+			},
+		},
+		left = {
+			{
+				title = "Document Symbols",
+				ft = "trouble-document-symbols",
 			},
 			{
 				title = "Location List",
@@ -39,11 +45,9 @@ return {
 					return utils.is_location_list(window)
 				end,
 			},
-		},
-		left = {
 			{
-				title = "Document Symbols",
-				ft = "trouble-document-symbols",
+				title = "Task List",
+				ft = "OverseerList",
 			},
 			{ ft = "undotree" },
 			{ ft = "diff" },

@@ -74,7 +74,7 @@ return {
 		require("trouble").setup(opts)
 
 		vim.keymap.set("n", "<leader>wx", "<Cmd>Trouble diagnostics open<CR>", { desc = "[w]indow diagnostics" })
-		vim.keymap.set("n", "<leader>wt", "<Cmd>Trouble todo open<CR>", { desc = "[w]indow [t]odo comments" })
+		vim.keymap.set("n", "<leader>wc", "<Cmd>Trouble todo open<CR>", { desc = "[w]indow todo [c]omments" })
 		vim.keymap.set("n", "]x", "<Cmd>Trouble diagnostics next jump=true<CR>", { desc = "Next diagnostic" })
 		vim.keymap.set("n", "[x", "<Cmd>Trouble diagnostics prev jump=true<CR>", { desc = "Previous diagnostic" })
 

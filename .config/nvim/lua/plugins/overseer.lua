@@ -1,9 +1,22 @@
 return {
 	"stevearc/overseer.nvim",
 	keys = {
-		-- TODO: make menu UI be a floating window, I think there's a standardized way, check LazyVim
-		{ "<leader>wj", "<Cmd>OverseerToggle<CR>", desc = "[w]indow [j]obs" },
-		{ "<leader>j", "<Cmd>OverseerRun<CR>", desc = "[j]ob run" },
+		{ "<leader>t", "<Cmd>OverseerRun<CR>", desc = "[t]ask run" },
+		{ "<leader>wt", "<Cmd>OverseerOpen<CR>", desc = "[w]indow [t]ask list" },
 	},
-	opts = {},
+	opts = {
+		templates = {
+			"builtin",
+			"cmake",
+		},
+		task_list = {
+			-- If direction is "bottom", the task view gets open alongside the task list.
+			--
+			-- Unfortunately, the task view does not get a filetype, so edgy.nvim can't detect it.
+			-- See https://github.com/stevearc/overseer.nvim/issues/427
+			--
+			-- For this reason, we do not want to open the task view.
+			direction = "left",
+		},
+	},
 }

@@ -4,6 +4,7 @@ return {
 		"williamboman/mason.nvim", -- package manager for debug adapters
 		"mfussenegger/nvim-dap",
 		"mfussenegger/nvim-dap-python", -- default config for debugpy
+		"stevearc/overseer.nvim", -- for running preLaunchTask
 	},
 	config = function()
 		local mason_dap = require("mason-nvim-dap")
@@ -51,6 +52,12 @@ return {
 							cwd = "${workspaceFolder}",
 						},
 					}
+				end,
+				cppdbg = function(config)
+					for _, configuration in pairs(config.configurations) do
+						configuration.preLaunchTask = "cmake"
+					end
+					mason_dap.default_setup(config)
 				end,
 			},
 		})
