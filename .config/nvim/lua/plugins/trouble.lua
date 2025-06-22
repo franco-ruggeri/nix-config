@@ -73,8 +73,8 @@ return {
 	config = function(_, opts)
 		require("trouble").setup(opts)
 
-		vim.keymap.set("n", "<leader>xx", "<Cmd>Trouble diagnostics open<CR>", { desc = "Diagnostics" })
-		vim.keymap.set("n", "<leader>t", "<Cmd>Trouble todo open<CR>", { desc = "[t]odo comments" })
+		vim.keymap.set("n", "<leader>wx", "<Cmd>Trouble diagnostics open<CR>", { desc = "[w]indow diagnostics" })
+		vim.keymap.set("n", "<leader>wt", "<Cmd>Trouble todo open<CR>", { desc = "[w]indow [t]odo comments" })
 
 		vim.api.nvim_create_autocmd("FileType", {
 			desc = "Bind LSP methods to Trouble",

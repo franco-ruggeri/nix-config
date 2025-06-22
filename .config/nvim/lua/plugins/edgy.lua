@@ -47,10 +47,6 @@ return {
 			},
 			{ ft = "undotree" },
 			{ ft = "diff" },
-			{
-				title = "Document Symbols",
-				ft = "vimtex-toc",
-			},
 		},
 	},
 }

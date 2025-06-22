@@ -34,6 +34,6 @@ return {
 			end
 		end
 
-		vim.keymap.set("n", "<leader>e", open, { desc = "[e]xplore files (tree)" })
+		vim.keymap.set("n", "<leader>e", open, { desc = "[e]xplore files" })
 	end,
 }
