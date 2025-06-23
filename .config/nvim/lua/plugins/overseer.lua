@@ -1,8 +1,8 @@
 return {
 	"stevearc/overseer.nvim",
 	keys = {
-		{ "<leader>t", "<Cmd>OverseerRun<CR>", desc = "[t]ask run" },
-		{ "<leader>wt", "<Cmd>OverseerOpen<CR>", desc = "[w]indow [t]ask list" },
+		{ "<leader>taa", "<Cmd>OverseerOpen<CR>", desc = "[ta]sk list" },
+		{ "<leader>tar", "<Cmd>OverseerRun<CR>", desc = "[ta]sk [r]un" },
 	},
 	opts = {
 		templates = {
