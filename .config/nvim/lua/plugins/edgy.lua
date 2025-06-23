@@ -44,6 +44,9 @@ return {
 				filter = function(_, window)
 					return utils.is_location_list(window)
 				end,
+				wo = {
+					wrap = false,
+				},
 			},
 			{
 				title = "Task List",
