@@ -22,15 +22,15 @@ return {
 				ft = "trouble-diagnostics",
 			},
 			{
-				title = "Todo Comments",
-				ft = "trouble-todo",
-			},
-			{
 				title = "QuickFix List",
 				ft = "qf",
 				filter = function(_, window)
 					return not utils.is_location_list(window)
 				end,
+			},
+			{
+				title = "Todo Comments",
+				ft = "trouble-todo",
 			},
 		},
 		left = {
@@ -49,8 +49,12 @@ return {
 				},
 			},
 			{
-				title = "Task List",
+				title = "Tasks",
 				ft = "OverseerList",
+			},
+			{
+				title = "Tests",
+				ft = "neotest-summary",
 			},
 			{ ft = "undotree" },
 			{ ft = "diff" },
