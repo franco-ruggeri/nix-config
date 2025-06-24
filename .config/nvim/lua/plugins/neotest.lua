@@ -20,7 +20,9 @@ return {
 		"antoinemadec/FixCursorHold.nvim",
 		"nvim-treesitter/nvim-treesitter",
 		-- Adapters
-		"nvim-neotest/neotest-python",
+		"nvim-neotest/neotest-python", -- pytest and unittest
+		-- Integrations
+		"stevearc/overseer.nvim", -- for running tests in overseer
 	},
 	keys = {
 		{ "<leader>te", open_and_focus, desc = "[te]st list" },
@@ -28,6 +30,10 @@ return {
 	config = function()
 		---@diagnostic disable-next-line: missing-fields
 		require("neotest").setup({
+			consumers = {
+				---@diagnostic disable-next-line: assign-type-mismatch
+				overseer = require("neotest.consumers.overseer"),
+			},
 			adapters = {
 				require("neotest-python"),
 			},
