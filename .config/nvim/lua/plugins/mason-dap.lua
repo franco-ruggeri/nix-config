@@ -1,3 +1,5 @@
+local utils = require("utils")
+
 return {
 	"jay-babu/mason-nvim-dap.nvim",
 	dependencies = {
@@ -54,8 +56,14 @@ return {
 					}
 				end,
 				cppdbg = function(config)
+					local pre_launch_task = nil
+					if utils.is_cmake_project(config.root_dir) then
+						pre_launch_task = "cmake"
+					elseif utils.is_make_project(config.root_dir) then
+						pre_launch_task = "make"
+					end
 					for _, configuration in pairs(config.configurations) do
-						configuration.preLaunchTask = "cmake"
+						configuration.preLaunchTask = pre_launch_task
 					end
 					mason_dap.default_setup(config)
 				end,

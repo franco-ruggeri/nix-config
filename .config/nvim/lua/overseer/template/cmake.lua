@@ -1,6 +1,4 @@
-local function is_cmake_project(cwd)
-	return #vim.fs.find("CMakeLists.txt", { path = cwd, type = "file" }) > 0
-end
+local utils = require("utils")
 
 return {
 	name = "cmake",
@@ -16,7 +14,7 @@ return {
 	end,
 	condition = {
 		callback = function(opts)
-			return is_cmake_project(opts.dir)
+			return utils.is_cmake_project(opts.dir)
 		end,
 	},
 }
