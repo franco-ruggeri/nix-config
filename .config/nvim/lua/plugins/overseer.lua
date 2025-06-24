@@ -23,6 +23,10 @@ return {
 		local overseer = require("overseer")
 		overseer.setup(opts)
 
+		overseer.add_template_hook({ name = "^make" }, function(task_definition, task_util)
+			task_util.add_component(task_definition, { "on_output_quickfix", open = true })
+		end)
+
 		vim.keymap.set("n", "<leader>taR", function()
 			-- Recipe from https://github.com/stevearc/overseer.nvim/blob/master/doc/recipes.md#restart-last-task
 			local tasks = overseer.list_tasks({ recent_first = true })
