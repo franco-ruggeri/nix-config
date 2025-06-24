@@ -139,7 +139,6 @@ local function add_mypy_workspace()
 		prefer_local = python_prefer_local,
 		args = {
 			-- Defaults
-			"--hide-error-codes",
 			"--hide-error-context",
 			"--no-color-output",
 			"--show-absolute-path",

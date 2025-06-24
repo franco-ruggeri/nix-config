@@ -7,7 +7,10 @@ return {
 	opts = {
 		templates = {
 			"builtin",
+			-- TODO: import everything from a dir, like builtin
 			"cmake",
+			"mypy",
+			"pylint",
 		},
 		task_list = {
 			-- If direction is "bottom", the task view gets open alongside the task list.
