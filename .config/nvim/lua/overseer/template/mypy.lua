@@ -5,6 +5,7 @@ return {
 	name = "mypy",
 	builder = function()
 		return {
+			name = "mypy",
 			cmd = "mypy",
 			args = {
 				"--hide-error-context",
@@ -21,20 +22,14 @@ return {
 					"on_output_parse",
 					parser = {
 						diagnostics = {
-							{
-								"extract",
-								"([^:]+):(%d+):(%d+): (%a+): (.*)  %[([%a-]+)%]",
-								"filename",
-								"row",
-								"col",
-								"severity",
-								"message",
-								"code",
-							},
-							{
-								"dispatch",
-								"set_results",
-							},
+							"extract",
+							"([^:]+):(%d+):(%d+): (%a+): (.*)  %[([%a-]+)%]",
+							"filename",
+							"lnum",
+							"col",
+							"severity",
+							"text",
+							"code",
 						},
 					},
 				},
