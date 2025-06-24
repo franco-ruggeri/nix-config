@@ -56,14 +56,9 @@ return {
 					}
 				end,
 				cppdbg = function(config)
-					local pre_launch_task = nil
-					if utils.is_cmake_project(config.root_dir) then
-						pre_launch_task = "cmake"
-					elseif utils.is_make_project(config.root_dir) then
-						pre_launch_task = "make"
-					end
+					-- Compile before debugging (using overseer)
 					for _, configuration in pairs(config.configurations) do
-						configuration.preLaunchTask = pre_launch_task
+						configuration.preLaunchTask = "cmake"
 					end
 					mason_dap.default_setup(config)
 				end,
