@@ -27,7 +27,7 @@ return {
 							"filename",
 							"lnum",
 							"col",
-							"severity",
+							"type",
 							"text",
 							"code",
 						},

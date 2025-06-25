@@ -5,8 +5,11 @@ return {
 	name = "pylint",
 	builder = function()
 		return {
+			name = "pylint",
 			cmd = "pylint",
 			args = {
+				"--output-format",
+				"json",
 				"--ignore",
 				".venv",
 				".",
@@ -16,14 +19,47 @@ return {
 					"on_output_parse",
 					parser = {
 						diagnostics = {
-							"extract",
-							"([^:]+):(%d+):(%d+): (%a+): (.*)  %[([%a-]+)%]",
-							"filename",
-							"row",
-							"col",
-							"severity",
-							"message",
-							"code",
+							"sequence",
+							{
+								{ "skip_until", "{" },
+								{
+									"extract",
+									{ append = false },
+									'"type": "([^"]+)"',
+									"severity",
+								},
+								{ "skip_lines", 2 },
+								{
+									"extract",
+									{ append = false },
+									'"line": (%d+)',
+									"lnum",
+								},
+								{
+									"extract",
+									{ append = false },
+									'"column": (%d+)',
+									"col",
+								},
+								{ "skip_lines", 2 },
+								{
+									"extract",
+									{ append = false },
+									'"path": "([^"]+)"',
+									"filename",
+								},
+								{
+									"extract",
+									{ append = false },
+									'"symbol": "([^"]+)"',
+									"code",
+								},
+								{
+									"extract",
+									'"message": "([^"]+)"',
+									"text",
+								},
+							},
 						},
 					},
 				},
