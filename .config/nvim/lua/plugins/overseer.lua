@@ -1,5 +1,8 @@
 return {
-	"stevearc/overseer.nvim",
+	-- TODO: restore upstream after PR is merged
+	-- https://github.com/stevearc/overseer.nvim/pull/430
+	"franco-ruggeri/overseer.nvim",
+	branch = "fix/issue-429",
 	keys = {
 		{ "<leader>taa", "<Cmd>OverseerOpen<CR>", desc = "[ta]sk list" },
 		{ "<leader>tar", "<Cmd>OverseerRun<CR>", desc = "[ta]sk [r]un" },
@@ -7,18 +10,13 @@ return {
 	opts = {
 		templates = {
 			"builtin",
-			-- TODO: import everything from a dir, like builtin
 			"cmake",
 			"mypy",
 			"pylint",
 		},
 		task_list = {
-			-- If direction is "bottom", the task view gets open alongside the task list.
-			--
-			-- Unfortunately, the task view does not get a filetype, so edgy.nvim can't detect it.
-			-- See https://github.com/stevearc/overseer.nvim/issues/427
-			--
-			-- For this reason, we do not want to open the task view.
+			-- If direction is "bottom", the task view gets opened alongside the task list.
+			-- We want to open the task list but not the task view.
 			direction = "left",
 		},
 	},
