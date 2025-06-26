@@ -51,7 +51,6 @@ return {
 							"Function",
 							"Interface",
 							"Method",
-							"Module",
 							"Namespace",
 							"Package",
 							"Property",
