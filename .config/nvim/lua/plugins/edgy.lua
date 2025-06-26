@@ -35,8 +35,8 @@ return {
 		},
 		left = {
 			{
-				title = "Document Symbols",
-				ft = "trouble-document-symbols",
+				title = "Outline",
+				ft = "aerial",
 			},
 			{
 				title = "Location List",
