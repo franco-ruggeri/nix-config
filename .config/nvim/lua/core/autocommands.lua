@@ -42,14 +42,16 @@ M.setup = function()
   vim.api.nvim_create_autocmd("LspAttach", {
     desc = "Set LSP keymaps and autocommands",
     callback = function(args)
-      -- Format on save
       -- Multiple language servers might provide formatting.
       -- To avoid conflicts, we use a filter so that only one of them go through.
+      local format_filter = get_format_filter(args.buf)
+
+      -- Format on save
       vim.api.nvim_create_autocmd("BufWritePre", {
         group = vim.api.nvim_create_augroup("my-lsp-format", { clear = false }),
         buffer = args.buf,
         callback = function()
-          vim.lsp.buf.format({ filter = get_format_filter(args.buf) })
+          vim.lsp.buf.format({ filter = format_filter })
         end,
       })
 
