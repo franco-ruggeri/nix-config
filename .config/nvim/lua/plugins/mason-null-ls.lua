@@ -52,7 +52,7 @@ return {
 					local filetypes_new = {}
 					for _, filetype in ipairs(filetypes) do
 						if filetype ~= "markdown" then
-							filetypes_new:insert(filetype)
+							table.insert(filetypes_new, filetype)
 						end
 					end
 

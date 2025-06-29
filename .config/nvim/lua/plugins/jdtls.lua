@@ -18,7 +18,8 @@ return {
 				end
 
 				if mason_registry.is_installed("java-debug-adapter") then
-					bundles:insert(
+					table.insert(
+						bundles,
 						vim.fn.glob(
 							vim.env.MASON
 								.. "/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin*.jar"
@@ -27,7 +28,8 @@ return {
 				end
 
 				if mason_registry.is_installed("java-test") then
-					bundles:insert(
+					table.insert(
+						bundles,
 						vim.fn.glob(
 							vim.env.MASON .. "/packages/java-test/extension/server/com.microsoft.java.test.plugin*.jar"
 						)
