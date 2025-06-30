@@ -23,6 +23,9 @@ return {
 			settings = {
 				texlab = {
 					build = {
+						-- Extend default args with outdir
+						-- Default args from https://github.com/latex-lsp/texlab/wiki/Configuration#texlabbuildargs
+						args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "-outdir=output", "%f" },
 						-- texlab supports compiling the project in two ways:
 						-- * With a custom LSP method.
 						-- * With the onSave option.
