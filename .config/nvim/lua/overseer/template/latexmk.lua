@@ -17,7 +17,7 @@ return {
 	end,
 	condition = {
 		callback = function()
-			return #vim.lsp.get_clients({ name = "texlab" }) > 0
+			return #vim.fn.glob("*.tex", false, true) > 0
 		end,
 	},
 }
