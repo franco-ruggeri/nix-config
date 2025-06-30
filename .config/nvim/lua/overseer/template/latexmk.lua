@@ -2,6 +2,7 @@ return {
 	name = "latexmk",
 	builder = function()
 		return {
+			name = "latexmk",
 			cmd = "latexmk",
 			args = {
 				"-pdf",

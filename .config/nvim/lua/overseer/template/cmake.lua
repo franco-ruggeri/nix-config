@@ -4,6 +4,7 @@ return {
 	name = "cmake",
 	builder = function()
 		return {
+			name = "cmake",
 			cmd = "sh",
 			args = { "-c", "mkdir -p build && cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug && cmake --build build" },
 			components = {
