@@ -32,9 +32,4 @@ typeset -U path PATH
 # Pipx and poetry
 path+=($HOME/.local/bin)
 
-# Zathura
-if is_macos; then
-	export DBUS_SESSION_BUS_ADDRESS="unix:path=$DBUS_LAUNCHD_SESSION_BUS_SOCKET"
-fi
-
 source $ZDOTDIR/utils-clear.sh
