@@ -13,6 +13,7 @@ return {
 			"cmake",
 			"mypy",
 			"pylint",
+			"latexmk",
 		},
 		task_list = {
 			-- If direction is "bottom", the task view gets opened alongside the task list.
