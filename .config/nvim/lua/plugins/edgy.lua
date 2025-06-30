@@ -9,8 +9,7 @@ return {
 	end,
 	opts = {
 		options = {
-			left = { size = 50 },
-			right = { size = 50 },
+			left = { size = 40 },
 			bottom = { size = 15 },
 		},
 		animate = {
