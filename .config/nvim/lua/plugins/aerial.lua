@@ -4,8 +4,17 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		"nvim-tree/nvim-web-devicons",
 	},
-	config = function()
-		require("aerial").setup()
+	opts = {
+		-- Since the window is managed by edgy.nvim, if `resize_to_content` is true:
+		-- * The first time, the width gets resized to fit the content.
+		-- * The second time (or after a zoom), the width gets adjusted by edgy.nvim.
+		--
+		-- Essentially, there would be inconsistency and an ugly flicker at the beginning.
+		-- Setting it to false avoids that.
+		resize_to_content = false,
+	},
+	config = function(_, opts)
+		require("aerial").setup(opts)
 
 		vim.api.nvim_create_autocmd("FileType", {
 			desc = "Set keymap to open outline",
