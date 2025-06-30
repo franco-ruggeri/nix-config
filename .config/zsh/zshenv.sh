@@ -15,6 +15,9 @@ fi
 
 # Gnome keyring for ssh-agent
 # See https://wiki.archlinux.org/title/GNOME/Keyring#Setup_gcr
+#
+# Set SSH_AUTH_SOCK only if it is not already set.
+# Otherwise, it interferes with GPG key forwarding in devcontainers.
 if is_linux && [ -z "$SSH_AUTH_SOCK" ]; then
 	export SSH_AUTH_SOCK="/run/user/1000/gcr/ssh"
 fi
@@ -29,7 +32,7 @@ export EDITOR=vi
 # Path as array of unique values
 typeset -U path PATH
 
-# Pipx and poetry
+# Include local binaries (e.g., for pipx)
 path+=($HOME/.local/bin)
 
 source $ZDOTDIR/utils-clear.sh
