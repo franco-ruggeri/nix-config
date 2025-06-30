@@ -7,15 +7,11 @@ return {
 		highlight = {
 			enable = true,
 			disable = {
-				"latex", -- conflicts with VimTeX
 				"gitcommit", -- conflicts with default syntax higlighting
 			},
 		},
 		indent = {
 			enable = true,
-			disable = {
-				"latex", -- conflicts with VimTeX
-			},
 		},
 	},
 }
