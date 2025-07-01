@@ -1,8 +1,6 @@
 return {
-	-- TODO: restore upstream after PR is merged
-	-- https://github.com/stevearc/overseer.nvim/pull/430
-	"franco-ruggeri/overseer.nvim",
-	branch = "fix/issue-429",
+	"stevearc/overseer.nvim",
+	version = false, -- latest commit, for my fix: https://github.com/stevearc/overseer.nvim/commit/fe7b2f9ba263e150ab36474dfc810217b8cf7400
 	keys = {
 		{ "<leader>taa", "<Cmd>OverseerOpen<CR>", desc = "[ta]sk list" },
 		{ "<leader>tar", "<Cmd>OverseerRun<CR>", desc = "[ta]sk [r]un" },
