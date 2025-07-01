@@ -36,7 +36,7 @@ return {
 				end,
 				mypy = function()
 					local generator_opts = vim.tbl_extend("force", null_ls.builtins.diagnostics.mypy.generator.opts, {
-						multiple_files = false, -- the default was wrongly true... this source lints one buffer at a time
+						multiple_files = false, -- the default is wrongly true... this source lints one buffer at a time
 					})
 
 					null_ls.register(null_ls.builtins.diagnostics.mypy.with({
