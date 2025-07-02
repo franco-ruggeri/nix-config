@@ -1,21 +1,35 @@
+-- Enable also for CodeCompanion chat
+local filetypes = { "markdown", "codecompanion" }
+
 return {
 	"MeanderingProgrammer/render-markdown.nvim",
 	dependencies = {
 		"nvim-treesitter/nvim-treesitter", -- required
 		"nvim-tree/nvim-web-devicons", -- for icons in code blocks
 	},
-	ft = "markdown",
+	ft = filetypes,
 	opts = {
+		file_types = filetypes,
 		completions = {
-			blink = { enabled = true },
+			lsp = { enabled = true },
 		},
+		-- Less intrusive rendering
+		-- ====================
+		-- Heading: No icons and background color
+		heading = { enabled = false },
+		-- Code: no background color
+		-- Note that nil would not override defaults
+		code = {
+			highlight = "",
+			highlight_info = "",
+			highlight_border = "",
+			highlight_fallback = "",
+			highlight_inline = "",
+		},
+		-- ====================
 	},
 	config = function(_, opts)
-		local render_markdown = require("render-markdown")
-
-		render_markdown.setup(opts)
-		render_markdown.disable() -- disable by default
-
+		require("render-markdown").setup(opts)
 		vim.keymap.set("n", "<leader>mr", "<Cmd>RenderMarkdown toggle<CR>", { desc = "[m]arkdown [r]ender toggle" })
 	end,
 }
