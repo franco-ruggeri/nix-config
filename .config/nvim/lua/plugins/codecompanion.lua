@@ -3,14 +3,9 @@ return {
 	dependencies = {
 		{
 			"nvim-lua/plenary.nvim", -- required
-			version = false, -- latest commit, required
+			version = false, -- latest commit, see https://codecompanion.olimorris.dev/installation.html
 		},
-		{
-			"nvim-treesitter/nvim-treesitter", -- required
-			opts = {
-				ensure_installed = { "markdown", "markdown_inline" }, -- required
-			},
-		},
+		"nvim-treesitter/nvim-treesitter", -- required
 		"ravitemer/mcphub.nvim", -- MCP integration
 		"MeanderingProgrammer/render-markdown.nvim", -- markdown rendering
 	},
