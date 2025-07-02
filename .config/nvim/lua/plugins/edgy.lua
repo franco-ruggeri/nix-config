@@ -9,8 +9,9 @@ return {
 	end,
 	opts = {
 		options = {
-			left = { size = 40 },
 			bottom = { size = 15 },
+			left = { size = 40 },
+			right = { size = 40 },
 		},
 		animate = {
 			enabled = false,
@@ -57,6 +58,12 @@ return {
 			},
 			{ ft = "undotree" },
 			{ ft = "diff" },
+		},
+		right = {
+			-- {
+			-- 	title = "AI Coding Assistant",
+			-- 	ft = "codecompanion",
+			-- },
 		},
 	},
 }
