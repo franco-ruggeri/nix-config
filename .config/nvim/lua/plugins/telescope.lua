@@ -47,9 +47,9 @@ return {
 		telescope.load_extension("fzf")
 
 		local builtin = require("telescope.builtin")
-		vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[f]ind [f]ile" })
-		vim.keymap.set("n", "<leader>fs", builtin.live_grep, { desc = "[f]ind [s]tring" })
-		vim.keymap.set("n", "<leader>ft", "<Cmd>TodoTelescope<CR>", { desc = "[f]ind [t]odo comment" })
+		vim.keymap.set("n", "<Leader>ff", builtin.find_files, { desc = "[f]ind [f]ile" })
+		vim.keymap.set("n", "<Leader>fs", builtin.live_grep, { desc = "[f]ind [s]tring" })
+		vim.keymap.set("n", "<Leader>ft", "<Cmd>TodoTelescope<CR>", { desc = "[f]ind [t]odo comment" })
 
 		vim.api.nvim_create_autocmd("LspAttach", {
 			desc = "Bind LSP methods to Telescope",

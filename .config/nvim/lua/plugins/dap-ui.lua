@@ -61,6 +61,6 @@ return {
 
 		vim.keymap.set("n", "<Leader>du", open_dapui, { desc = "[d]ebug [U]I open" })
 		vim.keymap.set("n", "<Leader>dU", close_dapui, { desc = "[d]ebug [U]I close" })
-		vim.keymap.set("n", "<leader>dt", terminate_session, { desc = "[d]ebug [t]erminate" })
+		vim.keymap.set("n", "<Leader>dt", terminate_session, { desc = "[d]ebug [t]erminate" })
 	end,
 }

@@ -4,13 +4,13 @@ M.setup = function()
 	vim.keymap.set("n", "<Esc>", "<Cmd>nohlsearch<CR>", { desc = "Clear search highlights" })
 	vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
-	vim.keymap.set("n", "<leader>xr", vim.diagnostic.reset, { desc = "diagnostics [r]eset" })
-	vim.keymap.set("n", "<leader>xv", function()
+	vim.keymap.set("n", "<Leader>xr", vim.diagnostic.reset, { desc = "diagnostics [r]eset" })
+	vim.keymap.set("n", "<Leader>xv", function()
 		local virtual_text = vim.diagnostic.config().virtual_text
 		vim.diagnostic.config({ virtual_text = not virtual_text })
 	end, { desc = "diagnostics [v]irtual text toggle" })
 
-	vim.keymap.set("n", "<leader>q", "<Cmd>copen<CR>", { desc = "[q]uickfix" })
+	vim.keymap.set("n", "<Leader>q", "<Cmd>copen<CR>", { desc = "[q]uickfix" })
 
 	vim.keymap.set("n", "K", function()
 		vim.lsp.buf.hover({ border = "rounded" })

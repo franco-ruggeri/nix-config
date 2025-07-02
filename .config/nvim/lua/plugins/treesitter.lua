@@ -3,7 +3,6 @@ return {
 	build = ":TSUpdate",
 	main = "nvim-treesitter.configs",
 	opts = {
-		ensure_installed = { "markdown", "markdown_inline" }, -- for CodeCompanion
 		auto_install = true,
 		highlight = {
 			enable = true,
@@ -14,5 +13,8 @@ return {
 		indent = {
 			enable = true,
 		},
+		-- Parsers required by CodeCompanion.
+		-- They wouldn't be installed automatically, as the codecompanion filetype doesn't trigger installation.
+		ensure_installed = { "markdown", "markdown_inline", "yaml" },
 	},
 }

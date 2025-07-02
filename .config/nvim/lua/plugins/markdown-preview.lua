@@ -14,6 +14,6 @@ return {
 		vim.g.mkdp_echo_preview_url = 1 -- ... print the URL (to know link to page)
 	end,
 	config = function()
-		vim.keymap.set("n", "<leader>mp", "<Cmd>MarkdownPreviewToggle<CR>", { desc = "[m]arkdown [p]review toggle" })
+		vim.keymap.set("n", "<Leader>mp", "<Cmd>MarkdownPreviewToggle<CR>", { desc = "[m]arkdown [p]review toggle" })
 	end,
 }
