@@ -22,7 +22,6 @@ The repository is compatible with [`devpod`](https://devpod.sh/) for usage
 within dev containers. Follow [the documentation](https://devpod.sh/docs/developing-in-workspaces/dotfiles-in-a-workspace)
 for instructions.
 
-Requirements:
-
-- [`stow`](https://www.gnu.org/software/stow/) (e.g., use [this feature](https://github.com/kreemer/features/tree/main/src/stow))
-- [`node`](https://nodejs.org/en) (e.g., use [this feature](https://github.com/devcontainers/features/tree/main/src/node))
+The installation uses [`stow`](https://www.gnu.org/software/stow/). Thus,
+make sure the dev container has it by adding [this
+feature](https://github.com/kreemer/features/tree/main/src/stow).
