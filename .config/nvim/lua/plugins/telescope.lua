@@ -4,9 +4,11 @@ return {
 		"nvim-lua/plenary.nvim", -- required
 		"nvim-tree/nvim-web-devicons", -- icons
 		"folke/todo-comments.nvim", -- for integration with todo comments
-		"nvim-telescope/telescope-ui-select.nvim", -- replaces vim.ui.select()
-		-- improves sorting performance
-		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+		"nvim-telescope/telescope-ui-select.nvim", -- set vim.ui.select() to telescope
+		{ -- improves sorting performance
+			"nvim-telescope/telescope-fzf-native.nvim",
+			build = "make",
+		},
 	},
 	opts = {
 		defaults = {
