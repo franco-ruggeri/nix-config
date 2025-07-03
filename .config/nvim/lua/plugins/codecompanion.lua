@@ -1,6 +1,8 @@
 return {
 	"olimorris/codecompanion.nvim",
-	event = "VeryLazy",
+	keys = {
+		{ "<Leader>ac", "<Cmd>CodeCompanionActions<CR>", mode = { "n", "x" }, desc = "[A]I [C]odeCompanion" },
+	},
 	dependencies = {
 		{
 			"nvim-lua/plenary.nvim", -- required
@@ -18,24 +20,6 @@ return {
 					name = "copilot",
 					model = "gemini-2.5-pro",
 				},
-				keymaps = {
-					-- Swap close and stop for consistency with edgy.nvim
-					close = { modes = { n = "q" } },
-					stop = { modes = { n = "<C-c>", i = "<C-c>" } },
-				},
-				tools = {
-					opts = {
-						default_tools = {
-							-- TODO: do I need default tools?
-						},
-					},
-				},
-				opts = {
-					-- TODO: need to open it in the current buffer (the one indicated by #{buffer}... how?
-					-- by default it opens a new tab, I don't want that
-					-- See https://codecompanion.olimorris.dev/configuration/chat-buffer.html#jump-action
-					goto_file_action = "edit",
-				},
 				roles = {
 					llm = function(adapter)
 						return "󱜙 " .. adapter.formatted_name
@@ -49,6 +33,8 @@ return {
 				provider = "default", -- use vim.ui.select()
 			},
 		},
+		-- Integration with mcphub.nvim
+		-- See https://ravitemer.github.io/mcphub.nvim/extensions/codecompanion.html
 		extensions = {
 			mcphub = {
 				callback = "mcphub.extensions.codecompanion",
@@ -60,13 +46,4 @@ return {
 			},
 		},
 	},
-	config = function(_, opts)
-		require("codecompanion").setup(opts)
-		-- TODO: check other commands and add the useful ones
-		-- TODO: add commands
-		-- TODO: change keymaps
-		vim.keymap.set({ "n", "v" }, "<Leader>cc", "<Cmd>CodeCompanionActions<CR>", { desc = "[A]I [a]ctions" })
-		-- vim.keymap.set("n", "<Leader>ac", "<Cmd>CodeCompanionChat<CR>", { desc = "[A]I [c]hat" })
-		-- vim.keymap.set("v", "<Leader>ac", "<Cmd>CodeCompanionChat Add<CR>", { desc = "[A]I [c]hat" })
-	end,
 }
