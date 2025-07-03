@@ -2,26 +2,28 @@ return {
 	"nvim-lualine/lualine.nvim",
 	dependencies = {
 		"nvim-tree/nvim-web-devicons", -- for icons
+		"ravitemer/mcphub.nvim", -- for mcphub component
 	},
 	opts = {
 		options = {
 			globalstatus = true,
 		},
-		-- From defaults: https://github.com/folke/trouble.nvim/blob/85bedb7eb7fa331a2ccbecb9202d8abba64d37b3/lua/trouble/sources/lsp.lua#L51
-		-- ====================
-		-- Adding LSP status to show LSP clients attached to the current buffer...
 		sections = {
-			lualine_a = { "mode" },
-			lualine_b = { "branch", "diff", "diagnostics" },
-			lualine_c = { "filename" },
-			lualine_x = { "lsp_status", "encoding", "fileformat", "filetype" }, -- ... here!
-			lualine_y = { "progress" },
-			lualine_z = { "location" },
+			lualine_c = { "filename", "lsp_status" }, -- + LSP status
 		},
-		-- ====================
 		tabline = {
 			lualine_a = { "tabs" },
 			lualine_b = { "filename" },
 		},
 	},
+	config = function(_, opts)
+		local lualine = require("lualine")
+
+		-- + MCPHub status
+		local lualine_x = lualine.get_config().sections.lualine_x
+		table.insert(lualine_x, 1, { require("mcphub.extensions.lualine") })
+		opts.sections.lualine_x = lualine_x
+
+		lualine.setup(opts)
+	end,
 }
