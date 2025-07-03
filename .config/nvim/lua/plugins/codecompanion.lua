@@ -22,7 +22,7 @@ return {
 				},
 				roles = {
 					llm = function(adapter)
-						return "󱜙 " .. adapter.formatted_name
+						return " " .. adapter.formatted_name
 					end,
 					user = " User",
 				},

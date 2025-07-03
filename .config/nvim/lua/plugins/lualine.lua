@@ -2,7 +2,7 @@ local function get_codecompanion_component()
 	local M = require("lualine.component"):extend()
 
 	local default_options = {
-		icon = "󱜙 ",
+		icon = " ",
 		spinner_symbols = {
 			"⠋",
 			"⠙",
