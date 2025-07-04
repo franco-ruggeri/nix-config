@@ -22,14 +22,6 @@ return {
 			harpoon.ui:toggle_quick_menu(harpoon:list())
 		end, { desc = "[h]arpoon menu toggle" })
 
-		vim.keymap.set("n", "<Leader>hp", function()
-			harpoon:list():prev()
-		end, { desc = "[h]arpoon [p]revious buffer" })
-
-		vim.keymap.set("n", "<Leader>hn", function()
-			harpoon:list():next()
-		end, { desc = "[h]arpoon [n]ext buffer" })
-
 		for i = 1, 9 do
 			vim.keymap.set("n", ("<M-%d>"):format(i), function()
 				harpoon:list():select(i)
