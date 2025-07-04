@@ -15,7 +15,7 @@ return {
 	end,
 	condition = {
 		callback = function(opts)
-			return utils.is_cmake_project(opts.dir)
+			return utils.is_cmake_project(opts.dir) and vim.fn.executable("cmake") == 1
 		end,
 	},
 }

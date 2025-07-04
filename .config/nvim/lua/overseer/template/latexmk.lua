@@ -18,7 +18,7 @@ return {
 	end,
 	condition = {
 		callback = function()
-			return #vim.fn.glob("*.tex", false, true) > 0
+			return #vim.fn.glob("*.tex", false, true) > 0 and vim.fn.executable("latexmk") == 1
 		end,
 	},
 }

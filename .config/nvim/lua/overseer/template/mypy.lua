@@ -40,7 +40,7 @@ return {
 	end,
 	condition = {
 		callback = function(opts)
-			return utils.is_python_project(opts.dir)
+			return utils.is_python_project(opts.dir) and vim.fn.executable("mypy") == 1
 		end,
 	},
 }
