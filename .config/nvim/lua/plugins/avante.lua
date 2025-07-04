@@ -26,7 +26,7 @@ return {
 		},
 		mappings = {
 			sidebar = {
-				close_from_input = { normal = "q" }, -- for consistency with edgy.nvim
+				close_from_input = { normal = "q" }, -- for consistency with other windows
 			},
 		},
 		-- Integration with mcphub.nvim
