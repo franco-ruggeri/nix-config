@@ -70,7 +70,14 @@ return {
 		},
 		tabline = {
 			lualine_a = { "tabs" },
-			lualine_b = { { "harpoon2", icon = "󰀱 " } },
+			lualine_b = {
+				{
+					"harpoon2",
+					icon = "󰀱 ",
+					indicators = { "1", "2", "3", "4", "5", "6", "7", "8", "9" },
+					active_indicators = { "[1]", "[2]", "[3]", "[4]", "[5]", "[6]", "[7]", "[8]", "[9]" },
+				},
+			},
 			lualine_c = { "filename" },
 		},
 	},
