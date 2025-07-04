@@ -36,7 +36,7 @@ return {
 			copilot = function() -- select default model
 				return require("codecompanion.adapters").extend("copilot", {
 					schema = {
-						model = { default = "gemini-2.5-pro" },
+						model = { default = "claude-3.7-sonnet" },
 					},
 				})
 			end,
