@@ -1,8 +1,8 @@
 return {
 	"yetone/avante.nvim",
+	version = false, -- latest commit, recommended
 	build = "make",
 	event = "VeryLazy",
-	version = false, -- latest commit, recommended
 	dependencies = {
 		"nvim-lua/plenary.nvim", -- required
 		"MunifTanjim/nui.nvim", -- required
@@ -18,6 +18,7 @@ return {
 				model = "gemini-2.5-pro",
 			},
 		},
+		hints = { enabled = false },
 		-- Integration with mcphub.nvim
 		-- See https://ravitemer.github.io/mcphub.nvim/extensions/avante.html
 		-- ====================
@@ -26,9 +27,7 @@ return {
 			return hub and hub:get_active_servers_prompt() or ""
 		end,
 		custom_tools = function()
-			return {
-				require("mcphub.extensions.avante").mcp_tool(),
-			}
+			return { require("mcphub.extensions.avante").mcp_tool() }
 		end,
 		-- ====================
 	},
