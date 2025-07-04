@@ -6,6 +6,7 @@ return {
 		which_key.setup()
 		which_key.add({
 			{ "<Leader>a", group = "+[A]I", mode = { "n", "x" } },
+			{ "<Leader>ao", group = "+[A]I [o]thers", mode = { "n", "x" } },
 			{ "<Leader>c", group = "+[c]ode" },
 			{ "<Leader>d", group = "+[d]ebug" },
 			{ "<Leader>f", group = "+[f]ind" },
