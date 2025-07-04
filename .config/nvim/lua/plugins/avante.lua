@@ -19,6 +19,16 @@ return {
 			},
 		},
 		hints = { enabled = false },
+		windows = {
+			ask = {
+				start_insert = false, -- for consistency with other windows
+			},
+		},
+		mappings = {
+			sidebar = {
+				close_from_input = { normal = "q" }, -- for consistency with edgy.nvim
+			},
+		},
 		-- Integration with mcphub.nvim
 		-- See https://ravitemer.github.io/mcphub.nvim/extensions/avante.html
 		-- ====================
