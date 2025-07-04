@@ -2,19 +2,19 @@ return {
 	"olimorris/codecompanion.nvim",
 	keys = {
 		{
-			"<Leader>aoa",
+			"<Leader>Aa",
 			"<Cmd>CodeCompanionActions<CR>",
 			mode = { "n", "x" },
 			desc = "[A]I CodeCompanion [a]ctions",
 		},
 		{
-			"<Leader>aoc",
+			"<Leader>Ac",
 			"<Cmd>CodeCompanionChat<CR>",
 			mode = { "n", "x" },
 			desc = "[A]I CodeCompanion [c]hat",
 		},
 		{
-			"<Leader>aoi",
+			"<Leader>Ai",
 			"<Cmd>CodeCompanion<CR>",
 			mode = { "n", "x" },
 			desc = "[A]I CodeCompanion [i]nline",
