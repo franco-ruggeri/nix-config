@@ -1,0 +1,18 @@
+{
+  "nativeMCPServers": {
+    "neovim": {
+      "disabled_tools": [
+        "delete_item",
+        "execute_command",
+        "execute_lua",
+        "find_files",
+        "list_directory",
+        "move_item",
+        "read_file",
+        "replace_in_file",
+        "write_file"
+      ]
+    }
+  },
+  "mcpServers": []
+}

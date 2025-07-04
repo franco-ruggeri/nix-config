@@ -1,5 +1,5 @@
--- Enable also for CodeCompanion chat
-local filetypes = { "markdown", "codecompanion" }
+-- Enable also for AI chats
+local filetypes = { "markdown", "codecompanion", "Avante" }
 
 return {
 	"MeanderingProgrammer/render-markdown.nvim",
