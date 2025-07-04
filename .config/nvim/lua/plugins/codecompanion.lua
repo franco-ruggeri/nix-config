@@ -44,4 +44,12 @@ return {
 			mcphub = { callback = "mcphub.extensions.codecompanion" },
 		},
 	},
+	config = function(_, opts)
+		require("codecompanion").setup(opts)
+
+		-- By default, CodeCompanionChatVariable is linked to Identifier.
+		-- The rose-pine colorscheme highlights Identifiers as normal text.
+		-- We change to make variables highlighted differently from text.
+		vim.api.nvim_set_hl(0, "CodeCompanionChatVariable", { link = "@tag.attribute" })
+	end,
 }
