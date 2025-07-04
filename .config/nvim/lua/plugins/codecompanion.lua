@@ -1,7 +1,7 @@
 return {
 	"olimorris/codecompanion.nvim",
 	keys = {
-		{ "<Leader>ac", "<Cmd>CodeCompanionActions<CR>", mode = { "n", "x" }, desc = "[A]I [C]odeCompanion" },
+		{ "<Leader>am", "<Cmd>CodeCompanionActions<CR>", mode = { "n", "x" }, desc = "[A]I CodeCompanion [m]enu" },
 	},
 	dependencies = {
 		{
