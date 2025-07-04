@@ -1,7 +1,24 @@
 return {
 	"olimorris/codecompanion.nvim",
 	keys = {
-		{ "<Leader>am", "<Cmd>CodeCompanionActions<CR>", mode = { "n", "x" }, desc = "[A]I CodeCompanion [m]enu" },
+		{
+			"<Leader>aoa",
+			"<Cmd>CodeCompanionActions<CR>",
+			mode = { "n", "x" },
+			desc = "[A]I CodeCompanion [a]ctions",
+		},
+		{
+			"<Leader>aoc",
+			"<Cmd>CodeCompanionChat<CR>",
+			mode = { "n", "x" },
+			desc = "[A]I CodeCompanion [c]hat",
+		},
+		{
+			"<Leader>aoi",
+			"<Cmd>CodeCompanion<CR>",
+			mode = { "n", "x" },
+			desc = "[A]I CodeCompanion [i]nline",
+		},
 	},
 	dependencies = {
 		{
@@ -26,6 +43,13 @@ return {
 		},
 		strategies = {
 			chat = {
+				tools = {
+					opts = {
+						-- Submit errors to the LLM, so it can suggest fixes.
+						-- See https://codecompanion.olimorris.dev/configuration/chat-buffer.html#auto-submit-tool-output-recursion
+						auto_submit_errors = true,
+					},
+				},
 				roles = { -- make rendered roles nicer
 					llm = function(adapter)
 						return (" %s"):format(adapter.formatted_name)
