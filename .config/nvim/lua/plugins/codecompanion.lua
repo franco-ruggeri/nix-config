@@ -14,15 +14,20 @@ return {
 		"zbirenbaum/copilot.lua", -- for copilot authentication
 	},
 	opts = {
+		adapters = {
+			copilot = function() -- select default model
+				return require("codecompanion.adapters").extend("copilot", {
+					schema = {
+						model = { default = "gemini-2.5-pro" },
+					},
+				})
+			end,
+		},
 		strategies = {
 			chat = {
-				adapter = {
-					name = "copilot",
-					model = "gemini-2.5-pro",
-				},
-				roles = {
+				roles = { -- make rendered roles nicer
 					llm = function(adapter)
-						return " " .. adapter.formatted_name
+						return (" %s"):format(adapter.formatted_name)
 					end,
 					user = " User",
 				},
@@ -36,14 +41,7 @@ return {
 		-- Integration with mcphub.nvim
 		-- See https://ravitemer.github.io/mcphub.nvim/extensions/codecompanion.html
 		extensions = {
-			mcphub = {
-				callback = "mcphub.extensions.codecompanion",
-				opts = {
-					make_vars = true,
-					make_slash_commands = true,
-					show_result_in_chat = true,
-				},
-			},
+			mcphub = { callback = "mcphub.extensions.codecompanion" },
 		},
 	},
 }
