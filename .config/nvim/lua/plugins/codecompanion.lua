@@ -12,6 +12,7 @@ return {
 		"MeanderingProgrammer/render-markdown.nvim", -- for rendering chat
 		"ravitemer/mcphub.nvim", -- for integration with mcphub.nvim
 		"zbirenbaum/copilot.lua", -- for copilot authentication
+		"echasnovski/mini.diff", -- for cleaner diff with @{insert_edit_into_file}
 	},
 	opts = {
 		adapters = {
