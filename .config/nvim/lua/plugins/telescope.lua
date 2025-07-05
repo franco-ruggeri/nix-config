@@ -32,6 +32,11 @@ return {
 		pickers = {
 			find_files = {
 				hidden = true, -- include hidden files
+				-- Set style similar to `fzf --tmux center`. Same experience as in command line.
+				-- ====================
+				layout_config = { width = 0.5, height = 0.5 },
+				previewer = false,
+				-- ====================
 			},
 		},
 	},
