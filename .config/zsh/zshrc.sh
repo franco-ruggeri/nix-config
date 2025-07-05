@@ -53,10 +53,9 @@ if is_command_available kubectl; then
 	source <(kubectl completion zsh)
 fi
 
-# fzf
+# Fzf
 if is_command_available fzf; then
 	source <(fzf --zsh)
-	export FZF_DEFAULT_OPTS="--style full --preview 'fzf-preview.sh {}'"
 fi
 
 # Devpod
