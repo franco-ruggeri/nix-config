@@ -20,6 +20,7 @@ return {
 			desc = "[A]I CodeCompanion [i]nline",
 		},
 	},
+	cmd = { "CodeCompanionActions", "CodeCompanionChat", "CodeCompanion" },
 	dependencies = {
 		{
 			"nvim-lua/plenary.nvim", -- required
