@@ -18,32 +18,26 @@ return {
 			harpoon:list():add()
 		end, { desc = "[h]arpoon [a]dd file" })
 
+		-- Remove current item, shift the rest, and select the next
 		vim.keymap.set("n", "<Leader>hr", function()
-			local buffer = vim.api.nvim_buf_get_name(0)
 			local list = harpoon:list()
-
-			-- Remove item from the list if present
-			local item = list:get_by_value(buffer)
-			list:remove(item)
-
-			-- Remove gaps from the list
-			-- Note: list:length() is the index of the last item
-			local empty_indices = {} -- indices with gaps in the initial list
-			local empty_indices_next = nil -- first index in empty_indices that has not been filled yet
-			for i = 1, list:length() do
+			local item_to_remove = list.config:create_list_item()
+			local item_idx = nil
+			local length = list:length()
+			for i = 1, length do
 				local item = list:get(i)
-				if item and empty_indices_next then
-					local empty_idx = empty_indices[empty_indices_next]
-					if empty_idx ~= i then
-						list:replace_at(empty_idx, item)
+				if not item_idx and list.config.equals(item, item_to_remove) then
+					item_idx = i
+				end
+				if item_idx then
+					if i < length then -- shift
+						list:replace_at(i, list:get(i + 1))
+					else
 						list:remove_at(i)
 					end
-					empty_indices_next = empty_indices_next + 1
-				else
-					table.insert(empty_indices, i)
-					empty_indices_next = empty_indices_next and empty_indices_next + 1 or 1
 				end
 			end
+			list:select(item_idx)
 		end, { desc = "[h]arpoon [r]emove file" })
 
 		vim.keymap.set("n", "<Leader>hh", function()
