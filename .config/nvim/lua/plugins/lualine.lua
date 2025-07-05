@@ -38,7 +38,9 @@ local function get_codecompanion_component()
 	end
 
 	function M:update_status()
-		if self.processing then
+		if not package.loaded["codecompanion"] then
+			return nil
+		elseif self.processing then
 			self.spinner_index = (self.spinner_index % #self.options.spinner_symbols) + 1
 			return self.options.spinner_symbols[self.spinner_index]
 		else
