@@ -10,7 +10,7 @@ return {
 	opts = {
 		options = {
 			bottom = { size = 15 },
-			left = { size = 40 },
+			left = { size = 0.2 },
 		},
 		animate = {
 			enabled = false,
