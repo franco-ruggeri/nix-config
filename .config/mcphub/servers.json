@@ -1,11 +1,62 @@
 {
   "mcpServers": {
-    "git": {
+    "fetch": {
       "disabled": false,
+      "autoApprove": [
+        "fetch"
+      ],
+      "command": "uvx",
+      "args": [
+        "mcp-server-fetch"
+      ]
+    },
+    "time": {
+      "disabled": false,
+      "autoApprove": [
+        "get_current_time",
+        "convert_time"
+      ],
+      "command": "uvx",
+      "args": [
+        "mcp-server-time"
+      ]
+    },
+    "git": {
+      "disabled": true,
+      "command": "uvx",
       "args": [
         "mcp-server-git"
+      ]
+    },
+    "memory": {
+      "disabled": true,
+      "autoApprove": [
+        "create_entities",
+        "create_relations",
+        "add_observations",
+        "delete_entities",
+        "delete_observations",
+        "delete_relations",
+        "read_graph",
+        "search_nodes",
+        "open_nodes"
       ],
-      "command": "uvx"
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ]
+    },
+    "sequential-thinking": {
+      "disabled": true,
+      "autoApprove": [
+        "sequentialthinking"
+      ],
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ]
     }
   },
   "nativeMCPServers": {

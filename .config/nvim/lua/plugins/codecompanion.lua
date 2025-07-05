@@ -1,5 +1,16 @@
 return {
 	"olimorris/codecompanion.nvim",
+	dependencies = {
+		{
+			"nvim-lua/plenary.nvim", -- required
+			version = false, -- latest commit, see https://codecompanion.olimorris.dev/installation.html
+		},
+		"nvim-treesitter/nvim-treesitter", -- required
+		"MeanderingProgrammer/render-markdown.nvim", -- for rendering chat
+		"ravitemer/mcphub.nvim", -- for integration with mcphub.nvim
+		"zbirenbaum/copilot.lua", -- for copilot authentication
+		"echasnovski/mini.diff", -- for cleaner diff with @{insert_edit_into_file}
+	},
 	keys = {
 		{
 			"<Leader>Aa",
@@ -21,17 +32,6 @@ return {
 		},
 	},
 	cmd = { "CodeCompanionActions", "CodeCompanionChat", "CodeCompanion" },
-	dependencies = {
-		{
-			"nvim-lua/plenary.nvim", -- required
-			version = false, -- latest commit, see https://codecompanion.olimorris.dev/installation.html
-		},
-		"nvim-treesitter/nvim-treesitter", -- required
-		"MeanderingProgrammer/render-markdown.nvim", -- for rendering chat
-		"ravitemer/mcphub.nvim", -- for integration with mcphub.nvim
-		"zbirenbaum/copilot.lua", -- for copilot authentication
-		"echasnovski/mini.diff", -- for cleaner diff with @{insert_edit_into_file}
-	},
 	opts = {
 		adapters = {
 			copilot = function() -- select default model
