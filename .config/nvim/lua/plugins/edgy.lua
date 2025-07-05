@@ -18,7 +18,10 @@ return {
 		bottom = {
 			{
 				title = "Diagnostics",
-				ft = "trouble-diagnostics",
+				ft = "trouble",
+				filter = function(_, window)
+					return vim.w[window].trouble.mode == "diagnostics"
+				end,
 			},
 			{
 				title = "QuickFix List",
@@ -29,7 +32,10 @@ return {
 			},
 			{
 				title = "Todo Comments",
-				ft = "trouble-todo",
+				ft = "trouble",
+				filter = function(_, window)
+					return vim.w[window].trouble.mode == "todo"
+				end,
 			},
 		},
 		left = {

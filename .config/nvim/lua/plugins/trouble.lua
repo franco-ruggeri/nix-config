@@ -8,19 +8,6 @@ return {
 		focus = true, -- for consistency with built-in quickfix and other plugins
 		auto_preview = false, -- preview is annoying when jumping between windows
 		open_no_results = true, -- useful to open windows just for layout
-		modes = {
-			diagnostics = {
-				win = { bo = { filetype = "trouble-diagnostics" } },
-			},
-			todo = {
-				-- Default is { "buf[0]", "filename", "pos", "message" }
-				-- That is, the items in the current buffer are always on top.
-				-- We don't want the order to change when jumping to another buffer.
-				-- Otherwise, next/prev navigation with keymaps does not work.
-				sort = { "filename", "pos", "message" },
-				win = { bo = { filetype = "trouble-todo" } },
-			},
-		},
 	},
 	config = function(_, opts)
 		require("trouble").setup(opts)
