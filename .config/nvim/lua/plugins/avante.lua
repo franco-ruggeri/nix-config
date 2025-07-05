@@ -8,15 +8,14 @@ return {
 		"MunifTanjim/nui.nvim", -- required
 		"nvim-telescope/telescope.nvim", -- for file_selector provider
 		"nvim-tree/nvim-web-devicons", -- for icons
+		"ravitemer/mcphub.nvim", -- for MCP servers
 		"zbirenbaum/copilot.lua", -- for copilot provider
 		"MeanderingProgrammer/render-markdown.nvim",
 	},
 	opts = {
 		provider = "copilot",
 		providers = {
-			copilot = {
-				model = "claude-3.7-sonnet",
-			},
+			copilot = { model = "claude-3.7-sonnet" },
 		},
 		hints = { enabled = false },
 		windows = {

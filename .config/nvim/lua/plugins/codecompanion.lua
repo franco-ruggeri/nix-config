@@ -7,7 +7,7 @@ return {
 		},
 		"nvim-treesitter/nvim-treesitter", -- required
 		"MeanderingProgrammer/render-markdown.nvim", -- for rendering chat
-		"ravitemer/mcphub.nvim", -- for integration with mcphub.nvim
+		"ravitemer/mcphub.nvim", -- for MCP servers
 		"zbirenbaum/copilot.lua", -- for copilot authentication
 		"echasnovski/mini.diff", -- for cleaner diff with @{insert_edit_into_file}
 	},

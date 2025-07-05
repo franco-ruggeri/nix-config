@@ -1,35 +1,39 @@
 {
   "mcpServers": {
     "fetch": {
-      "disabled": false,
-      "autoApprove": [
-        "fetch"
-      ],
       "command": "uvx",
-      "args": [
-        "mcp-server-fetch"
-      ]
+      "args": ["mcp-server-fetch"],
+      "autoApprove": ["fetch"],
+      "disabled": false
     },
-    "time": {
-      "disabled": false,
-      "autoApprove": [
-        "get_current_time",
-        "convert_time"
-      ],
-      "command": "uvx",
-      "args": [
-        "mcp-server-time"
-      ]
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "autoApprove": ["sequentialthinking"],
+      "disabled": false
     },
     "git": {
-      "disabled": true,
       "command": "uvx",
-      "args": [
-        "mcp-server-git"
-      ]
+      "args": ["mcp-server-git"],
+      "autoApprove": [
+        "git_diff",
+        "git_diff_staged",
+        "git_diff_unstaged",
+        "git_log",
+        "git_show",
+        "git_status"
+      ],
+      "disabled": false
+    },
+    "time": {
+      "command": "uvx",
+      "args": ["mcp-server-time"],
+      "autoApprove": ["get_current_time", "convert_time"],
+      "disabled": false
     },
     "memory": {
-      "disabled": true,
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"],
       "autoApprove": [
         "create_entities",
         "create_relations",
@@ -41,27 +45,24 @@
         "search_nodes",
         "open_nodes"
       ],
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-memory"
-      ]
-    },
-    "sequential-thinking": {
-      "disabled": true,
-      "autoApprove": [
-        "sequentialthinking"
-      ],
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-sequential-thinking"
-      ]
+      "disabled": false
     }
   },
   "nativeMCPServers": {
     "neovim": {
-      "disabled": true
+      "autoApprove": [
+        "delete_item",
+        "execute_command",
+        "execute_lua",
+        "move_item",
+        "replace_in_file",
+        "write_file"
+      ],
+      "disabled": false
+    },
+    "mcphub": {
+      "autoApprove": ["get_current_servers", "toggle_mcp_server"],
+      "disabled": false
     }
   }
 }
