@@ -35,4 +35,9 @@ typeset -U path PATH
 # Include local binaries (e.g., for pipx)
 path+=($HOME/.local/bin)
 
+# Fzf
+if is_command_available fzf; then
+	export FZF_DEFAULT_OPTS="--tmux center"
+fi
+
 source $ZDOTDIR/utils-clear.sh
