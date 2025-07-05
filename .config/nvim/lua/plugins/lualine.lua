@@ -1,3 +1,5 @@
+local utils = require("utils")
+
 local function get_codecompanion_component()
 	local M = require("lualine.component"):extend()
 
@@ -18,12 +20,12 @@ local function get_codecompanion_component()
 		done_symbol = "✓",
 	}
 
-	M.processing = false
-	M.spinner_index = 1
-
 	function M:init(options)
 		M.super.init(self, options)
+
 		self.options = vim.tbl_deep_extend("keep", self.options or {}, default_options)
+		self.processing = false
+		self.spinner_index = 1
 
 		vim.api.nvim_create_autocmd("User", {
 			pattern = "CodeCompanionRequest*",
@@ -55,7 +57,7 @@ return {
 	"nvim-lualine/lualine.nvim",
 	dependencies = {
 		"nvim-tree/nvim-web-devicons", -- for icons
-		"ravitemer/mcphub.nvim", -- for mcphub component
+		-- "ravitemer/mcphub.nvim", -- for mcphub component
 		"letieu/harpoon-lualine", -- for harpoon component
 	},
 	opts = {
@@ -85,7 +87,7 @@ return {
 	},
 	config = function(_, opts)
 		opts.tabline.lualine_x = {
-			{ require("mcphub.extensions.lualine") },
+			{ utils.get_lualine_component_lazy("mcphub", "mcphub.extensions.lualine") },
 			{ get_codecompanion_component() },
 		}
 		require("lualine").setup(opts)

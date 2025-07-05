@@ -2,7 +2,10 @@ return {
 	"yetone/avante.nvim",
 	version = false, -- latest commit, recommended
 	build = "make",
-	event = "VeryLazy",
+	keys = {
+		-- Only for lazy-loading, no actual functionality for <Leader>a
+		{ "<Leader>a", mode = { "n", "x" }, desc = "[A]I Avante" },
+	},
 	dependencies = {
 		"nvim-lua/plenary.nvim", -- required
 		"MunifTanjim/nui.nvim", -- required
