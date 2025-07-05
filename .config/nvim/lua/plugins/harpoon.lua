@@ -18,12 +18,13 @@ return {
 			harpoon:list():add()
 		end, { desc = "[h]arpoon [a]dd file" })
 
-		-- Remove current item, shift the rest, and select the next
 		vim.keymap.set("n", "<Leader>hr", function()
 			local list = harpoon:list()
 			local item_to_remove = list.config:create_list_item()
 			local item_idx = nil
 			local length = list:length()
+
+			-- Remove current item and shift the rest
 			for i = 1, length do
 				local item = list:get(i)
 				if not item_idx and list.config.equals(item, item_to_remove) then
@@ -37,7 +38,14 @@ return {
 					end
 				end
 			end
-			list:select(item_idx)
+
+			-- Select the new item at the removed index.
+			-- If the last item was removed, select the previous index.
+			if item_idx < length then
+				list:select(item_idx)
+			else
+				list:select(item_idx - 1)
+			end
 		end, { desc = "[h]arpoon [r]emove file" })
 
 		vim.keymap.set("n", "<Leader>hh", function()
