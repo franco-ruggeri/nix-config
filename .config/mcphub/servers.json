@@ -1,39 +1,27 @@
 {
   "mcpServers": {
     "fetch": {
-      "command": "uvx",
+      "disabled": false,
       "args": ["mcp-server-fetch"],
-      "autoApprove": ["fetch"],
-      "disabled": false
-    },
-    "sequential-thinking": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
-      "autoApprove": ["sequentialthinking"],
-      "disabled": false
-    },
-    "git": {
       "command": "uvx",
-      "args": ["mcp-server-git"],
-      "autoApprove": [
-        "git_diff",
-        "git_diff_staged",
-        "git_diff_unstaged",
-        "git_log",
-        "git_show",
-        "git_status"
-      ],
-      "disabled": false
+      "autoApprove": ["fetch"]
     },
     "time": {
-      "command": "uvx",
+      "disabled": false,
       "args": ["mcp-server-time"],
-      "autoApprove": ["get_current_time", "convert_time"],
-      "disabled": false
+      "command": "uvx",
+      "autoApprove": ["get_current_time", "convert_time"]
+    },
+    "sequential-thinking": {
+      "disabled": false,
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "command": "npx",
+      "autoApprove": ["sequentialthinking"]
     },
     "memory": {
-      "command": "npx",
+      "disabled": false,
       "args": ["-y", "@modelcontextprotocol/server-memory"],
+      "command": "npx",
       "autoApprove": [
         "create_entities",
         "create_relations",
@@ -44,25 +32,30 @@
         "read_graph",
         "search_nodes",
         "open_nodes"
-      ],
-      "disabled": false
+      ]
+    },
+    "git": {
+      "disabled": false,
+      "args": ["mcp-server-git"],
+      "command": "uvx",
+      "autoApprove": [
+        "git_diff",
+        "git_diff_staged",
+        "git_diff_unstaged",
+        "git_log",
+        "git_show",
+        "git_status"
+      ]
     }
   },
   "nativeMCPServers": {
-    "neovim": {
-      "autoApprove": [
-        "delete_item",
-        "execute_command",
-        "execute_lua",
-        "move_item",
-        "replace_in_file",
-        "write_file"
-      ],
-      "disabled": false
-    },
     "mcphub": {
-      "autoApprove": ["get_current_servers", "toggle_mcp_server"],
-      "disabled": false
+      "disabled": false,
+      "autoApprove": ["get_current_servers", "toggle_mcp_server"]
+    },
+    "neovim": {
+      "disabled": true,
+      "autoApprove": ["find_files", "list_directory", "read_file"]
     }
   }
 }
