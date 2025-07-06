@@ -3,7 +3,7 @@ return {
 	dev = true,
 	lazy = true,
 	dependencies = {
-		"olimorris/codecompanion.nvim",
+		"franco-ruggeri/codecompanion.nvim", -- TODO: restore once PR is merged
 		"nvim-lua/plenary.nvim",
 	},
 	opts = {
