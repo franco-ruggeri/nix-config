@@ -1,5 +1,6 @@
 local utils = require("utils")
 
+-- TODO: consider wrapping it into a plugin
 local function get_codecompanion_component()
 	local M = require("lualine.component"):extend()
 
