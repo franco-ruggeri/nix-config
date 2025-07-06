@@ -3,6 +3,7 @@ return {
 	dev = true,
 	lazy = true,
 	dependencies = {
+		"olimorris/codecompanion.nvim",
 		"nvim-lua/plenary.nvim",
 	},
 	opts = {
