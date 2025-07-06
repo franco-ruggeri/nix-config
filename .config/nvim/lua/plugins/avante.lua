@@ -31,6 +31,9 @@ return {
 				close_from_input = { normal = "q" }, -- for consistency with other windows
 			},
 		},
+		behaviour = {
+			enable_token_counting = false, -- sluggish while typing
+		},
 		-- Integration with mcphub.nvim
 		-- See https://ravitemer.github.io/mcphub.nvim/extensions/avante.html
 		-- ====================
