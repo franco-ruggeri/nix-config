@@ -1,5 +1,6 @@
 return {
 	"olimorris/codecompanion.nvim",
+	dev = true,
 	dependencies = {
 		{
 			"nvim-lua/plenary.nvim", -- required
