@@ -11,6 +11,7 @@ M.setup = function()
 	end, { desc = "diagnostics [v]irtual text toggle" })
 
 	vim.keymap.set("n", "<Leader>q", "<Cmd>copen<CR>", { desc = "[q]uickfix" })
+	vim.keymap.set("x", "<Leader>p", '"_dP', { desc = "[p]aste without copying" })
 
 	vim.keymap.set("n", "K", function()
 		vim.lsp.buf.hover({ border = "rounded" })
