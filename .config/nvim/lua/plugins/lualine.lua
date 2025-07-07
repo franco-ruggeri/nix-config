@@ -1,65 +1,11 @@
 local utils = require("utils")
 
--- TODO: consider wrapping it into a plugin
-local function get_codecompanion_component()
-	local M = require("lualine.component"):extend()
-
-	local default_options = {
-		icon = " ",
-		spinner_symbols = {
-			"⠋",
-			"⠙",
-			"⠹",
-			"⠸",
-			"⠼",
-			"⠴",
-			"⠦",
-			"⠧",
-			"⠇",
-			"⠏",
-		},
-		done_symbol = "✓",
-	}
-
-	function M:init(options)
-		M.super.init(self, options)
-
-		self.options = vim.tbl_deep_extend("keep", self.options or {}, default_options)
-		self.processing = false
-		self.spinner_index = 1
-
-		vim.api.nvim_create_autocmd("User", {
-			pattern = "CodeCompanionRequest*",
-			callback = function(request)
-				if request.match == "CodeCompanionRequestStarted" then
-					self.processing = true
-				elseif request.match == "CodeCompanionRequestFinished" then
-					self.processing = false
-				end
-			end,
-		})
-	end
-
-	function M:update_status()
-		if not package.loaded["codecompanion"] then
-			return nil
-		elseif self.processing then
-			self.spinner_index = (self.spinner_index % #self.options.spinner_symbols) + 1
-			return self.options.spinner_symbols[self.spinner_index]
-		else
-			return self.options.done_symbol
-		end
-	end
-
-	return M
-end
-
 return {
 	"nvim-lualine/lualine.nvim",
 	dependencies = {
 		"nvim-tree/nvim-web-devicons", -- for icons
-		-- "ravitemer/mcphub.nvim", -- for mcphub component
 		"letieu/harpoon-lualine", -- for harpoon component
+		"franco-ruggeri/codecompanion-lualine.nvim", -- for codecompanion component
 	},
 	opts = {
 		options = {
@@ -84,13 +30,14 @@ return {
 				},
 			},
 			lualine_c = { "filename" },
+			lualine_x = { "codecompanion" },
 		},
 	},
 	config = function(_, opts)
-		opts.tabline.lualine_x = {
-			{ utils.get_lualine_component_lazy("mcphub", "mcphub.extensions.lualine") },
-			{ get_codecompanion_component() },
-		}
+		table.insert(
+			opts.tabline.lualine_x,
+			{ utils.get_lualine_component_lazy("mcphub", "mcphub.extensions.lualine") }
+		)
 		require("lualine").setup(opts)
 	end,
 }
