@@ -5,8 +5,6 @@ return {
 		"nvim-lua/plenary.nvim", -- required
 		"MunifTanjim/nui.nvim", -- required
 		"nvim-tree/nvim-web-devicons", -- for file icons
-		--  TODO:I think I'll set it up for notes, if so uncomment it
-		-- {"3rd/image.nvim", opts = {}}, -- Optional image support in preview window: See `# Preview Mode` for more information
 	},
 	opts = {
 		filesystem = {
