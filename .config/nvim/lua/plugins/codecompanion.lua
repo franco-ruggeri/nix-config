@@ -1,6 +1,6 @@
 return {
-	"franco-ruggeri/codecompanion.nvim", -- TODO: restore upstream once my PR gets merged
-	branch = "feature/discussion-1791", -- TODO: remove once I restore upstream
+	"olimorris/codecompanion.nvim",
+	version = false, -- TODO: remove after new release >17.6.0, need https://github.com/olimorris/codecompanion.nvim/commit/17f7cbb6cabdc12195f164acf4c59c7c7c205b64
 	dev = true,
 	dependencies = {
 		{
