@@ -6,7 +6,7 @@ return {
 		vim.cmd.colorscheme("rose-pine")
 
 		-- Update highlights from other plugins for better aesthetic
-		vim.api.nvim_set_hl(0, "EdgyWinBar", { link = "WinBar" })
+		vim.api.nvim_set_hl(0, "EdgyWinBar", { link = "Normal" })
 		vim.api.nvim_set_hl(0, "EdgyNormal", { link = "Normal" })
 		vim.api.nvim_set_hl(0, "TroubleNormal", { link = "Normal" })
 		vim.api.nvim_set_hl(0, "TroubleNormalNC", { link = "NormalNC" })
