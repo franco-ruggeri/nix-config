@@ -26,7 +26,7 @@ return {
 									"extract",
 									{ append = false },
 									'"type": "([^"]+)"',
-									"severity",
+									"type",
 								},
 								{ "skip_lines", 2 },
 								{
