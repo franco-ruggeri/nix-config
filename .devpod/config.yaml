@@ -1,7 +1,7 @@
 contexts:
   default:
     defaultIde: none
-    defaultProvider: kubernetes
+    defaultProvider: docker
     options:
       DOTFILES_URL:
         userProvided: true
