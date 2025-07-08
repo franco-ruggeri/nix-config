@@ -1,12 +1,12 @@
 local utils = require("utils")
+local tool_name = "pylint"
 
--- Based on https://github.com/nvimtools/none-ls.nvim/blob/main/lua/null-ls/builtins/diagnostics/pylint.lua
 return {
-	name = "pylint",
+	name = tool_name,
 	builder = function()
 		return {
-			name = "pylint",
-			cmd = "pylint",
+			name = tool_name,
+			cmd = tool_name,
 			args = {
 				"--output-format",
 				"json",
@@ -25,7 +25,7 @@ return {
 								{
 									"extract",
 									{ append = false },
-									'"type": "([^"]+)"',
+									'"type": "(.+)"',
 									"type",
 								},
 								{ "skip_lines", 2 },
@@ -70,7 +70,7 @@ return {
 	end,
 	condition = {
 		callback = function(opts)
-			return utils.is_python_project(opts.dir) and vim.fn.executable("pylint") == 1
+			return utils.is_python_project(opts.dir) and vim.fn.executable(tool_name) == 1
 		end,
 	},
 }

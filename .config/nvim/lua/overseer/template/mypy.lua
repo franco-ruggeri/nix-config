@@ -1,12 +1,13 @@
 local utils = require("utils")
+local tool_name = "mypy"
 
 -- Based on https://github.com/nvimtools/none-ls.nvim/blob/main/lua/null-ls/builtins/diagnostics/mypy.lua
 return {
-	name = "mypy",
+	name = tool_name,
 	builder = function()
 		return {
-			name = "mypy",
-			cmd = "mypy",
+			name = tool_name,
+			cmd = tool_name,
 			args = {
 				"--hide-error-context",
 				"--no-color-output",
@@ -40,7 +41,7 @@ return {
 	end,
 	condition = {
 		callback = function(opts)
-			return utils.is_python_project(opts.dir) and vim.fn.executable("mypy") == 1
+			return utils.is_python_project(opts.dir) and vim.fn.executable(tool_name) == 1
 		end,
 	},
 }

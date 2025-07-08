@@ -9,8 +9,9 @@ return {
 		templates = {
 			"builtin",
 			"cmake",
-			"mypy",
+			"ruff",
 			"pylint",
+			"mypy",
 			"latexmk",
 		},
 		task_list = {
