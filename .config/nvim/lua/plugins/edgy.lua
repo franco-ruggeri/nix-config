@@ -41,6 +41,10 @@ return {
 		},
 		left = {
 			{
+				title = "Explorer",
+				ft = "neo-tree",
+			},
+			{
 				title = "Outline",
 				ft = "aerial",
 			},

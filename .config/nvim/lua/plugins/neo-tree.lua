@@ -14,9 +14,6 @@ return {
 				hide_gitignored = false,
 			},
 		},
-		window = {
-			position = "current",
-		},
 	},
 	config = function(_, opts)
 		require("neo-tree").setup(opts)
