@@ -11,8 +11,8 @@ return {
 		vim.api.nvim_set_hl(0, "TroubleNormal", { link = "Normal" })
 		vim.api.nvim_set_hl(0, "TroubleNormalNC", { link = "NormalNC" })
 		vim.api.nvim_set_hl(0, "CodeCompanionChatVariable", { link = "@tag.attribute" })
-		vim.api.nvim_set_hl(0, "AvanteSidebarNormal", { link = "NormalNC" })
-		vim.api.nvim_set_hl(0, "AvanteSidebarWinHorizontalSeparator", { link = "NormalNC" })
+		vim.api.nvim_set_hl(0, "AvanteSidebarNormal", { link = "Normal" })
+		vim.api.nvim_set_hl(0, "AvanteSidebarWinHorizontalSeparator", { link = "Normal" })
 		vim.api.nvim_set_hl(0, "AvanteSidebarWinSeparator", { link = "WinSeparator" })
 	end,
 }
