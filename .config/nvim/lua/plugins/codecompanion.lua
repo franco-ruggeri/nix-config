@@ -36,15 +36,6 @@ return {
 	},
 	cmd = { "CodeCompanionActions", "CodeCompanionChat", "CodeCompanion" },
 	opts = {
-		adapters = {
-			copilot = function() -- select default model
-				return require("codecompanion.adapters").extend("copilot", {
-					schema = {
-						model = { default = "claude-3.7-sonnet" },
-					},
-				})
-			end,
-		},
 		strategies = {
 			chat = {
 				tools = {

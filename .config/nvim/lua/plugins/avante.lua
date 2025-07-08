@@ -18,7 +18,7 @@ return {
 	opts = {
 		provider = "copilot",
 		providers = {
-			copilot = { model = "claude-3.7-sonnet" },
+			copilot = { model = "gpt-4.1" },
 		},
 		hints = { enabled = false },
 		windows = {
