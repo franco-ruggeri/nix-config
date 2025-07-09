@@ -27,6 +27,12 @@ return {
 			mode = { "n", "x" },
 			desc = "[A]I CodeCompanion [c]hat",
 		},
+    {
+      "<Leader>An",
+      ":CodeCompanionCmd ",
+      mode = { "n", "x" },
+      desc = "[A]I CodeCompanion [N]eovim command",
+    },
 		{
 			"<Leader>Ai",
 			"<Cmd>CodeCompanion<CR>",
@@ -34,7 +40,7 @@ return {
 			desc = "[A]I CodeCompanion [i]nline",
 		},
 	},
-	cmd = { "CodeCompanionActions", "CodeCompanionChat", "CodeCompanion" },
+	cmd = { "CodeCompanionActions", "CodeCompanionChat", "CodeCompanionCmd", "CodeCompanion" },
 	opts = {
 		strategies = {
 			chat = {
@@ -64,4 +70,9 @@ return {
 			mcphub = { callback = "mcphub.extensions.codecompanion" },
 		},
 	},
+  config = function(_, opts)
+    require("codecompanion").setup(opts)
+
+		vim.api.nvim_set_hl(0, "CodeCompanionChatVariable", { link = "@tag.attribute" })
+  end
 }
