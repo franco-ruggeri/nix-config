@@ -9,14 +9,7 @@ return {
 		{ "<Leader>tar", "<Cmd>OverseerRun<CR>", desc = "[ta]sk [r]un" },
 	},
 	opts = {
-		templates = {
-			"builtin",
-			"cmake",
-			"ruff",
-			"pylint",
-			"mypy",
-			"latexmk",
-		},
+		templates = { "builtin", "extra" },
 		task_list = {
 			-- If direction is "bottom", the task view gets opened alongside the task list.
 			-- We want to open the task list but not the task view.
