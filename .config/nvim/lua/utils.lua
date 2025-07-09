@@ -5,14 +5,6 @@ M.is_location_list = function(window)
 	return vim.fn.getwininfo(window)[1].loclist == 1
 end
 
-M.is_cmake_project = function(cwd)
-	return #vim.fs.find("CMakeLists.txt", { path = cwd, type = "file" }) > 0
-end
-
-M.is_python_project = function(cwd)
-	return #vim.fs.find("pyproject.toml", { path = cwd, type = "file" }) > 0
-end
-
 M.get_lualine_component_lazy = function(lazy_module, component)
 	local M_ = require("lualine.component"):extend()
 
