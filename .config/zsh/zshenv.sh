@@ -40,4 +40,7 @@ if is_command_available fzf; then
 	export FZF_DEFAULT_OPTS="--tmux center"
 fi
 
+# Load API keys
+load_api_key GEMINI_API_KEY ~/.secrets/gemini-api-key.gpg
+
 source $ZDOTDIR/utils-clear.sh
