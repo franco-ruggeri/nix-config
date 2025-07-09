@@ -70,9 +70,9 @@ return {
 			mcphub = { callback = "mcphub.extensions.codecompanion" },
 		},
 	},
-  config = function(_, opts)
-    require("codecompanion").setup(opts)
+	config = function(_, opts)
+		require("codecompanion").setup(opts)
 
 		vim.api.nvim_set_hl(0, "CodeCompanionChatVariable", { link = "@tag.attribute" })
-  end
+	end,
 }

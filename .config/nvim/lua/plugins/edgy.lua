@@ -76,10 +76,10 @@ return {
 			},
 		},
 	},
-  config = function(_, opts)
-    require("edgy").setup(opts)
-    
+	config = function(_, opts)
+		require("edgy").setup(opts)
+
 		vim.api.nvim_set_hl(0, "EdgyWinBar", { link = "Normal" })
 		vim.api.nvim_set_hl(0, "EdgyNormal", { link = "Normal" })
-  end
+	end,
 }
