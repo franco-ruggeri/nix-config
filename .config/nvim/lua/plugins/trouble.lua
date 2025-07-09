@@ -16,5 +16,8 @@ return {
 		vim.keymap.set("n", "<Leader>tc", "<Cmd>Trouble todo open<CR>", { desc = "[t]odo [c]omments" })
 		vim.keymap.set("n", "]x", "<Cmd>Trouble diagnostics next jump=true<CR>", { desc = "Next diagnostic" })
 		vim.keymap.set("n", "[x", "<Cmd>Trouble diagnostics prev jump=true<CR>", { desc = "Previous diagnostic" })
+
+		vim.api.nvim_set_hl(0, "TroubleNormal", { link = "Normal" })
+		vim.api.nvim_set_hl(0, "TroubleNormalNC", { link = "Normal" })
 	end,
 }

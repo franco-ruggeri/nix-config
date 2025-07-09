@@ -46,4 +46,11 @@ return {
 		end,
 		-- ====================
 	},
+  config = function(_, opts)
+    require("avante").setup(opts)
+
+		vim.api.nvim_set_hl(0, "AvanteSidebarNormal", { link = "Normal" })
+		vim.api.nvim_set_hl(0, "AvanteSidebarWinHorizontalSeparator", { link = "Normal" })
+		vim.api.nvim_set_hl(0, "AvanteSidebarWinSeparator", { link = "WinSeparator" })
+  end
 }
