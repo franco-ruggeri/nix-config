@@ -1,6 +1,18 @@
+-- If available, open the last chat, otherwise open a new chat
+local function open_chat()
+	local chat = require("codecompanion.strategies.chat").last_chat()
+	if chat then
+		chat.ui:open()
+	else
+		vim.cmd("CodeCompanionChat")
+	end
+end
+
 return {
 	"olimorris/codecompanion.nvim",
-	version = false, -- TODO: remove after new release >17.6.0, need https://github.com/olimorris/codecompanion.nvim/commit/17f7cbb6cabdc12195f164acf4c59c7c7c205b64
+	-- TODO: remove after new release >17.6.0
+	-- need it for https://github.com/olimorris/codecompanion.nvim/commit/17f7cbb6cabdc12195f164acf4c59c7c7c205b64
+	version = false,
 	dev = true,
 	dependencies = {
 		{
@@ -15,30 +27,16 @@ return {
 		"franco-ruggeri/codecompanion-spinner.nvim", -- for spinner
 	},
 	keys = {
+		{ "<Leader>Aa", "<Cmd>CodeCompanionActions<CR>", mode = { "n", "x" }, desc = "[A]I CodeCompanion [a]ctions" },
+		{ "<Leader>Ac", open_chat, mode = { "n", "x" }, desc = "[A]I CodeCompanion [c]hat" },
+		{ "<Leader>AC", "<Cmd>CodeCompanionChat<CR>", mode = { "n", "x" }, desc = "[A]I CodeCompanion new [c]hat" },
 		{
-			"<Leader>Aa",
-			"<Cmd>CodeCompanionActions<CR>",
+			"<Leader>An",
+			":CodeCompanionCmd ",
 			mode = { "n", "x" },
-			desc = "[A]I CodeCompanion [a]ctions",
+			desc = "[A]I CodeCompanion [N]eovim command",
 		},
-		{
-			"<Leader>Ac",
-			"<Cmd>CodeCompanionChat<CR>",
-			mode = { "n", "x" },
-			desc = "[A]I CodeCompanion [c]hat",
-		},
-    {
-      "<Leader>An",
-      ":CodeCompanionCmd ",
-      mode = { "n", "x" },
-      desc = "[A]I CodeCompanion [N]eovim command",
-    },
-		{
-			"<Leader>Ai",
-			"<Cmd>CodeCompanion<CR>",
-			mode = { "n", "x" },
-			desc = "[A]I CodeCompanion [i]nline",
-		},
+		{ "<Leader>Ai", "<Cmd>CodeCompanion<CR>", mode = { "n", "x" }, desc = "[A]I CodeCompanion [i]nline" },
 	},
 	cmd = { "CodeCompanionActions", "CodeCompanionChat", "CodeCompanionCmd", "CodeCompanion" },
 	opts = {
@@ -73,6 +71,8 @@ return {
 	config = function(_, opts)
 		require("codecompanion").setup(opts)
 
+		-- With rose-pine, chat variables would be highlighted as normal text.
+		-- To make them stand out, we change their highlight group.
 		vim.api.nvim_set_hl(0, "CodeCompanionChatVariable", { link = "@tag.attribute" })
 	end,
 }
