@@ -40,6 +40,11 @@ if is_command_available fzf; then
 	export FZF_DEFAULT_OPTS="--tmux center"
 fi
 
+# AIChat
+if [ is_macos ]; then
+	export AICHAT_CONFIG_DIR="$HOME/.config/aichat"
+fi
+
 # Load API keys
 load_api_key GEMINI_API_KEY ~/.secrets/gemini-api-key.gpg
 
