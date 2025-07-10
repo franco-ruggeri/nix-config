@@ -28,7 +28,7 @@ source_first_found() {
 	return 1
 }
 
-load_api_key() {
+load_secret() {
 	local key_name="$1"
 	local key_file="$2"
 	if [ -f "$key_file" ]; then
