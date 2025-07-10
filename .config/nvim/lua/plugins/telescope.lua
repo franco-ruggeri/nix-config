@@ -5,7 +5,7 @@ return {
 		"nvim-tree/nvim-web-devicons", -- icons
 		"folke/todo-comments.nvim", -- for integration with todo comments
 		"nvim-telescope/telescope-ui-select.nvim", -- set vim.ui.select() to telescope
-		"nvim-telescope/telescope-fzf-native.nvim", -- improves sorting performance
+    { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } -- improves sorting performance
 	},
 	opts = {
 		defaults = {
