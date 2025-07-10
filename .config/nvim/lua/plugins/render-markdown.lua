@@ -1,5 +1,4 @@
--- Enable also for AI chats
-local filetypes = { "markdown", "codecompanion", "Avante" }
+local filetypes = { "markdown", "codecompanion", "Avante" } -- enable for AI chats
 
 return {
 	"MeanderingProgrammer/render-markdown.nvim",
@@ -13,18 +12,10 @@ return {
 		completions = {
 			lsp = { enabled = true },
 		},
-		-- Less intrusive rendering
-		-- ====================
-		-- Heading: No icons and background color
-		heading = { enabled = false },
-		-- Code: no background color
-		-- Note that nil would not override defaults
+		heading = { enabled = false }, -- no background color for headings
 		code = {
-			highlight = "",
-			highlight_info = "",
-			highlight_border = "",
-			highlight_fallback = "",
-			highlight_inline = "",
+			highlight = false, -- no background color for code blocks
+			highlight_border = false, -- no background color for code info line
 		},
 		-- ====================
 	},
