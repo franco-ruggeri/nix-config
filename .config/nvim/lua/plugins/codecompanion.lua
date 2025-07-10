@@ -21,7 +21,7 @@ return {
 		"ravitemer/mcphub.nvim", -- for MCP servers
 		"zbirenbaum/copilot.lua", -- for copilot authentication
 		"echasnovski/mini.diff", -- for cleaner diff with @{insert_edit_into_file}
-		"franco-ruggeri/codecompanion-spinner.nvim", -- for spinner
+		{ "franco-ruggeri/codecompanion-spinner.nvim", dev = true }, -- for spinner
 	},
 	keys = {
 		{ "<Leader>Aa", "<Cmd>CodeCompanionActions<CR>", mode = { "n", "x" }, desc = "[A]I CodeCompanion [a]ctions" },
@@ -59,9 +59,14 @@ return {
 				provider = "default", -- use vim.ui.select()
 			},
 		},
-		-- Integration with mcphub.nvim
-		-- See https://ravitemer.github.io/mcphub.nvim/extensions/codecompanion.html
 		extensions = {
+			spinner = {
+				opts = {
+					-- log_level = "debug",
+				},
+			},
+			-- Integration with mcphub.nvim
+			-- See https://ravitemer.github.io/mcphub.nvim/extensions/codecompanion.html
 			mcphub = { callback = "mcphub.extensions.codecompanion" },
 		},
 	},
