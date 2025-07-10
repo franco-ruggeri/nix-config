@@ -1,5 +1,3 @@
-local utils = require("utils")
-
 return {
 	"jay-babu/mason-nvim-dap.nvim",
 	dependencies = {
