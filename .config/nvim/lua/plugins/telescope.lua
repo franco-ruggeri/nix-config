@@ -5,7 +5,7 @@ return {
 		"nvim-tree/nvim-web-devicons", -- icons
 		"folke/todo-comments.nvim", -- for integration with todo comments
 		"nvim-telescope/telescope-ui-select.nvim", -- set vim.ui.select() to telescope
-    { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } -- improves sorting performance
+		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" }, -- improves sorting performance
 	},
 	opts = {
 		defaults = {
@@ -29,11 +29,11 @@ return {
 		pickers = {
 			find_files = {
 				hidden = true, -- include hidden files
-				-- Set style similar to `fzf --tmux center`. Same experience as in command line.
-				-- ====================
-				layout_config = { width = 0.5, height = 0.5 },
+				theme = "dropdown", -- similar to `fzf --tmux center` in terminal
 				previewer = false,
-				-- ====================
+			},
+			registers = {
+				theme = "dropdown", -- similar to `fzf --tmux center` in terminal
 			},
 		},
 	},
