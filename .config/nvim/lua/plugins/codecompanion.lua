@@ -22,21 +22,27 @@ return {
 		"ravitemer/mcphub.nvim", -- for MCP servers
 		"zbirenbaum/copilot.lua", -- for copilot authentication
 		"echasnovski/mini.diff", -- for cleaner diff with @{insert_edit_into_file}
+		"ravitemer/codecompanion-history.nvim", -- for chat history management
 		{ "franco-ruggeri/codecompanion-spinner.nvim", dev = true }, -- for spinner
 	},
 	keys = {
 		{ "<Leader>Aa", "<Cmd>CodeCompanionActions<CR>", mode = { "n", "x" }, desc = "[A]I CodeCompanion [a]ctions" },
-		{ "<Leader>Ac", open_chat, mode = { "n", "x" }, desc = "[A]I CodeCompanion [c]hat" },
-		{ "<Leader>AC", "<Cmd>CodeCompanionChat<CR>", mode = { "n", "x" }, desc = "[A]I CodeCompanion new [c]hat" },
-		{
-			"<Leader>An",
-			":CodeCompanionCmd ",
-			mode = { "n", "x" },
-			desc = "[A]I CodeCompanion [N]eovim command",
-		},
+		{ "<Leader>Ac", open_chat, desc = "[A]I CodeCompanion [c]hat" },
+		{ "<Leader>Ac", "<Cmd>CodeCompanionChat Add<CR>", mode = "x", desc = "[A]I CodeCompanion [c]hat add" },
+		{ "<Leader>AC", "<Cmd>CodeCompanionChat<CR>", desc = "[A]I CodeCompanion [c]hat new" },
+		{ "<Leader>An", ":CodeCompanionCmd ", mode = { "n", "x" }, desc = "[A]I CodeCompanion [N]eovim command" },
 		{ "<Leader>Ai", "<Cmd>CodeCompanion<CR>", mode = { "n", "x" }, desc = "[A]I CodeCompanion [i]nline" },
+		{ "<Leader>Ah", "<Cmd>CodeCompanionHistory<CR>", desc = "[A]I CodeCompanion chat [h]istory" },
+		{ "<Leader>As", "<Cmd>CodeCompanionSummaries<CR>", desc = "[A]I CodeCompanion chat [s]ummaries" },
 	},
-	cmd = { "CodeCompanionActions", "CodeCompanionChat", "CodeCompanionCmd", "CodeCompanion" },
+	cmd = {
+		"CodeCompanionActions",
+		"CodeCompanionChat",
+		"CodeCompanionCmd",
+		"CodeCompanion",
+		"CodeCompanionHistory",
+		"CodeCompanionSummaries",
+	},
 	opts = {
 		strategies = {
 			chat = {
@@ -61,6 +67,28 @@ return {
 			},
 		},
 		extensions = {
+			history = {
+				opts = {
+					expiration_days = 7,
+					chat_filter = function(chat_data) -- only chats for the cwd
+						return chat_data.cwd == vim.fn.getcwd()
+					end,
+					-- Warning: The models used for titles and summaries default to the models used in the chats.
+					-- So, it is crucial to set them, in order not to waste requests potentially from premium models.
+					-- ====================
+					title_generation_opts = {
+						adapter = "copilot",
+						model = "gpt-4.1",
+					},
+					summary = {
+						generation_opts = {
+							adapter = "copilot",
+							model = "gpt-4.1",
+						},
+					},
+					-- ====================
+				},
+			},
 			spinner = {
 				opts = {
 					-- log_level = "debug",
