@@ -10,9 +10,6 @@ end
 
 return {
 	"olimorris/codecompanion.nvim",
-	-- TODO: remove after new release >17.6.0
-	-- need it for https://github.com/olimorris/codecompanion.nvim/commit/17f7cbb6cabdc12195f164acf4c59c7c7c205b64
-	version = false,
 	dev = true,
 	dependencies = {
 		{
