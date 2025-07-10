@@ -37,7 +37,8 @@ path+=($HOME/.local/bin)
 
 # Fzf
 if is_command_available fzf; then
-	export FZF_DEFAULT_OPTS="--tmux center"
+	# Consistent layout for fzf, <C-t>, <C-r>, and <M-c>
+	export FZF_DEFAULT_OPTS="--tmux=center --layout=reverse"
 fi
 
 # AIChat
