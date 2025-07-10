@@ -1,4 +1,26 @@
-local utils = require("utils")
+local function get_lualine_component_lazy(lazy_module, component)
+	local M = require("lualine.component"):extend()
+
+	function M:init(options)
+		M.super.init(self, options)
+		self.options = options or {}
+	end
+
+	function M:update_status()
+		if not package.loaded[lazy_module] then
+			-- Module not loaded yet. Act as a dummy component that shows nothing.
+			return nil
+		else
+			-- Module loaded. It's time to initialize the component.
+			-- Make self:<method> point to the mcphub component's respective method.
+			-- So, after this call, self:update_status() will point to the actual component's method.
+			setmetatable(self, { __index = require(component) })
+			self:init(self.options)
+		end
+	end
+
+	return M
+end
 
 return {
 	"nvim-lualine/lualine.nvim",
@@ -34,10 +56,7 @@ return {
 		},
 	},
 	config = function(_, opts)
-		table.insert(
-			opts.tabline.lualine_x,
-			{ utils.get_lualine_component_lazy("mcphub", "mcphub.extensions.lualine") }
-		)
+		table.insert(opts.tabline.lualine_x, { get_lualine_component_lazy("mcphub", "mcphub.extensions.lualine") })
 		require("lualine").setup(opts)
 	end,
 }
