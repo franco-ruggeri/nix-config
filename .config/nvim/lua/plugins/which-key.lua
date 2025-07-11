@@ -14,6 +14,7 @@ return {
 			{ "<Leader>l", group = "+[l]atex" },
 			{ "<Leader>m", group = "+[m]arkdown" },
 			{ "<Leader>t", group = "+[t]asks|[t]ests|[t]odo comments" },
+			{ "<Leader>ta", group = "+[ta]sks" },
 			{ "<Leader>x", group = "+diagnostics" },
 		})
 	end,
