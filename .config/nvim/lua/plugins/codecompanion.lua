@@ -33,7 +33,6 @@ return {
 		{ "<Leader>An", ":CodeCompanionCmd ", mode = { "n", "x" }, desc = "[A]I CodeCompanion [N]eovim command" },
 		{ "<Leader>Ai", "<Cmd>CodeCompanion<CR>", mode = { "n", "x" }, desc = "[A]I CodeCompanion [i]nline" },
 		{ "<Leader>Ah", "<Cmd>CodeCompanionHistory<CR>", desc = "[A]I CodeCompanion chat [h]istory" },
-		{ "<Leader>As", "<Cmd>CodeCompanionSummaries<CR>", desc = "[A]I CodeCompanion chat [s]ummaries" },
 	},
 	cmd = {
 		"CodeCompanionActions",
@@ -41,7 +40,6 @@ return {
 		"CodeCompanionCmd",
 		"CodeCompanion",
 		"CodeCompanionHistory",
-		"CodeCompanionSummaries",
 	},
 	opts = {
 		strategies = {
