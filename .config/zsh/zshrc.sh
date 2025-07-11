@@ -63,6 +63,12 @@ if is_command_available devpod; then
 	source <(devpod completion zsh)
 fi
 
+# AIChat
+if is_command_available aichat; then
+	source <(curl -sSL https://raw.githubusercontent.com/sigoden/aichat/main/scripts/shell-integration/integration.zsh)
+	source <(curl -sSL https://raw.githubusercontent.com/sigoden/aichat/main/scripts/completions/aichat.zsh)
+fi
+
 # Ericsson
 if is_macos; then
 	source $HOME/.ericsson

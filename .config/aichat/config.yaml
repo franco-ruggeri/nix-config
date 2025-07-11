@@ -1,3 +1,9 @@
+# LLM
 model: gemini:gemini-2.5-flash
+
+# Clients (providers)
 clients:
   - type: gemini
+
+# Behavior
+keybindings: vi
