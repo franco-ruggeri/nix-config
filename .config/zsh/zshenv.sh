@@ -26,8 +26,8 @@ fi
 # It also defines the key bindings for zsh and tmux.
 # See https://wiki.archlinux.org/title/Zsh#Key_bindings
 # See https://github.com/tmux/tmux/wiki/Getting-Started#vi1-key-bindings
-export VISUAL=vi
-export EDITOR=vi
+export VISUAL=nvim
+export EDITOR=nvim
 
 # Path as array of unique values
 typeset -U path PATH
