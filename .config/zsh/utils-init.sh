@@ -32,7 +32,7 @@ load_secret() {
 	local key_name="$1"
 	local key_file="$2"
 	if [ -f "$key_file" ]; then
-		export $key_name=$(gpg --decrypt --quiet ~/.secrets/gemini-api-key.gpg)
+		export $key_name=$(gpg --decrypt --quiet "$key_file")
 	fi
 }
 
