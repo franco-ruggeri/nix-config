@@ -1,7 +1,7 @@
 return {
 	"danymat/neogen",
 	keys = {
-		{ "<Leader>ca", "<Cmd>Neogen<CR>", desc = "[c]ode [a]nnotate" },
+		{ "<Leader>ga", "<Cmd>Neogen<CR>", desc = "[g]enerate [a]nnotation" },
 	},
 	opts = {
 		snippet_engine = "nvim", -- use built-in snippet engine (:h vim.snippet)

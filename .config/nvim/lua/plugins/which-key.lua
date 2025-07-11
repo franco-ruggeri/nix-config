@@ -9,11 +9,11 @@ return {
 			{ "<Leader>c", group = "+[c]ode" },
 			{ "<Leader>d", group = "+[d]ebug" },
 			{ "<Leader>f", group = "+[f]ind" },
-			{ "<Leader>g", group = "+[g]it" },
+			{ "<Leader>g", group = "+[g]it | [g]enerate annotation" },
 			{ "<Leader>h", group = "+[h]arpoon" },
 			{ "<Leader>l", group = "+[l]atex" },
 			{ "<Leader>m", group = "+[m]arkdown" },
-			{ "<Leader>t", group = "+[t]asks|[t]ests|[t]odo comments" },
+			{ "<Leader>t", group = "+[t]ask | [t]est | [t]odo comment" },
 			{ "<Leader>ta", group = "+[ta]sks" },
 			{ "<Leader>x", group = "+diagnostics" },
 		})
