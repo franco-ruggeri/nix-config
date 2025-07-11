@@ -1453,10 +1453,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": [
-                      "org.mozilla.firefox",
-                      "app.zen-browser.zen"
-                    ],
+                    "bundle_identifiers": ["org.mozilla.firefox"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -1475,10 +1472,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": [
-                      "org.mozilla.firefox",
-                      "app.zen-browser.zen"
-                    ],
+                    "bundle_identifiers": ["org.mozilla.firefox"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -1497,10 +1491,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": [
-                      "org.mozilla.firefox",
-                      "app.zen-browser.zen"
-                    ],
+                    "bundle_identifiers": ["org.mozilla.firefox"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -1519,10 +1510,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": [
-                      "org.mozilla.firefox",
-                      "app.zen-browser.zen"
-                    ],
+                    "bundle_identifiers": ["org.mozilla.firefox"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -1541,10 +1529,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": [
-                      "org.mozilla.firefox",
-                      "app.zen-browser.zen"
-                    ],
+                    "bundle_identifiers": ["org.mozilla.firefox"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -1563,10 +1548,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": [
-                      "org.mozilla.firefox",
-                      "app.zen-browser.zen"
-                    ],
+                    "bundle_identifiers": ["org.mozilla.firefox"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -1585,10 +1567,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": [
-                      "org.mozilla.firefox",
-                      "app.zen-browser.zen"
-                    ],
+                    "bundle_identifiers": ["org.mozilla.firefox"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -1607,10 +1586,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": [
-                      "org.mozilla.firefox",
-                      "app.zen-browser.zen"
-                    ],
+                    "bundle_identifiers": ["org.mozilla.firefox"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -1629,10 +1605,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": [
-                      "org.mozilla.firefox",
-                      "app.zen-browser.zen"
-                    ],
+                    "bundle_identifiers": ["org.mozilla.firefox"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -1651,10 +1624,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": [
-                      "org.mozilla.firefox",
-                      "app.zen-browser.zen"
-                    ],
+                    "bundle_identifiers": ["org.mozilla.firefox"],
                     "type": "frontmost_application_if"
                   }
                 ],
