@@ -47,6 +47,6 @@ if [ is_macos ]; then
 fi
 
 # Load secrets
-load_secret GEMINI_API_KEY ~/.secrets/gemini-api-key.gpg
+load_secret GEMINI_API_KEY
 
 source $ZDOTDIR/utils-clear.sh

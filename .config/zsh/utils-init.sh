@@ -29,10 +29,17 @@ source_first_found() {
 }
 
 load_secret() {
-	local key_name="$1"
-	local key_file="$2"
-	if [ -f "$key_file" ]; then
-		export $key_name=$(gpg --decrypt --quiet "$key_file")
+	local secret_name="$1"
+
+	local secret_file
+	secret_file=$(echo "$secret_name" | tr '[:upper:]' '[:lower:]') # lowercase
+	secret_file="${secret_file//_/-}"                               # underscore -> dash
+	secret_file="$HOME/.secrets/${secret_file}.gpg"                 # path to secret file
+
+	if [ -f "$secret_file" ]; then
+		export $secret_name=$(gpg --decrypt --quiet "$secret_file")
+	else
+		echo "Warning: Secret file $secret_file not found. Skipping $secret_name."
 	fi
 }
 
