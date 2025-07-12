@@ -30,8 +30,8 @@ return {
 		{ "<Leader>Ac", open_chat, desc = "[A]I CodeCompanion [c]hat" },
 		{ "<Leader>Ac", "<Cmd>CodeCompanionChat Add<CR>", mode = "x", desc = "[A]I CodeCompanion [c]hat add" },
 		{ "<Leader>AC", "<Cmd>CodeCompanionChat<CR>", mode = { "n", "x" }, desc = "[A]I CodeCompanion [c]hat new" },
+		{ "<Leader>Ai", ":CodeCompanion ", mode = { "n", "x" }, desc = "[A]I CodeCompanion [i]nline" },
 		{ "<Leader>An", ":CodeCompanionCmd ", mode = { "n", "x" }, desc = "[A]I CodeCompanion [N]eovim command" },
-		{ "<Leader>Ai", "<Cmd>CodeCompanion<CR>", mode = { "n", "x" }, desc = "[A]I CodeCompanion [i]nline" },
 		{ "<Leader>Ah", "<Cmd>CodeCompanionHistory<CR>", desc = "[A]I CodeCompanion chat [h]istory" },
 	},
 	cmd = {
