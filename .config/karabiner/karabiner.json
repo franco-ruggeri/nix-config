@@ -4,7 +4,7 @@
       "complex_modifications": {
         "rules": [
           {
-            "description": "Window manager",
+            "description": "OS",
             "manipulators": [
               {
                 "from": {
@@ -482,6 +482,14 @@
                     "modifiers": ["left_control"]
                   }
                 ],
+                "type": "basic"
+              },
+              {
+                "from": {
+                  "key_code": "v",
+                  "modifiers": { "mandatory": ["fn"] }
+                },
+                "to": [{ "consumer_key_code": "dictation" }],
                 "type": "basic"
               }
             ]
