@@ -492,7 +492,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -514,7 +514,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -536,7 +536,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -558,7 +558,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -580,7 +580,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -602,7 +602,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -624,7 +624,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -646,7 +646,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -668,7 +668,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -690,7 +690,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -712,7 +712,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -734,7 +734,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -756,7 +756,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -778,7 +778,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -800,7 +800,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -822,7 +822,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -844,7 +844,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -866,7 +866,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -888,7 +888,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -910,7 +910,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -932,7 +932,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -954,7 +954,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -976,7 +976,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -998,7 +998,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -1020,7 +1020,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -1042,7 +1042,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -1061,7 +1061,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -1080,7 +1080,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -1099,7 +1099,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -1118,7 +1118,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -1140,7 +1140,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -1162,7 +1162,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -1184,7 +1184,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -1206,7 +1206,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -1228,7 +1228,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
@@ -1250,7 +1250,7 @@
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["net.kovidgoyal.kitty"],
+                    "bundle_identifiers": ["com.mitchellh.ghostty"],
                     "type": "frontmost_application_if"
                   }
                 ],
