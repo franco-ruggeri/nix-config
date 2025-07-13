@@ -1,6 +1,7 @@
 theme = rose-pine
 confirm-close-surface = false
 app-notifications = no-clipboard-copy
+resize-overlay = never
 
 # Disable <M-number> keybinds, which I use in Neovim for Harpoon.
 # By default, Ghostty binds these to switch between tabs.
