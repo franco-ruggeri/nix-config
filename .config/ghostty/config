@@ -1,5 +1,9 @@
 theme = rose-pine
+confirm-close-surface = false
 
+# Disable <M-number> keybinds, which I use in Neovim for Harpoon.
+# By default, Ghostty binds these to switch between tabs.
+# Since I use tmux, I don't need Ghostty tabs.
 keybind = alt+one=unbind
 keybind = alt+two=unbind
 keybind = alt+three=unbind
