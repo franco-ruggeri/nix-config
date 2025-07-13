@@ -3,7 +3,11 @@ confirm-close-surface = false
 app-notifications = no-clipboard-copy
 resize-overlay = never
 
-# Disable <M-number> keybinds, which I use in Neovim for Harpoon.
+# Distribute padding in all directions to avoid large padding around tmux bar.
+# See https://github.com/ghostty-org/ghostty/discussions/3716
+window-padding-balance = true
+
+# Disable <M-number> keybinds. I use them in Neovim for Harpoon.
 # By default, Ghostty binds these to switch between tabs.
 # Since I use tmux, I don't need Ghostty tabs.
 keybind = alt+one=unbind
