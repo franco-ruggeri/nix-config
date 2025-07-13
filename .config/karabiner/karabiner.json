@@ -4,7 +4,7 @@
       "complex_modifications": {
         "rules": [
           {
-            "description": "OS",
+            "description": "Window Manager",
             "manipulators": [
               {
                 "from": {
@@ -483,13 +483,31 @@
                   }
                 ],
                 "type": "basic"
-              },
+              }
+            ]
+          },
+          {
+            "description": "Voice Interaction",
+            "manipulators": [
               {
                 "from": {
                   "key_code": "v",
                   "modifiers": { "mandatory": ["fn"] }
                 },
                 "to": [{ "consumer_key_code": "dictation" }],
+                "type": "basic"
+              },
+              {
+                "from": {
+                  "key_code": "b",
+                  "modifiers": { "mandatory": ["fn"] }
+                },
+                "to": [
+                  {
+                    "key_code": "escape",
+                    "modifiers": ["option"]
+                  }
+                ],
                 "type": "basic"
               }
             ]
