@@ -1,11 +1,16 @@
+# Improve aesthetics
 theme = rose-pine
-confirm-close-surface = false
-app-notifications = no-clipboard-copy
-resize-overlay = never
+app-notifications = no-clipboard-copy   # no notification for clipboard copy
+resize-overlay = never  # no popups with the size
+macos-titlebar-proxy-icon = hidden  # no ghost icon in the titlebar
+title = " " # no title in the titlebar
 
-# Distribute padding in all directions to avoid large padding around tmux bar.
+# Avoid large padding below tmux bar by distributing padding in all directions.
 # See https://github.com/ghostty-org/ghostty/discussions/3716
 window-padding-balance = true
+
+# Disable confirmation popup on close
+confirm-close-surface = false
 
 # Disable <M-number> keybinds. I use them in Neovim for Harpoon.
 # By default, Ghostty binds these to switch between tabs.
