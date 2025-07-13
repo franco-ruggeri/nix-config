@@ -1,9 +1,15 @@
-# Improve aesthetics
+# Set theme
 theme = rose-pine
-app-notifications = no-clipboard-copy   # no notification for clipboard copy
-resize-overlay = never  # no popups with the size
-macos-titlebar-proxy-icon = hidden  # no ghost icon in the titlebar
-title = " " # no title in the titlebar
+
+# No notification on copy
+app-notifications = no-clipboard-copy
+
+# No popups with the size
+resize-overlay = never
+
+# No icon and title in the titlebar
+macos-titlebar-proxy-icon = hidden
+title = " "
 
 # Avoid large padding below tmux bar by distributing padding in all directions.
 # See https://github.com/ghostty-org/ghostty/discussions/3716
