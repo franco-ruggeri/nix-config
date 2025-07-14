@@ -164,7 +164,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace 1 && /opt/homebrew/bin/aerospace workspace 1"
+                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace --focus-follows-window 1"
                   }
                 ],
                 "type": "basic"
@@ -176,7 +176,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace 2 && /opt/homebrew/bin/aerospace workspace 2"
+                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace --focus-follows-window 2"
                   }
                 ],
                 "type": "basic"
@@ -188,7 +188,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace 3 && /opt/homebrew/bin/aerospace workspace 3"
+                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace --focus-follows-window 3"
                   }
                 ],
                 "type": "basic"
@@ -200,7 +200,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace 4 && /opt/homebrew/bin/aerospace workspace 4"
+                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace --focus-follows-window 4"
                   }
                 ],
                 "type": "basic"
@@ -212,7 +212,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace 5 && /opt/homebrew/bin/aerospace workspace 5"
+                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace --focus-follows-window 5"
                   }
                 ],
                 "type": "basic"
@@ -224,7 +224,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace q && /opt/homebrew/bin/aerospace workspace q"
+                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace --focus-follows-window q"
                   }
                 ],
                 "type": "basic"
@@ -236,7 +236,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace w && /opt/homebrew/bin/aerospace workspace w"
+                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace --focus-follows-window w"
                   }
                 ],
                 "type": "basic"
@@ -248,7 +248,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace e && /opt/homebrew/bin/aerospace workspace e"
+                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace --focus-follows-window e"
                   }
                 ],
                 "type": "basic"
@@ -260,7 +260,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace r && /opt/homebrew/bin/aerospace workspace r"
+                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace --focus-follows-window r"
                   }
                 ],
                 "type": "basic"
@@ -272,7 +272,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace t && /opt/homebrew/bin/aerospace workspace t"
+                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace --focus-follows-window t"
                   }
                 ],
                 "type": "basic"
