@@ -499,7 +499,7 @@
               },
               {
                 "from": {
-                  "key_code": "g",
+                  "key_code": "c",
                   "modifiers": { "mandatory": ["fn"] }
                 },
                 "to": [
