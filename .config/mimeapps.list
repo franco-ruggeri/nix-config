@@ -2,7 +2,7 @@
 inode/directory=nemo.desktop
 text/html=firefox.desktop
 image/svg+xml=org.inkscape.Inkscape.desktop
-video/mp4=vlc.desktop
+video/mp4=mpv.desktop
 application/pdf=org.kde.okular.desktop
 application/x-extension-htm=firefox.desktop
 application/x-extension-html=firefox.desktop
