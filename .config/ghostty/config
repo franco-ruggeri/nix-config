@@ -18,6 +18,9 @@ window-padding-balance = true
 # Disable confirmation popup on close
 confirm-close-surface = false
 
+# Disable ligatures
+font-feature = -calt, -liga, -dlig
+
 # Disable <M-number> keybinds. I use them in Neovim for Harpoon.
 # By default, Ghostty binds these to switch between tabs.
 # Since I use tmux, I don't need Ghostty tabs.
