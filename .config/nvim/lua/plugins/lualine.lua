@@ -1,22 +1,36 @@
-local function get_lualine_component_lazy(lazy_module, component)
+-- TODO: wrap into a plugin
+local function get_mcphub_component()
 	local M = require("lualine.component"):extend()
+
+	local default_options = {
+		icon = "󰐻 ",
+		spinner_symbols = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" },
+		stopped_symbol = "-",
+	}
 
 	function M:init(options)
 		M.super.init(self, options)
-		self.options = options or {}
+		self.options = vim.tbl_deep_extend("keep", self.options or {}, default_options)
+		self.spinner_index = 0
 	end
 
 	function M:update_status()
-		if not package.loaded[lazy_module] then
-			-- Module not loaded yet. Act as a dummy component that shows nothing.
+		if not vim.g.loaded_mcphub then
 			return nil
-		else
-			-- Module loaded. It's time to initialize the component.
-			-- Make self:<method> point to the mcphub component's respective method.
-			-- So, after this call, self:update_status() will point to the actual component's method.
-			setmetatable(self, { __index = require(component) })
-			self:init(self.options)
 		end
+
+		local status = vim.g.mcphub_status
+		local text = nil
+		if not status then
+			text = self.options.stopped_symbol
+		elseif vim.g.mcphub_executing or status == "starting" or status == "restarting" then
+			self.spinner_index = (self.spinner_index % #self.options.spinner_symbols) + 1
+			text = self.options.spinner_symbols[self.spinner_index]
+		else
+			text = vim.g.mcphub_servers_count or 0
+			text = tostring(text)
+		end
+		return text
 	end
 
 	return M
@@ -56,7 +70,7 @@ return {
 		},
 	},
 	config = function(_, opts)
-		table.insert(opts.tabline.lualine_x, { get_lualine_component_lazy("mcphub", "mcphub.extensions.lualine") })
+		table.insert(opts.tabline.lualine_x, { get_mcphub_component() })
 		require("lualine").setup(opts)
 	end,
 }
