@@ -27,7 +27,7 @@ return {
 	dependencies = {
 		"nvim-tree/nvim-web-devicons", -- for icons
 		"letieu/harpoon-lualine", -- for harpoon component
-		{ "franco-ruggeri/codecompanion-lualine.nvim", dev = true }, -- for codecompanion component
+		{ "franco-ruggeri/codecompanion-lualine.nvim", version = false, dev = true }, -- for codecompanion component
 	},
 	opts = {
 		options = {

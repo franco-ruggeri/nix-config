@@ -23,15 +23,40 @@ return {
 		"zbirenbaum/copilot.lua", -- for copilot authentication
 		"echasnovski/mini.diff", -- for cleaner diff with @{insert_edit_into_file}
 		"ravitemer/codecompanion-history.nvim", -- for chat history management
-		{ "franco-ruggeri/codecompanion-spinner.nvim", dev = true }, -- for spinner
+		{ "franco-ruggeri/codecompanion-spinner.nvim", version = false, dev = true }, -- for spinner
 	},
 	keys = {
-		{ "<Leader>Aa", "<Cmd>CodeCompanionActions<CR>", mode = { "n", "x" }, desc = "[A]I CodeCompanion [a]ctions" },
+		{
+			"<Leader>Aa",
+			"<Cmd>CodeCompanionActions<CR>",
+			mode = { "n", "x" },
+			desc = "[A]I CodeCompanion [a]ctions",
+		},
 		{ "<Leader>Ac", open_chat, desc = "[A]I CodeCompanion [c]hat" },
-		{ "<Leader>Ac", "<Cmd>CodeCompanionChat Add<CR>", mode = "x", desc = "[A]I CodeCompanion [c]hat add" },
-		{ "<Leader>AC", "<Cmd>CodeCompanionChat<CR>", mode = { "n", "x" }, desc = "[A]I CodeCompanion [c]hat new" },
-		{ "<Leader>Ai", ":CodeCompanion ", mode = { "n", "x" }, desc = "[A]I CodeCompanion [i]nline" },
-		{ "<Leader>An", ":CodeCompanionCmd ", mode = { "n", "x" }, desc = "[A]I CodeCompanion [N]eovim command" },
+		{
+			"<Leader>Ac",
+			"<Cmd>CodeCompanionChat Add<CR>",
+			mode = "x",
+			desc = "[A]I CodeCompanion [c]hat add",
+		},
+		{
+			"<Leader>AC",
+			"<Cmd>CodeCompanionChat<CR>",
+			mode = { "n", "x" },
+			desc = "[A]I CodeCompanion [c]hat new",
+		},
+		{
+			"<Leader>Ai",
+			":CodeCompanion ",
+			mode = { "n", "x" },
+			desc = "[A]I CodeCompanion [i]nline",
+		},
+		{
+			"<Leader>An",
+			":CodeCompanionCmd ",
+			mode = { "n", "x" },
+			desc = "[A]I CodeCompanion [N]eovim command",
+		},
 		{ "<Leader>Ah", "<Cmd>CodeCompanionHistory<CR>", desc = "[A]I CodeCompanion chat [h]istory" },
 	},
 	cmd = {
