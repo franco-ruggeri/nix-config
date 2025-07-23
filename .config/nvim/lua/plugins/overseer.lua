@@ -2,7 +2,7 @@ return {
 	"stevearc/overseer.nvim",
 	version = false, -- latest commit, for my fix: https://github.com/stevearc/overseer.nvim/commit/fe7b2f9ba263e150ab36474dfc810217b8cf7400
 	dependencies = {
-		"franco-ruggeri/overseer-extra.nvim",
+		{ "franco-ruggeri/overseer-extra.nvim", dev = true },
 	},
 	keys = {
 		{ "<Leader>taa", "<Cmd>OverseerOpen<CR>", desc = "[ta]sk list" },
