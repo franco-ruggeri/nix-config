@@ -13,11 +13,6 @@ return {
 				hide_dotfiles = false,
 				hide_gitignored = false,
 			},
-			window = {
-				mappings = {
-					["oa"] = "avante_add_file",
-				},
-			},
 		},
 	},
 	config = function(_, opts)
