@@ -11,6 +11,7 @@ end
 
 return {
 	"olimorris/codecompanion.nvim",
+	version = false, -- TODO: remove on next release (17.11.0)
 	dev = true,
 	dependencies = {
 		{
