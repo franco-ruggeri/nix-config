@@ -39,15 +39,6 @@ return {
 		dash = {
 			width = textwidth,
 		},
-		-- If an image is rendered by image.nvim, there is a small left padding
-		-- where the render-markdown icon would be visible (ugly). Add left padding
-		-- to icons so that, in that case, the icon goes behind the image.
-		link = {
-			image = " 󰥶 ",
-			custom = {
-				web = { pattern = "^http", icon = " 󰖟 " },
-			},
-		},
 	},
 	config = function(_, opts)
 		require("render-markdown").setup(opts)
