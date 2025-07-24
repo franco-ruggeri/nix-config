@@ -1,5 +1,6 @@
 local vault_path = vim.fn.expand("~/codebase/notes")
 
+-- TODO: don't create ID in front matter
 return {
 	"obsidian-nvim/obsidian.nvim",
 	event = {
