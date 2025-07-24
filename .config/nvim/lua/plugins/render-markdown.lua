@@ -13,6 +13,11 @@ return {
 		completions = {
 			lsp = { enabled = true },
 		},
+		win_options = {
+			conceallevel = {
+				default = 0, -- insert mode => links not concealed
+			},
+		},
 		heading = {
 			width = "block",
 			min_width = textwidth, -- stop rendering at colored column
@@ -33,6 +38,15 @@ return {
 		},
 		dash = {
 			width = textwidth,
+		},
+		-- If an image is rendered by image.nvim, there is a small left padding
+		-- where the render-markdown icon would be visible (ugly). Add left padding
+		-- to icons so that, in that case, the icon goes behind the image.
+		link = {
+			image = " 󰥶 ",
+			custom = {
+				web = { pattern = "^http", icon = " 󰖟 " },
+			},
 		},
 	},
 	config = function(_, opts)
