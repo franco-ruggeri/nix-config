@@ -1,4 +1,5 @@
 local filetypes = { "markdown", "codecompanion", "Avante" } -- enable for AI chats
+local textwidth = 81
 
 return {
 	"MeanderingProgrammer/render-markdown.nvim",
@@ -12,16 +13,25 @@ return {
 		completions = {
 			lsp = { enabled = true },
 		},
-		heading = { -- no background color for headings
-			backgrounds = false, -- no background color
-			icons = false, -- no icons
+		heading = {
+			width = "block",
+			min_width = textwidth,
+			icons = {
+				"█ ",
+				"██ ",
+				"███ ",
+				"████ ",
+				"█████ ",
+				"██████ ",
+			},
 		},
 		code = {
-			highlight = false, -- no background color for code blocks
-			highlight_border = false, -- no background color for code info line
+			width = "block",
+			min_width = textwidth,
+			position = "right",
 		},
 		dash = {
-			width = 80, -- same as textwidth of markdown files
+			width = textwidth,
 		},
 	},
 	config = function(_, opts)
