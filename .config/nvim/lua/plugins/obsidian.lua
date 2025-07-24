@@ -9,7 +9,6 @@ return {
 	dependencies = {
 		"nvim-lua/plenary.nvim", -- required
 		"MeanderingProgrammer/render-markdown.nvim", -- for better rendering
-		"folke/snacks.nvim", -- for image viewing
 	},
 	opts = {
 		-- TODO: create new note in 0-inbox
