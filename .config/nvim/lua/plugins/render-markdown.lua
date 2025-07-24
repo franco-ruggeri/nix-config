@@ -15,7 +15,7 @@ return {
 		},
 		heading = {
 			width = "block",
-			min_width = textwidth,
+			min_width = textwidth, -- stop rendering at colored column
 			icons = {
 				"█ ",
 				"██ ",
@@ -26,6 +26,7 @@ return {
 			},
 		},
 		code = {
+			border = "thick", -- no concealed lines => no scrolling between normal and insert modes
 			width = "block",
 			min_width = textwidth,
 			position = "right",
