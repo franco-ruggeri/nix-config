@@ -1,3 +1,10 @@
+local function to_kebab_case(str)
+	-- Replace non-alphanumeric with spaces, then convert spaces to hyphens
+	str = str:gsub("[^%w]+", " ")
+	str = str:lower():gsub("%s+", "-")
+	return str
+end
+
 return {
 	"obsidian-nvim/obsidian.nvim",
 	lazy = true, -- load on demand from specific projects via .nvim.lua
@@ -21,6 +28,10 @@ return {
 				end
 			end
 			return out
+		end,
+		note_path_func = function(spec)
+			local path = spec.dir / to_kebab_case(tostring(spec.title))
+			return path:with_suffix(".md")
 		end,
 		-- TODO: try templates
 		-- TODO: move _assets to .assets
