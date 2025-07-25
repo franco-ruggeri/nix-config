@@ -21,6 +21,7 @@ return {
 		-- Based on defaults, but removing:
 		-- * The note ID (unnecessary)
 		-- * The title as an alias. Marksman already does this implicitly.
+		-- TODO: the title seems to be added as an alias, still
 		note_frontmatter_func = function(note)
 			local out = { aliases = note.aliases, tags = note.tags }
 			if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
@@ -35,24 +36,23 @@ return {
 			return path:with_suffix(".md")
 		end,
 		-- TODO: try templates
-		-- TODO: move _assets to .assets
 		templates = {
-			folder = "_assets/templates",
+			folder = ".assets/templates",
 		},
+		-- TODO: try pasting images from clipboard
 		attachments = {
-			img_folder = "_assets/attachments",
+			img_folder = ".assets/attachments",
 		},
 		completion = { -- marksman takes care of completion via LSP
 			nvim_cmp = false,
 			blink = false,
 		},
-		ui = {
-			enable = false, -- render-markdown takes care of nice rendering
-		},
+		ui = { enable = false }, -- render-markdown takes care of nice rendering
 	},
 	config = function(_, opts)
 		require("obsidian").setup(opts)
 
 		-- TODO: set keymaps
+		-- TODO: check all the features
 	end,
 }
