@@ -39,6 +39,11 @@ return {
 				end
 			end
 
+			-- The item was not in the list, so we are done
+			if not item_idx then
+				return
+			end
+
 			-- Select the new item at the removed index.
 			-- If the last item was removed, select the previous index.
 			if item_idx < length then
