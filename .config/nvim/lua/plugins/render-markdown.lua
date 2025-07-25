@@ -1,5 +1,5 @@
 local filetypes = { "markdown", "codecompanion", "Avante" } -- enable for AI chats
-local textwidth = 81
+local textwidth = 80
 
 return {
 	"MeanderingProgrammer/render-markdown.nvim",
@@ -20,7 +20,7 @@ return {
 		},
 		heading = {
 			width = "block",
-			min_width = textwidth, -- stop rendering at colored column
+			min_width = textwidth + 1, -- stop rendering at colored column
 			icons = {
 				"█ ",
 				"██ ",
@@ -33,7 +33,7 @@ return {
 		code = {
 			border = "thick", -- no concealed lines => no scrolling between normal and insert modes
 			width = "block",
-			min_width = textwidth,
+			min_width = textwidth + 1,
 			position = "right",
 		},
 		dash = {
