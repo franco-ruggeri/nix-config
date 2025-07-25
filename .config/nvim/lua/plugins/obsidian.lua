@@ -1,4 +1,3 @@
--- TODO: don't create ID in front matter
 return {
 	"obsidian-nvim/obsidian.nvim",
 	lazy = true, -- load on demand from specific projects via .nvim.lua
@@ -14,6 +13,19 @@ return {
 				path = vim.fn.getcwd,
 			},
 		},
+		-- Based on defaults, but removing the `id` field
+		note_frontmatter_func = function(note)
+			if note.title then
+				note:add_alias(note.title)
+			end
+			local out = { aliases = note.aliases, tags = note.tags }
+			if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
+				for k, v in pairs(note.metadata) do
+					out[k] = v
+				end
+			end
+			return out
+		end,
 		-- TODO: try templates
 		-- TODO: move _assets to .assets
 		templates = {
