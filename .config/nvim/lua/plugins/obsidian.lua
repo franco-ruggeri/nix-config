@@ -8,16 +8,12 @@ return {
 	opts = {
 		-- TODO: create new note in 0-inbox
 		workspaces = {
-			{
-				name = "notes",
-				path = vim.fn.getcwd,
-			},
+			{ name = "notes", path = vim.fn.getcwd },
 		},
-		-- Based on defaults, but removing the `id` field
+		-- Based on defaults, but removing:
+		-- * The note ID (unnecessary)
+		-- * The title as an alias. Marksman already does this implicitly.
 		note_frontmatter_func = function(note)
-			if note.title then
-				note:add_alias(note.title)
-			end
 			local out = { aliases = note.aliases, tags = note.tags }
 			if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
 				for k, v in pairs(note.metadata) do
