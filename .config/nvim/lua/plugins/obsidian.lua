@@ -1,12 +1,7 @@
-local vault_path = vim.fn.expand("~/codebase/notes")
-
 -- TODO: don't create ID in front matter
 return {
 	"obsidian-nvim/obsidian.nvim",
-	event = {
-		("BufReadPre %s/*.md"):format(vault_path),
-		("BufNewFile %s/*.md"):format(vault_path),
-	},
+	lazy = true, -- load on demand from specific projects via .nvim.lua
 	dependencies = {
 		"nvim-lua/plenary.nvim", -- required
 		"MeanderingProgrammer/render-markdown.nvim", -- for better rendering
@@ -16,7 +11,7 @@ return {
 		workspaces = {
 			{
 				name = "notes",
-				path = vault_path,
+				path = vim.fn.getcwd,
 			},
 		},
 		-- TODO: try templates
