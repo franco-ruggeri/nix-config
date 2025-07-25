@@ -45,15 +45,18 @@ M.setup = function()
 			-- Multiple language servers might provide formatting.
 			-- To avoid conflicts, we use a filter so that only one of them go through.
 			local format_filter = get_format_filter(args.buf)
+			local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
 
 			-- Format on save
-			vim.api.nvim_create_autocmd("BufWritePre", {
-				group = vim.api.nvim_create_augroup("my-lsp-format", { clear = false }),
-				buffer = args.buf,
-				callback = function()
-					vim.lsp.buf.format({ filter = format_filter })
-				end,
-			})
+			if client:supports_method("textDocument/formatting") then
+				vim.api.nvim_create_autocmd("BufWritePre", {
+					group = vim.api.nvim_create_augroup("my-lsp-format", { clear = false }),
+					buffer = args.buf,
+					callback = function()
+						vim.lsp.buf.format({ filter = format_filter })
+					end,
+				})
+			end
 
 			-- Fold using LSP
 			vim.opt.foldmethod = "expr"
