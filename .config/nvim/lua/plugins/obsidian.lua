@@ -13,10 +13,11 @@ return {
 		"MeanderingProgrammer/render-markdown.nvim", -- for better rendering
 	},
 	opts = {
-		-- TODO: create new note in 0-inbox
 		workspaces = {
 			{ name = "notes", path = vim.fn.getcwd },
 		},
+		new_notes_location = "notes_subdir",
+		notes_subdir = "0-inbox",
 		-- Based on defaults, but removing:
 		-- * The note ID (unnecessary)
 		-- * The title as an alias. Marksman already does this implicitly.
