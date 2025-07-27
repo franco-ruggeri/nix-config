@@ -7,7 +7,7 @@
   "codecompanion-history.nvim": { "branch": "main", "commit": "811b9af74c8fd4752a3422acf2379fba0639a96c" },
   "codecompanion-lualine.nvim": { "branch": "main", "commit": "b264433444715bf07ee9f7d5015086b927ccf7f1" },
   "codecompanion-spinner.nvim": { "branch": "main", "commit": "1f53b8d402de2a5ee6f9d64793f5eda49ed12a64" },
-  "codecompanion.nvim": { "branch": "main", "commit": "94acda8a9f785bf9ef892379132473a3e3c9eaa4" },
+  "codecompanion.nvim": { "branch": "main", "commit": "dd06dd9f75725457f2924968ec83f5495eaf5d5a" },
   "copilot.lua": { "branch": "master", "commit": "4958fb9390f624cb389be2772e3c5e718e94d8b6" },
   "diffview.nvim": { "branch": "main", "commit": "4516612fe98ff56ae0415a259ff6361a89419b0a" },
   "edgy.nvim": { "branch": "main", "commit": "ebb77fde6f5cb2745431c6c0fe57024f66471728" },
