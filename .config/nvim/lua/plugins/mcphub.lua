@@ -1,7 +1,7 @@
 return {
 	"ravitemer/mcphub.nvim",
 	version = false, -- latest commit, see https://github.com/ravitemer/mcphub.nvim/issues/185
-	lazy = true,
+	cmd = { "MCPHub" },
 	dependencies = {
 		"nvim-lua/plenary.nvim", -- required
 	},
