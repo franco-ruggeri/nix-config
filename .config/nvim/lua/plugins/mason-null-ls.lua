@@ -45,6 +45,11 @@ return {
 						generator_opts = generator_opts,
 					}))
 				end,
+				prettier = function()
+					null_ls.register(null_ls.builtins.formatting.prettier.with({
+						extra_args = { "--prose-wrap", "always" }, -- wrap lines in Markdown files
+					}))
+				end,
 				markdownlint = function()
 					-- Register only for diagnostics, not formatting, because formatting is handled by prettier
 					null_ls.register(null_ls.builtins.diagnostics.markdownlint)
