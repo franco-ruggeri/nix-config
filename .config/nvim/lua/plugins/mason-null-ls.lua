@@ -24,7 +24,7 @@ return {
 			automatic_installation = false,
 			handlers = {
 				function(source, types)
-					for _, type in ipairs(types) do
+					for _, type in pairs(types) do
 						null_ls.register(null_ls.builtins[type][source])
 					end
 				end,
@@ -45,20 +45,9 @@ return {
 						generator_opts = generator_opts,
 					}))
 				end,
-				prettier = function()
-					local filetypes = null_ls.builtins.formatting.prettier.filetypes
-
-					-- Remove markdown to avoid collisions with markdownlint
-					local filetypes_new = {}
-					for _, filetype in ipairs(filetypes) do
-						if filetype ~= "markdown" then
-							table.insert(filetypes_new, filetype)
-						end
-					end
-
-					null_ls.register(null_ls.builtins.formatting.prettier.with({
-						filetypes = filetypes_new,
-					}))
+				markdownlint = function()
+					-- Register only for diagnostics, not formatting, because formatting is handled by prettier
+					null_ls.register(null_ls.builtins.diagnostics.markdownlint)
 				end,
 			},
 		})
