@@ -106,7 +106,7 @@ M.setup = function()
 	})
 
 	-- In git commits, highlight as errors subject lines longer than 50 characters
-	vim.cmd.highlight("link gitcommitOverflow Error")
+	vim.api.nvim_set_hl(0, "gitcommitOverflow", { link = "Error" })
 end
 
 return M
