@@ -88,7 +88,7 @@ return {
 		})
 
 		-- Find operations (with picker)
-		vim.keymap.set("n", "<Leader>of", "<Cmd>Obsidian quick_switch<CR>", { desc = "[o]bsidian [f]ind [f]ile" })
+		vim.keymap.set("n", "<Leader>of", "<Cmd>Obsidian quick_switch<CR>", { desc = "[o]bsidian [f]ind note" })
 		vim.keymap.set("n", "<Leader>os", "<Cmd>Obsidian search<CR>", { desc = "[o]bsidian [s]earch" })
 		vim.keymap.set("n", "<Leader>ot", "<Cmd>Obsidian tags<CR>", { desc = "[o]bsidian [t]ag" })
 		vim.keymap.set("n", "<Leader>ol", "<Cmd>Obsidian links<CR>", { desc = "[o]bsidian [l]inks" })
