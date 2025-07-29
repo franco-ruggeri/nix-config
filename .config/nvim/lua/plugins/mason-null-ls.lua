@@ -45,9 +45,18 @@ return {
 						generator_opts = generator_opts,
 					}))
 				end,
+				-- Register prettier twice:
+				-- * For Markdown files, use `--prose-wrap always` to wrap lines.
+				-- * For all other filetypes, use the default prettier settings.
 				prettier = function()
 					null_ls.register(null_ls.builtins.formatting.prettier.with({
+						filetypes = { "markdown" },
 						extra_args = { "--prose-wrap", "always" }, -- wrap lines in Markdown files
+					}))
+					null_ls.register(null_ls.builtins.formatting.prettier.with({
+						filetypes = vim.tbl_filter(function(ft)
+							return ft ~= "markdown"
+						end, null_ls.builtins.formatting.prettier.filetypes),
 					}))
 				end,
 				markdownlint = function()
