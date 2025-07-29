@@ -1,6 +1,7 @@
 local function open_and_focus()
 	vim.cmd("Neotest summary open")
 
+	-- Focus the summary window for consistency with other UI panels
 	for _, win in ipairs(vim.api.nvim_list_wins()) do
 		local buf = vim.api.nvim_win_get_buf(win)
 		local ft = vim.bo[buf].filetype
@@ -25,7 +26,7 @@ return {
 		"stevearc/overseer.nvim", -- for running tests in overseer
 	},
 	keys = {
-		{ "<Leader>te", open_and_focus, desc = "[te]st list" },
+		{ "<Leader>T", open_and_focus, desc = "[t]ests" },
 	},
 	config = function()
 		---@diagnostic disable-next-line: missing-fields

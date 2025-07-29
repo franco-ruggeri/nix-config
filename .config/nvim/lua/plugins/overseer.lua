@@ -5,8 +5,8 @@ return {
 		{ "franco-ruggeri/overseer-extra.nvim", version = false, dev = true },
 	},
 	keys = {
-		{ "<Leader>taa", "<Cmd>OverseerOpen<CR>", desc = "[ta]sk list" },
-		{ "<Leader>tar", "<Cmd>OverseerRun<CR>", desc = "[ta]sk [r]un" },
+		{ "<Leader>tt", "<Cmd>OverseerOpen<CR>", desc = "[t]asks" },
+		{ "<Leader>tr", "<Cmd>OverseerRun<CR>", desc = "[t]ask [r]un" },
 	},
 	opts = {
 		templates = { "builtin", "extra" },
@@ -24,14 +24,14 @@ return {
 			task_util.add_component(task_definition, { "on_output_quickfix", open = true })
 		end)
 
-		vim.keymap.set("n", "<Leader>taR", function()
-			-- Recipe from https://github.com/stevearc/overseer.nvim/blob/master/doc/recipes.md#restart-last-task
+		-- Recipe from https://github.com/stevearc/overseer.nvim/blob/master/doc/recipes.md#restart-last-task
+		vim.keymap.set("n", "<Leader>tR", function()
 			local tasks = overseer.list_tasks({ recent_first = true })
 			if vim.tbl_isempty(tasks) then
 				vim.notify("No tasks found", vim.log.levels.WARN)
 			else
 				overseer.run_action(tasks[1], "restart")
 			end
-		end, { desc = "[ta]sk [r]un last" })
+		end, { desc = "[t]ask [r]un last" })
 	end,
 }

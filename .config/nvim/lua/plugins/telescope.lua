@@ -54,7 +54,6 @@ return {
 		vim.keymap.set("n", "<Leader>ff", builtin.find_files, { desc = "[f]ind [f]ile" })
 		vim.keymap.set("n", "<Leader>fs", builtin.live_grep, { desc = "[f]ind [s]tring" })
 		vim.keymap.set("n", "<Leader>fr", builtin.registers, { desc = "[f]ind [r]egister" })
-		vim.keymap.set("n", "<Leader>ft", "<Cmd>TodoTelescope<CR>", { desc = "[f]ind [t]odo comment" })
 
 		vim.api.nvim_create_autocmd("LspAttach", {
 			desc = "Bind LSP methods to Telescope",
