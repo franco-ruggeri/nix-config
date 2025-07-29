@@ -1,67 +1,48 @@
 local function to_kebab_case(str)
-	-- Replace non-alphanumeric with spaces, then convert spaces to hyphens
-	str = str:gsub("[^%w]+", " ")
-	str = str:lower():gsub("%s+", "-")
+	str = str:gsub("[^%w]+", " ") -- non-alphanumeric -> space
+	str = str:lower():gsub("%s+", "-") -- spaces -> "-"
 	return str
 end
 
--- TODO: find a consistent format for links in marksman, it should work on quartz, obsidian, and neovim...
---  - backlinks don't work
---  - marksman uses only the title, but Obsidian uses [[path|alias]]
---  maybe I should use obsidian for linking and force Markdown links in marksman...
--- TODO: figure out if I should use the ID or not... Obsidian.nvim uses it in extract_note
+local function open_note()
+	local open_cmd = vim.uv.os_uname().sysname == "Darwin" and "open" or "xdg-open"
+
+	local full_path = vim.api.nvim_buf_get_name(0)
+	local note_path = vim.fn.fnamemodify(full_path, ":.:r")
+	local url = ("https://www.brain.ruggeri.ddnsfree.com/%s"):format(note_path)
+
+	local cmd = ('%s "%s"'):format(open_cmd, url)
+	vim.fn.system(cmd)
+end
+
 return {
 	"obsidian-nvim/obsidian.nvim",
-	lazy = true, -- load on demand from specific projects via .nvim.lua
+	-- Load on demand from specific projects via .nvim.lua [*]
+	lazy = true,
 	dependencies = {
 		"nvim-lua/plenary.nvim", -- required
 		"MeanderingProgrammer/render-markdown.nvim", -- for better rendering
 		"nvim-telescope/telescope.nvim", -- for pickers
 	},
 	opts = {
-		workspaces = {
-			{ name = "notes", path = vim.fn.getcwd },
-		},
+		-- When plugin is loaded, the project is the vault [*]
+		workspaces = { { name = "notes", path = vim.fn.getcwd } },
 		new_notes_location = "notes_subdir",
 		notes_subdir = "0-inbox",
-		-- TODO: try templates
-		templates = {
-			folder = "_assets/templates",
-		},
-		backlinks = {
-			parse_headers = false,
-		},
-		attachments = {
-			img_folder = "_assets/attachments",
-			img_name_func = function()
-				return ("pasted-image-%s"):format(os.date("%Y%m%d%H%M%S"))
-			end,
-			-- TODO: should URL encode it as recommended by Obsidian,check default implementation
-			img_text_func = function(client, path)
-				-- TODO: on new release >3.12, the function will change signature to `function(path)`
-				-- Without the client, I'll need to find another way to extract the path relative to the vault
-				-- Start by checking the built-in function at https://github.com/obsidian-nvim/obsidian.nvim/blob/main/lua/obsidian/builtin.lua#L103
-				path = client:vault_relative_path(path)
-				return ("![%s](%s)"):format(path.name, tostring(path))
-			end,
-			confirm_img_paste = false,
-		},
-		completion = { -- marksman takes care of completion via LSP
+		completion = {
 			nvim_cmp = false,
-			blink = false,
+			blink = true,
 		},
-		mappings = {}, -- no smart action and no `gf` (provided by marksman)
-		ui = { enable = false }, -- render-markdown takes care of nice rendering
-		-- Based on defaults, but removing:
-		-- * The note ID (unnecessary)
-		-- * The title as an alias. Marksman already does this implicitly.
+		backlinks = { parse_headers = false },
+		wiki_link_func = "prepend_note_path",
+		-- Based on defaults, but removing the note ID and title (unnecessary)
 		note_frontmatter_func = function(note)
 			local out = { aliases = note.aliases, tags = note.tags }
 			for k, v in pairs(note.metadata or {}) do
 				out[k] = v
 			end
 
-			-- Remove title from aliases (obsidian.nvim adds it on new note)
+			-- Remove title from aliases (added it on new note)
 			out.aliases = vim.tbl_filter(function(alias)
 				return alias ~= note.title
 			end, out.aliases)
@@ -73,28 +54,60 @@ return {
 			local path = spec.dir / to_kebab_case(tostring(spec.title))
 			return path:with_suffix(".md")
 		end,
+		attachments = {
+			img_folder = "_assets/attachments",
+			img_name_func = function()
+				return ("pasted-image-%s"):format(os.date("%Y%m%d%H%M%S"))
+			end,
+			-- Use the vault-relative path in the image link.
+			-- By default, the link is created without only the filename, not the filepath.
+			-- See https://github.com/obsidian-nvim/obsidian.nvim/blob/main/lua/obsidian/builtin.lua#L109
+			img_text_func = function(path)
+				local util = require("obsidian.util")
+				path = tostring(path:vault_relative_path())
+				path = util.urlencode(path, { keep_path_sep = true })
+				return ("![pasted image](%s)"):format(path)
+			end,
+			confirm_img_paste = false,
+		},
+		templates = { folder = "_assets/templates" },
+		ui = { enable = false }, -- render-markdown takes care of nice rendering
+		-- Get rid of the warning. I can remove it from version 4.
+		-- See https://github.com/obsidian-nvim/obsidian.nvim/wiki/Commands
+		legacy_commands = false,
 	},
 	config = function(_, opts)
 		require("obsidian").setup(opts)
 
-		-- TODO: think again about these keymaps...
-		-- most of these functions are actually "find commands", should I use <Leader>f?
-		vim.keymap.set("n", "<Leader>ob", "<Cmd>Obsidian backlinks<CR>", { desc = "[o]bsidian [b]acklinks" })
-		vim.keymap.set("x", "<Leader>ol", "<Cmd>Obsidian link<CR>", { desc = "[o]bsidian add [l]ink" })
+		vim.api.nvim_create_autocmd("User", {
+			desc = "Remove Obisian smart action (<CR>)",
+			pattern = "ObsidianNoteEnter",
+			callback = function(ev)
+				vim.keymap.del("n", "<CR>", { buffer = ev.buf })
+			end,
+		})
+
+		-- Find operations (with picker)
+		vim.keymap.set("n", "<Leader>of", "<Cmd>Obsidian quick_switch<CR>", { desc = "[o]bsidian [f]ind [f]ile" })
+		vim.keymap.set("n", "<Leader>os", "<Cmd>Obsidian search<CR>", { desc = "[o]bsidian [s]earch" })
+		vim.keymap.set("n", "<Leader>ot", "<Cmd>Obsidian tags<CR>", { desc = "[o]bsidian [t]ag" })
 		vim.keymap.set("n", "<Leader>ol", "<Cmd>Obsidian links<CR>", { desc = "[o]bsidian [l]inks" })
+		vim.keymap.set("n", "<Leader>ob", "<Cmd>Obsidian backlinks<CR>", { desc = "[o]bsidian [b]acklinks" })
+
+		-- Edit operations
+		vim.keymap.set("x", "<Leader>ol", "<Cmd>Obsidian link<CR>", { desc = "[o]bsidian add [l]ink" })
 		vim.keymap.set("n", "<Leader>op", "<Cmd>Obsidian paste_img <CR>", { desc = "[o]bsidian [p]aste image" })
-
-		vim.keymap.set("n", "<Leader>ff", "<Cmd>Obsidian quick_switch<CR>", { desc = "[f]ind [f]ile" })
-		vim.keymap.set("n", "<Leader>fs", "<Cmd>Obsidian search<CR>", { desc = "[f]ind [s]tring" })
-		vim.keymap.set("n", "<Leader>ft", "<Cmd>Obsidian tags<CR>", { desc = "[f]ind [t]ag" })
-
+		vim.keymap.set("n", "<Leader>or", "<Cmd>Obsidian rename<CR>", { desc = "[o]bsidian [r]ename" })
 		vim.keymap.set("n", "<Leader>on", "<Cmd>Obsidian new<CR>", { desc = "[o]bsidian new [n]ote" })
-		vim.keymap.set("x", "<Leader>on", "<Cmd>Obsidian extract_note<CR>", { desc = "[o]bsidian extract [n]ote" })
+		vim.keymap.set("x", "<Leader>on", ":Obsidian extract_note<CR>", { desc = "[o]bsidian extract [n]ote" })
 		vim.keymap.set(
 			"n",
 			"<Leader>oN",
 			"<Cmd>Obsidian new_from_template<CR>",
 			{ desc = "[o]bsidian new [n]ote from template" }
 		)
+
+		vim.api.nvim_create_user_command("ObsidianOpen", open_note, {})
+		vim.keymap.set("n", "<Leader>oo", "<Cmd>ObsidianOpen<CR>", { desc = "[o]bsidian [o]pen" })
 	end,
 }
