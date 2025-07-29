@@ -5,7 +5,7 @@ return {
 		{ "franco-ruggeri/overseer-extra.nvim", version = false, dev = true },
 	},
 	keys = {
-		{ "<Leader>tt", "<Cmd>OverseerOpen<CR>", desc = "[t]asks" },
+		{ "<Leader>tt", "<Cmd>OverseerOpen<CR>", desc = "[t]ask list" },
 		{ "<Leader>tr", "<Cmd>OverseerRun<CR>", desc = "[t]ask [r]un" },
 	},
 	opts = {

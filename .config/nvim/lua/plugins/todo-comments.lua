@@ -11,7 +11,7 @@ return {
 	config = function(_, opts)
 		require("todo-comments").setup(opts)
 
-		vim.keymap.set("n", "<Leader>cc", "<Cmd>Trouble todo open<CR>", { desc = "todo [c]omments (panel)" })
-		vim.keymap.set("n", "<Leader>cC", "<Cmd>TodoTelescope<CR>", { desc = "todo [c]omment (picker)" })
+		vim.keymap.set("n", "<Leader>cc", "<Cmd>Trouble todo open<CR>", { desc = "todo [c]omment list" })
+		vim.keymap.set("n", "<Leader>cf", "<Cmd>TodoTelescope<CR>", { desc = "todo [c]omment [f]ind" })
 	end,
 }

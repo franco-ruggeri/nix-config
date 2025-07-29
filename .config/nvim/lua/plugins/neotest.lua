@@ -26,7 +26,7 @@ return {
 		"stevearc/overseer.nvim", -- for running tests in overseer
 	},
 	keys = {
-		{ "<Leader>T", open_and_focus, desc = "[t]ests" },
+		{ "<Leader>T", open_and_focus, desc = "[t]est list" },
 	},
 	config = function()
 		---@diagnostic disable-next-line: missing-fields
