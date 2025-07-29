@@ -13,8 +13,14 @@ return {
 		indent = {
 			enable = true,
 		},
-		-- Parsers required by CodeCompanion.
-		-- They wouldn't be installed automatically, as the codecompanion filetype doesn't trigger installation.
-		ensure_installed = { "markdown", "markdown_inline", "yaml" },
+		-- Some parsers are required by other plugins but the automatic installation is not triggered by them
+		ensure_installed = {
+			-- CodeCompanion
+			"markdown",
+			"markdown_inline",
+			"yaml",
+			-- render-markdown
+			"latex",
+		},
 	},
 }
