@@ -113,7 +113,7 @@ return {
 			},
 			spinner = {
 				opts = {
-					-- log_level = "debug",
+					log_level = "debug",
 				},
 			},
 			-- Integration with mcphub.nvim
