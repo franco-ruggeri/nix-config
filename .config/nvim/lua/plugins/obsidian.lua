@@ -15,6 +15,24 @@ local function open_note()
 	vim.fn.system(cmd)
 end
 
+-- Based on defaults, but adding the "/" prefix to the path for compatibility with GitHub
+local function markdown_link_func(opts)
+	local util = require("obsidian.util")
+
+	local anchor = ""
+	local header = ""
+	if opts.anchor then
+		anchor = opts.anchor.anchor
+		header = util.format_anchor_label(opts.anchor)
+	elseif opts.block then
+		anchor = "#" .. opts.block.id
+		header = "#" .. opts.block.id
+	end
+
+	local path = util.urlencode(opts.path, { keep_path_sep = true })
+	return ("[%s%s](/%s%s)"):format(opts.label, header, path, anchor)
+end
+
 -- Based on defaults, but removing the note ID and title (unnecessary)
 local note_frontmatter_func = function(note)
 	local out = { aliases = note.aliases, tags = note.tags }
@@ -42,7 +60,7 @@ local function img_text_func(path)
 	local util = require("obsidian.util")
 	path = tostring(path:vault_relative_path())
 	path = util.urlencode(path, { keep_path_sep = true })
-	return ("![pasted image](%s)"):format(path)
+	return ("![pasted image](/%s)"):format(path)
 end
 
 return {
@@ -63,6 +81,7 @@ return {
 		},
 		backlinks = { parse_headers = false },
 		preferred_link_style = "markdown",
+		markdown_link_func = markdown_link_func,
 		note_frontmatter_func = note_frontmatter_func,
 		note_path_func = note_path_func,
 		attachments = {
