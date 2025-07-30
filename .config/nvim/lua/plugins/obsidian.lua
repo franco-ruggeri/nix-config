@@ -15,17 +15,46 @@ local function open_note()
 	vim.fn.system(cmd)
 end
 
+-- Based on defaults, but removing the note ID and title (unnecessary)
+local note_frontmatter_func = function(note)
+	local out = { aliases = note.aliases, tags = note.tags }
+	out.aliases = vim.tbl_filter(function(alias)
+		return alias ~= note.title
+	end, out.aliases)
+	return out
+end
+
+-- Use kebab-case title for the filename. By default, the note ID is used.
+local function note_path_func(spec)
+	print("note_path_func ", vim.inspect(spec))
+	spec.title = spec.title or spec.id
+	local path = spec.dir / to_kebab_case(tostring(spec.title))
+	return path:with_suffix(".md")
+end
+
+-- Use kebab-case timestamp. By default, "Pasted image %Y%m%d%H%M%S" is used.
+local function img_name_func()
+	return ("pasted-image-%s"):format(os.date("%Y%m%d%H%M%S"))
+end
+
+-- Use the vault-relative path in the image link.
+-- By default, the link is created with only the filename.
+local function img_text_func(path)
+	local util = require("obsidian.util")
+	path = tostring(path:vault_relative_path())
+	path = util.urlencode(path, { keep_path_sep = true })
+	return ("![pasted image](%s)"):format(path)
+end
+
 return {
 	"obsidian-nvim/obsidian.nvim",
-	-- Load on demand from specific projects via .nvim.lua [*]
-	lazy = true,
+	lazy = true, -- on-demand loading from .nvim.lua
 	dependencies = {
 		"nvim-lua/plenary.nvim", -- required
 		"MeanderingProgrammer/render-markdown.nvim", -- for better rendering
 		"nvim-telescope/telescope.nvim", -- for pickers
 	},
 	opts = {
-		-- When plugin is loaded, the project is the vault [*]
 		workspaces = { { name = "notes", path = vim.fn.getcwd } },
 		new_notes_location = "notes_subdir",
 		notes_subdir = "0-inbox",
@@ -35,39 +64,12 @@ return {
 		},
 		backlinks = { parse_headers = false },
 		wiki_link_func = "prepend_note_path",
-		-- Based on defaults, but removing the note ID and title (unnecessary)
-		note_frontmatter_func = function(note)
-			local out = { aliases = note.aliases, tags = note.tags }
-			for k, v in pairs(note.metadata or {}) do
-				out[k] = v
-			end
-
-			-- Remove title from aliases (added it on new note)
-			out.aliases = vim.tbl_filter(function(alias)
-				return alias ~= note.title
-			end, out.aliases)
-
-			return out
-		end,
-		note_path_func = function(spec)
-			spec.title = spec.title or spec.id
-			local path = spec.dir / to_kebab_case(tostring(spec.title))
-			return path:with_suffix(".md")
-		end,
+		note_frontmatter_func = note_frontmatter_func,
+		note_path_func = note_path_func,
 		attachments = {
 			img_folder = "_assets/attachments",
-			img_name_func = function()
-				return ("pasted-image-%s"):format(os.date("%Y%m%d%H%M%S"))
-			end,
-			-- Use the vault-relative path in the image link.
-			-- By default, the link is created without only the filename, not the filepath.
-			-- See https://github.com/obsidian-nvim/obsidian.nvim/blob/main/lua/obsidian/builtin.lua#L109
-			img_text_func = function(path)
-				local util = require("obsidian.util")
-				path = tostring(path:vault_relative_path())
-				path = util.urlencode(path, { keep_path_sep = true })
-				return ("![pasted image](%s)"):format(path)
-			end,
+			img_name_func = img_name_func,
+			img_text_func = img_text_func,
 			confirm_img_paste = false,
 		},
 		templates = { folder = "_assets/templates" },
