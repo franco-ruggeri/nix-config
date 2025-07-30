@@ -62,7 +62,7 @@ return {
 			blink = true,
 		},
 		backlinks = { parse_headers = false },
-		wiki_link_func = "prepend_note_path",
+		preferred_link_style = "markdown",
 		note_frontmatter_func = note_frontmatter_func,
 		note_path_func = note_path_func,
 		attachments = {
