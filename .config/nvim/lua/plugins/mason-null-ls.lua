@@ -61,7 +61,11 @@ return {
 				end,
 				markdownlint = function()
 					-- Register only for diagnostics, not formatting, because formatting is handled by prettier
-					null_ls.register(null_ls.builtins.diagnostics.markdownlint)
+					null_ls.register(null_ls.builtins.diagnostics.markdownlint.with({
+						-- Prettier wraps lines at 80 where possible. In some cases (e.g., long links), it is not possible.
+						-- Markdownlint would nevertheless complain about these lines. Disable the line-length rule.
+						extra_args = { "--disable", "MD013" },
+					}))
 				end,
 			},
 		})
