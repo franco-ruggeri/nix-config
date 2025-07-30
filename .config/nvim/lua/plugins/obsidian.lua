@@ -26,7 +26,6 @@ end
 
 -- Use kebab-case title for the filename. By default, the note ID is used.
 local function note_path_func(spec)
-	print("note_path_func ", vim.inspect(spec))
 	spec.title = spec.title or spec.id
 	local path = spec.dir / to_kebab_case(tostring(spec.title))
 	return path:with_suffix(".md")
