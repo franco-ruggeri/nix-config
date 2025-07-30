@@ -40,8 +40,4 @@ return {
 			width = textwidth,
 		},
 	},
-	config = function(_, opts)
-		require("render-markdown").setup(opts)
-		vim.keymap.set("n", "<Leader>mr", "<Cmd>RenderMarkdown toggle<CR>", { desc = "[m]arkdown [r]ender toggle" })
-	end,
 }
