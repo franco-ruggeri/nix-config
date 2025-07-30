@@ -47,6 +47,9 @@ M.setup = function()
 
 	-- Open buffers without folding
 	vim.opt.foldenable = false
+
+	-- Enable diagnostics virtual text
+	vim.diagnostic.config({ virtual_text = true })
 end
 
 return M
