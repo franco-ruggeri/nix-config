@@ -30,12 +30,6 @@ return {
 			}),
 		})
 
-		-- Specificalized prettier with prose wrap for Markdown files
-		formatting.prettier_markdown = formatting.prettier.with({
-			filetypes = { "markdown" },
-			extra_args = { "--prose-wrap", "always" },
-		})
-
 		-- Remove Markdown from default prettier
 		formatting.prettier = formatting.prettier.with({
 			filetypes = vim.tbl_filter(function(ft)
@@ -43,10 +37,16 @@ return {
 			end, null_ls.builtins.formatting.prettier.filetypes),
 		})
 
+		-- Specificalized prettier with prose wrap for Markdown files
+		formatting.prettier_markdown = formatting.prettier.with({
+			filetypes = { "markdown" },
+			extra_args = { "--prose-wrap", "always" },
+		})
+
 		-- Prettier wraps lines at 80 where possible. In some cases (e.g., long links), it is not possible.
 		-- Markdownlint would nevertheless complain about these lines. Disable the line-length rule.
-		formatting.markdownlint = formatting.markdownlint.with({
-			extra_args = { "--prose-wrap", "always" },
+		diagnostics.markdownlint = diagnostics.markdownlint.with({
+			extra_args = { "--disable", "MD013" },
 		})
 	end,
 }
