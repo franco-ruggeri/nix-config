@@ -12,7 +12,7 @@ return {
 			{ "<Leader>g", group = "+[g]it" },
 			{ "<Leader>h", group = "+[h]arpoon" },
 			{ "<Leader>l", group = "+[l]atex" },
-			{ "<Leader>m", group = "+[m]arkdown" },
+			{ "<Leader>o", group = "+[o]bsidian" },
 			{ "<Leader>t", group = "+[t]ask" },
 			{ "<Leader>c", group = "+todo [c]omment" },
 			{ "<Leader>x", group = "+diagnostics" },
