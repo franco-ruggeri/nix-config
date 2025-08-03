@@ -46,7 +46,4 @@ if [ is_macos ]; then
 	export AICHAT_CONFIG_DIR="$HOME/.config/aichat"
 fi
 
-# Load secrets
-load_secret GEMINI_API_KEY
-
 source $ZDOTDIR/utils-clear.sh

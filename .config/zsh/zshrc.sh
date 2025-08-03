@@ -48,6 +48,9 @@ fi
 # See https://unix.stackexchange.com/questions/6094/is-there-any-way-to-keep-a-command-from-being-added-to-your-history
 setopt HIST_IGNORE_SPACE
 
+# Load secrets
+load_secret GEMINI_API_KEY
+
 # Kubernetes
 if is_command_available kubectl; then
 	source <(kubectl completion zsh)
