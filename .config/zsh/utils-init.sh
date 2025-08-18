@@ -58,13 +58,13 @@ str_to_kebab_case() {
 	local filename="$1"
 
 	# Convert entire filename to kebab-case:
-	# 1. Replace spaces, underscores, commas, semicolons, and colons with dashes
+	# 1. Replace spaces, underscores, commas, semicolons, colons, and dots with dashes
 	# 2. Insert dashes before capital letters (except at start)
 	# 3. Convert to lowercase
 	# 4. Remove multiple consecutive dashes
 	# 5. Remove leading/trailing dashes
 	echo "$filename" |
-		sed 's/[ _,;:]/-/g' |
+		sed 's/[ _,;:.]/-/g' |
 		sed 's/\([a-z0-9]\)\([A-Z]\)/\1-\2/g' |
 		tr '[:upper:]' '[:lower:]' |
 		sed 's/--*/-/g' |
