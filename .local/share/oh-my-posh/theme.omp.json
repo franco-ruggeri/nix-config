@@ -32,13 +32,13 @@
           "type": "session",
           "style": "plain",
           "foreground": "p:rose-pine-main-gold",
-          "template": " \uF2C0 {{ .UserName }}"
+          "template": " \uEB99 {{ .UserName }}"
         },
         {
           "type": "path",
           "style": "plain",
           "foreground": "p:rose-pine-main-foam",
-          "template": " \uF07B {{ .Path }}",
+          "template": " \uF115 {{ .Path }}",
           "properties": {
             "style": "folder"
           }
