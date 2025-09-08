@@ -70,7 +70,6 @@ return {
 				ft = "neotest-summary",
 			},
 			{ ft = "undotree" },
-			{ ft = "diff" },
 		},
 		right = {
 			{
