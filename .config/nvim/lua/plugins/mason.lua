@@ -63,6 +63,9 @@ return {
 			"google-java-format", -- formatter
 			"java-debug-adapter", -- debug adapter
 			"java-test", -- use debug adapter on tests
+
+      -- Nix
+      "nil", -- language server with formatter and linter
 		}) do
 			if not mason_registry.is_installed(mason_package) then
 				vim.cmd("MasonInstall " .. mason_package)
