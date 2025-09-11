@@ -1,5 +1,8 @@
 source $ZDOTDIR/utils-init.sh
 
+# Nix
+source $HOME/.nix-profile/etc/profile.d/nix.sh
+
 # Homebrew
 if is_macos; then
 	eval "$(/opt/homebrew/bin/brew shellenv)"
