@@ -42,6 +42,9 @@ M.setup = function()
 	vim.opt.splitright = true
 	vim.opt.splitbelow = true
 
+	-- Enable local config
+	vim.opt.exrc = true
+
 	-- Open buffers without folding
 	vim.opt.foldenable = false
 
