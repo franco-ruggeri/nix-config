@@ -4,4 +4,4 @@
 ^/README.md$
 ^/install\.sh$
 ^/uninstall\.sh$
-^/\.nvim.lua$
+^/\.nvim\.lua$
