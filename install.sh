@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Overwrite existing files
 if [ "$1" = "--force" ]; then
