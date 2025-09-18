@@ -2,6 +2,14 @@
 
 This repository contains my Nix configurations.
 
+NixOS:
+
+```bash
+sudo nixos-rebuild switch --flake .#desktop
+```
+
+TODO: update the rest.
+
 ## Using locally
 
 Install dotfiles:
