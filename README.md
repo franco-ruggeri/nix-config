@@ -1,6 +1,6 @@
 # Dotfiles
 
-This repository contains my dotfiles.
+This repository contains my Nix configurations.
 
 ## Using locally
 
@@ -19,9 +19,10 @@ Uninstall dotfiles:
 ## Using in dev containers
 
 The repository is compatible with [`devpod`](https://devpod.sh/) for usage
-within dev containers. Follow [the documentation](https://devpod.sh/docs/developing-in-workspaces/dotfiles-in-a-workspace)
+within dev containers. Follow
+[the documentation](https://devpod.sh/docs/developing-in-workspaces/dotfiles-in-a-workspace)
 for instructions.
 
-The installation uses [`stow`](https://www.gnu.org/software/stow/). Thus,
-make sure the dev container has it by adding [this
-feature](https://github.com/kreemer/features/tree/main/src/stow).
+The installation uses [`stow`](https://www.gnu.org/software/stow/). Thus, make
+sure the dev container has it by adding
+[this feature](https://github.com/kreemer/features/tree/main/src/stow).
