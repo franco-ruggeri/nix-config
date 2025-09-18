@@ -76,7 +76,7 @@
       };
     };
 
-    # DO NOT change! Necessary for mantaining compatibility on upgrades.
+    # DO NOT change! Used for backward compatibility.
     home.stateVersion = "25.05";
   };
 }

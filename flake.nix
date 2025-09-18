@@ -7,31 +7,27 @@
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # darwin = {
-    #   url = "github:LnL7/nix-darwin/release-25.05";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    darwin = {
+     url = "github:nix-darwin/nix-darwin/nix-darwin-25.05";
+    inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, darwin, ... }@inputs: {
     nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
-      modules = [ ./hosts/desktop ./modules/system ];
+      modules = [ ./hosts/desktop ./modules/nixos ];
     };
 
-    # TODO: set up macbook
-    # darwinConfigurations.laptop = {
-    # darwin.lib.darwinSystem {
-    #   system = "x86_64-darwin";
-    #   modules = [
-    #     ./hosts/laptop/default.nix
-    #     home-manager.darwinModules.home-manager
-    #   ];
-    # };
-    # };
+    darwinConfigurations.laptop = darwin.lib.darwinSystem {
+      system = "x86_64-darwin";
+      modules = [
+        ./hosts/laptop ./modules/darwin
+      ];
+    };
 
     homeConfigurations.franco-ruggeri =
       home-manager.lib.homeManagerConfiguration {
-        modules = [ ./modules/home ];
+        modules = [ ./modules/home-manager ];
       };
   };
 }

@@ -2,10 +2,16 @@
 
 This repository contains my Nix configurations.
 
-NixOS:
+On NixOS:
 
 ```bash
 sudo nixos-rebuild switch --flake .#desktop
+```
+
+On macOS:
+
+```bash
+sudo darwin-rebuild switch --flake .#laptop
 ```
 
 TODO: update the rest.

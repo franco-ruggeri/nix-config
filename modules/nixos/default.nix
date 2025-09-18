@@ -83,7 +83,7 @@
       enable = true;
       dates = "weekly";
     };
-    # DO NOT change! Necessary for mantaining compatibility on upgrades.
+    # DO NOT change! Used for backward compatibility.
     # TODO: should it be machine specific?
     stateVersion = "25.05";
   };
