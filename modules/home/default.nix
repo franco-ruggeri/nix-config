@@ -2,7 +2,6 @@
 
 {
   home-manager.users.franco-ruggeri = { pkgs, ... }: {
-
     home = {
       packages = with pkgs; [
         git

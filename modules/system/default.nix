@@ -34,9 +34,10 @@
     builtins.elem (pkgs.lib.getName pkg) [ "spotify" "discord" ];
 
   # TODO: some of these packages should be probably moved to the user pkgs
-  environment.systemPackages = (with pkgs; [ neovim discord spotify ])
-    ++ (let unstable = import <nixos-unstable> { };
-    in with unstable; [ super-productivity ]);
+  environment.systemPackages = (with pkgs; [ neovim discord spotify ]);
+  # TODO: need to find a good way to pass nixos-unstable here... doesn't work with flake
+  # ++ (let unstable = import <nixos-unstable> { };
+  # in with unstable; [ super-productivity ]);
 
   # TODO: some of the programs can be per-user (home manager instead of here)
   programs = {
@@ -82,15 +83,17 @@
       enable = true;
       dates = "weekly";
     };
-    copySystemConfiguration = true;
     # DO NOT change! Necessary for mantaining compatibility on upgrades.
     # TODO: should it be machine specific?
     stateVersion = "25.05";
   };
 
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 30d";
+  nix = {
+    settings.experimental-features = "nix-command flakes";
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 30d";
+    };
   };
 }
