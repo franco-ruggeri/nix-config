@@ -1,6 +1,8 @@
 # Dotfiles
 
-This repository contains my Nix configurations.
+This repository contains my Nix configurations. The structure of the repository
+is inspired by
+[Ryan Yin's template](https://github.com/ryan4yin/nix-config/tree/i3-kickstarter).
 
 On NixOS:
 

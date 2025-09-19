@@ -1,5 +1,5 @@
 { ... }:
 
 {
-  imports = [ ./hardware.nix ];
+  imports = [ ./hardware.nix ./system.nix ./user.nix ];
 }
