@@ -1,5 +1,5 @@
 {
-  xdg.configFile.ghostty = {
+  xdg.configFile.karabiner = {
     source = ./config;
     recursive = true;
   };

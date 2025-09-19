@@ -1,7 +1,7 @@
-{ pkgs, home-manager, ... }:
+{ pkgs, ... }:
 
 {
-  imports = [ ./kubernetes.nix ];
+  imports = [ ./kubernetes ];
 
   boot.loader = {
     systemd-boot.enable = true;

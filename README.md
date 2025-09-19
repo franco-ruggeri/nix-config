@@ -17,8 +17,11 @@ sudo darwin-rebuild switch --flake .#laptop
 ```
 
 - [ ] TODO: update the rest of the README.
-- [ ] TODO: multi-user. I want to be able to enable only specific user modules
+- [x] TODO: multi-user. I want to be able to enable only specific user modules
       for each user.
+- [x] TODO: I need the concept of system... like users have their config (e.g.,
+      enabled modules), systems do as well. So, a host is hardware + system +
+      users
 
 ## Using locally
 

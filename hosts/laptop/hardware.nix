@@ -1,4 +1,6 @@
-# TODO: add hardware config of macos
-{ ... }:
+{
 
-{ }
+
+  nixpkgs.hostPlatform = "aarch64-darwin";
+
+}

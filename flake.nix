@@ -13,24 +13,19 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, darwin, ... }: {
-    nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
-      specialArgs = { inherit home-manager; };
-      modules = [ ./hosts/desktop ];
-    };
+  outputs = { nixpkgs, darwin, ... }@inputs: 
+    let 
+      specialArgs = { inherit (inputs) home-manager; }; 
+    in
+    {
+    # nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
+    #   inherit specialArgs;
+    #   modules = [ ./hosts/desktop ];
+    # };
 
     darwinConfigurations.laptop = darwin.lib.darwinSystem {
-      modules = [
-        home-manager.darwinModules.home-manager
-        ./hosts/laptop
-        ./modules/darwin/system
-        {
-          # TODO: this should be host specific, in hosts/... ??
-          users.users.erugfra.home = "/Users/erugfra";
-          # TODO: the username should be host-specific, in hosts/... ??
-          home-manager.users.erugfra = ./modules/darwin/home;
-        }
-      ];
+      inherit specialArgs;
+      modules = [ ./hosts/laptop ];
     };
   };
 }
