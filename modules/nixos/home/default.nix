@@ -1,9 +1,8 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
-  home-manager.users.franco-ruggeri = { pkgs, ... }: {
-    home = {
-      packages = with pkgs; [
+      home = {
+    packages = with pkgs; [
         git
         tmux
         stow
@@ -41,7 +40,7 @@
         name = "Bibata-Modern-Classic";
         size = 16;
       };
-    };
+  };
 
     programs = {
       ghostty.enable = true;
@@ -78,5 +77,4 @@
 
     # DO NOT change! Used for backward compatibility.
     home.stateVersion = "25.05";
-  };
 }
