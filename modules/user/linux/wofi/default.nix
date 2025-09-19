@@ -1,5 +1,3 @@
-{ ... }:
-
 {
   programs.wofi.enable = true;
 

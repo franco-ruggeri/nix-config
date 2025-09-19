@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, home-manager, ... }:
 
 {
   imports = [ ./kubernetes.nix ];

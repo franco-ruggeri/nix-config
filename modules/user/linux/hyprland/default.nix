@@ -1,6 +1,4 @@
 # TODO: are the exec-once actually dependencies? how should I handle them? check ryan's config
-{ ... }:
-
 {
   programs.hyprlock.enable = true;
 

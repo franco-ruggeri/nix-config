@@ -16,7 +16,9 @@ On macOS:
 sudo darwin-rebuild switch --flake .#laptop
 ```
 
-TODO: update the rest.
+- [ ] TODO: update the rest of the README.
+- [ ] TODO: multi-user. I want to be able to enable only specific user modules
+      for each user.
 
 ## Using locally
 
