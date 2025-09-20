@@ -4,8 +4,8 @@ return {
 	dependencies = {
 		"nvim-neotest/nvim-nio", -- required
 		"mfussenegger/nvim-dap",
-		"nvim-neotest/neotest", -- HACK: [*]
-		"folke/edgy.nvim", -- HACK: [*]
+		"nvim-neotest/neotest", -- [*]
+		"folke/edgy.nvim", -- [*]
 	},
 	config = function()
 		local dapui = require("dapui")
@@ -36,7 +36,7 @@ return {
 		local function open_dapui()
 			close_dapui() -- support opening DAP UI multiple times
 
-			-- HACK: [*] Scenario: Test launched in debugging mode from the neotest
+			-- [*] Scenario: Test launched in debugging mode from the neotest
 			-- summary window. The neotest summary window is managed by edgy.nvim. If
 			-- we open the DAP UI around this window, the layout becomes a mess.
 			-- Thus, we jump to the main window using edgy.nvim.
