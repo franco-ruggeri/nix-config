@@ -1,16 +1,13 @@
-{ pkgs, lib, mylib, home-manager, nixpkgs-unstable, ... }:
+{ pkgs, lib, mylib, nixpkgs-unstable, ... }:
 
 let pkgsUnstable = import nixpkgs-unstable { system = pkgs.system; };
 in {
-  imports = [ home-manager.nixosModules.home-manager ];
-
   home-manager.extraSpecialArgs = { inherit mylib pkgsUnstable; };
 
   nix = {
     settings.experimental-features = "nix-command flakes";
     gc = {
       automatic = true;
-      dates = "weekly";
       options = "--delete-older-than 30d";
     };
   };

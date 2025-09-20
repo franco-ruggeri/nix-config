@@ -1,5 +1,11 @@
+{ home-manager, ... }:
+
 {
-  imports = [ ../common ../../modules/system/darwin ];
+  imports = [ 
+    home-manager.darwinModules.home-manager 
+    ../common 
+    ../../modules/system/darwin 
+  ];
 
   homebrew = {
     enable = true;

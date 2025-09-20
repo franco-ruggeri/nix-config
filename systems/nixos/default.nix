@@ -1,5 +1,11 @@
+{ home-manager, ... }:
+
 {
-  imports = [ ../common ../../modules/system/nixos ];
+  imports = [ 
+    home-manager.nixosModules.home-manager 
+    ../common 
+    ../../modules/system/nixos 
+  ];
 
   boot.loader = {
     systemd-boot.enable = true;
@@ -14,6 +20,8 @@
     enable = true;
     dates = "weekly";
   };
+  
+  nix.gc.dates = "weekly";
 
   programs = {
     hyprland.enable = true;
