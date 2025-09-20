@@ -1,8 +1,8 @@
-{ pkgs, lib, mylib, nixpkgs-unstable, ... }:
+{ pkgs, lib, myLib, nixpkgs-unstable, ... }:
 
 let pkgsUnstable = import nixpkgs-unstable { system = pkgs.system; };
 in {
-  home-manager.extraSpecialArgs = { inherit mylib pkgsUnstable; };
+  home-manager.extraSpecialArgs = { inherit myLib pkgsUnstable; };
 
   nix = {
     settings.experimental-features = "nix-command flakes";

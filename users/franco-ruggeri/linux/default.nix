@@ -1,4 +1,4 @@
-{ pkgs, mylib, ... }:
+{ pkgs, pkgsUnstable, myLib, ... }:
 
 {
   imports = [ ../common ../../../modules/user/linux ];
@@ -6,7 +6,10 @@
   home.packages = with pkgs; [ dunst ];
 
   programs = {
-    ghostty.enable = true;
+    ghostty = {
+      enable = true;
+      package = pkgsUnstable.ghostty;
+    };
     hyprlock.enable = true;
     waybar.enable = true;
     wofi.enable = true;
@@ -41,5 +44,5 @@
 
   wayland.windowManager.hyprland.enable = true;
 
-  xdg.configFile = mylib.mkConfigFiles ./config;
+  xdg.configFile = myLib.mkConfigFiles ./config;
 }

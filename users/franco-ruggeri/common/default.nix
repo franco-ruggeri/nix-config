@@ -1,4 +1,4 @@
-{ pkgs, mylib, pkgsUnstable, ... }:
+{ pkgs, myLib, pkgsUnstable, ... }:
 
 {
   nixpkgs.config.allowUnfreePredicate = pkg:
@@ -39,5 +39,5 @@
 
   services.gpg-agent.enable = true;
 
-  xdg.configFile = mylib.mkConfigFiles ./config;
+  xdg.configFile = myLib.mkConfigFiles ./config;
 }
