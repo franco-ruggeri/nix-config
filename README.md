@@ -23,20 +23,7 @@ sudo darwin-rebuild switch --flake .#laptop
 - [x] TODO: I need the concept of system... like users have their config (e.g.,
       enabled modules), systems do as well. So, a host is hardware + system +
       users
-
-## Using locally
-
-Install dotfiles:
-
-```bash
-./install.sh
-```
-
-Uninstall dotfiles:
-
-```bash
-./uninstall.sh
-```
+- [ ] TODO: update dev container usage
 
 ## Using in dev containers
 

@@ -1,7 +1,0 @@
-\.DS_Store
-\.gitignore
-\.git
-^/README.md$
-^/install\.sh$
-^/uninstall\.sh$
-^/\.nvim\.lua$
