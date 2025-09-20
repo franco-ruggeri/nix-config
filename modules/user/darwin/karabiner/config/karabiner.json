@@ -63,7 +63,9 @@
                   "modifiers": { "mandatory": ["fn"] }
                 },
                 "to": [
-                  { "shell_command": "/opt/homebrew/bin/aerospace workspace 1" }
+                  {
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace workspace 1"
+                  }
                 ],
                 "type": "basic"
               },
@@ -73,7 +75,9 @@
                   "modifiers": { "mandatory": ["fn"] }
                 },
                 "to": [
-                  { "shell_command": "/opt/homebrew/bin/aerospace workspace 2" }
+                  {
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace workspace 2"
+                  }
                 ],
                 "type": "basic"
               },
@@ -83,7 +87,9 @@
                   "modifiers": { "mandatory": ["fn"] }
                 },
                 "to": [
-                  { "shell_command": "/opt/homebrew/bin/aerospace workspace 3" }
+                  {
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace workspace 3"
+                  }
                 ],
                 "type": "basic"
               },
@@ -93,7 +99,9 @@
                   "modifiers": { "mandatory": ["fn"] }
                 },
                 "to": [
-                  { "shell_command": "/opt/homebrew/bin/aerospace workspace 4" }
+                  {
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace workspace 4"
+                  }
                 ],
                 "type": "basic"
               },
@@ -103,7 +111,9 @@
                   "modifiers": { "mandatory": ["fn"] }
                 },
                 "to": [
-                  { "shell_command": "/opt/homebrew/bin/aerospace workspace 5" }
+                  {
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace workspace 5"
+                  }
                 ],
                 "type": "basic"
               },
@@ -113,7 +123,9 @@
                   "modifiers": { "mandatory": ["fn"] }
                 },
                 "to": [
-                  { "shell_command": "/opt/homebrew/bin/aerospace workspace q" }
+                  {
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace workspace q"
+                  }
                 ],
                 "type": "basic"
               },
@@ -123,7 +135,9 @@
                   "modifiers": { "mandatory": ["fn"] }
                 },
                 "to": [
-                  { "shell_command": "/opt/homebrew/bin/aerospace workspace w" }
+                  {
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace workspace w"
+                  }
                 ],
                 "type": "basic"
               },
@@ -133,7 +147,9 @@
                   "modifiers": { "mandatory": ["fn"] }
                 },
                 "to": [
-                  { "shell_command": "/opt/homebrew/bin/aerospace workspace e" }
+                  {
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace workspace e"
+                  }
                 ],
                 "type": "basic"
               },
@@ -143,7 +159,9 @@
                   "modifiers": { "mandatory": ["fn"] }
                 },
                 "to": [
-                  { "shell_command": "/opt/homebrew/bin/aerospace workspace r" }
+                  {
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace workspace r"
+                  }
                 ],
                 "type": "basic"
               },
@@ -153,7 +171,9 @@
                   "modifiers": { "mandatory": ["fn"] }
                 },
                 "to": [
-                  { "shell_command": "/opt/homebrew/bin/aerospace workspace t" }
+                  {
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace workspace t"
+                  }
                 ],
                 "type": "basic"
               },
@@ -164,7 +184,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace --focus-follows-window 1"
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace move-node-to-workspace --focus-follows-window 1"
                   }
                 ],
                 "type": "basic"
@@ -176,7 +196,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace --focus-follows-window 2"
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace move-node-to-workspace --focus-follows-window 2"
                   }
                 ],
                 "type": "basic"
@@ -188,7 +208,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace --focus-follows-window 3"
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace move-node-to-workspace --focus-follows-window 3"
                   }
                 ],
                 "type": "basic"
@@ -200,7 +220,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace --focus-follows-window 4"
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace move-node-to-workspace --focus-follows-window 4"
                   }
                 ],
                 "type": "basic"
@@ -212,7 +232,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace --focus-follows-window 5"
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace move-node-to-workspace --focus-follows-window 5"
                   }
                 ],
                 "type": "basic"
@@ -224,7 +244,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace --focus-follows-window q"
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace move-node-to-workspace --focus-follows-window q"
                   }
                 ],
                 "type": "basic"
@@ -236,7 +256,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace --focus-follows-window w"
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace move-node-to-workspace --focus-follows-window w"
                   }
                 ],
                 "type": "basic"
@@ -248,7 +268,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace --focus-follows-window e"
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace move-node-to-workspace --focus-follows-window e"
                   }
                 ],
                 "type": "basic"
@@ -260,7 +280,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace --focus-follows-window r"
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace move-node-to-workspace --focus-follows-window r"
                   }
                 ],
                 "type": "basic"
@@ -272,7 +292,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace move-node-to-workspace --focus-follows-window t"
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace move-node-to-workspace --focus-follows-window t"
                   }
                 ],
                 "type": "basic"
@@ -284,7 +304,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace focus-monitor --wrap-around next"
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace focus-monitor --wrap-around next"
                   }
                 ],
                 "type": "basic"
@@ -296,7 +316,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace move-workspace-to-monitor --wrap-around next"
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace move-workspace-to-monitor --wrap-around next"
                   }
                 ],
                 "type": "basic"
@@ -308,7 +328,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace focus left --boundaries-action stop"
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace focus left --boundaries-action stop"
                   }
                 ],
                 "type": "basic"
@@ -320,7 +340,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace focus down --boundaries-action stop"
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace focus down --boundaries-action stop"
                   }
                 ],
                 "type": "basic"
@@ -332,7 +352,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace focus up --boundaries-action stop"
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace focus up --boundaries-action stop"
                   }
                 ],
                 "type": "basic"
@@ -344,7 +364,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace focus right --boundaries-action stop"
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace focus right --boundaries-action stop"
                   }
                 ],
                 "type": "basic"
@@ -356,7 +376,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace move left"
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace move left"
                   }
                 ],
                 "type": "basic"
@@ -368,7 +388,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace move down"
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace move down"
                   }
                 ],
                 "type": "basic"
@@ -380,7 +400,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace move up"
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace move up"
                   }
                 ],
                 "type": "basic"
@@ -392,7 +412,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace move right"
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace move right"
                   }
                 ],
                 "type": "basic"
@@ -404,7 +424,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace fullscreen"
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace fullscreen"
                   }
                 ],
                 "type": "basic"
@@ -416,7 +436,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace layout h_tiles v_tiles"
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace layout h_tiles v_tiles"
                   }
                 ],
                 "type": "basic"
@@ -428,7 +448,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace resize smart -50"
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace resize smart -50"
                   }
                 ],
                 "type": "basic"
@@ -440,7 +460,7 @@
                 },
                 "to": [
                   {
-                    "shell_command": "/opt/homebrew/bin/aerospace resize smart +50"
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace resize smart +50"
                   }
                 ],
                 "type": "basic"
