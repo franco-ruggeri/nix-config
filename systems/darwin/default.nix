@@ -1,10 +1,10 @@
-{ pkgs, ... }:
+{
+  imports = [ ../common ../../modules/system/darwin ];
 
-{ 
   homebrew = {
-  enable = true;
-    brews = [];
-    casks = [ 
+    enable = true;
+    brews = [ ];
+    casks = [
       # Warning: The Nix option (services.karabiner-elements) is currently broken.
       # See https://github.com/nix-darwin/nix-darwin/issues/1041
       # TODO: add reminder with waiting-for

@@ -1,3 +1,2 @@
-{
-  imports = [ ./aerospace ./karabiner ];
-}
+{ imports = [ ../common ]; }
+

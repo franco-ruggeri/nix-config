@@ -1,1 +1,1 @@
-{ imports = [ ./dunst ./hyprland ./waybar ./wofi ]; }
+{ imports = [ ../common ]; }
