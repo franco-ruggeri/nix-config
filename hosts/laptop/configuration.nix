@@ -8,14 +8,14 @@
     shell = pkgs.zsh;
   };
 
-  # home-manager.users.erugfra = {
-  #   imports = [ ../../users/franco-ruggeri/darwin ];
-  #
-  #   home = {
-  #     # DO NOT change! Used for backward compatibility.
-  #     stateVersion = "25.05";
-  #   };
-  # };
+  home-manager.users.erugfra = {
+    imports = [ ../../users/franco-ruggeri/darwin ];
+
+    home = {
+      # DO NOT change! Used for backward compatibility.
+      stateVersion = "25.05";
+    };
+  };
 
   system = {
     primaryUser = "erugfra";
