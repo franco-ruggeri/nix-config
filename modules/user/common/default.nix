@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  imports = [ ./aichat ./ghostty ./git ./neovim ./tmux ./zsh ];
+  imports = [ ./aichat ./ghostty ./git ./marksman ./mcphub ./mpv ./neovim ./tmux ./zsh ];
 
   home.packages = with pkgs; [
     bitwarden-desktop
