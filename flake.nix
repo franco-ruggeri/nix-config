@@ -18,7 +18,7 @@
     let
       specialArgs = {
         inherit (inputs) home-manager nixpkgs-unstable;
-        myLib = import ./lib;
+        myLib = import ./lib { pkgs = nixpkgs; };
       };
     in {
       nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {

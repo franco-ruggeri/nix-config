@@ -1,8 +1,8 @@
 { pkgs, myLib, pkgsUnstable, ... }:
 
 {
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (pkgs.lib.getName pkg) [ "spotify" "discord" ];
+  nixpkgs.config.allowUnfreePredicate =
+    myLib.allowUnfreePredicate [ "spotify" "discord" ];
 
   home.packages = (with pkgs; [
     aichat
