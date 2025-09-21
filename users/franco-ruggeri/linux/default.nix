@@ -1,6 +1,7 @@
 { pkgs, pkgsUnstable, myLib, ... }:
 
-{
+let gnomeTheme = "Adwaita-dark";
+in {
   imports = [ ../common ../../../modules/user/linux ];
 
   home.packages = with pkgs; [ dunst pamixer whatsie ];
@@ -43,6 +44,20 @@
   };
 
   wayland.windowManager.hyprland.enable = true;
+
+  gtk = {
+    enable = true;
+    theme = {
+      name = gnomeTheme;
+      package = pkgs.gnome-themes-extra;
+    };
+  };
+
+  qt = {
+    enable = true;
+    platformTheme.name = "gnome";
+    style.name = gnomeTheme;
+  };
 
   xdg.configFile = myLib.mkConfigFiles ./config;
 }
