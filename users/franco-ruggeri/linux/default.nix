@@ -3,7 +3,7 @@
 {
   imports = [ ../common ../../../modules/user/linux ];
 
-  home.packages = with pkgs; [ dunst whatsie ];
+  home.packages = with pkgs; [ dunst pamixer whatsie ];
 
   programs = {
     ghostty = {
@@ -24,7 +24,7 @@
       enable = true;
       components = [ "secrets" "ssh" ];
     };
-    gpg-agent.enable = true;
+    # gpg-agent.enable = true;
     # TODO: maybe I'll not need it anymore, trying enabling ssh in gnome-keyring, as HM has an option for the components (see above)
     # I need to try if it works or not. If it works, delete the gpg.agent section below.
     # gnupg.agent = {
