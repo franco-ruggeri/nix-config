@@ -45,6 +45,11 @@ in {
 
   wayland.windowManager.hyprland.enable = true;
 
+  xdg.userDirs = {
+    enable = true;
+    createDirectories = true;
+  };
+
   gtk = {
     enable = true;
     theme = {
