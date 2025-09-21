@@ -23,12 +23,9 @@
 
   nix.gc.dates = "weekly";
 
-  nixpkgs.config.allowUnfreePredicate = myLib.allowUnfreePredicate [ "zoom" ];
-
   programs = {
     hyprland.enable = true;
     seahorse.enable = true;
-    zoom-us.enable = true;
   };
 
   services = {

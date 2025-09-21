@@ -2,7 +2,7 @@
 
 {
   nixpkgs.config.allowUnfreePredicate =
-    myLib.allowUnfreePredicate [ "spotify" "discord" ];
+    myLib.allowUnfreePredicate [ "spotify" "discord" "zoom" ];
 
   home.packages = (with pkgs; [
     aichat
@@ -24,6 +24,7 @@
     telegram-desktop
     spotify
     discord
+    zoom-us
 
     # TODO: for some reason, nil_ls fails to compile on macos with mason... 
     # I need to find a consistent way, either drop Mason for everything or make nil work with mason
