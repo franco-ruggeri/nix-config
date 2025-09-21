@@ -3,7 +3,7 @@
 {
   imports = [ ../common ../../../modules/user/linux ];
 
-  home.packages = with pkgs; [ dunst ];
+  home.packages = with pkgs; [ dunst whatsie ];
 
   programs = {
     ghostty = {
