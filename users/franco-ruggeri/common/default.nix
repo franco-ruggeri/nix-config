@@ -1,10 +1,7 @@
-{ pkgs, myLib, pkgsUnstable, ... }:
+{ pkgs, myLib, ... }:
 
 {
-  nixpkgs.config.allowUnfreePredicate =
-    myLib.allowUnfreePredicate [ "spotify" "discord" "zoom" ];
-
-  home.packages = (with pkgs; [
+  home.packages = with pkgs; [
     aichat
     git
     tmux
@@ -25,11 +22,12 @@
     spotify
     discord
     zoom-us
+    super-productivity
 
     # TODO: for some reason, nil_ls fails to compile on macos with mason... 
     # I need to find a consistent way, either drop Mason for everything or make nil work with mason
     nil
-  ]) ++ (with pkgsUnstable; [ super-productivity ]);
+  ];
 
   programs = {
     zsh.enable = true;

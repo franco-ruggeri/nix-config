@@ -1,8 +1,12 @@
-{ pkgs, lib, myLib, nixpkgs-unstable, ... }:
+{ pkgs, lib, myLib, ... }:
 
-let pkgsUnstable = import nixpkgs-unstable { system = pkgs.system; };
-in {
-  home-manager.extraSpecialArgs = { inherit myLib pkgsUnstable; };
+{
+  home-manager = {
+    # Use pkgs instance from the system, configured in flake.nix
+    # See https://nix-community.github.io/home-manager/
+    useGlobalPkgs = true;
+    extraSpecialArgs = { inherit myLib; };
+  };
 
   nix = {
     settings.experimental-features = "nix-command flakes";

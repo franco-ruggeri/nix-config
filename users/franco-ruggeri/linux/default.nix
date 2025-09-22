@@ -1,4 +1,4 @@
-{ pkgs, pkgsUnstable, myLib, ... }:
+{ pkgs, myLib, ... }:
 
 let gnomeTheme = "Adwaita-dark";
 in {
@@ -7,10 +7,7 @@ in {
   home.packages = with pkgs; [ dunst pamixer whatsie ];
 
   programs = {
-    ghostty = {
-      enable = true;
-      package = pkgsUnstable.ghostty;
-    };
+    ghostty.enable = true;
     hyprlock.enable = true;
     waybar.enable = true;
     wofi.enable = true;

@@ -12,7 +12,4 @@
         };
       };
     in builtins.listToAttrs (map toConfigDir dirs);
-
-  allowUnfreePredicate = allowedPkgs: pkg:
-    builtins.elem (pkgs.lib.getName pkg) allowedPkgs;
 }

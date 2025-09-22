@@ -1,4 +1,4 @@
-{ pkgs, home-manager, myLib, ... }:
+{ home-manager, ... }:
 
 {
   imports = [

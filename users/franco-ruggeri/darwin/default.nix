@@ -1,7 +1,9 @@
-{ myLib, ... }:
+{ pkgs, myLib, ... }:
 
 {
   imports = [ ../common ../../../modules/user/darwin ];
+
+  home.packages = with pkgs; [ whatsapp-for-mac ];
 
   programs.aerospace.enable = true;
 
