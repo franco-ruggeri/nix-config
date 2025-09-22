@@ -11,6 +11,10 @@ in {
     hyprlock.enable = true;
     waybar.enable = true;
     wofi.enable = true;
+    thunderbird = {
+      enable = true;
+      profiles.default.isDefault = true;
+    };
   };
 
   services = {
