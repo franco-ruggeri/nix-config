@@ -16,45 +16,58 @@
   };
 
   outputs = { flake-parts, ... }@inputs:
-    # TODO: generalize to more systems... check https://flake.parts
-    flake-parts.lib.mkFlake { inherit inputs; } {
-      flake = 
-      let
-        system = "aarch64-darwin";
-        pkgsUnstable = import inputs.nixpkgs-unstable { 
-          inherit system;
-          # TODO: use allowUnfreePredicate
-          config.allowUnfree = true; 
+    # TODO: use separate files flake/packages.nix and flake/flake
+    flake-parts.lib.mkFlake { inherit inputs; } ({ withSystem, ... }: {
+      systems = [ "x86_64-linux" "aarch64-darwin" ];
+      perSystem = { system, pkgs, ... }:
+        let
+          allowUnfreePredicate = pkg:
+            builtins.elem (pkgs.lib.getName pkg) [
+              "spotify"
+              "discord"
+              "super-productivity"
+              "whatsapp-for-mac"
+              "zoom"
+            ];
+          pkgsUnstable = import inputs.nixpkgs-unstable {
+            inherit system;
+            config.allowUnfreePredicate = allowUnfreePredicate;
+          };
+        in {
+          _module.args.pkgs = import inputs.nixpkgs {
+            inherit system;
+            config.allowUnfreePredicate = allowUnfreePredicate;
+            overlays = [
+              (self: super: {
+                super-productivity = pkgsUnstable.super-productivity;
+                # Warning: The stable Nix package is currently broken.
+                # See https://github.com/nixos/nixpkgs/issues/438745
+                whatsapp-for-mac = pkgsUnstable.whatsapp-for-mac;
+                # On darwin, the ghostty Nix package is broken.
+                # See https://github.com/NixOS/nixpkgs/issues/388984
+                # The brew version corresponds to unstable. So, we use unstable on linux for compatibility.
+                ghostty = pkgsUnstable.ghostty;
+              })
+            ];
+          };
         };
-        overlay = self: super: {
-          super-productivity = pkgsUnstable.super-productivity;
-          # Warning: The stable Nix package is currently broken.
-          # See https://github.com/nixos/nixpkgs/issues/438745
-          whatsapp-for-mac = pkgsUnstable.whatsapp-for-mac;
-        };
-        pkgs = import inputs.nixpkgs { 
-          inherit system;
-          config.allowUnfree = true; 
-          overlays = [ overlay ];
-        };
+      flake = let
         specialArgs = {
-          inherit (inputs) home-manager nixpkgs-unstable;
-          myLib = import ./lib { pkgs = inputs.nixpkgs; };
+          inherit (inputs) home-manager;
+          myLib = import ./lib;
         };
       in {
-        nixosConfigurations.desktop = inputs.nixpkgs.lib.nixosSystem {
-          inherit system;
-          inherit specialArgs;
-          inherit pkgs;
-          modules = [ ./hosts/desktop ];
-        };
+        nixosConfigurations.desktop = withSystem "x86_64-linux" ({ pkgs, ... }:
+          inputs.nixpkgs.lib.nixosSystem {
+            inherit specialArgs;
+            modules = [ ./hosts/desktop ];
+            pkgs = pkgs;
+          });
         darwinConfigurations.laptop = inputs.darwin.lib.darwinSystem {
-          inherit system;
           inherit specialArgs;
-          inherit pkgs;
           modules = [ ./hosts/laptop ];
+          system = "aarch64-darwin";
         };
       };
-      systems = [ "x86_64-linux" "aarch64-darwin" ];
-  };
+    });
 }

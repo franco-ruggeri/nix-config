@@ -8,8 +8,8 @@
 	name = Franco Ruggeri
 	signingkey = C9CEF044B51D6ACE737D1B150DE2520B8B4292EF
 
-[commit]
-	gpgsign = true
+#[commit]
+#	gpgsign = true
 
 [pull]
 	rebase = true

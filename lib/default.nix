@@ -1,5 +1,3 @@
-{ pkgs }:
-
 {
   mkConfigFiles = path:
     let
