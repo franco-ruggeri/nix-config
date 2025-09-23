@@ -1,5 +1,5 @@
 {
-  description = "Franco Ruggeri's Nix configurations";
+  description = "Franco Ruggeri's Nix config";
 
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
@@ -15,9 +15,10 @@
     };
   };
 
-  outputs = { flake-parts, ... }@inputs:
-    # TODO: use separate files flake/packages.nix and flake/flake
-    flake-parts.lib.mkFlake { inherit inputs; } ({ withSystem, ... }: {
+  outputs = inputs@{ flake-parts, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } (topLevel@{ withSystem, ... }: {
+      # Nixpkgs overlay
+      # ====================
       systems = [ "x86_64-linux" "aarch64-darwin" ];
       perSystem = { system, pkgs, ... }:
         let
@@ -51,23 +52,30 @@
             ];
           };
         };
+      # ====================
+
+      # Host configurations
+      # ====================
       flake = let
         specialArgs = {
           inherit (inputs) home-manager;
           myLib = import ./lib;
         };
       in {
-        nixosConfigurations.desktop = withSystem "x86_64-linux" ({ pkgs, ... }:
-          inputs.nixpkgs.lib.nixosSystem {
-            inherit specialArgs;
-            modules = [ ./hosts/desktop ];
-            pkgs = pkgs;
-          });
-        darwinConfigurations.laptop = inputs.darwin.lib.darwinSystem {
-          inherit specialArgs;
-          modules = [ ./hosts/laptop ];
-          system = "aarch64-darwin";
-        };
+        nixosConfigurations.desktop = topLevel.withSystem "x86_64-linux"
+          (perSystem@{ pkgs, ... }:
+            inputs.nixpkgs.lib.nixosSystem {
+              inherit specialArgs;
+              inherit (perSystem) pkgs;
+              modules = [ ./hosts/desktop ];
+            });
+        darwinConfigurations.laptop = topLevel.withSystem "aarch64-darwin"
+          (perSystem@{ pkgs, ... }:
+            inputs.darwin.lib.darwinSystem {
+              inherit specialArgs;
+              inherit (perSystem) pkgs;
+              modules = [ ./hosts/laptop ];
+            });
       };
     });
 }
