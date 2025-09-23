@@ -35,6 +35,7 @@
     gpg.enable = true;
     firefox.enable = true;
     obs-studio.enable = true;
+    mpv.enable = true;
   };
 
   services.gpg-agent.enable = true;
