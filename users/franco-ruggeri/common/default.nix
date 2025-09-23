@@ -21,8 +21,8 @@
     telegram-desktop
     spotify
     discord
-    zoom-us
     super-productivity
+    zoom-us
 
     # TODO: for some reason, nil_ls fails to compile on macos with mason... 
     # I need to find a consistent way, either drop Mason for everything or make nil work with mason
