@@ -11,4 +11,8 @@
       };
       configFiles = builtins.listToAttrs (map toConfigDir dirs);
     in configFiles;
+
+  readJSON = filepath:
+    builtins.fromJSON
+    (builtins.unsafeDiscardStringContext (builtins.readFile filepath));
 }

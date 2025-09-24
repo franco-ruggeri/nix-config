@@ -40,8 +40,7 @@
     oh-my-posh = {
       enable = true;
       enableZshIntegration = true;
-      settings = builtins.fromJSON (builtins.unsafeDiscardStringContext
-        (builtins.readFile config/oh-my-posh/config.json));
+      settings = myLib.readJSON config/oh-my-posh/config.json;
     };
     neovim = {
       enable = true;
@@ -50,6 +49,8 @@
     fzf = {
       enable = true;
       enableZshIntegration = true;
+      # Consistent layout for fzf, <C-t>, <C-r>, and <M-c>
+      defaultOptions = [ "--tmux=center" "--layout=reverse" ];
     };
     gpg.enable = true;
     firefox.enable = true;
