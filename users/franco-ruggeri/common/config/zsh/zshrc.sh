@@ -22,6 +22,8 @@ aichat() {
 
 # Key bindings
 # ====================
+bindkey -v
+
 # Terminal application mode (to make $terminfo valid)
 # See https://wiki.archlinux.org/title/Zsh#Key_bindings
 if [[ -n "$terminfo[smkx]" && -n "$terminfo[rmkx]" ]]; then
