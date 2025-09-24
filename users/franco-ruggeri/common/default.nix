@@ -1,5 +1,4 @@
 { pkgs, myLib, ... }:
-
 {
   home.packages = with pkgs; [
     aichat
@@ -43,67 +42,57 @@
       enable = true;
       defaultEditor = true;
       extraPackages = with pkgs; [
+        # Data serialization formats
+        vscode-langservers-extracted # jsonls
+        yaml-language-server
+        taplo
+        lemminx
+        nodePackages.prettier
+
         # Lua
-        # lua-language-server # language server
-        # stylua # formatter
+        lua-language-server
+        stylua
 
         # Bash
-        # bash-language-server # language server
-        # shfmt # formatter
+        bash-language-server
+        shfmt
 
         # Markdown
-        # marksman # language server
-        # markdownlint # linter
-        # prettier # formatter
+        marksman
+        markdownlint-cli
 
-        # JSON
-        # json-lsp # language server with linter
-        # prettier # formatter
-
-        # YAML
-        # yaml-language-server # language server
-        # prettier # formatter
-
-        # TOML
-        # taplo # language server with formatter
-
-        # XML
-        # lemminx # language server with formatter
-
-        # Helm
-        # helm-ls # language server
+        # Javascript/Typescript
+        typescript-language-server
 
         # Docker
-        # dockerfile-language-server # language server
-        # hadolint # linter
+        docker-language-server
+        hadolint
+
+        # Helm
+        helm-ls
 
         # Python
-        # python-lsp-server # language server
-        # ruff # linter and formatter
-        # pylint # linter (some rules not covered by ruff, see https://github.com/astral-sh/ruff/issues/970)
-        # mypy # linter (static type checker)
+        python313Packages.python-lsp-server
+        ruff
+        pylint
+        mypy
 
         # C/C++
-        # clangd # language server
-        # clang-format # formatter
-        # cpptools # debug adapter
-
-        # TypeScript and JavaScript
-        # typescript-language-server # language server
-        # prettier # formatter
+        clang-tools # clangd and clang-format
+        vscode-extensions.ms-vscode.cpptools # cpptools
 
         # LaTeX
-        # texlab # language server with formatter
+        texlab
 
         # Java
-        # jdtls # language server
-        # google-java-format # formatter
-        # java-debug-adapter # debug adapter
-        # java-test # use debug adapter on tests
+        jdt-language-server
+        google-java-format
+        vscode-extensions.vscjava.vscode-java-debug # java-debug-adapter
+        vscode-extensions.vscjava.vscode-java-test # to use debug adapter on tests
 
         # Nix
-        nil # language server with linter
-        nixfmt-rfc-style # formatter
+        nil
+        nixfmt-rfc-style
       ];
     };
     gpg.enable = true;
@@ -111,7 +100,10 @@
       enable = true;
       enableZshIntegration = true;
       # Consistent layout for fzf, <C-t>, <C-r>, and <M-c>
-      defaultOptions = [ "--tmux=center" "--layout=reverse" ];
+      defaultOptions = [
+        "--tmux=center"
+        "--layout=reverse"
+      ];
     };
     firefox.enable = true;
     mpv.enable = true;

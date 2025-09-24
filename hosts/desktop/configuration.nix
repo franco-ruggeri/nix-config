@@ -1,11 +1,14 @@
 { pkgs, ... }:
-
 {
   imports = [ ../../systems/nixos ];
 
   users.users.franco-ruggeri = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "docker" ];
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "docker"
+    ];
     shell = pkgs.zsh;
   };
 

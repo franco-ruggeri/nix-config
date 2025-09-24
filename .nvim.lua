@@ -18,6 +18,7 @@ for _, formatter in pairs({
 	"shfmt",
 	"prettier",
 	"prettier_markdown",
+	"nixfmt",
 }) do
 	null_ls.register(null_ls.builtins.formatting[formatter])
 end

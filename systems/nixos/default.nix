@@ -1,5 +1,4 @@
 { home-manager, ... }:
-
 {
   imports = [
     home-manager.nixosModules.home-manager
@@ -50,7 +49,7 @@
       };
     };
     hardware.openrgb.enable = true;
-    # Warning: The home-manager module (services.gnome-keyring) does not work.
+    # WARNING: The home-manager module (services.gnome-keyring) does not work.
     # See https://github.com/nix-community/home-manager/issues/1454
     gnome.gnome-keyring.enable = true;
   };

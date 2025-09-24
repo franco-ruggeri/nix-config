@@ -1,5 +1,6 @@
 {
-  mkConfigFiles = path:
+  mkConfigFiles =
+    path:
     let
       dirs = builtins.attrNames (builtins.readDir path);
       toConfigDir = name: {
@@ -10,9 +11,9 @@
         };
       };
       configFiles = builtins.listToAttrs (map toConfigDir dirs);
-    in configFiles;
+    in
+    configFiles;
 
-  readJSON = filepath:
-    builtins.fromJSON
-    (builtins.unsafeDiscardStringContext (builtins.readFile filepath));
+  readJSON =
+    filepath: builtins.fromJSON (builtins.unsafeDiscardStringContext (builtins.readFile filepath));
 }

@@ -1,6 +1,6 @@
 return {
 	"neovim/nvim-lspconfig",
-	-- Warning: Don't use `lsp/<name>.lua`. lspconfig would have precedence when merging settings.
+	-- WARNING: Don't use `lsp/<name>.lua`. lspconfig would have precedence when merging settings.
 	-- To override lspconfig settings, use `vim.lsp.config()` here.
 	config = function()
 		vim.lsp.config("pylsp", {

@@ -95,7 +95,7 @@ return {
 					chat_filter = function(chat_data) -- only chats for the cwd
 						return chat_data.cwd == vim.fn.getcwd()
 					end,
-					-- Warning: The models used for titles and summaries default to the models used in the chats.
+					-- WARNING: The models used for titles and summaries default to the models used in the chats.
 					-- So, it is crucial to set them, in order not to waste requests potentially from premium models.
 					-- ====================
 					title_generation_opts = {

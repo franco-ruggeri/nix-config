@@ -1,7 +1,9 @@
 { pkgs, myLib, ... }:
-
 {
-  imports = [ ../common ../../../modules/user/darwin ];
+  imports = [
+    ../common
+    ../../../modules/user/darwin
+  ];
 
   home.packages = with pkgs; [ whatsapp-for-mac ];
 

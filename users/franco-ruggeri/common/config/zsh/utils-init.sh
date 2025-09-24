@@ -39,7 +39,7 @@ load_secret() {
 	if [ -f "$secret_file" ]; then
 		export $secret_name=$(gpg --decrypt --quiet "$secret_file")
 	else
-		echo "Warning: Secret file $secret_file not found. Skipping $secret_name."
+		echo "WARNING: Secret file $secret_file not found. Skipping $secret_name."
 	fi
 }
 

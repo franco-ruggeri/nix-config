@@ -1,5 +1,9 @@
-{ pkgs, lib, myLib, ... }:
-
+{
+  pkgs,
+  lib,
+  myLib,
+  ...
+}:
 {
   home-manager = {
     # Use pkgs instance from the system, configured in flake.nix
@@ -18,6 +22,5 @@
 
   programs.zsh.enable = true;
 
-  fonts.packages = builtins.filter lib.attrsets.isDerivation
-    (builtins.attrValues pkgs.nerd-fonts); # all nerd fonts
+  fonts.packages = builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts); # all nerd fonts
 }

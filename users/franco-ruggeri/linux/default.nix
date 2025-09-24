@@ -1,10 +1,21 @@
 { pkgs, myLib, ... }:
+let
+  gnomeTheme = "Adwaita-dark";
+in
+{
+  imports = [
+    ../common
+    ../../../modules/user/linux
+  ];
 
-let gnomeTheme = "Adwaita-dark";
-in {
-  imports = [ ../common ../../../modules/user/linux ];
-
-  home.packages = with pkgs; [ dunst pamixer slurp grim wl-clipboard whatsie ];
+  home.packages = with pkgs; [
+    dunst
+    pamixer
+    slurp
+    grim
+    wl-clipboard
+    whatsie
+  ];
 
   programs = {
     ghostty.enable = true;

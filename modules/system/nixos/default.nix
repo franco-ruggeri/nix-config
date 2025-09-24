@@ -1,1 +1,6 @@
-{ imports = [ ../common ./kubernetes ]; }
+{
+  imports = [
+    ../common
+    ./kubernetes
+  ];
+}
