@@ -1,5 +1,5 @@
 unset -f is_linux
-unset -f is_macos
+unset -f is_darwin
 unset -f bind_key
 unset -f is_command_available
 unset -f source_first_found

@@ -12,7 +12,6 @@
     gcc
     unzip
     tree-sitter
-    fzf
     fd
     ripgrep
     gnumake
@@ -30,8 +29,28 @@
   ];
 
   programs = {
-    zsh.enable = true;
-    neovim.enable = true;
+    zsh = {
+      enable = true;
+      enableCompletion = true;
+      autosuggestion.enable = true;
+      syntaxHighlighting.enable = true;
+      envExtra = "source $HOME/.config/zsh/zshenv.sh";
+      initContent = "source $HOME/.config/zsh/zshrc.sh";
+    };
+    oh-my-posh = {
+      enable = true;
+      enableZshIntegration = true;
+      settings = builtins.fromJSON (builtins.unsafeDiscardStringContext
+        (builtins.readFile config/oh-my-posh/config.json));
+    };
+    neovim = {
+      enable = true;
+      defaultEditor = true;
+    };
+    fzf = {
+      enable = true;
+      enableZshIntegration = true;
+    };
     gpg.enable = true;
     firefox.enable = true;
     obs-studio.enable = true;

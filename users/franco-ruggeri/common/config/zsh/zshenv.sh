@@ -1,19 +1,9 @@
-source $ZDOTDIR/utils-init.sh
-
-# Nix
-source $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
+zsh_config_path=$HOME/.config/zsh
+source $zsh_config_path/utils-init.sh
 
 # Homebrew
-if is_macos; then
+if is_darwin; then
 	eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
-
-# Dark theme
-# See https://wiki.archlinux.org/title/Dark_mode_switching
-if is_linux; then
-	export GTK_THEME="Adwaita:dark"
-	export GTK2_RC_FILES="/usr/share/themes/Adwaita-dark/gtk-2.0/gtkrc"
-	export QT_STYLE_OVERRIDE="Adwaita-Dark"
 fi
 
 # Gnome keyring for ssh-agent.
@@ -24,13 +14,6 @@ fi
 if is_linux && [ -z "$SSH_AUTH_SOCK" ]; then
 	export SSH_AUTH_SOCK="/run/user/1000/gcr/ssh"
 fi
-
-# Default editor
-# It also defines the key bindings for zsh and tmux.
-# See https://wiki.archlinux.org/title/Zsh#Key_bindings
-# See https://github.com/tmux/tmux/wiki/Getting-Started#vi1-key-bindings
-export VISUAL=nvim
-export EDITOR=nvim
 
 # Path as array of unique values
 typeset -U path PATH
@@ -45,8 +28,8 @@ if is_command_available fzf; then
 fi
 
 # AIChat
-if [ is_macos ]; then
+if [ is_darwin ]; then
 	export AICHAT_CONFIG_DIR="$HOME/.config/aichat"
 fi
 
-source $ZDOTDIR/utils-clear.sh
+source $zsh_config_path/utils-clear.sh

@@ -9,5 +9,6 @@
           recursive = true;
         };
       };
-    in builtins.listToAttrs (map toConfigDir dirs);
+      configFiles = builtins.listToAttrs (map toConfigDir dirs);
+    in configFiles;
 }

@@ -2,7 +2,7 @@ is_linux() {
 	[ "$(uname)" = "Linux" ]
 }
 
-is_macos() {
+is_darwin() {
 	[ "$(uname)" = "Darwin" ]
 }
 
