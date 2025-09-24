@@ -1,15 +1,12 @@
-[filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+[core]
+	editor = nvim
 
 [user]
 	name = Franco Ruggeri
 	signingkey = C9CEF044B51D6ACE737D1B150DE2520B8B4292EF
 
-#[commit]
-#	gpgsign = true
+[commit]
+	gpgsign = true
 
 [pull]
 	rebase = true
@@ -17,11 +14,14 @@
 [gpg]
 	program = gpg
 
-[core]
-	editor = vi
-
 [init]
 	defaultBranch = main
 
 [status]
 	submodulesummary = 1
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

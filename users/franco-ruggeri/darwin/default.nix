@@ -5,9 +5,10 @@
 
   home.packages = with pkgs; [ whatsapp-for-mac ];
 
-  programs.aerospace.enable = true;
-
-  services.gpg-agent.enable = true;
+  programs = {
+    aerospace.enable = true;
+    gpg.enable = true;
+  };
 
   xdg.configFile = myLib.mkConfigFiles ./config;
 }

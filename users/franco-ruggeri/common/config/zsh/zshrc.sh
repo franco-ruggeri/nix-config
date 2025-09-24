@@ -3,10 +3,6 @@ source $zsh_config_path/utils-init.sh
 source $zsh_config_path/aliases.sh
 source $zsh_config_path/keybindings.sh
 
-# Don't add to history commands starting with space, like in Bash
-# See https://unix.stackexchange.com/questions/6094/is-there-any-way-to-keep-a-command-from-being-added-to-your-history
-setopt HIST_IGNORE_SPACE
-
 # Kubernetes
 if is_command_available kubectl; then
 	source <(kubectl completion zsh)

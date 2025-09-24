@@ -36,6 +36,7 @@
       syntaxHighlighting.enable = true;
       envExtra = "source $HOME/.config/zsh/zshenv.sh";
       initContent = "source $HOME/.config/zsh/zshrc.sh";
+      history.ignoreSpace = true;
     };
     oh-my-posh = {
       enable = true;
@@ -46,19 +47,17 @@
       enable = true;
       defaultEditor = true;
     };
+    gpg.enable = true;
     fzf = {
       enable = true;
       enableZshIntegration = true;
       # Consistent layout for fzf, <C-t>, <C-r>, and <M-c>
       defaultOptions = [ "--tmux=center" "--layout=reverse" ];
     };
-    gpg.enable = true;
     firefox.enable = true;
     obs-studio.enable = true;
     mpv.enable = true;
   };
-
-  services.gpg-agent.enable = true;
 
   xdg.configFile = myLib.mkConfigFiles ./config;
 }
