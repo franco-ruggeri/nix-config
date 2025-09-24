@@ -15,6 +15,7 @@ in {
       enable = true;
       profiles.default.isDefault = true;
     };
+    obs-studio.enable = true;
   };
 
   services = {

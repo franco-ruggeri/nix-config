@@ -55,7 +55,6 @@
       defaultOptions = [ "--tmux=center" "--layout=reverse" ];
     };
     firefox.enable = true;
-    obs-studio.enable = true;
     mpv.enable = true;
   };
 

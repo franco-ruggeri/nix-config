@@ -17,6 +17,9 @@
       # Warning: The Nix option (programs.ghostty) is currently broken.
       # See https://github.com/NixOS/nixpkgs/issues/388984
       "ghostty"
+      # Warning: The Nix package (pkgs.obs-studio) does not support darwin currently.
+      # See https://github.com/NixOS/nixpkgs/issues/411190
+      "obs"
     ];
   };
 }
