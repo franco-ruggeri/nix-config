@@ -1,20 +1,6 @@
-# Dotfiles
+# Nix Configurations
 
-This repository contains my Nix configurations. The structure of the repository
-is inspired by
-[Ryan Yin's template](https://github.com/ryan4yin/nix-config/tree/i3-kickstarter).
-
-On NixOS:
-
-```bash
-sudo nixos-rebuild switch --flake .#desktop
-```
-
-On macOS:
-
-```bash
-sudo darwin-rebuild switch --flake .#laptop
-```
+This repository contains my Nix configurations.
 
 TODO:
 
@@ -32,6 +18,29 @@ TODO:
       enabled modules), systems do as well. So, a host is hardware + system +
       users
 - [ ] update dev container usage
+
+## Install
+
+On NixOS:
+
+```bash
+sudo nixos-rebuild switch --flake .#desktop
+```
+
+On macOS:
+
+```bash
+sudo darwin-rebuild switch --flake .#laptop
+```
+
+## Structure
+
+The structure of the repository is inspired by
+[Ryan Yin's template](https://github.com/ryan4yin/nix-config/tree/i3-kickstarter).
+
+---
+
+not updated yet from here.
 
 ## Using in dev containers
 
