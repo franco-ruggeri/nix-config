@@ -23,6 +23,7 @@
     zoom-us
     cmake
     kubernetes-helm
+    inkscape
   ];
 
   programs = {
