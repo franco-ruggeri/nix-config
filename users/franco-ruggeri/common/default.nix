@@ -22,6 +22,7 @@
     super-productivity
     zoom-us
     cmake
+    kubernetes-helm
   ];
 
   programs = {

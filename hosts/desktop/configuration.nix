@@ -2,6 +2,7 @@
 {
   imports = [ ../../systems/nixos ];
 
+  # TODO: this should actually belong to the user in users/franco-ruggeri, but the username should be a parameter...
   users.users.franco-ruggeri = {
     isNormalUser = true;
     extraGroups = [
