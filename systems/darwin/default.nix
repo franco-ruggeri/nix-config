@@ -21,5 +21,8 @@
       # See https://github.com/NixOS/nixpkgs/issues/411190
       "obs"
     ];
+    masApps = {
+      "WireGuard" = 1451685025;
+    };
   };
 }
