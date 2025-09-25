@@ -53,6 +53,10 @@ bind_key "$terminfo[kcuu1]" up-line-or-beginning-search
 bind_key "$terminfo[kcud1]" down-line-or-beginning-search
 # ====================
 
+# Menu selection for completions
+# See https://wiki.archlinux.org/title/Zsh#Command_completion
+zstyle ':completion:*' menu select
+
 if is_command_available kubectl; then
 	source <(kubectl completion zsh)
 fi
