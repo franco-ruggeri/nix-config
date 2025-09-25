@@ -21,6 +21,7 @@
     discord
     super-productivity
     zoom-us
+    cmake
   ];
 
   programs = {
@@ -63,6 +64,7 @@
 
         # Javascript/Typescript
         typescript-language-server
+        vscode-js-debug
 
         # Docker
         docker-language-server
@@ -72,14 +74,15 @@
         helm-ls
 
         # Python
-        python313Packages.python-lsp-server
+        python3Packages.python-lsp-server
+        python3Packages.debugpy
         ruff
         pylint
         mypy
 
         # C/C++
         clang-tools # clangd and clang-format
-        vscode-extensions.ms-vscode.cpptools # cpptools
+        cpptools
 
         # LaTeX
         texlab
