@@ -10,6 +10,7 @@
     enable = true;
     brews = [ ];
     casks = [
+      "google-drive"
       # WARNING: The Nix option (services.karabiner-elements) is currently broken.
       # See https://github.com/nix-darwin/nix-darwin/issues/1041
       "karabiner-elements"
