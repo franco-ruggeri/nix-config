@@ -1,6 +1,5 @@
 {
   config,
-  pkgs, # TODO: remove when I remove helm
   home-manager,
   ...
 }:
@@ -26,9 +25,6 @@
   };
 
   nix.gc.dates = "weekly";
-
-  # TODO: remove... temporary, to use helm with root... until I configure RBAC
-  environment.systemPackages = with pkgs; [ kubernetes-helm ];
 
   programs = {
     hyprland.enable = true;
