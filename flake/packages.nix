@@ -16,6 +16,7 @@
         pkg:
         builtins.elem (pkgs.lib.getName pkg) [
           "spotify"
+          "slack"
           "discord"
           "super-productivity"
           "whatsapp-for-mac"

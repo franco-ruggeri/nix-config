@@ -24,6 +24,7 @@
     cmake
     kubernetes-helm
     inkscape
+    slack
   ];
 
   programs = {
