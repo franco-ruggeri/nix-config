@@ -32,7 +32,7 @@ in
   services = {
     hyprpaper.enable = true;
     hyprpolkitagent.enable = true;
-    #hypridle.enable = true;
+    hypridle.enable = true;
     playerctld.enable = true;
   };
 
