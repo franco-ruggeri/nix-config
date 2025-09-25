@@ -1,4 +1,8 @@
-{ pkgs, myLib, ... }:
+{
+  pkgs,
+  myLib,
+  ...
+}:
 let
   gnomeTheme = "Adwaita-dark";
 in
@@ -8,16 +12,22 @@ in
     ../../../modules/user/linux
   ];
 
-  home.packages = with pkgs; [
-    dunst
-    pamixer
-    slurp
-    grim
-    nemo
-    wl-clipboard
-    whatsie
-    kdePackages.okular
-  ];
+  home = {
+    packages = with pkgs; [
+      dunst
+      pamixer
+      slurp
+      grim
+      nemo
+      wl-clipboard
+      whatsie
+      kdePackages.okular
+    ];
+    file.".local" = {
+      source = ./local;
+      recursive = true;
+    };
+  };
 
   programs = {
     ghostty.enable = true;
@@ -38,20 +48,9 @@ in
     playerctld.enable = true;
   };
 
-  wayland.windowManager.hyprland.enable = true;
-
-  gtk = {
+  wayland.windowManager.hyprland = {
     enable = true;
-    theme = {
-      name = gnomeTheme;
-      package = pkgs.gnome-themes-extra;
-    };
-  };
-
-  qt = {
-    enable = true;
-    platformTheme.name = "adwaita";
-    style.name = gnomeTheme;
+    extraConfig = "$dummy = true"; # just to disable warning
   };
 
   xdg = {
@@ -76,5 +75,19 @@ in
       "x-scheme-handler/https" = "firefox.desktop";
       "x-scheme-handler/chrome" = "firefox.desktop";
     };
+  };
+
+  gtk = {
+    enable = true;
+    theme = {
+      name = gnomeTheme;
+      package = pkgs.gnome-themes-extra;
+    };
+  };
+
+  qt = {
+    enable = true;
+    platformTheme.name = "adwaita";
+    style.name = gnomeTheme;
   };
 }
