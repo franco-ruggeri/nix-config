@@ -1,4 +1,9 @@
-{ home-manager, ... }:
+{
+  config,
+  pkgs, # TODO: remove when I remove helm
+  home-manager,
+  ...
+}:
 {
   imports = [
     home-manager.nixosModules.home-manager
@@ -21,6 +26,9 @@
   };
 
   nix.gc.dates = "weekly";
+
+  # TODO: remove... temporary, to use helm with root... until I configure RBAC
+  environment.systemPackages = with pkgs; [ kubernetes-helm ];
 
   programs = {
     hyprland.enable = true;
@@ -55,4 +63,12 @@
   };
 
   virtualisation.docker.enable = true;
+
+  myModules.system = {
+    kubernetes = {
+      enable = true;
+      server = config.networking.hostName;
+    };
+    gaming.enable = true;
+  };
 }

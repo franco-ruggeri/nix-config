@@ -11,41 +11,42 @@
       pkgs,
       ...
     }:
+    let
+      allowUnfreePredicate =
+        pkg:
+        builtins.elem (pkgs.lib.getName pkg) [
+          "spotify"
+          "discord"
+          "super-productivity"
+          "whatsapp-for-mac"
+          "zoom"
+          "vscode-extension-ms-vscode-cpptools"
+          "steam"
+          "steam-unwrapped"
+        ];
+      pkgsUnstable = import inputs.nixpkgs-unstable {
+        inherit system;
+        config.allowUnfreePredicate = allowUnfreePredicate;
+      };
+    in
     {
-      packages.cpptools = pkgs.callPackage ../pkgs/cpptools { };
-      _module.args.pkgs =
-        let
-          allowUnfreePredicate =
-            pkg:
-            builtins.elem (pkgs.lib.getName pkg) [
-              "spotify"
-              "discord"
-              "super-productivity"
-              "whatsapp-for-mac"
-              "zoom"
-              "vscode-extension-ms-vscode-cpptools"
-            ];
-          pkgsUnstable = import inputs.nixpkgs-unstable {
-            inherit system;
-            config.allowUnfreePredicate = allowUnfreePredicate;
-          };
-        in
-        import inputs.nixpkgs {
-          inherit system;
-          config.allowUnfreePredicate = allowUnfreePredicate;
-          overlays = [
-            (self: super: {
-              cpptools = config.packages.cpptools;
-              super-productivity = pkgsUnstable.super-productivity;
-              # Warning: The stable Nix package is currently broken.
-              # See https://github.com/nixos/nixpkgs/issues/438745
-              whatsapp-for-mac = pkgsUnstable.whatsapp-for-mac;
-              # On darwin, the ghostty Nix package is broken.
-              # See https://github.com/NixOS/nixpkgs/issues/388984
-              # The brew version corresponds to unstable. So, we use unstable on linux for compatibility.
-              ghostty = pkgsUnstable.ghostty;
-            })
-          ];
-        };
+      _module.args.pkgs = import inputs.nixpkgs {
+        inherit system;
+        config.allowUnfreePredicate = allowUnfreePredicate;
+        overlays = [
+          (self: super: {
+            cpptools = import ../pkgs/cpptools { cpptools = super.vscode-extensions.ms-vscode.cpptools; };
+            steam-unwrapped = import ../pkgs/steam-unwrapped { inherit (super) steam-unwrapped; };
+            super-productivity = pkgsUnstable.super-productivity;
+            # Warning: The stable Nix package is currently broken.
+            # See https://github.com/nixos/nixpkgs/issues/438745
+            whatsapp-for-mac = pkgsUnstable.whatsapp-for-mac;
+            # On darwin, the ghostty Nix package is broken.
+            # See https://github.com/NixOS/nixpkgs/issues/388984
+            # The brew version corresponds to unstable. So, we use unstable on linux for compatibility.
+            ghostty = pkgsUnstable.ghostty;
+          })
+        ];
+      };
     };
 }
