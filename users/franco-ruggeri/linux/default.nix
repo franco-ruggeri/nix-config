@@ -13,6 +13,7 @@ in
     pamixer
     slurp
     grim
+    nemo
     wl-clipboard
     whatsie
   ];
