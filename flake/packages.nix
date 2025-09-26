@@ -38,6 +38,7 @@
           (self: super: {
             cpptools = import ../pkgs/cpptools { cpptools = super.vscode-extensions.ms-vscode.cpptools; };
             steam-unwrapped = import ../pkgs/steam-unwrapped { inherit (super) steam-unwrapped; };
+            spotify = pkgsUnstable.spotify;
             super-productivity = pkgsUnstable.super-productivity;
             # Warning: The stable Nix package is currently broken.
             # See https://github.com/nixos/nixpkgs/issues/438745
