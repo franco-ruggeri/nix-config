@@ -38,7 +38,7 @@
 
   networking.useDHCP = lib.mkDefault true;
 
-# TODO: redundant with system definition in flake... if possible I should keep only this, it's cleaner... and do the same for darwin
+  # TODO: redundant with system definition in flake... if possible I should keep only this, it's cleaner... and do the same for darwin
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;

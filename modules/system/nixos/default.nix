@@ -1,7 +1,7 @@
 {
   imports = [
     ../common
-    ./kubernetes
-    ./gaming
+    ./kubernetes.nix
+    ./gaming.nix
   ];
 }

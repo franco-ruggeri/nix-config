@@ -1,25 +1,15 @@
-{ pkgs, ... }:
+{ config, ... }:
 {
-  imports = [ ../../systems/nixos ];
+  imports = [
+    ../../systems/nixos
+    ../../users/franco-ruggeri/linux
+  ];
 
-  # TODO: this should actually belong to the user in users/franco-ruggeri, but the username should be a parameter...
-  users.users.franco-ruggeri = {
-    isNormalUser = true;
-    extraGroups = [
-      "wheel"
-      "networkmanager"
-      "docker"
-    ];
-    shell = pkgs.zsh;
-  };
-
-  home-manager.users.franco-ruggeri = {
-    imports = [ ../../users/franco-ruggeri/linux ];
-
-    # DO NOT change! Used for backward compatibility.
-    home.stateVersion = "25.05";
-  };
+  myModules.system.username = "franco-ruggeri";
 
   # DO NOT change! Used for backward compatibility.
   system.stateVersion = "25.05";
+  home-manager.users.${config.myModules.system.username} = {
+    home.stateVersion = "25.05";
+  };
 }
