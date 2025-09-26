@@ -1,6 +1,7 @@
 # Based on https://wiki.nixos.org/wiki/Category:Gaming
 {
   lib,
+  pkgs,
   config,
   ...
 }:
@@ -15,13 +16,9 @@ in
       gamemode.enable = true;
       steam.enable = true;
     };
-
-    # TODO: try this stuff
-    # environment.systemPackages = with pkgs; [
-    #   heroic
-    #   lutris
-    #   mumble
-    #   protonup-qt
-    # ];
+    environment.systemPackages = with pkgs; [
+      heroic
+      lutris
+    ];
   };
 }
