@@ -19,18 +19,30 @@ TODO:
       users
 - [ ] update dev container usage
 
+## Prerequisites
+
+- Install `nix`.
+- Install `home-manager` (standalone):
+
+  ```bash
+  nix run home-manager/release-25.05 -- init --switch
+  rm -r ~/.config/home-manager
+  ```
+
 ## Install
 
 On NixOS:
 
 ```bash
 sudo nixos-rebuild switch --flake .#desktop
+home-manager switch --flake .#desktop
 ```
 
 On macOS:
 
 ```bash
 sudo darwin-rebuild switch --flake .#laptop
+home-manager switch --flake .#laptop
 ```
 
 ## Structure
