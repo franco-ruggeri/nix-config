@@ -39,6 +39,14 @@ in
       profiles.default.isDefault = true;
     };
     obs-studio.enable = true;
+    rclone = {
+      enable = true;
+      # TODO: configure remotes
+      remotes = {
+        gdrive = {
+        };
+      };
+    };
   };
 
   services = {
