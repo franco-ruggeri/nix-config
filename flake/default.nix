@@ -1,6 +1,6 @@
 {
   imports = [
     ./packages.nix
-    ./hosts.nix
+    ./flakes.nix
   ];
 }

@@ -1,11 +1,16 @@
 {
-  config,
   pkgs,
+  lib,
   myLib,
   ...
 }:
 {
-  home-manager.users.${config.myModules.system.username} = {
+  options.myModules.home.username = lib.mkOption {
+    type = lib.types.str;
+    description = "The username of the main user.";
+  };
+
+  config = {
     home.packages = with pkgs; [
       aichat
       git
@@ -34,6 +39,7 @@
     ];
 
     programs = {
+      home-manager.enable = true;
       zsh = {
         enable = true;
         enableCompletion = true;
