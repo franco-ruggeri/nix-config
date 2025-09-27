@@ -19,5 +19,5 @@
     gpg.enable = true;
   };
 
-  xdg.configFile = myLib.mkConfigFiles ./config;
+  xdg.configFile = myLib.mkConfigDir ./config;
 }

@@ -54,6 +54,18 @@
         enableZshIntegration = true;
         settings = myLib.readJSON config/oh-my-posh/config.json;
       };
+      gpg.enable = true;
+      fzf = {
+        enable = true;
+        enableZshIntegration = true;
+        # Consistent layout for fzf, <C-t>, <C-r>, and <M-c>
+        defaultOptions = [
+          "--tmux=center"
+          "--layout=reverse"
+        ];
+      };
+      firefox.enable = true;
+      mpv.enable = true;
       neovim = {
         enable = true;
         defaultEditor = true;
@@ -97,7 +109,7 @@
 
           # C/C++
           clang-tools # clangd and clang-format
-          cpptools
+          vscode-extensions.ms-vscode.cpptools
 
           # LaTeX
           texlab
@@ -113,20 +125,16 @@
           nixfmt-rfc-style
         ];
       };
-      gpg.enable = true;
-      fzf = {
-        enable = true;
-        enableZshIntegration = true;
-        # Consistent layout for fzf, <C-t>, <C-r>, and <M-c>
-        defaultOptions = [
-          "--tmux=center"
-          "--layout=reverse"
-        ];
-      };
-      firefox.enable = true;
-      mpv.enable = true;
     };
 
-    xdg.configFile = myLib.mkConfigFiles ./config;
+    xdg.configFile = myLib.mkConfigDir ./config // {
+      "nvim/lua/utils/constants.lua".text = ''
+        return {
+          VSCODE_CPPTOOLS = "${pkgs.vscode-extensions.ms-vscode.cpptools}",
+          VSCODE_JAVA_DEBUG = "${pkgs.vscode-extensions.vscjava.vscode-java-debug}",
+          VSCODE_JAVA_TEST = "${pkgs.vscode-extensions.vscjava.vscode-java-test}",
+        }
+      '';
+    };
   };
 }

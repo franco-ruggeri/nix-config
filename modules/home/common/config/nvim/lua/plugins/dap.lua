@@ -1,3 +1,7 @@
+local constants = require("utils").constants
+local open_debug_ad7 = constants.VSCODE_CPPTOOLS
+	.. "/share/vscode/extensions/ms-vscode.cpptools/debugAdapters/bin/OpenDebugAD7"
+
 return {
 	"mfussenegger/nvim-dap",
 	dependencies = {
@@ -19,7 +23,7 @@ return {
 		-- Python
 		require("dap-python").setup("debugpy-adapter")
 
-		-- TODO: I can wrap the configs below in a plugin
+		-- TODO: I can wrap the configs below in a plugin "dapconfig", similar to lspconfig
 
 		-- Javascript
 		-- See https://codeberg.org/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#javascript
@@ -48,7 +52,7 @@ return {
 		dap.adapters.cppdbg = {
 			id = "cppdbg",
 			type = "executable",
-			command = "OpenDebugAD7",
+			command = open_debug_ad7,
 		}
 		dap.configurations.cpp = {
 			{

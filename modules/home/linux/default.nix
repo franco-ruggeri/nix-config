@@ -73,7 +73,7 @@ in
   };
 
   xdg = {
-    configFile = myLib.mkConfigFiles ./config;
+    configFile = myLib.mkConfigDir ./config;
     userDirs = {
       enable = true;
       createDirectories = true;

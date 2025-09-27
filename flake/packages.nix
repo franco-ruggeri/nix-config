@@ -36,7 +36,6 @@
         config.allowUnfreePredicate = allowUnfreePredicate;
         overlays = [
           (self: super: {
-            cpptools = import ../pkgs/cpptools { cpptools = super.vscode-extensions.ms-vscode.cpptools; };
             steam-unwrapped = import ../pkgs/steam-unwrapped { inherit (super) steam-unwrapped; };
             super-productivity = pkgsUnstable.super-productivity;
             # Warning: The stable Nix package is currently broken.

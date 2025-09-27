@@ -1,5 +1,5 @@
 {
-  mkConfigFiles =
+  mkConfigDir =
     path:
     let
       dirs = builtins.attrNames (builtins.readDir path);

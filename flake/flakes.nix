@@ -51,7 +51,10 @@
               inputs.home-manager.lib.homeManagerConfiguration {
                 extraSpecialArgs = specialArgs;
                 inherit (perSystem) pkgs;
-                modules = [ path ];
+                modules = [
+                  path
+                  inputs.agenix.homeManagerModules.default
+                ];
               }
             );
         in
