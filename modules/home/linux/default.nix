@@ -43,17 +43,17 @@ in
     rclone = {
       enable = true;
       remotes = {
-        gdrive = {
+        gdrive-personal = {
           config = {
             type = "drive";
-            client_id = "985888792063-bej879uqfvj192se3bueif6kb2djg3ta.apps.googleusercontent.com";
             scope = "drive";
+            client_id = "985888792063-bej879uqfvj192se3bueif6kb2djg3ta.apps.googleusercontent.com";
           };
           # TODO: use agenix
-          # secrets = {
-          #   client_secret = ./filepath;
-          #   token = ./filepath;
-          # };
+          secrets = {
+            client_secret = config.age.secrets.rclone-gdrive-personal-client-secret.path;
+            token = config.age.secrets.rclone-gdrive-personal-token.path;
+          };
           mounts = { };
         };
       };

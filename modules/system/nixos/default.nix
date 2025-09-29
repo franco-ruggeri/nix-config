@@ -1,6 +1,12 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  agenix,
+  ...
+}:
 {
   imports = [
+    agenix.nixosModules.default
     ../common
     ./kubernetes.nix
     ./gaming.nix
@@ -30,6 +36,7 @@
       "docker"
     ];
     shell = pkgs.zsh;
+    hashedPasswordFile = config.age.secrets.user-password.path;
   };
 
   programs = {
@@ -66,11 +73,5 @@
 
   virtualisation.docker.enable = true;
 
-  myModules.system = {
-    kubernetes = {
-      enable = true;
-      server = config.networking.hostName;
-    };
-    gaming.enable = true;
-  };
+  age.secrets.user-password.file = ../../../secrets/user-password.age;
 }

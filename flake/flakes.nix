@@ -5,7 +5,10 @@
   flake =
     let
       myLib = import ../lib;
-      specialArgs = { inherit myLib; };
+      specialArgs = {
+        inherit myLib;
+        inherit (inputs) agenix;
+      };
     in
     {
       nixosConfigurations =
