@@ -19,6 +19,7 @@
       packages = with pkgs; [
         agenix.packages.${pkgs.system}.default
         aichat
+        zotero
         git
         tmux
         bitwarden-desktop
