@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   lib,
   myLib,
@@ -15,6 +16,7 @@
 
   config = {
     home.packages = with pkgs; [
+      agenix.packages.${pkgs.system}.default
       aichat
       git
       tmux
@@ -39,7 +41,6 @@
       kubernetes-helm
       inkscape
       slack
-      agenix.packages.${pkgs.system}.default
     ];
 
     programs = {
@@ -139,12 +140,6 @@
           VSCODE_JAVA_TEST = "${pkgs.vscode-extensions.vscjava.vscode-java-test}",
         }
       '';
-    };
-
-    # TODO: make a function that, for each file with extension "age", creates a corresponding entry
-    age.secrets = {
-      rclone-gdrive-personal-client-secret.file = ../../../secrets/rclone-gdrive-personal-client-secret.age;
-      rclone-gdrive-personal-token.file = ../../../secrets/rclone-gdrive-personal-token.age;
     };
   };
 }

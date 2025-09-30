@@ -2,6 +2,7 @@
   config,
   pkgs,
   agenix,
+  myLib,
   ...
 }:
 {
@@ -28,15 +29,18 @@
 
   nix.gc.dates = "weekly";
 
-  users.users.${config.myModules.system.username} = {
-    isNormalUser = true;
-    extraGroups = [
-      "wheel"
-      "networkmanager"
-      "docker"
-    ];
-    shell = pkgs.zsh;
-    hashedPasswordFile = config.age.secrets.user-password.path;
+  users = {
+    mutableUsers = false;
+    users.${config.myModules.system.username} = {
+      isNormalUser = true;
+      extraGroups = [
+        "wheel"
+        "networkmanager"
+        "docker"
+      ];
+      shell = pkgs.zsh;
+      hashedPasswordFile = config.age.secrets.user-password.path;
+    };
   };
 
   programs = {
@@ -73,5 +77,5 @@
 
   virtualisation.docker.enable = true;
 
-  age.secrets.user-password.file = ../../../secrets/user-password.age;
+  age.secrets = myLib.mkSecrets ../../../secrets/system/nixos;
 }

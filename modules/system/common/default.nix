@@ -1,4 +1,8 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  ...
+}:
 {
   options.myModules.system.username = lib.mkOption {
     type = lib.types.str;
