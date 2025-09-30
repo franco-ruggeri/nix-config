@@ -16,16 +16,13 @@
     configFiles;
 
   mkSecrets =
-    path:
+    secretNames:
     let
-      entries = builtins.readDir path;
-      files = builtins.filter (name: entries.${name} == "regular") (builtins.attrNames entries);
-      ageFiles = builtins.filter (name: (builtins.match ".*\.age$" name) != null) files;
-      getSecret = file: {
-        name = builtins.replaceStrings [ ".age" ] [ "" ] file;
-        value.file = path + "/${file}";
+      getSecret = name: {
+        inherit name;
+        value.file = ../secrets/${name}.age;
       };
-      secrets = builtins.listToAttrs (map getSecret ageFiles);
+      secrets = builtins.listToAttrs (map getSecret secretNames);
     in
     secrets;
 

@@ -15,33 +15,35 @@
   };
 
   config = {
-    home.packages = with pkgs; [
-      agenix.packages.${pkgs.system}.default
-      aichat
-      git
-      tmux
-      bitwarden-desktop
-      python3
-      nodejs
-      cargo
-      gcc
-      unzip
-      tree-sitter
-      fd
-      ripgrep
-      gnumake
-      devpod
-      oh-my-posh
-      telegram-desktop
-      spotify
-      discord
-      super-productivity
-      zoom-us
-      cmake
-      kubernetes-helm
-      inkscape
-      slack
-    ];
+    home = {
+      packages = with pkgs; [
+        agenix.packages.${pkgs.system}.default
+        aichat
+        git
+        tmux
+        bitwarden-desktop
+        python3
+        nodejs
+        cargo
+        gcc
+        unzip
+        tree-sitter
+        fd
+        ripgrep
+        gnumake
+        devpod
+        oh-my-posh
+        telegram-desktop
+        spotify
+        discord
+        super-productivity
+        zoom-us
+        cmake
+        kubernetes-helm
+        inkscape
+        slack
+      ];
+    };
 
     programs = {
       home-manager.enable = true;
@@ -50,6 +52,9 @@
         enableCompletion = true;
         autosuggestion.enable = true;
         syntaxHighlighting.enable = true;
+        shellAliases = {
+          aichat = "GEMINI_API_KEY=$(cat ${config.age.secrets.gemini-api-key.path}) aichat";
+        };
         envExtra = "source $HOME/.config/zsh/zshenv.sh";
         initContent = "source $HOME/.config/zsh/zshrc.sh";
         history.ignoreSpace = true;
@@ -63,7 +68,7 @@
       fzf = {
         enable = true;
         enableZshIntegration = true;
-        # Consistent layout for fzf, <C-t>, <C-r>, and <M-c>
+        # Consistent layout (<C-t>, <C-r>, and <M-c>)
         defaultOptions = [
           "--tmux=center"
           "--layout=reverse"
@@ -140,6 +145,11 @@
           VSCODE_JAVA_TEST = "${pkgs.vscode-extensions.vscjava.vscode-java-test}",
         }
       '';
+    };
+
+    age = {
+      identityPaths = [ "${config.home.homeDirectory}/.ssh/agenix" ];
+      secrets = myLib.mkSecrets [ "gemini-api-key" ];
     };
   };
 }

@@ -28,21 +28,6 @@ source_first_found() {
 	return 1
 }
 
-load_secret() {
-	local secret_name="$1"
-
-	local secret_file
-	secret_file=$(echo "$secret_name" | tr '[:upper:]' '[:lower:]') # lowercase
-	secret_file="${secret_file//_/-}"                               # underscore -> dash
-	secret_file="$HOME/.secrets/${secret_file}.gpg"                 # path to secret file
-
-	if [ -f "$secret_file" ]; then
-		export $secret_name=$(gpg --decrypt --quiet "$secret_file")
-	else
-		echo "WARNING: Secret file $secret_file not found. Skipping $secret_name."
-	fi
-}
-
 # Workaround for poetry shell not working with custom prompt
 # See https://github.com/python-poetry/poetry-plugin-shell/issues/9
 poetry() {

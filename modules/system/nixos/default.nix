@@ -77,5 +77,5 @@
 
   virtualisation.docker.enable = true;
 
-  age.secrets = myLib.mkSecrets ../../../secrets/system/nixos;
+  age.secrets = myLib.mkSecrets [ "user-password" ];
 }

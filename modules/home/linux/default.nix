@@ -141,8 +141,11 @@ in
     style.name = gnomeTheme;
   };
 
-  age = {
-    identityPaths = [ "${config.home.homeDirectory}/.ssh/agenix" ];
-    secrets = myLib.mkSecrets ../../../secrets/home/linux;
-  };
+  age.secrets = myLib.mkSecrets [
+    "rclone-gdrive-personal-client-secret"
+    "rclone-gdrive-personal-token"
+    "rclone-gdrive-pianeta-costruzioni-client-secret"
+    "rclone-gdrive-pianeta-costruzioni-token"
+    "rclone-onedrive-kth-token"
+  ];
 }
