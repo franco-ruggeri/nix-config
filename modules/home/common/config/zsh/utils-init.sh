@@ -17,21 +17,11 @@ is_command_available() {
 	command -v "$cmd" >/dev/null 2>&1
 }
 
-source_first_found() {
-	local files=("$@")
-	for file in "${files[@]}"; do
-		if [ -f "$file" ]; then
-			source "$file" >/dev/null 2>&1
-			return 0
-		fi
-	done
-	return 1
-}
-
 # Workaround for poetry shell not working with custom prompt
 # See https://github.com/python-poetry/poetry-plugin-shell/issues/9
 poetry() {
 	if [ "$1" = "shell" ]; then
+		# shellcheck disable=SC2016
 		cmd='source "$(dirname $(poetry run which python))/activate"'
 		zsh -ic "$cmd; exec zsh"
 	else
@@ -67,7 +57,8 @@ cwd_to_kebab() {
 
 	local count=0
 	for item in *; do
-		local new_name=$(str_to_kebab_case "$item")
+		local new_name
+		new_name=$(str_to_kebab_case "$item")
 
 		if [[ "$item" == "$new_name" ]]; then
 			echo "✓ $item (already kebab-case)"
