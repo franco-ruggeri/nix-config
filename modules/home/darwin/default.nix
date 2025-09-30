@@ -10,7 +10,6 @@
   home = {
     username = config.myModules.home.username;
     homeDirectory = /Users/${config.myModules.home.username};
-
     packages = with pkgs; [ whatsapp-for-mac ];
   };
 

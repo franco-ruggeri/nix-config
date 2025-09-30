@@ -15,6 +15,7 @@
     brews = [ ];
     casks = [
       "google-drive"
+      "adobe-acrobat-reader"
       # WARNING: The Nix option (services.karabiner-elements) is currently broken.
       # See https://github.com/nix-darwin/nix-darwin/issues/1041
       "karabiner-elements"
