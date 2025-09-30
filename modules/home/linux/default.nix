@@ -4,9 +4,6 @@
   myLib,
   ...
 }:
-let
-  gnomeTheme = "Adwaita-dark";
-in
 {
   imports = [ ../common ];
 
@@ -24,9 +21,19 @@ in
       whatsie
       kdePackages.okular
     ];
+
     file.".local" = {
       source = ./local;
       recursive = true;
+    };
+
+    pointerCursor = {
+      enable = true;
+      name = "Adwaita";
+      package = pkgs.gnome-themes-extra;
+      size = 24;
+      gtk.enable = true;
+      hyprcursor.enable = true;
     };
   };
 
@@ -130,7 +137,7 @@ in
   gtk = {
     enable = true;
     theme = {
-      name = gnomeTheme;
+      name = "Adwaita-dark";
       package = pkgs.gnome-themes-extra;
     };
   };
@@ -138,7 +145,7 @@ in
   qt = {
     enable = true;
     platformTheme.name = "adwaita";
-    style.name = gnomeTheme;
+    style.name = "Adwaita-dark";
   };
 
   age.secrets = myLib.mkSecrets [
