@@ -18,7 +18,6 @@ in
     };
     environment.systemPackages = with pkgs; [
       heroic
-      lutris
       protonup-qt
     ];
   };
