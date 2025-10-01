@@ -38,5 +38,10 @@
 
   networking.useDHCP = lib.mkDefault true;
 
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  services.hardware.openrgb.enable = true;
+
+  hardware = {
+    cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+    amdgpu.opencl.enable = true;
+  };
 }
