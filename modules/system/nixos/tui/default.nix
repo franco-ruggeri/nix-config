@@ -6,8 +6,6 @@ in
   imports = [ ./kubernetes.nix ];
 
   config = lib.mkIf cfg.enable {
-    users.users.${config.myModules.system.username}.extraGroups = [ "docker" ];
-
     programs = {
       gnupg.agent = {
         enable = true;
