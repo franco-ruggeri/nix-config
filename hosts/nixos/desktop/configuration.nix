@@ -1,16 +1,20 @@
 { config, ... }:
 {
-  imports = [ ../../modules/system/nixos ];
-
   networking.hostName = "ruggeri-desktop";
 
   myModules.system = {
     username = "franco";
-    kubernetes = {
+    tui = {
       enable = true;
-      server = config.networking.hostName;
+      kubernetes = {
+        enable = true;
+        server = config.networking.hostName;
+      };
     };
-    gaming.enable = true;
+    gui = {
+      enable = true;
+      gaming.enable = true;
+    };
   };
 
   # DO NOT change! Used for backward compatibility.

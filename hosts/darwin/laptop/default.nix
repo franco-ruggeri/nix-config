@@ -1,6 +1,4 @@
 {
-  imports = [ ../../modules/system/darwin ];
-
   myModules.system.username = "erugfra";
 
   # DO NOT change! Used for backward compatibility.

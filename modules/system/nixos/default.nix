@@ -5,12 +5,15 @@
   myLib,
   ...
 }:
+let
+  cfg = config.myModules.system;
+in
 {
   imports = [
     agenix.nixosModules.default
     ../common
-    ./kubernetes.nix
-    ./gaming.nix
+    ./gui
+    ./tui
   ];
 
   boot.loader = {
@@ -31,55 +34,16 @@
 
   users = {
     mutableUsers = false;
-    users.${config.myModules.system.username} = {
+    users.${cfg.username} = {
       isNormalUser = true;
       extraGroups = [
         "wheel"
         "networkmanager"
-        "docker"
-        "ydotool"
       ];
       shell = pkgs.zsh;
       hashedPasswordFile = config.age.secrets.user-password.path;
     };
   };
-
-  programs = {
-    hyprland.enable = true;
-    seahorse.enable = true;
-    gnupg.agent = {
-      enable = true;
-      # TODO: In the next NixOS version (>25.05):
-      #   - Use gcr-ssh-agent as an SSH agent and remove this.
-      #   - Delete ~/.gnupg/private-keys-v1.d/ (SSH keys are stored there)
-      #   Reason:
-      #   Using the GPG agent as an SSH agent is a workaround to make gnome-keyring work with SSH.
-      #   The better solution would be to use the bundled SSH agent in gnome-keyring.
-      #   However, gnome-keyring no longer includes an SSH agent. It's been moved to gcr-ssh-agent (gcr package).
-      #   The current version 25.05 does not provide an option for it. The unstable version has fixed it.
-      #   See https://github.com/NixOS/nixpkgs/pull/379731
-      enableSSHSupport = true;
-    };
-    ydotool.enable = true;
-  };
-
-  services = {
-    openssh = {
-      enable = true;
-      settings = {
-        PermitRootLogin = "no";
-        PasswordAuthentication = false;
-      };
-    };
-    # WARNING: The home-manager module (services.gnome-keyring) does not work.
-    # See https://github.com/nix-community/home-manager/issues/1454
-    gnome.gnome-keyring.enable = true;
-    # WARNING: Needed for Speech Note. When it gets added to Nixpkgs, use that and remove this.
-    # See https://github.com/NixOS/nixpkgs/issues/306838
-    flatpak.enable = true;
-  };
-
-  virtualisation.docker.enable = true;
 
   age.secrets = myLib.mkSecrets [ "user-password" ];
 }

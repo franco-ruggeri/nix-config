@@ -1,3 +1,4 @@
+{ pkgs, lib }:
 {
   mkConfigDir =
     path:
@@ -28,4 +29,7 @@
 
   readJSON =
     filepath: builtins.fromJSON (builtins.unsafeDiscardStringContext (builtins.readFile filepath));
+
+  isDarwin = lib.strings.hasSuffix "darwin" pkgs.system;
+  isLinux = lib.strings.hasSuffix "linux" pkgs.system;
 }

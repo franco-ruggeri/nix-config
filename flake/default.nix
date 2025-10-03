@@ -1,6 +1,7 @@
 {
   imports = [
     ./packages.nix
-    ./flakes.nix
+    ./hosts.nix
+    ./modules.nix
   ];
 }

@@ -1,22 +1,16 @@
 {
   config,
-  pkgs,
+  lib,
   myLib,
   ...
 }:
 {
-  imports = [ ../common ];
+  imports = [
+    ./gui
+    ./tui
+  ];
 
-  home = {
-    username = config.myModules.home.username;
-    homeDirectory = /Users/${config.myModules.home.username};
-    packages = with pkgs; [ whatsapp-for-mac ];
+  config = lib.mkIf (myLib.isDarwin) {
+    home.homeDirectory = /Users/${config.myModules.home.username};
   };
-
-  programs = {
-    aerospace.enable = true;
-    gpg.enable = true;
-  };
-
-  xdg.configFile = myLib.mkConfigDir ./config;
 }

@@ -25,8 +25,7 @@ TODO:
 - Install `home-manager` (standalone):
 
   ```bash
-  nix run home-manager/release-25.05 -- init --switch
-  rm -r ~/.config/home-manager
+  nix shell github:nix-community/home-manager/release-25.05
   ```
 
 ## Install
@@ -49,6 +48,13 @@ home-manager switch --flake .#laptop
 
 The structure of the repository is inspired by
 [Ryan Yin's template](https://github.com/ryan4yin/nix-config/tree/i3-kickstarter).
+
+## Coding Style
+
+- Nix expressions imported from other directories should be imported as
+  directories (e.g., `imports = [ ./path/to/dir ];` instead of
+  `imports [ ./path/to/file.nix ];`. The files should be structured accordingly
+  and eventually wrapped into directories having `default.nix`.
 
 ---
 

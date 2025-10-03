@@ -6,10 +6,10 @@
   ...
 }:
 let
-  cfg = config.myModules.system.kubernetes;
+  cfg = config.myModules.system.tui.kubernetes;
 in
 {
-  options.myModules.system.kubernetes = {
+  options.myModules.system.tui.kubernetes = {
     enable = lib.mkEnableOption "Enable Kubernetes";
     server = lib.mkOption { type = lib.types.str; };
   };
