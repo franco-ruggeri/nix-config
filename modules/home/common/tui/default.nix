@@ -51,7 +51,6 @@ in
         enableZshIntegration = true;
         settings = myLib.readJSON config/oh-my-posh/config.json;
       };
-      gpg.enable = true;
       htop.enable = true;
       fzf = {
         enable = true;
