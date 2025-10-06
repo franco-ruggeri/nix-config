@@ -48,5 +48,10 @@ return {
 		diagnostics.markdownlint = diagnostics.markdownlint.with({
 			extra_args = { "--disable", "MD013" },
 		})
+
+		-- For shell scripts, support also zsh files.
+		formatting.shfmt = formatting.shfmt.with({
+			filetypes = { "sh", "zsh" },
+		})
 	end,
 }
