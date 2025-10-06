@@ -1,6 +1,6 @@
 {
   myModules.home = {
-    username = "franco";
+    username = "ubuntu";
     tui.enable = true;
   };
 
