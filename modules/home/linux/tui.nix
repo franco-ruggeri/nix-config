@@ -4,6 +4,11 @@
   myLib,
   ...
 }:
+let
+  cfg = config.myModules.home.tui;
+in
 {
-  config = lib.mkIf (myLib.isLinux && config.myModules.home.tui.enable) { };
+  config = lib.mkIf (myLib.isLinux && cfg.enable && cfg.isContainer) {
+    targets.genericLinux.enable = true;
+  };
 }

@@ -1,6 +1,6 @@
 {
   myModules.home = {
-    username = "ubuntu";
+    username = "ubuntu"; # TODO: shouldn't be hardcoded...
     tui = {
       enable = true;
       isContainer = true;
