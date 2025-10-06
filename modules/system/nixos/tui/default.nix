@@ -21,6 +21,7 @@ in
     programs = {
       gnupg.agent = {
         enable = true;
+        enableExtraSocket = true; # necessary for DevPod GPG agent forwarding
         # WARNING: In the next NixOS version (>25.05):
         #   - Use gcr-ssh-agent as an SSH agent and remove this.
         #   - Delete ~/.gnupg/private-keys-v1.d/ (SSH keys are stored there)
