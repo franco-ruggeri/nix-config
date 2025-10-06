@@ -9,28 +9,39 @@ let
   cfg = config.myModules.home.tui;
 in
 {
-  options.myModules.home.tui.enable = lib.mkEnableOption "Enables TUI home configuration.";
+  options.myModules.home.tui = {
+    enable = lib.mkEnableOption "Enables TUI home configuration.";
+    isContainer = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Whether the system is a container.";
+    };
+  };
 
   config = lib.mkIf cfg.enable {
     home = {
-      packages = with pkgs; [
-        aichat
-        git
-        tmux
-        python3
-        nodejs
-        cargo
-        gcc
-        unzip
-        tree-sitter
-        fd
-        ripgrep
-        gnumake
-        devpod
-        oh-my-posh
-        cmake
-        kubernetes-helm
-      ];
+      packages =
+        with pkgs;
+        [
+          aichat
+          tmux
+          python3
+          nodejs
+          cargo
+          gcc
+          unzip
+          tree-sitter
+          fd
+          ripgrep
+          gnumake
+          oh-my-posh
+          cmake
+          kubernetes-helm
+        ]
+        ++ lib.optionals (!cfg.isContainer) [
+          git
+          devpod
+        ];
     };
 
     programs = {
@@ -123,24 +134,31 @@ in
     };
 
     xdg.configFile =
-      myLib.mkConfigDotfiles [
-        "aichat"
-        "git"
-        "marksman"
-        "mcphub"
-        "nvim"
-        "tmux"
-        "zsh"
-      ]
-      // {
-        "nvim/lua/utils/constants.lua".text = ''
-          return {
-            VSCODE_CPPTOOLS = "${pkgs.vscode-extensions.ms-vscode.cpptools}",
-            VSCODE_JAVA_DEBUG = "${pkgs.vscode-extensions.vscjava.vscode-java-debug}",
-            VSCODE_JAVA_TEST = "${pkgs.vscode-extensions.vscjava.vscode-java-test}",
-          }
-        '';
-      };
+      let
+        nvim_constants = {
+          "nvim/lua/utils/constants.lua".text = ''
+            return {
+              VSCODE_CPPTOOLS = "${pkgs.vscode-extensions.ms-vscode.cpptools}",
+              VSCODE_JAVA_DEBUG = "${pkgs.vscode-extensions.vscjava.vscode-java-debug}",
+              VSCODE_JAVA_TEST = "${pkgs.vscode-extensions.vscjava.vscode-java-test}",
+            }
+          '';
+        };
+      in
+      myLib.mkConfigDotfiles (
+        [
+          "aichat"
+          "marksman"
+          "mcphub"
+          "nvim"
+          "tmux"
+          "zsh"
+        ]
+        ++ lib.optionals (!cfg.isContainer) [
+          "git"
+        ]
+      )
+      // nvim_constants;
 
     age.secrets = myLib.mkSecrets [ "gemini-api-key" ];
   };
