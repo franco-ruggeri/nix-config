@@ -1,34 +1,47 @@
 { pkgs, lib }:
 {
-  mkConfigDir =
-    path:
+  mkConfigDotfiles =
+    paths:
     let
-      entries = builtins.readDir path;
-      dirs = builtins.filter (name: entries.${name} == "directory") (builtins.attrNames entries);
-      getConfigDir = name: {
-        name = name;
+      mkConfigDir = map (path: {
+        name = path;
         value = {
-          source = "${path}/${name}";
+          source = ../dotfiles/config/${path};
           recursive = true;
         };
-      };
-      configFiles = builtins.listToAttrs (map getConfigDir dirs);
+      });
+      dotfiles = builtins.listToAttrs (mkConfigDir paths);
     in
-    configFiles;
+    dotfiles;
+
+  mkLocalDotfiles =
+    paths:
+    let
+      mkLocalDir = map (path: {
+        name = ".local/${path}";
+        value = {
+          source = ../dotfiles/local/${path};
+          recursive = true;
+        };
+      });
+      dotfiles = builtins.listToAttrs (mkLocalDir paths);
+    in
+    dotfiles;
+
+  readConfigDotfile = filepath: builtins.readFile ../dotfiles/config/${filepath};
+
+  fromJSON = file: builtins.fromJSON (builtins.unsafeDiscardStringContext file);
 
   mkSecrets =
     secretNames:
     let
-      getSecret = name: {
+      mkSecret = name: {
         inherit name;
         value.file = ../secrets/${name}.age;
       };
-      secrets = builtins.listToAttrs (map getSecret secretNames);
+      secrets = builtins.listToAttrs (map mkSecret secretNames);
     in
     secrets;
-
-  readJSON =
-    filepath: builtins.fromJSON (builtins.unsafeDiscardStringContext (builtins.readFile filepath));
 
   isDarwin = lib.strings.hasSuffix "darwin" pkgs.system;
   isLinux = lib.strings.hasSuffix "linux" pkgs.system;

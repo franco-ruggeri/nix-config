@@ -13,6 +13,9 @@
       aerospace.enable = true;
     };
 
-    xdg.configFile = myLib.mkConfigDir ./config;
+    xdg.configFile = myLib.mkConfigDotfiles [
+      "aerospace"
+      "karabiner"
+    ];
   };
 }

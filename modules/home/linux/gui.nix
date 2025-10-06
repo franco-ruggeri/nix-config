@@ -28,10 +28,9 @@
         hyprcursor.enable = true;
       };
 
-      file.".local" = {
-        source = ./local;
-        recursive = true;
-      };
+      file = myLib.mkLocalDotfiles [
+        "share/hypr"
+      ];
     };
 
     programs = {
@@ -103,7 +102,13 @@
     };
 
     xdg = {
-      configFile = myLib.mkConfigDir ./config;
+      configFile = myLib.mkConfigDotfiles [
+        "dunst"
+        "hypr"
+        "pipewire"
+        "waybar"
+        "wofi"
+      ];
       userDirs = {
         enable = true;
         createDirectories = true;

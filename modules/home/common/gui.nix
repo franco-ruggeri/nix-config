@@ -31,6 +31,9 @@ in
       mpv.enable = true;
     };
 
-    xdg.configFile = myLib.mkConfigDir ./config;
+    xdg.configFile = myLib.mkConfigDotfiles [
+      "ghostty"
+      "mpv"
+    ];
   };
 }

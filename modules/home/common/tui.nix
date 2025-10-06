@@ -49,7 +49,7 @@ in
       oh-my-posh = {
         enable = true;
         enableZshIntegration = true;
-        settings = myLib.readJSON config/oh-my-posh/config.json;
+        settings = myLib.fromJSON (myLib.readConfigDotfile "oh-my-posh/config.json");
       };
       htop.enable = true;
       fzf = {
@@ -122,15 +122,25 @@ in
       };
     };
 
-    xdg.configFile = myLib.mkConfigDir ./config // {
-      "nvim/lua/utils/constants.lua".text = ''
-        return {
-          VSCODE_CPPTOOLS = "${pkgs.vscode-extensions.ms-vscode.cpptools}",
-          VSCODE_JAVA_DEBUG = "${pkgs.vscode-extensions.vscjava.vscode-java-debug}",
-          VSCODE_JAVA_TEST = "${pkgs.vscode-extensions.vscjava.vscode-java-test}",
-        }
-      '';
-    };
+    xdg.configFile =
+      myLib.mkConfigDotfiles [
+        "aichat"
+        "git"
+        "marksman"
+        "mcphub"
+        "nvim"
+        "tmux"
+        "zsh"
+      ]
+      // {
+        "nvim/lua/utils/constants.lua".text = ''
+          return {
+            VSCODE_CPPTOOLS = "${pkgs.vscode-extensions.ms-vscode.cpptools}",
+            VSCODE_JAVA_DEBUG = "${pkgs.vscode-extensions.vscjava.vscode-java-debug}",
+            VSCODE_JAVA_TEST = "${pkgs.vscode-extensions.vscjava.vscode-java-test}",
+          }
+        '';
+      };
 
     age.secrets = myLib.mkSecrets [ "gemini-api-key" ];
   };

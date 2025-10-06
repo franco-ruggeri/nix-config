@@ -7,8 +7,8 @@
 }:
 {
   imports = [
-    ./gui
-    ./tui
+    ./gui.nix
+    ./tui.nix
   ];
 
   options.myModules.home.username = lib.mkOption {

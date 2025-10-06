@@ -6,8 +6,8 @@
 }:
 {
   imports = [
-    ./gui
-    ./tui
+    ./gui.nix
+    ./tui.nix
   ];
 
   config = lib.mkIf myLib.isLinux {

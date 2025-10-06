@@ -86,7 +86,7 @@
           };
           server = getFlake {
             system = "x86_64-linux";
-            path = ../hosts/home/server;
+            path = ../hosts/home/container;
           };
         };
     };
