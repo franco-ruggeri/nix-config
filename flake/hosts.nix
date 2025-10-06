@@ -84,7 +84,7 @@
             system = "aarch64-darwin";
             path = ../hosts/home/laptop;
           };
-          server = getFlake {
+          container = getFlake {
             system = "x86_64-linux";
             path = ../hosts/home/container;
           };
