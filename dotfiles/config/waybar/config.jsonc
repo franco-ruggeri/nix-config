@@ -1,64 +1,47 @@
 {
-    "layer": "top",
-    "margin": "10 10 0 10",
-    "modules-left": [
-        "custom/launcher",
-        "cpu",
-        "memory",
-        "custom/gpu",
-        "network"
-    ],
-    "modules-center": [
-        "hyprland/workspaces"
-    ],
-    "modules-right": [
-        "tray",
-        "pulseaudio",
-        "clock"
-    ],
-    "custom/launcher": {
-        "format": "\uf120",
-        "on-click": "wofi --show drun",
-        "on-click-right": "killall rofi"
+  "layer": "top",
+  "margin": "10 10 0 10",
+  "modules-left": ["custom/launcher", "cpu", "memory", "custom/gpu", "network"],
+  "modules-center": ["hyprland/workspaces"],
+  "modules-right": ["tray", "pulseaudio", "clock"],
+  "custom/launcher": {
+    "format": "\uf120",
+    "on-click": "wofi --show drun",
+  },
+  "network": {
+    "format-ethernet": "\uef44  {bandwidthDownBits} {bandwidthUpBits}",
+    "format-disconnected": "\uf0200",
+    "tooltip-format": "{ifname} {ipaddr}",
+  },
+  "cpu": {
+    "format": "\uf4bc  {usage}%",
+  },
+  "memory": {
+    "format": "\uefc5  {percentage}%",
+  },
+  "custom/gpu": {
+    "exec": "cat /sys/class/drm/card2/device/gpu_busy_percent",
+    "format": "\uf11b  {}%",
+    "return-type": "",
+    "interval": 1,
+  },
+  "hyrpland/workspaces": {
+    "format": "{icon}",
+    "on-click": "activate",
+  },
+  "tray": {
+    "spacing": 20,
+  },
+  "pulseaudio": {
+    "scroll-step": 5,
+    "format": "{icon}  {volume}%",
+    "format-muted": "\uf6a9 {volume}%",
+    "on-click": "pamixer -t",
+    "format-icons": {
+      "default": ["\uf026", "\uf027", "\uf028"],
     },
-    "network": {
-        "format-ethernet": "\uf6ff {bandwidthDownBits} {bandwidthUpBits}",
-        "format-disconnected": "\uf126",
-        "tooltip-format": "{ifname} {ipaddr}"
-    },
-    "cpu": {
-        "format": "\uf2db {usage}%"
-    },
-    "memory": {
-        "format": "\uf538 {percentage}%"
-    },
-    "custom/gpu": {
-        "exec": "cat /sys/class/hwmon/hwmon2/device/gpu_busy_percent",
-        "format": "\ue4e5 {}%",
-        "return-type": "",
-        "interval": 1
-    },
-    "hyrpland/workspaces": {
-        "format": "{icon}",
-        "on-click": "activate"
-    },
-    "tray": {
-        "spacing": 20
-    },
-    "pulseaudio": {
-        "scroll-step": 5,
-        "format": "{icon} {volume}%",
-        "format-muted": "\uf6a9 {volume}%",
-        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
-        "format-icons": {
-            "default": [
-                "\uf026",
-                "\uf027",
-                "\uf028"
-            ]
-        }
-    },
-    "clock": {
-        "format": "\uf073 {:%Y-%m-%d    \uf017 %H:%M}"
-    }
+  },
+  "clock": {
+    "format": "\uf073 {:%Y-%m-%d    \uf017 %H:%M}",
+  },
 }
