@@ -20,47 +20,47 @@
     {
       nixosConfigurations =
         let
-          getConfig =
-            path:
+          mkConfig =
+            name:
             withSystem "x86_64-linux" (
               perSystem@{ pkgs, ... }:
               inputs.nixpkgs.lib.nixosSystem {
                 inherit (perSystem) pkgs;
                 specialArgs = mkSpecialArgs pkgs;
                 modules = [
-                  path
+                  ../hosts/nixos/${name}
                   config.flake.nixosModules.default
                 ];
               }
             );
         in
         {
-          desktop = getConfig ../hosts/nixos/desktop;
+          desktop = mkConfig "desktop";
         };
 
       darwinConfigurations =
         let
-          getConfig =
-            path:
+          mkConfig =
+            name:
             withSystem "aarch64-darwin" (
               perSystem@{ pkgs, ... }:
               inputs.darwin.lib.darwinSystem {
                 inherit (perSystem) pkgs;
                 specialArgs = mkSpecialArgs pkgs;
                 modules = [
-                  path
+                  ../hosts/darwin/${name}
                   config.flake.darwinModules.default
                 ];
               }
             );
         in
         {
-          laptop = getConfig ../hosts/darwin/laptop;
+          laptop = mkConfig "laptop";
         };
 
       homeConfigurations =
         let
-          getConfig =
+          mkConfig =
             { system, path }:
             withSystem system (
               perSystem@{ pkgs, ... }:
@@ -76,15 +76,15 @@
             );
         in
         {
-          desktop = getConfig {
+          desktop = mkConfig {
             system = "x86_64-linux";
             path = ../hosts/home/desktop;
           };
-          laptop = getConfig {
+          laptop = mkConfig {
             system = "aarch64-darwin";
             path = ../hosts/home/laptop;
           };
-          container = getConfig {
+          container = mkConfig {
             system = "x86_64-linux";
             path = ../hosts/home/container;
           };
