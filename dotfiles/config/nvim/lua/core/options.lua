@@ -48,14 +48,8 @@ M.setup = function()
 	-- Enable diagnostics virtual text
 	vim.diagnostic.config({ virtual_text = true })
 
-	-- Load local config from:
-	-- * .nvim.lua (default exrc)
-	-- * .personal/.nvim.lua (needed for project overlay)
+	-- Load local config from .nvim.lua
 	vim.opt.exrc = true
-	local path = vim.fn.getcwd() .. "/.personal/.nvim.lua"
-	if vim.secure.read(path) then
-		dofile(path)
-	end
 end
 
 return M
