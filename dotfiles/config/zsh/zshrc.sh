@@ -1,5 +1,5 @@
 zsh_config_dir="$HOME/.config/zsh"
-source $zsh_config_dir/utils-init.sh
+source "$zsh_config_dir/utils-init.sh"
 
 # Aliases
 # ====================
@@ -19,7 +19,7 @@ bindkey -v
 
 # Terminal application mode (to make $terminfo valid)
 # See https://wiki.archlinux.org/title/Zsh#Key_bindings
-if [[ -n "$terminfo[smkx]" && -n "$terminfo[rmkx]" ]]; then
+if [ -n "${terminfo[smkx]}" ] && [ -n "${terminfo[rmkx]}" ]; then
 	autoload -Uz add-zle-hook-widget
 	function zle_application_mode_start {
 		echoti smkx
@@ -32,18 +32,18 @@ if [[ -n "$terminfo[smkx]" && -n "$terminfo[rmkx]" ]]; then
 fi
 
 # Basic key bindings
-bind_key "$terminfo[khome]" beginning-of-line
-bind_key "$terminfo[kend]" end-of-line
-bind_key "$terminfo[kdch1]" delete-char
-bind_key "$terminfo[kcbt]" reverse-menu-complete
+bind_key "${terminfo[khome]}" beginning-of-line
+bind_key "${terminfo[kend]}" end-of-line
+bind_key "${terminfo[kdch1]}" delete-char
+bind_key "${terminfo[kcbt]}" reverse-menu-complete
 
 # History search of matching commands
 # See https://wiki.archlinux.org/title/Zsh#History_search
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
-bind_key "$terminfo[kcuu1]" up-line-or-beginning-search
-bind_key "$terminfo[kcud1]" down-line-or-beginning-search
+bind_key "${terminfo[kcuu1]}" up-line-or-beginning-search
+bind_key "${terminfo[kcud1]}" down-line-or-beginning-search
 # ====================
 
 # Menu selection for completions
@@ -51,20 +51,25 @@ bind_key "$terminfo[kcud1]" down-line-or-beginning-search
 zstyle ':completion:*' menu select
 
 if is_command_available kubectl; then
+	# shellcheck source=/dev/null
 	source <(kubectl completion zsh)
 fi
 
 if is_command_available devpod; then
+	# shellcheck source=/dev/null
 	source <(devpod completion zsh)
 fi
 
 if is_command_available aichat; then
+	# shellcheck source=/dev/null
 	source <(curl -sSL https://raw.githubusercontent.com/sigoden/aichat/main/scripts/shell-integration/integration.zsh)
+	# shellcheck source=/dev/null
 	source <(curl -sSL https://raw.githubusercontent.com/sigoden/aichat/main/scripts/completions/aichat.zsh)
 fi
 
 if is_darwin; then
-	source $HOME/.ericsson
+	# shellcheck disable=SC1091
+	source "$HOME/.ericsson"
 fi
 
-source $zsh_config_dir/utils-clear.sh
+source "$zsh_config_dir/utils-clear.sh"
