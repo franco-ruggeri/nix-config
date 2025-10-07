@@ -60,7 +60,7 @@
 
       homeConfigurations =
         let
-          getFlake =
+          getConfig =
             { system, path }:
             withSystem system (
               perSystem@{ pkgs, ... }:
@@ -76,15 +76,15 @@
             );
         in
         {
-          desktop = getFlake {
+          desktop = getConfig {
             system = "x86_64-linux";
             path = ../hosts/home/desktop;
           };
-          laptop = getFlake {
+          laptop = getConfig {
             system = "aarch64-darwin";
             path = ../hosts/home/laptop;
           };
-          container = getFlake {
+          container = getConfig {
             system = "x86_64-linux";
             path = ../hosts/home/container;
           };
