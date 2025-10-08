@@ -15,6 +15,7 @@ in
     };
 
     services = {
+      hardware.openrgb.enable = true;
       # WARNING: The home-manager module (services.gnome-keyring) does not work.
       # See https://github.com/nix-community/home-manager/issues/1454
       gnome.gnome-keyring.enable = true;

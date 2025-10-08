@@ -17,6 +17,7 @@
         wl-clipboard
         whatsie
         kdePackages.okular
+        polychromatic
       ];
 
       pointerCursor = {
