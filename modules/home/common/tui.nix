@@ -37,6 +37,7 @@ in
           oh-my-posh
           cmake
           kubernetes-helm
+          tree
         ]
         ++ lib.optionals (!cfg.isContainer) [
           git
