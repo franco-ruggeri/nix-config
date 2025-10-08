@@ -7,6 +7,7 @@
 }:
 let
   cfg = config.myModules.system.tui.kubernetes;
+  adminGroup = "kubeadmin";
 in
 {
   options.myModules.system.tui.kubernetes = {
@@ -35,7 +36,20 @@ in
         clusterInit = cfg.server == config.networking.hostName;
         serverAddr = lib.mkIf (!config.services.k3s.clusterInit) "https://${cfg.server}:6443";
         token = config.age.secrets.k3s-token.path;
+        extraFlags = [
+          "--write-kubeconfig-mode 640"
+          "--write-kubeconfig-group ${adminGroup}"
+        ];
       };
+    };
+
+    users = {
+      groups.${adminGroup} = { };
+      users.${config.myModules.system.username}.extraGroups = [ adminGroup ];
+    };
+
+    environment.sessionVariables = {
+      KUBECONFIG = "/etc/rancher/k3s/k3s.yaml";
     };
 
     age.secrets = myLib.mkSecrets [ "k3s-token" ];
