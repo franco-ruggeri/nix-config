@@ -29,5 +29,9 @@
         "dmask=0077"
       ];
     };
+    "/var/lib/rancher/k3s/storage" = {
+      device = "/dev/disk/by-uuid/a95ee5bb-3a48-4c13-8921-7acbc80c11ba";
+      fsType = "ext4";
+    };
   };
 }
