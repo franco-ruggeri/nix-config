@@ -36,6 +36,7 @@ in
           gnumake
           oh-my-posh
           cmake
+          kubectl
           kubernetes-helm
           tree
           dig
