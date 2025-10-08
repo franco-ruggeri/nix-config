@@ -38,6 +38,7 @@ in
           cmake
           kubernetes-helm
           tree
+          dig
         ]
         ++ lib.optionals (!cfg.isContainer) [
           git
