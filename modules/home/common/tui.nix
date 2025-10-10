@@ -63,7 +63,7 @@ in
       oh-my-posh = {
         enable = true;
         enableZshIntegration = true;
-        settings = myLib.fromJSON (myLib.readConfigDotfile "oh-my-posh/config.json");
+        settings = myLib.fromJSON (builtins.readFile (myLib.configDotfilesDir + "oh-my-posh/config.json"));
       };
       htop.enable = true;
       fzf = {

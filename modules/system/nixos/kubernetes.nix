@@ -6,11 +6,11 @@
   ...
 }:
 let
-  cfg = config.myModules.system.tui.kubernetes;
+  cfg = config.myModules.system.kubernetes;
   adminGroup = "kubeadmin";
 in
 {
-  options.myModules.system.tui.kubernetes = {
+  options.myModules.system.kubernetes = {
     enable = lib.mkEnableOption "Enable Kubernetes";
     server = lib.mkOption { type = lib.types.str; };
   };
@@ -20,11 +20,10 @@ in
       firewall = {
         allowedTCPPorts = [
           6443
-          2379
-          2380
         ];
         allowedUDPPorts = [
           8472
+          53 # Homelab's DNS
         ];
       };
     };

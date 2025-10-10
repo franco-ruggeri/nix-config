@@ -11,5 +11,10 @@ in
   "rclone-gdrive-pianeta-costruzioni-client-secret.age".publicKeys = [ homeDesktop ];
   "rclone-gdrive-pianeta-costruzioni-token.age".publicKeys = [ homeDesktop ];
   "rclone-onedrive-kth-token.age".publicKeys = [ homeDesktop ];
-  "gemini-api-key.age".publicKeys = [ homeDesktop homeLaptop ];
+  "gemini-api-key.age".publicKeys = [
+    homeDesktop
+    homeLaptop
+  ];
+  "wireguard-desktop-private-key.age".publicKeys = [ systemDesktop ];
+  "wireguard-desktop-preshared-key.age".publicKeys = [ systemDesktop ];
 }

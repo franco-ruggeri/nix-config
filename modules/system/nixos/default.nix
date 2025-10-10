@@ -13,8 +13,11 @@ in
   imports = [
     agenix.nixosModules.default
     ../common
-    ./gui
-    ./tui
+    ./gui.nix
+    ./tui.nix
+    ./gaming.nix
+    ./kubernetes.nix
+    ./wireguard.nix
   ];
 
   boot.loader = {

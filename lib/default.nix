@@ -1,12 +1,16 @@
 { pkgs, lib }:
-{
+rec {
+  dotfilesConfigDir = ../dotfiles/config;
+  dotfilesLocalDir = ../dotfiles/local;
+  secretsDir = ../secrets;
+
   mkConfigDotfiles =
     paths:
     let
       mkConfigDir = map (path: {
         name = path;
         value = {
-          source = ../dotfiles/config/${path};
+          source = dotfilesConfigDir + "/${path}";
           recursive = true;
         };
       });
@@ -20,7 +24,7 @@
       mkLocalDir = map (path: {
         name = ".local/${path}";
         value = {
-          source = ../dotfiles/local/${path};
+          source = dotfilesLocalDir + "/${path}";
           recursive = true;
         };
       });
@@ -28,18 +32,32 @@
     in
     dotfiles;
 
-  readConfigDotfile = filepath: builtins.readFile ../dotfiles/config/${filepath};
-
   fromJSON = file: builtins.fromJSON (builtins.unsafeDiscardStringContext file);
 
   mkSecrets =
-    secretNames:
+    names:
     let
       mkSecret = name: {
         inherit name;
-        value.file = ../secrets/${name}.age;
+        value.file = secretsDir + "/${name}.age";
       };
-      secrets = builtins.listToAttrs (map mkSecret secretNames);
+      secrets = builtins.listToAttrs (map mkSecret names);
+    in
+    secrets;
+
+  mkWireguardSecrets =
+    names:
+    let
+      mkSecret = name: {
+        inherit name;
+        value = {
+          file = secretsDir + "/${name}.age";
+          mode = "640";
+          owner = "systemd-network";
+          group = "systemd-network";
+        };
+      };
+      secrets = builtins.listToAttrs (map mkSecret names);
     in
     secrets;
 

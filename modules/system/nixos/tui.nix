@@ -3,8 +3,6 @@ let
   cfg = config.myModules.system.tui;
 in
 {
-  imports = [ ./kubernetes.nix ];
-
   config = lib.mkIf cfg.enable {
     users.users.${config.myModules.system.username}.extraGroups = [ "docker" ];
 

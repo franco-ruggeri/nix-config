@@ -3,8 +3,6 @@ let
   cfg = config.myModules.system.gui;
 in
 {
-  imports = [ ./gaming.nix ];
-
   config = lib.mkIf cfg.enable {
     users.users.${config.myModules.system.username}.extraGroups = [ "ydotool" ];
 
