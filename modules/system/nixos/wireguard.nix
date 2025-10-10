@@ -48,7 +48,7 @@ in
 
         wireguardPeers = [
           {
-            PublicKey = "t7KA7wnR5f3+kasDl0e8qMRmtS2hQaBDy9IwoEKnTXs="; # TODO: this should be somehow fixed. Now it changes at every restart of the cluster
+            PublicKey = "PqMzcV9O8M/X6EkM9OETa065Vg1mTHWaikbQR5Z55Ro=";
             PresharedKeyFile = cfg.presharedKeyFile;
             AllowedIPs = [ "10.34.0.0/24" ];
             Endpoint = "ruggeri.asuscomm.com:51820";
