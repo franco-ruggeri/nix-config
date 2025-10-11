@@ -1,14 +1,26 @@
-{ config, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   cfg = config.myModules.system.gui;
 in
 {
   config = lib.mkIf cfg.enable {
-    users.users.${config.myModules.system.username}.extraGroups = [ "ydotool" ];
+    users.users.${config.myModules.system.username}.extraGroups = [
+      "wireshark"
+      "ydotool"
+    ];
 
     programs = {
       hyprland.enable = true;
       seahorse.enable = true;
+      wireshark = {
+        enable = true;
+        package = pkgs.wireshark-qt;
+      };
       ydotool.enable = true; # for SpeechNote
     };
 
