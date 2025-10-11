@@ -19,11 +19,11 @@ in
     networking = {
       firewall = {
         allowedTCPPorts = [
-          6443
+          6443 # k3s API server
         ];
         allowedUDPPorts = [
-          8472
-          53 # Homelab's DNS
+          8472 # k3s flannel
+          51820 # wireguard
         ];
       };
     };
