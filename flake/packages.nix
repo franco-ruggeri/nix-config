@@ -47,6 +47,7 @@
         config.allowUnfreePredicate = allowUnfreePredicate;
         overlays = [
           (self: super: {
+            agenix = inputs.agenix.packages.${system}.default;
             steam-unwrapped = config.packages.steam-unwrapped;
             super-productivity = pkgsUnstable.super-productivity;
             # Warning: The stable Nix package is currently broken.

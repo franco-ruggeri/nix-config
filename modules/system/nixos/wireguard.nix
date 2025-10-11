@@ -6,52 +6,41 @@
 }:
 let
   cfg = config.myModules.system.wireguard;
-  deviceName = "wg0";
-  configFile = "50-wg0";
 in
 {
-  options.myModules.system.wireguard = {
-    enable = lib.mkEnableOption "Enable Kubernetes";
-    privateKeyFile = lib.mkOption { type = lib.types.str; };
-    presharedKeyFile = lib.mkOption { type = lib.types.str; };
-  };
-
   config = lib.mkIf cfg.enable {
-    networking = {
-      firewall.allowedUDPPorts = [ 51820 ];
-      useNetworkd = true;
-    };
+    networking.firewall.allowedUDPPorts = [ cfg.listenPort ];
 
     systemd.network = {
       enable = true;
 
-      networks.${configFile} = {
-        matchConfig.Name = deviceName;
-        address = [ "10.34.0.2/32" ];
+      networks.${cfg.deviceName} = {
+        matchConfig.Name = cfg.interfaceName;
+        address = [ cfg.address ];
         networkConfig = {
-          DNS = [ "10.34.0.240" ];
+          DNS = [ cfg.dns ];
           DNSDefaultRoute = true;
         };
       };
 
-      netdevs.${configFile} = {
+      netdevs.${cfg.deviceName} = {
         netdevConfig = {
           Kind = "wireguard";
-          Name = deviceName;
+          Name = cfg.deviceName;
         };
 
         wireguardConfig = {
           PrivateKeyFile = cfg.privateKeyFile;
-          ListenPort = 51820;
+          ListenPort = cfg.listenPort;
           RouteTable = "main";
         };
 
         wireguardPeers = [
           {
-            PublicKey = "PqMzcV9O8M/X6EkM9OETa065Vg1mTHWaikbQR5Z55Ro=";
+            PublicKey = cfg.serverPublicKey;
             PresharedKeyFile = cfg.presharedKeyFile;
-            AllowedIPs = [ "10.34.0.0/24" ];
-            Endpoint = "ruggeri.asuscomm.com:51820";
+            AllowedIPs = cfg.allowedIPs;
+            Endpoint = cfg.endpoint;
           }
         ];
       };

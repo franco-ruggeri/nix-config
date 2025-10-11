@@ -3,7 +3,6 @@
   pkgs,
   lib,
   myLib,
-  agenix,
   ...
 }:
 let
@@ -11,7 +10,6 @@ let
 in
 {
   imports = [
-    agenix.nixosModules.default
     ../common
     ./gui.nix
     ./tui.nix

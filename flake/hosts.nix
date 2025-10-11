@@ -10,7 +10,6 @@
   flake =
     let
       mkSpecialArgs = pkgs: {
-        inherit (inputs) agenix;
         myLib = import ../lib {
           inherit pkgs;
           inherit (pkgs) lib;
@@ -30,6 +29,7 @@
                 modules = [
                   ../hosts/nixos/${name}
                   config.flake.nixosModules.default
+                  inputs.agenix.nixosModules.default
                 ];
               }
             );
@@ -50,6 +50,7 @@
                 modules = [
                   ../hosts/darwin/${name}
                   config.flake.darwinModules.default
+                  inputs.agenix.darwinModules.default
                 ];
               }
             );

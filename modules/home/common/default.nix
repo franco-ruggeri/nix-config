@@ -2,7 +2,6 @@
   config,
   pkgs,
   lib,
-  agenix,
   ...
 }:
 {
@@ -19,7 +18,7 @@
   config = {
     home = {
       username = config.myModules.home.username;
-      packages = [ agenix.packages.${pkgs.system}.default ];
+      packages = with pkgs; [ agenix ];
     };
 
     programs.home-manager.enable = true;

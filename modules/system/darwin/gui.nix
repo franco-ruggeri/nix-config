@@ -17,10 +17,10 @@ in
         # WARNING: The Nix package (pkgs.obs-studio) does not support darwin currently.
         # See https://github.com/NixOS/nixpkgs/issues/411190
         "obs"
+        # WARNING: The Nix package (pkgs.wireshark) does not set up permissions.
+        "wireshark-app"
       ];
-      masApps = {
-        "WireGuard" = 1451685025;
-      };
+      masApps = { };
     };
   };
 }
