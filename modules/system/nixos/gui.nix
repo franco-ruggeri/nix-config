@@ -19,7 +19,7 @@ in
       seahorse.enable = true;
       wireshark = {
         enable = true;
-        package = pkgs.wireshark-qt;
+        package = pkgs.wireshark;
       };
       ydotool.enable = true; # for SpeechNote
     };
