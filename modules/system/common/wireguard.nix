@@ -14,8 +14,11 @@
       default = "ruggeri.asuscomm.com:51820";
     };
     dns = lib.mkOption {
-      type = lib.types.str;
-      default = "10.43.0.12";
+      type = lib.types.listOf lib.types.str;
+      default = [
+        "10.43.0.12"
+        "8.8.8.8"
+      ];
     };
     allowedIPs = lib.mkOption {
       type = lib.types.listOf lib.types.str;

@@ -18,7 +18,7 @@ in
         matchConfig.Name = cfg.device;
         address = [ cfg.address ];
         networkConfig = {
-          DNS = [ cfg.dns ];
+          DNS = cfg.dns;
           DNSDefaultRoute = true;
         };
       };
