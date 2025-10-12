@@ -39,6 +39,7 @@ in
           "--write-kubeconfig-mode 640"
           "--write-kubeconfig-group ${adminGroup}"
         ];
+        manifests.traefik-extra.source = ./traefik-extra.yaml;
       };
     };
 

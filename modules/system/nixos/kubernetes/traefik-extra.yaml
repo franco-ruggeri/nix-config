@@ -1,0 +1,13 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  # TODO: try removing the first type: ClusterIP... not sure if they are both needed
+  valuesContent: |-
+    service:
+      type: ClusterIP
+      spec:
+        type: ClusterIP
+        clusterIP: 10.43.0.11

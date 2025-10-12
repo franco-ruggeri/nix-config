@@ -14,8 +14,8 @@ in
     ./gui.nix
     ./tui.nix
     ./gaming.nix
-    ./kubernetes.nix
     ./wireguard.nix
+    ./kubernetes
   ];
 
   boot.loader = {
