@@ -14,8 +14,8 @@ in
     systemd.network = {
       enable = true;
 
-      networks.${cfg.deviceName} = {
-        matchConfig.Name = cfg.interfaceName;
+      networks.${cfg.device} = {
+        matchConfig.Name = cfg.device;
         address = [ cfg.address ];
         networkConfig = {
           DNS = [ cfg.dns ];
@@ -23,10 +23,10 @@ in
         };
       };
 
-      netdevs.${cfg.deviceName} = {
+      netdevs.${cfg.device} = {
         netdevConfig = {
           Kind = "wireguard";
-          Name = cfg.deviceName;
+          Name = cfg.device;
         };
 
         wireguardConfig = {

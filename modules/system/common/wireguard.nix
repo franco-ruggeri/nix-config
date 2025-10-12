@@ -15,18 +15,22 @@
     };
     dns = lib.mkOption {
       type = lib.types.str;
-      default = "10.34.0.240";
+      default = "10.43.0.12";
     };
     allowedIPs = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [
-        "10.34.0.0/24"
-        "192.168.1.0/24"
+        "10.34.0.0/24" # VPN
+        "10.43.0.0/16" # Kubernetes cluster
       ];
     };
     listenPort = lib.mkOption {
       type = lib.types.int;
       default = 51820;
+    };
+    device = lib.mkOption {
+      type = lib.types.str;
+      default = "wg0";
     };
   };
 }
