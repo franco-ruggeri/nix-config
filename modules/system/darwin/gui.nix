@@ -20,7 +20,9 @@ in
         # WARNING: The Nix package (pkgs.wireshark) does not set up permissions.
         "wireshark-app"
       ];
-      masApps = { };
+      masApps = {
+        "WireGuard" = 1451685025;
+      };
     };
   };
 }

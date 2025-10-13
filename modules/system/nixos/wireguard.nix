@@ -1,46 +1,57 @@
 # Based on https://wiki.nixos.org/wiki/WireGuard#systemd.network
-{
-  config,
-  lib,
-  ...
-}:
+{ config, lib, ... }:
 let
   cfg = config.myModules.system.wireguard;
+  listenPort = 51820;
+  device = "wg0";
 in
 {
+  options.myModules.system.wireguard = {
+    enable = lib.mkEnableOption "Enable Wireguard client";
+    address = lib.mkOption { type = lib.types.str; };
+    privateKeyFile = lib.mkOption { type = lib.types.str; };
+    presharedKeyFile = lib.mkOption { type = lib.types.str; };
+  };
+
   config = lib.mkIf cfg.enable {
-    networking.firewall.allowedUDPPorts = [ cfg.listenPort ];
+    networking.firewall.allowedUDPPorts = [ listenPort ];
 
     systemd.network = {
       enable = true;
 
-      networks.${cfg.device} = {
-        matchConfig.Name = cfg.device;
+      networks.${device} = {
+        matchConfig.Name = device;
         address = [ cfg.address ];
         networkConfig = {
-          DNS = cfg.dns;
+          DNS = [
+            "10.43.0.12"
+            "8.8.8.8"
+          ];
           DNSDefaultRoute = true;
         };
       };
 
-      netdevs.${cfg.device} = {
+      netdevs.${device} = {
         netdevConfig = {
           Kind = "wireguard";
-          Name = cfg.device;
+          Name = device;
         };
 
         wireguardConfig = {
           PrivateKeyFile = cfg.privateKeyFile;
-          ListenPort = cfg.listenPort;
+          ListenPort = listenPort;
           RouteTable = "main";
         };
 
         wireguardPeers = [
           {
-            PublicKey = cfg.serverPublicKey;
+            PublicKey = "PqMzcV9O8M/X6EkM9OETa065Vg1mTHWaikbQR5Z55Ro=";
             PresharedKeyFile = cfg.presharedKeyFile;
-            AllowedIPs = cfg.allowedIPs;
-            Endpoint = cfg.endpoint;
+            AllowedIPs = [
+              "10.34.0.0/24" # VPN
+              "10.43.0.0/16" # Kubernetes cluster
+            ];
+            Endpoint = "ruggeri.asuscomm.com:51820";
           }
         ];
       };

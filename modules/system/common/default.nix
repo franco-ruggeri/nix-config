@@ -3,7 +3,6 @@
   imports = [
     ./gui.nix
     ./tui.nix
-    ./wireguard.nix
   ];
 
   options.myModules.system.username = lib.mkOption {

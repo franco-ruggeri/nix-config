@@ -7,7 +7,6 @@ in
     ../common
     ./gui.nix
     ./tui.nix
-    ./wireguard.nix
   ];
 
   users.users.${cfg.username} = {

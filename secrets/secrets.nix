@@ -9,8 +9,6 @@ in
   "k3s-token.age".publicKeys = [ systemDesktop ];
   "wireguard-desktop-private-key.age".publicKeys = [ systemDesktop ];
   "wireguard-desktop-preshared-key.age".publicKeys = [ systemDesktop ];
-  "wireguard-laptop-private-key.age".publicKeys = [ systemLaptop ];
-  "wireguard-laptop-preshared-key.age".publicKeys = [ systemLaptop ];
   "rclone-gdrive-personal-client-secret.age".publicKeys = [ homeDesktop ];
   "rclone-gdrive-personal-token.age".publicKeys = [ homeDesktop ];
   "rclone-gdrive-pianeta-costruzioni-client-secret.age".publicKeys = [ homeDesktop ];
