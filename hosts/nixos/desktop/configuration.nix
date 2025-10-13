@@ -13,7 +13,7 @@
     };
     wireguard = {
       enable = true;
-      address = "10.34.0.2/32";
+      address = "10.34.0.2/24";
       privateKeyFile = config.age.secrets.wireguard-desktop-private-key.path;
       presharedKeyFile = config.age.secrets.wireguard-desktop-preshared-key.path;
     };
