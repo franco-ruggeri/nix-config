@@ -52,6 +52,7 @@ in
               "10.43.0.0/16" # Kubernetes cluster
             ];
             Endpoint = "ruggeri.asuscomm.com:51820";
+            PersistentKeepalive = 15;
           }
         ];
       };
