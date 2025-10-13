@@ -18,10 +18,7 @@ in
       wg-quick.interfaces = {
         wg0 = {
           address = [ cfg.address ];
-          dns = [
-            "10.43.0.12"
-            "8.8.8.8"
-          ];
+          dns = [ "10.43.0.12" ];
           privateKeyFile = cfg.privateKeyFile;
           peers = [
             {
