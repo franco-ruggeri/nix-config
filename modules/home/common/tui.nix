@@ -148,19 +148,15 @@ in
           '';
         };
       in
-      myLib.mkConfigDotfiles (
-        [
-          "aichat"
-          "marksman"
-          "mcphub"
-          "nvim"
-          "tmux"
-          "zsh"
-        ]
-        ++ lib.optionals (!cfg.isContainer) [
-          "git"
-        ]
-      )
+      myLib.mkConfigDotfiles [
+        "aichat"
+        "marksman"
+        "mcphub"
+        "nvim"
+        "tmux"
+        "zsh"
+        "git"
+      ]
       // nvim_constants;
 
     age.secrets = myLib.mkSecrets [ "gemini-api-key" ];
