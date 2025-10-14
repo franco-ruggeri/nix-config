@@ -20,6 +20,7 @@ in
       firewall = {
         allowedTCPPorts = [
           6443 # k3s API server
+          10250 # kubelet metrics
         ];
         allowedUDPPorts = [
           8472 # k3s flannel
