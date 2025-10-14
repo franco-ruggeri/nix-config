@@ -1,10 +1,7 @@
 {
   myModules.home = {
     username = "ubuntu";
-    tui = {
-      enable = true;
-      isContainer = true;
-    };
+    tui.enable = true;
   };
 
   # DO NOT change! Used for backward compatibility.

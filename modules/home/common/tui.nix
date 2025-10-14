@@ -9,42 +9,31 @@ let
   cfg = config.myModules.home.tui;
 in
 {
-  options.myModules.home.tui = {
-    enable = lib.mkEnableOption "Enables TUI home configuration.";
-    isContainer = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Whether the system is a container.";
-    };
-  };
+  options.myModules.home.tui.enable = lib.mkEnableOption "Enables TUI home configuration.";
 
   config = lib.mkIf cfg.enable {
     home = {
-      packages =
-        with pkgs;
-        [
-          aichat
-          tmux
-          python3
-          nodejs
-          cargo
-          gcc
-          unzip
-          tree-sitter
-          fd
-          ripgrep
-          gnumake
-          oh-my-posh
-          cmake
-          kubectl
-          kubernetes-helm
-          tree
-          dig
-        ]
-        ++ lib.optionals (!cfg.isContainer) [
-          git
-          devpod
-        ];
+      packages = with pkgs; [
+        aichat
+        tmux
+        python3
+        nodejs
+        cargo
+        gcc
+        unzip
+        tree-sitter
+        fd
+        ripgrep
+        gnumake
+        oh-my-posh
+        cmake
+        kubectl
+        kubernetes-helm
+        tree
+        dig
+        git
+        devpod
+      ];
     };
 
     programs = {
