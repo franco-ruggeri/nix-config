@@ -27,6 +27,7 @@ in
               allowedIPs = [
                 "10.34.0.0/24" # VPN
                 "10.43.0.0/16" # Kubernetes cluster
+                "192.168.1.30/32" # Kubernetes API server
               ];
               endpoint = "ruggeri.asuscomm.com:51820";
               persistentKeepalive = 15;
