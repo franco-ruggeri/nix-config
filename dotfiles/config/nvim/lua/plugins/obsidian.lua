@@ -9,7 +9,7 @@ local function open_note()
 
 	local full_path = vim.api.nvim_buf_get_name(0)
 	local note_path = vim.fn.fnamemodify(full_path, ":.:r")
-	local url = ("https://www.brain.ruggeri.ddnsfree.com/%s"):format(note_path)
+	local url = ("https://www.quartz.ruggeri.ddnsfree.com/%s"):format(note_path)
 
 	local cmd = ('%s "%s"'):format(open_cmd, url)
 	vim.fn.system(cmd)
