@@ -13,4 +13,8 @@ fi
 # Thus, we add the binaries to the path explicitly.
 path+=("$HOME/.nix-profile/bin")
 
+if is_linux && [ "$XDG_CURRENT_DESKTOP" = "Hyprland" ]; then
+	export XDG_SESSION_TYPE="wayland" # used by obsidian.nvim img_paste
+fi
+
 source "$zsh_config_path/utils-clear.sh"
