@@ -37,10 +37,11 @@ in
         serverAddr = lib.mkIf (!config.services.k3s.clusterInit) "https://${cfg.server}:6443";
         token = config.age.secrets.k3s-token.path;
         extraFlags = [
-          "--write-kubeconfig-mode 640"
-          "--write-kubeconfig-group ${adminGroup}"
+          "--write-kubeconfig-mode=640"
+          "--write-kubeconfig-group=${adminGroup}"
+          "--disable=traefik"
+          "--disable=servicelb"
         ];
-        manifests.traefik-extra.source = ./traefik-extra.yaml;
       };
     };
 
