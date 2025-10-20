@@ -29,6 +29,7 @@ in
         cmake
         kubectl
         kubernetes-helm
+        fluxcd
         tree
         dig
         git
