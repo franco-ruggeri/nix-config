@@ -50,10 +50,6 @@ in
       users.${config.myModules.system.username}.extraGroups = [ adminGroup ];
     };
 
-    environment.sessionVariables = {
-      KUBECONFIG = "/etc/rancher/k3s/k3s.yaml";
-    };
-
     age.secrets = myLib.mkSecrets [ "k3s-token" ];
   };
 }

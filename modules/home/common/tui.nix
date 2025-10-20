@@ -30,6 +30,7 @@ in
         kubectl
         kubernetes-helm
         fluxcd
+        k3d
         tree
         dig
         git
