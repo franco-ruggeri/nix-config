@@ -67,6 +67,11 @@ if is_command_available aichat; then
 	source <(curl -sSL https://raw.githubusercontent.com/sigoden/aichat/main/scripts/completions/aichat.zsh)
 fi
 
+if is_command_available flux; then
+	# shellcheck source=/dev/null
+	source <(flux completion zsh)
+fi
+
 if is_darwin; then
 	# shellcheck disable=SC1091
 	source "$HOME/.ericsson"
