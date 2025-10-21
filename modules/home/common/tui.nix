@@ -35,6 +35,8 @@ in
         dig
         git
         devpod
+        sops
+        age
       ];
     };
 
