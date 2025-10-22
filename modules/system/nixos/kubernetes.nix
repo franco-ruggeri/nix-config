@@ -21,6 +21,7 @@ in
         allowedTCPPorts = [
           6443 # k3s API server
           10250 # kubelet metrics
+          9100 # prometheus node exporter
         ];
         allowedUDPPorts = [
           8472 # k3s flannel
