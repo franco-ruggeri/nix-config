@@ -15,13 +15,11 @@
       enable = true;
       address = "10.34.0.2/24";
       privateKeyFile = config.age.secrets.wireguard-desktop-private-key.path;
-      presharedKeyFile = config.age.secrets.wireguard-desktop-preshared-key.path;
     };
   };
 
   age.secrets = myLib.mkWireguardSecrets [
     "wireguard-desktop-private-key"
-    "wireguard-desktop-preshared-key"
   ];
 
   # DO NOT change! Used for backward compatibility.

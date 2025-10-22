@@ -20,7 +20,6 @@ in
     enable = lib.mkEnableOption "Enable Wireguard client";
     address = lib.mkOption { type = lib.types.str; };
     privateKeyFile = lib.mkOption { type = lib.types.str; };
-    presharedKeyFile = lib.mkOption { type = lib.types.str; };
   };
 
   config = lib.mkIf cfg.enable {
@@ -34,7 +33,6 @@ in
           peers = [
             {
               publicKey = "PqMzcV9O8M/X6EkM9OETa065Vg1mTHWaikbQR5Z55Ro=";
-              presharedKeyFile = cfg.presharedKeyFile;
               allowedIPs = allowedIPs;
               endpoint = "ruggeri.asuscomm.com:51820";
               persistentKeepalive = 15;
