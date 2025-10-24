@@ -4,13 +4,15 @@ let
   cfg = config.myModules.system.wireguard;
   listenPort = 51820;
   kubernetes = config.myModules.system.kubernetes.enable;
-  # * On Kubernetes, route only specific traffic to avoid loops.
-  # * Outside Kubernetes, route all traffic through the VPN.
   allowedIPs =
+    # On K8s nodes, the K8s cluster is accessible directly, without VPN.
+    # Only traffic to the WireGuard peers should go to the VPN.
+    # Otherwise, there would be a network loop (client --> Wireguard --> repeat).
     lib.optionals kubernetes [
       "10.34.0.0/24" # VPN
-      "10.43.0.0/16" # K8s cluster
     ]
+    # On non-K8s nodes, allow all traffic through the VPN.
+    # This allows accessing K8s cluster (cluster IPs and API server) via the VPN.
     ++ lib.optionals (!kubernetes) [
       "0.0.0.0/0" # all traffic
     ];
