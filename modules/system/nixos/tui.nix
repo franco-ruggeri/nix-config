@@ -17,6 +17,7 @@ in
     };
 
     programs = {
+      nix-ld.enable = true; # necessary for uv-managed Python
       gnupg.agent = {
         enable = true;
         enableExtraSocket = true; # necessary for DevPod GPG agent forwarding
