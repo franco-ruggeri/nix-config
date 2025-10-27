@@ -17,6 +17,7 @@ in
         aichat
         tmux
         python3
+        uv
         nodejs
         cargo
         gcc
