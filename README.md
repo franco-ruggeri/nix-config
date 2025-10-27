@@ -83,8 +83,7 @@ where:
     configurations.
   - `modules/system` contains system modules imported in system configurations
     (NixOS or macOS).
-- `pkgs` contains packages added to `nixpkgs` via overlay and available in all
-  the modules.
+- `pkgs` contains packages added to `nixpkgs` via overlay.
 
 The repository structure is inspired by
 [Ryan Yin's template](https://github.com/ryan4yin/nix-config/tree/i3-kickstarter).
