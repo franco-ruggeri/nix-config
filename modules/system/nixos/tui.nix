@@ -6,16 +6,6 @@ in
   config = lib.mkIf cfg.enable {
     users.users.${config.myModules.system.username}.extraGroups = [ "docker" ];
 
-    # TODO: not sure it is needed... when devpod works, test it without this.
-    networking = {
-      firewall = {
-        # For DevPod GPG server.
-        # See https://github.com/loft-sh/devpod/issues/1562
-        allowedTCPPorts = [ 12049 ];
-        allowedUDPPorts = [ 12049 ];
-      };
-    };
-
     programs = {
       nix-ld.enable = true; # necessary for uv-managed Python
       gnupg.agent = {
