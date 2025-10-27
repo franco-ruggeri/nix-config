@@ -2,23 +2,6 @@
 
 This repository contains my Nix configurations.
 
-TODO:
-
-- [ ] update the rest of the README.
-  - [ ] describe structure and concepts: host, user, system, modules. host =
-        hardware + system + user(s). system = OS.
-- [x] multi-user. I want to be able to enable only specific user modules for
-      each user.
-  - Update: need to make the modules optional with the enable option, and then
-    activate them from the user config.
-- [x] Move the dotfiles to users, not modules. They belong to the user.
-      Different users, different dotfiles (maybe shared via common, but in
-      principle each user has their dotfiles).
-- [x] I need the concept of system... like users have their config (e.g.,
-      enabled modules), systems do as well. So, a host is hardware + system +
-      users
-- [ ] update dev container usage
-
 ## Prerequisites
 
 - Install `nix`.
@@ -30,43 +13,86 @@ TODO:
 
 ## Install
 
-On NixOS:
+### NixOS
+
+Run:
 
 ```bash
 sudo nixos-rebuild switch --flake .#desktop
 home-manager switch --flake .#desktop
 ```
 
-On macOS:
+### MacOS
+
+Run:
 
 ```bash
 sudo darwin-rebuild switch --flake .#laptop
 home-manager switch --flake .#laptop
 ```
 
-## Structure
+### Dev containers
 
-The structure of the repository is inspired by
+Add
+[the `home-manager` feature](https://github.com/franco-ruggeri/devcontainer-features/tree/main/src/home-manager):
+
+```json
+"features": {
+    "ghcr.io/franco-ruggeri/devcontainer-features/home-manager:0": {
+        "username": "ubuntu",
+        "flakeUri": "github:franco-ruggeri/nix-config#container"
+    }
+}
+```
+
+## Repository Structure
+
+The repository is structured as follows:
+
+```bash
+.
+├── dotfiles
+│   ├── config
+│   └── local
+├── flake
+├── hosts
+│   ├── darwin
+│   ├── home
+│   └── nixos
+├── lib
+├── modules
+│   ├── home
+│   └── system
+├── pkgs
+...
+```
+
+where:
+
+- `dotfiles`:
+  - `dotfiles/config` contains dotfiles installed at `~/.config`.
+  - `dotfiles/local` contains dotfiles installed at `~/.local`.
+- `flake` contains [flake parts](https://flake.parts/).
+- `hosts`:
+  - `hosts/nixos` contains system configurations for NixOS machines.
+  - `hosts/darwin` contains system configurations for macOS machines.
+  - `hosts/home` contains home configurations for linux or darwin machines.
+- `lib` contains common functions used in `modules`.
+- `modules`:
+  - `modules/home` contains home-manager modules imported in home
+    configurations.
+  - `modules/system` contains system modules imported in system configurations
+    (NixOS or macOS).
+- `pkgs` contains packages added to `nixpkgs` via overlay and available in all
+  the modules.
+
+The repository structure is inspired by
 [Ryan Yin's template](https://github.com/ryan4yin/nix-config/tree/i3-kickstarter).
 
 ## Coding Style
 
+- Formatter: `nixfmt`
 - Nix expressions imported from other directories should be imported as
   directories (e.g., `imports = [ ./path/to/dir ];` instead of
-  `imports [ ./path/to/file.nix ];`. The files should be structured accordingly
-  and eventually wrapped into directories having `default.nix`.
-
----
-
-not updated yet from here.
-
-## Using in dev containers
-
-The repository is compatible with [`devpod`](https://devpod.sh/) for usage
-within dev containers. Follow
-[the documentation](https://devpod.sh/docs/developing-in-workspaces/dotfiles-in-a-workspace)
-for instructions.
-
-The installation uses [`stow`](https://www.gnu.org/software/stow/). Thus, make
-sure the dev container has it by adding
-[this feature](https://github.com/kreemer/features/tree/main/src/stow).
+  `imports [ ./path/to/file.nix ];`. Files should be structured accordingly and
+  eventually wrapped into directories having `default.nix`.
