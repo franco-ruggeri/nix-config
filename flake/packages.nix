@@ -18,6 +18,7 @@
           "spotify"
           "slack"
           "discord"
+          "obsidian"
           "whatsapp-for-mac"
           "zoom"
           "vscode-extension-ms-vscode-cpptools"
