@@ -18,7 +18,6 @@
           "spotify"
           "slack"
           "discord"
-          "super-productivity"
           "whatsapp-for-mac"
           "zoom"
           "vscode-extension-ms-vscode-cpptools"
