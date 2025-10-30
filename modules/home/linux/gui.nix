@@ -47,6 +47,22 @@
       rclone = {
         enable = true;
         remotes = {
+          nextcloud = {
+            config = rec {
+              type = "webdav";
+              user = "franco-ruggeri";
+              url = "https://www.nextcloud.ruggeri.ddnsfree.com/remote.php/dav/files/${user}";
+              vendor = "nextcloud";
+              vfs_cache_mode = "writes";
+            };
+            secrets = {
+              pass = config.age.secrets.rclone-nextcloud-password.path;
+            };
+            mounts."/" = {
+              enable = true;
+              mountPoint = "${config.home.homeDirectory}/drives/nextcloud";
+            };
+          };
           gdrive-personal = {
             config = {
               type = "drive";
@@ -152,6 +168,7 @@
     };
 
     age.secrets = myLib.mkSecrets [
+      "rclone-nextcloud-password"
       "rclone-gdrive-personal-client-secret"
       "rclone-gdrive-personal-token"
       "rclone-gdrive-pianeta-costruzioni-client-secret"
