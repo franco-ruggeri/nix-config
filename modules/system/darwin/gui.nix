@@ -6,7 +6,7 @@ in
   config = lib.mkIf cfg.enable {
     homebrew = {
       casks = [
-        "nextcloud"
+        "nextcloud-vfs"
         "google-drive"
         "adobe-acrobat-reader"
         # WARNING: The Nix module (services.karabiner-elements) is currently broken.
