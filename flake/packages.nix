@@ -49,6 +49,7 @@
           (self: super: {
             agenix = inputs.agenix.packages.${system}.default;
             steam-unwrapped = config.packages.steam-unwrapped;
+            fluxcd = pkgsUnstable.fluxcd;
             super-productivity = pkgsUnstable.super-productivity;
             # Warning: The stable Nix package is currently broken.
             # See https://github.com/nixos/nixpkgs/issues/438745
