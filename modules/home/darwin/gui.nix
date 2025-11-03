@@ -10,11 +10,15 @@
     home.packages = with pkgs; [ whatsapp-for-mac ];
 
     programs = {
-      aerospace.enable = true;
+      aerospace = {
+        enable = true;
+        userSettings = builtins.fromTOML (
+          builtins.readFile (myLib.dotfilesConfigDir + "/aerospace/aerospace.toml")
+        );
+      };
     };
 
     xdg.configFile = myLib.mkConfigDotfiles [
-      "aerospace"
       "karabiner"
     ];
   };
