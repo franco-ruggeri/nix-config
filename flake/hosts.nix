@@ -85,11 +85,11 @@
             system = "aarch64-darwin";
             path = ../hosts/home/laptop;
           };
-          container-x86_64 = mkConfig {
+          container-x86 = mkConfig {
             system = "x86_64-linux";
             path = ../hosts/home/container;
           };
-          container-aarch64 = mkConfig {
+          container-arm = mkConfig {
             system = "aarch64-linux";
             path = ../hosts/home/container;
           };
