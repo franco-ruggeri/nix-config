@@ -10,6 +10,7 @@ in
         "google-drive"
         "adobe-acrobat-reader"
         "linearmouse"
+        "docker-desktop"
         # WARNING: The Nix module (services.karabiner-elements) is currently broken.
         # See https://github.com/nix-darwin/nix-darwin/issues/1041
         "karabiner-elements"
