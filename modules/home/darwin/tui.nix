@@ -5,8 +5,11 @@
   myLib,
   ...
 }:
+let
+  cfg = config.myModules.home.tui;
+in
 {
-  config = lib.mkIf (myLib.isDarwin && config.myModules.home.tui.enable) {
+  config = lib.mkIf (myLib.isDarwin && cfg.enable) {
     home.packages = with pkgs; [
       pngpaste # for obsidian.nvim image pasting
     ];

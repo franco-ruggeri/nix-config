@@ -5,8 +5,11 @@
   myLib,
   ...
 }:
+let
+  cfg = config.myModules.home.gui;
+in
 {
-  config = lib.mkIf (myLib.isDarwin && config.myModules.home.gui.enable) {
+  config = lib.mkIf (myLib.isDarwin && cfg.enable) {
     home.packages = with pkgs; [ whatsapp-for-mac ];
 
     programs = {
