@@ -4,8 +4,8 @@ source "$zsh_config_dir/utils-init.sh"
 # Aliases
 # ====================
 alias ls="ls --color=auto"
-alias ll="ls -lh"
-alias la="ls -lAh"
+alias ll="ls -alF"
+alias la="ls -A"
 alias vi="nvim"
 alias vim="nvim"
 if is_linux; then
