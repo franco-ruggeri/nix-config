@@ -35,6 +35,7 @@ in
     xdg.configFile = myLib.mkConfigDotfiles [
       "ghostty"
       "mpv"
+      "discord"
     ];
   };
 }
