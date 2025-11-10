@@ -38,6 +38,7 @@ in
         devpod
         sops
         age
+        texliveFull
       ];
     };
 
