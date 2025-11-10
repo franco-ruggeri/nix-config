@@ -10,7 +10,10 @@ let
 in
 {
   config = lib.mkIf (myLib.isDarwin && cfg.enable) {
-    home.packages = with pkgs; [ whatsapp-for-mac ];
+    home.packages = with pkgs; [
+      whatsapp-for-mac
+      zathura
+    ];
 
     programs = {
       aerospace = {
