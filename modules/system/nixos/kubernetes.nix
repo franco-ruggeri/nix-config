@@ -44,6 +44,17 @@ in
           "--disable=servicelb"
         ];
       };
+      openiscsi = {
+        enable = true; # for longhorn
+        name = "iqn.2025-11.local.nixos:${config.networking.hostName}";
+      };
+    };
+
+    # Path to make Longhorn find openiscsi
+    # See https://github.com/longhorn/longhorn/issues/2166
+    systemd.services.iscsid.serviceConfig = {
+      PrivateMounts = "yes";
+      BindPaths = "/run/current-system/sw/bin:/bin";
     };
 
     users = {
