@@ -1,6 +1,6 @@
 { config, myLib, ... }:
 {
-  networking.hostName = "ruggeri-desktop";
+  networking.hostName = "franco-ruggeri-desktop";
 
   myModules.system = {
     username = "franco";
