@@ -29,11 +29,11 @@
         "dmask=0077"
       ];
     };
-    "/var/lib/rancher/k3s/storage" = {
+    "/mnt/hdd1" = {
       device = "/dev/disk/by-uuid/a95ee5bb-3a48-4c13-8921-7acbc80c11ba";
       fsType = "ext4";
     };
-    "/mnt/ssd" = {
+    "/mnt/ssd1" = {
       device = "/dev/disk/by-uuid/ab3fb575-6557-479f-9c92-5b6b9717054f";
       fsType = "ext4";
     };
