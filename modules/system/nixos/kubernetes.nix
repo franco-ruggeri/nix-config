@@ -42,6 +42,7 @@ in
           "--write-kubeconfig-group=${adminGroup}"
           "--disable=traefik"
           "--disable=servicelb"
+          "--disable=local-storage"
         ];
       };
       openiscsi = {
