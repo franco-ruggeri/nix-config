@@ -13,10 +13,10 @@
     };
     nfs = {
       enable = true;
-      path = "/mnt/zfs/k3s";
+      path = "/mnt/zfs/k8s";
     };
     wireguard = {
-      enable = false;
+      enable = true;
       address = "10.34.0.2/24";
       privateKeyFile = config.age.secrets.wireguard-desktop-private-key.path;
     };

@@ -1,18 +1,13 @@
 { config, lib, ... }:
 let
   cfg = config.myModules.system.nfs;
-  allowedIP = "192.168.1.0/24";
+  allowedIP = "10.34.0.0/24"; # only over VPN (secure)
   options = "rw";
-  # TODO: make it secure. shouldn't be open to all
-  # TODO: shouldn't be accessible via guest VPN...
 in
 {
   options.myModules.system.nfs = {
     enable = lib.mkEnableOption "Enable NFS server for homelab";
-    path = lib.mkOption {
-      type = lib.types.str;
-      description = "Path to export";
-    };
+    path = lib.mkOption { type = lib.types.str; };
   };
 
   config = lib.mkIf cfg.enable {
