@@ -14,7 +14,13 @@
     initrd.kernelModules = [ ];
     kernelModules = [ "kvm-intel" ];
     extraModulePackages = [ ];
+    zfs = {
+      forceImportRoot = false;
+      extraPools = [ "pool" ];
+    };
   };
+
+  networking.hostId = "1c86da41"; # for ZFS
 
   fileSystems = {
     "/" = {
@@ -28,10 +34,6 @@
         "fmask=0077"
         "dmask=0077"
       ];
-    };
-    "/mnt/hdd1" = {
-      device = "/dev/disk/by-uuid/a95ee5bb-3a48-4c13-8921-7acbc80c11ba";
-      fsType = "ext4";
     };
     "/mnt/ssd1" = {
       device = "/dev/disk/by-uuid/ab3fb575-6557-479f-9c92-5b6b9717054f";
