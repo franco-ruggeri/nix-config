@@ -11,7 +11,7 @@ let
 in
 {
   options.myModules.system.kubernetes = {
-    enable = lib.mkEnableOption "Enable Kubernetes";
+    enable = lib.mkEnableOption "Enable Kubernetes for homelab";
     server = lib.mkOption { type = lib.types.str; };
   };
 

@@ -8,11 +8,15 @@
     gui.enable = true;
     gaming.enable = true;
     kubernetes = {
-      enable = true;
+      enable = false;
       server = config.networking.hostName;
     };
-    wireguard = {
+    nfs = {
       enable = true;
+      paths.zfs = "/mnt/zfs";
+    };
+    wireguard = {
+      enable = false;
       address = "10.34.0.2/24";
       privateKeyFile = config.age.secrets.wireguard-desktop-private-key.path;
     };

@@ -19,7 +19,7 @@ let
 in
 {
   options.myModules.system.wireguard = {
-    enable = lib.mkEnableOption "Enable Wireguard client";
+    enable = lib.mkEnableOption "Enable WireGuard client connected to homelab";
     address = lib.mkOption { type = lib.types.str; };
     privateKeyFile = lib.mkOption { type = lib.types.str; };
   };
