@@ -8,12 +8,12 @@
     gui.enable = true;
     gaming.enable = true;
     kubernetes = {
-      enable = false;
+      enable = true;
       server = config.networking.hostName;
     };
     nfs = {
       enable = true;
-      paths.zfs = "/mnt/zfs";
+      path = "/mnt/zfs/k3s";
     };
     wireguard = {
       enable = false;
