@@ -1,6 +1,8 @@
 { config, lib, ... }:
 let
   cfg = config.myModules.system.nfs;
+  allowedIP = "192.168.1.0/24";
+  options = "rw";
   # TODO: make it secure. shouldn't be open to all
   # TODO: shouldn't be accessible via guest VPN...
 in
@@ -23,7 +25,10 @@ in
 
     services.nfs.server = {
       enable = true;
-      exports = "/srv/nfs/k8s 192.168.1.0/24(rw)";
+      exports = ''
+        /srv/nfs ${allowedIP}(${options},fsid=0)
+        /srv/nfs/k8s ${allowedIP}(${options})
+      '';
     };
   };
 }
