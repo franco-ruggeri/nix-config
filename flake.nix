@@ -14,6 +14,11 @@
     };
     flake-parts.url = "github:hercules-ci/flake-parts";
     agenix.url = "github:ryantm/agenix";
+    mac-app-util = {
+      url = "github:hraban/mac-app-util";
+      # TODO: temporary workaround for this issue: https://github.com/hraban/mac-app-util/issues/39. Remove when the issue is fixed upstream.
+      inputs.cl-nix-lite.url = "github:r4v3n6101/cl-nix-lite/url-fix";
+    };
   };
 
   outputs =

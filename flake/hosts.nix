@@ -51,6 +51,7 @@
                   ../hosts/darwin/${name}
                   config.flake.darwinModules.default
                   inputs.agenix.darwinModules.default
+                  inputs.mac-app-util.darwinModules.default
                 ];
               }
             );
@@ -72,6 +73,7 @@
                   path
                   config.flake.homeModules.default
                   inputs.agenix.homeManagerModules.default
+                  inputs.mac-app-util.homeManagerModules.default
                 ];
               }
             );
