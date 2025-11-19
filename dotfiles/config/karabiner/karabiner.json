@@ -472,7 +472,8 @@
                 },
                 "to": [
                   {
-                    "shell_command": "open -a Launchpad"
+                    "key_code": "spacebar",
+                    "modifiers": ["left_command"]
                   }
                 ],
                 "type": "basic"
