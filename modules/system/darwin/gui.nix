@@ -22,6 +22,8 @@ in
         "obs"
         # WARNING: The Nix package (pkgs.wireshark) does not set up permissions.
         "wireshark-app"
+        # WARNING: The Nix package (pkgs.shotcut) seems to require qtwayland, which is not available on darwin.
+        "shotcut"
       ];
       masApps = {
         # WARNING: The Nix module (networking.wg-quick) has problems in autostarting the launchd service.

@@ -24,7 +24,6 @@ in
         slack
         obsidian
         inkscape
-        shotcut
       ];
     };
 

@@ -21,6 +21,7 @@ in
         whatsie
         kdePackages.okular
         polychromatic
+        shotcut
       ];
 
       pointerCursor = {
