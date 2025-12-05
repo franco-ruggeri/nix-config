@@ -21,9 +21,10 @@ in
         discord
         super-productivity
         zoom-us
-        inkscape
         slack
         obsidian
+        inkscape
+        shotcut
       ];
     };
 
