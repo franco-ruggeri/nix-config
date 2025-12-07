@@ -14,9 +14,14 @@ in
   config = lib.mkIf cfg.enable {
     programs = {
       gamemode.enable = true;
-      steam.enable = true;
+      gamescope.enable = true;
+      steam = {
+        enable = true;
+        gamescopeSession.enable = true;
+      };
     };
     environment.systemPackages = with pkgs; [
+      mangohud
       heroic
       lutris
       protonup-qt
