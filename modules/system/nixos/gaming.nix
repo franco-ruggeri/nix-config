@@ -23,7 +23,6 @@ in
     environment.systemPackages = with pkgs; [
       mangohud
       heroic
-      lutris
       protonup-qt
     ];
   };
