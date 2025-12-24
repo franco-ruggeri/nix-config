@@ -14,7 +14,7 @@ return {
 		options = {
 			bottom = { size = 15 },
 			left = { size = 0.2 },
-			right = { size = 0.3 },
+			right = { size = 0.4 },
 		},
 		animate = {
 			enabled = false,
