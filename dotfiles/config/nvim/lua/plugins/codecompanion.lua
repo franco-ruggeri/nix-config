@@ -20,7 +20,6 @@ return {
 		"MeanderingProgrammer/render-markdown.nvim", -- for rendering chat
 		"ravitemer/mcphub.nvim", -- for MCP servers
 		"zbirenbaum/copilot.lua", -- for copilot authentication
-		"echasnovski/mini.diff", -- for cleaner diff with @{insert_edit_into_file}
 		"ravitemer/codecompanion-history.nvim", -- for chat history management
 		{ "franco-ruggeri/codecompanion-spinner.nvim", version = false, dev = true }, -- for spinner
 	},
