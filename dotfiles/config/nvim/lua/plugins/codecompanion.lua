@@ -1,6 +1,6 @@
 -- If available, open the last chat, otherwise open a new chat
 local function open_chat()
-	local chat = require("codecompanion.strategies.chat").last_chat()
+	local chat = require("codecompanion.interactions.chat").last_chat()
 	if chat then
 		chat.ui:open()
 		vim.api.nvim_set_current_win(chat.ui.winnr)
