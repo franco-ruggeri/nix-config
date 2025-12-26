@@ -82,7 +82,7 @@ return {
 		backlinks = { parse_headers = false },
 		preferred_link_style = "markdown",
 		markdown_link_func = markdown_link_func,
-		note_frontmatter_func = note_frontmatter_func,
+		frontmatter = { func = note_frontmatter_func },
 		note_path_func = note_path_func,
 		attachments = {
 			img_folder = "_assets/attachments",
