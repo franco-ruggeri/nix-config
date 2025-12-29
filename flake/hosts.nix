@@ -36,6 +36,7 @@
         in
         {
           desktop = mkConfig "desktop";
+	  server = mkConfig "server";
         };
 
       darwinConfigurations =
@@ -81,11 +82,16 @@
         {
           desktop = mkConfig {
             system = "x86_64-linux";
+      # TODO: can I pass the name instead of the path? like above in nixosConfigurations
             path = ../hosts/home/desktop;
           };
           laptop = mkConfig {
             system = "aarch64-darwin";
             path = ../hosts/home/laptop;
+          };
+          server = mkConfig {
+            system = "x86_64-linux";
+            path = ../hosts/home/server;
           };
           container-x86 = mkConfig {
             system = "x86_64-linux";
