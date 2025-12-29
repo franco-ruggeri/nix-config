@@ -36,7 +36,7 @@
         in
         {
           desktop = mkConfig "desktop";
-	  server = mkConfig "server";
+	  server-turin = mkConfig "server-turin";
         };
 
       darwinConfigurations =

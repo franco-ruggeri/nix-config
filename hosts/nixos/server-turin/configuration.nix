@@ -1,6 +1,6 @@
 { config, myLib, ... }:
 {
-  networking.hostName = "franco-ruggeri-server";
+  networking.hostName = "franco-ruggeri-server-turin";
 
   myModules.system = {
     username = "franco";
@@ -13,9 +13,10 @@
     # };
   };
 
-  age.secrets = myLib.mkWireguardSecrets [
-    "wireguard-desktop-private-key"
-  ];
+# TODO: add wireguard private key
+  # age.secrets = myLib.mkWireguardSecrets [
+  #   "wireguard-desktop-private-key"
+  # ];
 
   # DO NOT change! Used for backward compatibility.
   system.stateVersion = "25.05";

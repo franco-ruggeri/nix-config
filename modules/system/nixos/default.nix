@@ -20,10 +20,11 @@ in
   ];
 
   boot = {
-    loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-    };
+  # TODO: move this to per-host configs, it doesn't work on the old computer
+    # loader = {
+    #   systemd-boot.enable = true;
+    #   efi.canTouchEfiVariables = true;
+    # };
     supportedFilesystems = [ "zfs" ];
   };
 
