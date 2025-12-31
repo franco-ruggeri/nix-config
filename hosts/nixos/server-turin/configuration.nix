@@ -5,18 +5,16 @@
   myModules.system = {
     username = "franco";
     tui.enable = true;
-    # TODO: need to enable this, but first I need to update the IP addresses so that tousif is last
-    # wireguard = {
-    #   enable = true;
-    #   address = "10.34.0.2/24";
-    #   privateKeyFile = config.age.secrets.wireguard-desktop-private-key.path;
-    # };
+    wireguard = {
+      enable = true;
+      address = "10.34.0.5/24";
+      privateKeyFile = config.age.secrets.wireguard-server-turin-private-key.path;
+    };
   };
 
-# TODO: add wireguard private key
-  # age.secrets = myLib.mkWireguardSecrets [
-  #   "wireguard-desktop-private-key"
-  # ];
+  age.secrets = myLib.mkWireguardSecrets [
+    "wireguard-server-turin-private-key"
+  ];
 
   # DO NOT change! Used for backward compatibility.
   system.stateVersion = "25.05";

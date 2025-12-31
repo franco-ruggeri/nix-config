@@ -7,9 +7,13 @@ let
   homeServerTurin = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIscts2BnW0Pwy997ycedBBvVYdw9qTQeKaW9YoRtTu0 franco@franco-ruggeri-server-turin";
 in
 {
-  "user-password.age".publicKeys = [ systemDesktop systemServerTurin ];
+  "user-password.age".publicKeys = [
+    systemDesktop
+    systemServerTurin
+  ];
   "k3s-token.age".publicKeys = [ systemDesktop ];
   "wireguard-desktop-private-key.age".publicKeys = [ systemDesktop ];
+  "wireguard-server-turin-private-key.age".publicKeys = [ systemServerTurin ];
   "rclone-nextcloud-password.age".publicKeys = [ homeDesktop ];
   "rclone-gdrive-personal-client-secret.age".publicKeys = [ homeDesktop ];
   "rclone-gdrive-personal-token.age".publicKeys = [ homeDesktop ];
