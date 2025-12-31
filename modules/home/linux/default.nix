@@ -8,6 +8,7 @@
   imports = [
     ./gui.nix
     ./tui.nix
+    ./cloud.nix
   ];
 
   config = lib.mkIf myLib.isLinux {
