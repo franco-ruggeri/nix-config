@@ -36,7 +36,7 @@
         in
         {
           desktop = mkConfig "desktop";
-	  server-turin = mkConfig "server-turin";
+          server-turin = mkConfig "server-turin";
         };
 
       darwinConfigurations =
@@ -64,14 +64,14 @@
       homeConfigurations =
         let
           mkConfig =
-            { system, path }:
+            { system, name }:
             withSystem system (
               perSystem@{ pkgs, ... }:
               inputs.home-manager.lib.homeManagerConfiguration {
                 inherit (perSystem) pkgs;
                 extraSpecialArgs = mkSpecialArgs pkgs;
                 modules = [
-                  path
+                  ../hosts/home/${name}
                   config.flake.homeModules.default
                   inputs.agenix.homeManagerModules.default
                   inputs.mac-app-util.homeManagerModules.default
@@ -82,24 +82,23 @@
         {
           desktop = mkConfig {
             system = "x86_64-linux";
-      # TODO: can I pass the name instead of the path? like above in nixosConfigurations
-            path = ../hosts/home/desktop;
+            name = "desktop";
           };
           laptop = mkConfig {
             system = "aarch64-darwin";
-            path = ../hosts/home/laptop;
+            name = "laptop";
           };
           server = mkConfig {
             system = "x86_64-linux";
-            path = ../hosts/home/server;
+            name = "server";
           };
           container-x86 = mkConfig {
             system = "x86_64-linux";
-            path = ../hosts/home/container;
+            name = "container";
           };
           container-arm = mkConfig {
             system = "aarch64-linux";
-            path = ../hosts/home/container;
+            name = "container";
           };
         };
     };
