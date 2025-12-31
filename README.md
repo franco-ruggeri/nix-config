@@ -13,37 +13,41 @@ This repository contains my Nix configurations.
 
 ## Install
 
-### NixOS
+### System Configuration
 
-Run:
+1. Select the configuration:
 
-```bash
-sudo nixos-rebuild switch --flake .#desktop
-home-manager switch --flake .#desktop
-```
+   ```bash
+   CONFIG=<config>
+   ```
 
-### MacOS
+2. Install the configuration:
 
-Run:
+   - On NixOS, run:
 
-```bash
-sudo darwin-rebuild switch --flake .#laptop
-home-manager switch --flake .#laptop
-```
+   ```bash
+   sudo nixos-rebuild switch --flake .#$CONFIG
+   ```
 
-### Dev containers
+   - On Darwin, run:
 
-Add
-[the `home-manager` feature](https://github.com/franco-ruggeri/devcontainer-features/tree/main/src/home-manager):
+   ```bash
+   sudo darwin-rebuild switch --flake .#$CONFIG
+   ```
 
-```json
-"features": {
-    "ghcr.io/franco-ruggeri/devcontainer-features/home-manager:0": {
-        "username": "ubuntu",
-        "flakeUri": "github:franco-ruggeri/nix-config#container"
-    }
-}
-```
+### Home Configuration
+
+1. Select the configuration:
+
+   ```bash
+   CONFIG=<config>
+   ```
+
+2. Install the configuration:
+
+   ```bash
+   home-manager switch --flake .#$CONFIG
+   ```
 
 ## Repository Structure
 
