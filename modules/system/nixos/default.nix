@@ -19,15 +19,6 @@ in
     ./nfs.nix
   ];
 
-  boot = {
-  # TODO: move this to per-host configs, it doesn't work on the old computer
-    # loader = {
-    #   systemd-boot.enable = true;
-    #   efi.canTouchEfiVariables = true;
-    # };
-    supportedFilesystems = [ "zfs" ];
-  };
-
   networking = {
     networkmanager.enable = true;
     useDHCP = lib.mkDefault true;
