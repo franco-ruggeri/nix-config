@@ -4,7 +4,7 @@ let
   systemServerTurin = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICsxrH2bBOvyCL+S4H6hNuk1HbN9hXqJljzpLeUR1v+n root@franco-ruggeri-server-turin";
   homeDesktop = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDgS2dEYRIrTKF77aI9fxPKKQNAmdHhsJZZ6ee17dThS franco@franco-ruggeri-desktop";
   homeLaptop = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINkXo7sdR/sgu38eMtxENgbbFHVTeo3UMPtQhhUSS42f erugfra@EMB-FQTVQ56V";
-  homeServerTurin = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIscts2BnW0Pwy997ycedBBvVYdw9qTQeKaW9YoRtTu0 franco@franco-ruggeri-server-turin";
+  homeServerTurin = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKEN0862srl+E4LYBcxGCkuwzGB9DDOLl4/n/sKkq8+2 franco@franco-ruggeri-server-turin";
 in
 {
   "user-password.age".publicKeys = [
