@@ -46,18 +46,17 @@ in
     };
 
     # WireGuard is started only once after network-online.target.
-    # Unfortunately, DNS might not be available at that point.
-    # The correct target to guarantee DNS available would be nss-lookup.target.
-    # There are multiple solutions to this problem (e.g., using systemd-networkd).
-    #
-    # To keep it simple, we restart the service unit on failure.
+    # DNS, which is required to resolve the endpoint, might not be available at that point.
+    # As a simple workaround, we configure the service to restart on failure.
     # See https://discourse.nixos.org/t/why-do-i-have-to-restart-wireguard-on-every-reboot/46376/4
     systemd.services.wg-quick-wg0 = {
       serviceConfig = {
         Restart = "on-failure";
         RestartSec = "10s";
       };
-      unitConfig.StartLimitIntervalSec = 0;
+      unitConfig = {
+        StartLimitIntervalSec = 0;
+      };
     };
   };
 }
