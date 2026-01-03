@@ -32,6 +32,7 @@ in
           address = [ cfg.address ];
           dns = [ "10.43.0.12" ];
           privateKeyFile = cfg.privateKeyFile;
+          mtu = 1280;
           peers = [
             {
               publicKey = "PqMzcV9O8M/X6EkM9OETa065Vg1mTHWaikbQR5Z55Ro=";
