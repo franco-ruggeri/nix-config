@@ -22,6 +22,7 @@ in
         kdePackages.okular
         polychromatic
         shotcut
+        inkscape
       ];
 
       pointerCursor = {

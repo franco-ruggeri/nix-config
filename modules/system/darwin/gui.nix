@@ -24,6 +24,9 @@ in
         "wireshark-app"
         # WARNING: The Nix package (pkgs.shotcut) seems to require qtwayland, which is not available on darwin.
         "shotcut"
+        # WARNING: The Nix package (pkgs.inkscape) does not start on darwin.
+        # See https://github.com/NixOS/nixpkgs/issues/475236
+        "inkscape"
       ];
       masApps = {
         # WARNING: The Nix module (networking.wg-quick) has problems in autostarting the launchd service.

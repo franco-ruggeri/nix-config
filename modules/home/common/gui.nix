@@ -23,7 +23,6 @@ in
         zoom-us
         slack
         obsidian
-        inkscape
       ];
     };
 
