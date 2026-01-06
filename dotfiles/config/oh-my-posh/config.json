@@ -29,12 +29,6 @@
           "template": " \u279C"
         },
         {
-          "type": "session",
-          "style": "plain",
-          "foreground": "p:rose-pine-main-gold",
-          "template": " \uEB99 {{ .UserName }}"
-        },
-        {
           "type": "path",
           "style": "plain",
           "foreground": "p:rose-pine-main-foam",
