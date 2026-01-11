@@ -39,13 +39,9 @@
         "dmask=0077"
       ];
     };
-    "/mnt/ssd1" = {
-      device = "/dev/disk/by-uuid/ab3fb575-6557-479f-9c92-5b6b9717054f";
-      fsType = "ext4";
-    };
-    "/mnt/zfs" = {
-      device = "zfs";
-      fsType = "zfs";
-    };
+    # "/mnt/zfs" = {
+    #   device = "zfs";
+    #   fsType = "zfs";
+    # };
   };
 }
