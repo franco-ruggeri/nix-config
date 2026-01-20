@@ -51,9 +51,12 @@
             steam-unwrapped = config.packages.steam-unwrapped;
             fluxcd = pkgsUnstable.fluxcd;
             super-productivity = pkgsUnstable.super-productivity;
-            # Warning: The stable Nix package is currently broken.
+            # WARNING: The stable Nix package is currently broken.
             # See https://github.com/nixos/nixpkgs/issues/438745
             whatsapp-for-mac = pkgsUnstable.whatsapp-for-mac;
+            # WARNING: The stable Nix package depends on Electron 36, which is EOL.
+            # When I update to 25.11, I can probably remove this.
+            heroic = pkgsUnstable.heroic;
             # On darwin, the ghostty Nix package is broken.
             # See https://github.com/NixOS/nixpkgs/issues/388984
             # The brew version corresponds to unstable. So, we use unstable on linux for compatibility.
