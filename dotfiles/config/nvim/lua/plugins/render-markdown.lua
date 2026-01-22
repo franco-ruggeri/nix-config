@@ -1,4 +1,4 @@
-local filetypes = { "markdown", "codecompanion", "Avante" } -- enable for AI chats
+local filetypes = { "markdown", "codecompanion" } -- enable for AI chats
 local textwidth = 80
 
 return {

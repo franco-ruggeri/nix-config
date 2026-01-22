@@ -2,10 +2,6 @@ return {
 	"saghen/blink.cmp",
 	dependencies = {
 		"rafamadriz/friendly-snippets", -- for snippets
-		{
-			"Kaiser-Yang/blink-cmp-avante", -- for Avante integration
-			version = false, -- latest commit, otherwise it doesn't work for slash commands
-		},
 	},
 	opts = {
 		signature = { enabled = true },
@@ -15,20 +11,11 @@ return {
 					inherit_defaults = true,
 					"lazydev",
 				},
-				AvanteInput = {
-					inherit_defaults = true,
-					"avante",
-				},
 			},
 			providers = {
 				lazydev = {
 					name = "LazyDev",
 					module = "lazydev.integrations.blink",
-					score_offset = 100,
-				},
-				avante = {
-					name = "Avante",
-					module = "blink-cmp-avante",
 					score_offset = 100,
 				},
 			},
