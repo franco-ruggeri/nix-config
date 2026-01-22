@@ -51,6 +51,8 @@
             steam-unwrapped = config.packages.steam-unwrapped;
             fluxcd = pkgsUnstable.fluxcd;
             super-productivity = pkgsUnstable.super-productivity;
+            # WARNING: The stable Nix package currently has issues with providers.
+            opencode = pkgsUnstable.opencode;
             # WARNING: The stable Nix package is currently broken.
             # See https://github.com/nixos/nixpkgs/issues/438745
             whatsapp-for-mac = pkgsUnstable.whatsapp-for-mac;

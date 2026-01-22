@@ -15,6 +15,7 @@ in
     home = {
       packages = with pkgs; [
         aichat
+        opencode
         tmux
         python3
         uv
