@@ -105,9 +105,7 @@ return {
 				},
 			},
 			spinner = {
-				opts = {
-					log_level = "debug",
-				},
+				-- opts = { log_level = "debug" },
 			},
 			-- Integration with mcphub.nvim
 			-- See https://ravitemer.github.io/mcphub.nvim/extensions/codecompanion.html
