@@ -25,37 +25,31 @@ return {
 	},
 	keys = {
 		{
-			"<Leader>Aa",
+			"<Leader>aa",
 			"<Cmd>CodeCompanionActions<CR>",
 			mode = { "n", "x" },
-			desc = "[A]I CodeCompanion [a]ctions",
+			desc = "[A]I [a]ctions",
 		},
-		{ "<Leader>Ac", open_chat, desc = "[A]I CodeCompanion [c]hat" },
+		{ "<Leader>ac", open_chat, desc = "[A]I [c]hat" },
 		{
-			"<Leader>Ac",
+			"<Leader>ac",
 			"<Cmd>CodeCompanionChat Add<CR>",
 			mode = "x",
-			desc = "[A]I CodeCompanion [c]hat add",
+			desc = "[A]I [c]hat add",
 		},
 		{
-			"<Leader>AC",
-			"<Cmd>CodeCompanionChat<CR>",
-			mode = { "n", "x" },
-			desc = "[A]I CodeCompanion [c]hat new",
-		},
-		{
-			"<Leader>Ai",
+			"<Leader>ai",
 			":CodeCompanion ",
 			mode = { "n", "x" },
-			desc = "[A]I CodeCompanion [i]nline",
+			desc = "[A]I [i]nline",
 		},
 		{
-			"<Leader>An",
+			"<Leader>an",
 			":CodeCompanionCmd ",
 			mode = { "n", "x" },
 			desc = "[A]I CodeCompanion [N]eovim command",
 		},
-		{ "<Leader>Ah", "<Cmd>CodeCompanionHistory<CR>", desc = "[A]I CodeCompanion chat [h]istory" },
+		{ "<Leader>ah", "<Cmd>CodeCompanionHistory<CR>", desc = "[A]I chat [h]istory" },
 	},
 	cmd = {
 		"CodeCompanionActions",
@@ -65,7 +59,7 @@ return {
 		"CodeCompanionHistory",
 	},
 	opts = {
-		strategies = {
+		interactions = {
 			chat = {
 				tools = {
 					opts = {
