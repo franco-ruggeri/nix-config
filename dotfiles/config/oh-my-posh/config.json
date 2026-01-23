@@ -1,5 +1,5 @@
 {
-  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/refs/tags/v24.11.4/themes/schema.json",
   "palette": {
     "rose-pine-main-base": "#191724",
     "rose-pine-main-surface": "#1f1d2e",
