@@ -25,7 +25,7 @@
         {
           "type": "text",
           "style": "plain",
-          "foreground": "p:rose-pine-main-rose",
+          "foreground": "p:rose-pine-main-gold",
           "template": " \u279C"
         },
         {
@@ -38,9 +38,15 @@
           }
         },
         {
+          "type": "kubectl",
+          "style": "plain",
+          "foreground": "p:rose-pine-main-pine",
+          "template": " \udb84\udcfe {{.Context}}({{.Namespace}})"
+        },
+        {
           "type": "git",
           "style": "plain",
-          "foreground": "p:rose-pine-main-iris",
+          "foreground": "p:rose-pine-main-pine",
           "template": " {{ .HEAD }}"
         },
         {
@@ -61,7 +67,7 @@
         {
           "type": "text",
           "style": "plain",
-          "foreground": "p:rose-pine-main-rose",
+          "foreground": "p:rose-pine-main-highlight-med",
           "template": " $"
         }
       ]
