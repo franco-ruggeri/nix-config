@@ -1755,6 +1755,10 @@
                   {
                     "key_code": "a",
                     "modifiers": ["left_control"]
+                  },
+                  {
+                    "key_code": "a",
+                    "modifiers": ["command"]
                   }
                 ],
                 "type": "basic"
