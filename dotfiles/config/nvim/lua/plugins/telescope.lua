@@ -1,3 +1,13 @@
+local find_directory = function()
+	local builtin = require("telescope.builtin")
+	builtin.find_files({
+		prompt_title = "Find Directory",
+		find_command = { "fd", "-t", "d" },
+		previewer = false,
+		theme = "dropdown",
+	})
+end
+
 return {
 	"nvim-telescope/telescope.nvim",
 	dependencies = {
@@ -54,6 +64,7 @@ return {
 		vim.keymap.set("n", "<Leader>ff", builtin.find_files, { desc = "[f]ind [f]ile" })
 		vim.keymap.set("n", "<Leader>fs", builtin.live_grep, { desc = "[f]ind [s]tring" })
 		vim.keymap.set("n", "<Leader>fr", builtin.registers, { desc = "[f]ind [r]egister" })
+		vim.keymap.set("n", "<Leader>fd", find_directory, { desc = "[f]ind [d]irectory" })
 
 		vim.api.nvim_create_autocmd("LspAttach", {
 			desc = "Bind LSP methods to Telescope",
