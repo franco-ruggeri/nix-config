@@ -31,19 +31,19 @@
         {
           "type": "kubectl",
           "style": "plain",
-          "foreground": "p:rose-pine-main-subtle",
+          "foreground": "p:rose-pine-main-rose",
           "template": " \udb84\udcfe {{.Context}}({{.Namespace}})"
         },
         {
           "type": "git",
           "style": "plain",
-          "foreground": "p:rose-pine-main-subtle",
+          "foreground": "p:rose-pine-main-rose",
           "template": " {{ .HEAD }}"
         },
         {
           "type": "python",
           "style": "plain",
-          "foreground": "p:rose-pine-main-subtle",
+          "foreground": "p:rose-pine-main-rose",
           "template": " \uE235 {{ .Venv }}",
           "properties": {
             "home_enabled": true
@@ -67,7 +67,7 @@
         {
           "type": "text",
           "style": "plain",
-          "foreground": "p:rose-pine-main-subtle",
+          "foreground": "p:rose-pine-main-rose",
           "template": " $"
         }
       ]
