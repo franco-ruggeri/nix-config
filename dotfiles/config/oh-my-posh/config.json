@@ -4,8 +4,8 @@
     "rose-pine-main-base": "#191724",
     "rose-pine-main-surface": "#1f1d2e",
     "rose-pine-main-overlay": "#26233a",
-    "rose-pine-main-muted": "#2a273f",
-    "rose-pine-main-subtle": "#393552",
+    "rose-pine-main-muted": "#6e6a86",
+    "rose-pine-main-subtle": "#908caa",
     "rose-pine-main-text": "#e0def4",
     "rose-pine-main-love": "#eb6f92",
     "rose-pine-main-gold": "#f6c177",
@@ -29,33 +29,33 @@
           "template": " \u279C"
         },
         {
+          "type": "kubectl",
+          "style": "plain",
+          "foreground": "p:rose-pine-main-subtle",
+          "template": " \udb84\udcfe {{.Context}}({{.Namespace}})"
+        },
+        {
+          "type": "git",
+          "style": "plain",
+          "foreground": "p:rose-pine-main-subtle",
+          "template": " {{ .HEAD }}"
+        },
+        {
+          "type": "python",
+          "style": "plain",
+          "foreground": "p:rose-pine-main-subtle",
+          "template": " \uE235 {{ .Venv }}",
+          "properties": {
+            "home_enabled": true
+          }
+        },
+        {
           "type": "path",
           "style": "plain",
           "foreground": "p:rose-pine-main-foam",
           "template": " \uF115 {{ .Path }}",
           "properties": {
             "style": "folder"
-          }
-        },
-        {
-          "type": "kubectl",
-          "style": "plain",
-          "foreground": "p:rose-pine-main-pine",
-          "template": " \udb84\udcfe {{.Context}}({{.Namespace}})"
-        },
-        {
-          "type": "git",
-          "style": "plain",
-          "foreground": "p:rose-pine-main-pine",
-          "template": " {{ .HEAD }}"
-        },
-        {
-          "type": "python",
-          "style": "plain",
-          "foreground": "p:rose-pine-main-pine",
-          "template": " \uE235 {{ .Venv }}",
-          "properties": {
-            "home_enabled": true
           }
         },
         {
@@ -67,7 +67,7 @@
         {
           "type": "text",
           "style": "plain",
-          "foreground": "p:rose-pine-main-highlight-med",
+          "foreground": "p:rose-pine-main-subtle",
           "template": " $"
         }
       ]
