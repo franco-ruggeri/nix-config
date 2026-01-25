@@ -25,9 +25,6 @@ in
   };
 
   time.timeZone = "Europe/Stockholm";
-  i18n.extraLocaleSettings = {
-    LC_TIME = "sv_SE.UTF-8";
-  };
 
   system.autoUpgrade = {
     enable = true;
