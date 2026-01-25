@@ -40,7 +40,7 @@ return {
 				hidden = true, -- include hidden files
 				theme = "dropdown", -- similar to `fzf --tmux center` in terminal
 				previewer = false,
-				path_display = { "filename_first" },
+				path_display = { "truncate" },
 			},
 			registers = {
 				theme = "dropdown", -- similar to `fzf --tmux center` in terminal
