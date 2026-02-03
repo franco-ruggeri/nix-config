@@ -23,6 +23,7 @@ in
         zoom-us
         slack
         obsidian
+        vscode
       ];
     };
 

@@ -19,6 +19,7 @@
           "slack"
           "discord"
           "obsidian"
+          "vscode"
           "whatsapp-for-mac"
           "zoom"
           "vscode-extension-ms-vscode-cpptools"
