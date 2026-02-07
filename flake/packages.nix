@@ -26,13 +26,19 @@
           "steam"
           "steam-unwrapped"
         ];
+      permittedInsecurePackages = [
+        "electron-36.9.5" # for heroic
+        "electron-37.10.3" # for super-productivity
+      ];
+      config = {
+        allowUnfreePredicate = allowUnfreePredicate;
+        permittedInsecurePackages = permittedInsecurePackages;
+      };
       pkgsStable = import inputs.nixpkgs {
-        inherit system;
-        config.allowUnfreePredicate = allowUnfreePredicate;
+        inherit system config;
       };
       pkgsUnstable = import inputs.nixpkgs-unstable {
-        inherit system;
-        config.allowUnfreePredicate = allowUnfreePredicate;
+        inherit system config;
       };
     in
     {
@@ -42,24 +48,20 @@
         # When it gets fixed upstream, remove this override.
         steam-unwrapped = import ../pkgs/steam-unwrapped { inherit (pkgsStable) steam-unwrapped; };
       };
-
       _module.args.pkgs = import inputs.nixpkgs {
-        inherit system;
-        config.allowUnfreePredicate = allowUnfreePredicate;
+        inherit system config;
         overlays = [
           (self: super: {
             agenix = inputs.agenix.packages.${system}.default;
             steam-unwrapped = config.packages.steam-unwrapped;
             fluxcd = pkgsUnstable.fluxcd;
             super-productivity = pkgsUnstable.super-productivity;
+            spotify = pkgsUnstable.spotify;
             # WARNING: The stable Nix package currently has issues with providers.
             opencode = pkgsUnstable.opencode;
             # WARNING: The stable Nix package is currently broken.
             # See https://github.com/nixos/nixpkgs/issues/438745
             whatsapp-for-mac = pkgsUnstable.whatsapp-for-mac;
-            # WARNING: The stable Nix package depends on Electron 36, which is EOL.
-            # When I update to 25.11, I can probably remove this.
-            heroic = pkgsUnstable.heroic;
             # On darwin, the ghostty Nix package is broken.
             # See https://github.com/NixOS/nixpkgs/issues/388984
             # The brew version corresponds to unstable. So, we use unstable on linux for compatibility.
