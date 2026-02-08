@@ -37,6 +37,7 @@
         {
           desktop = mkConfig "desktop";
           server-turin = mkConfig "server-turin";
+          server-stockholm = mkConfig "server-stockholm";
         };
 
       darwinConfigurations =
