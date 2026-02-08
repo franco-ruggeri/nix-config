@@ -2,8 +2,6 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  networking.hostId = "178e65e3";
-
   boot = {
     loader.grub = {
       enable = true;
@@ -25,6 +23,8 @@
     kernelModules = [ "kvm-intel" ];
     extraModulePackages = [ ];
   };
+
+  networking.hostId = "178e65e3";
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/31cbf14b-5da2-44b8-b1bd-6a4d743c1a73";

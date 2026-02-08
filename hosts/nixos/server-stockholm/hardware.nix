@@ -2,9 +2,11 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  networking.hostId = "f15005f2";
-
   boot = {
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
     initrd = {
       availableKernelModules = [
         "xhci_pci"
@@ -18,6 +20,8 @@
     kernelModules = [ "kvm-intel" ];
     extraModulePackages = [ ];
   };
+
+  networking.hostId = "f15005f2";
 
   fileSystems = {
     "/" = {

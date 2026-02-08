@@ -24,7 +24,7 @@
     zfs.forceImportRoot = false;
   };
 
-  networking.hostId = "1c86da41"; # for ZFS
+  networking.hostId = "1c86da41";
 
   fileSystems = {
     "/" = {
