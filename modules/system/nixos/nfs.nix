@@ -7,14 +7,13 @@ in
 {
   options.myModules.system.nfs = {
     enable = lib.mkEnableOption "Enable NFS server for homelab";
-    path = lib.mkOption { type = lib.types.str; };
   };
 
   config = lib.mkIf cfg.enable {
     networking.firewall.allowedTCPPorts = [ 2049 ];
 
     fileSystems."/srv/nfs/k8s" = {
-      device = cfg.path;
+      device = "/mnt/zfs/k8s";
       options = [ "bind" ];
     };
 

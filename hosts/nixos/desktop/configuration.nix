@@ -7,13 +7,10 @@
     tui.enable = true;
     gui.enable = true;
     gaming.enable = true;
+    nfs.enable = true;
     kubernetes = {
       enable = true;
       server = config.networking.hostName;
-    };
-    nfs = {
-      enable = true;
-      path = "/mnt/zfs/k8s";
     };
     wireguard = {
       enable = true;
