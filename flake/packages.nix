@@ -30,15 +30,17 @@
         "electron-36.9.5" # for heroic
         "electron-37.10.3" # for super-productivity
       ];
-      config = {
+      pkgsConfig = {
         allowUnfreePredicate = allowUnfreePredicate;
         permittedInsecurePackages = permittedInsecurePackages;
       };
       pkgsStable = import inputs.nixpkgs {
-        inherit system config;
+        inherit system;
+        config = pkgsConfig;
       };
       pkgsUnstable = import inputs.nixpkgs-unstable {
-        inherit system config;
+        inherit system;
+        config = pkgsConfig;
       };
     in
     {
@@ -49,7 +51,8 @@
         steam-unwrapped = import ../pkgs/steam-unwrapped { inherit (pkgsStable) steam-unwrapped; };
       };
       _module.args.pkgs = import inputs.nixpkgs {
-        inherit system config;
+        inherit system;
+        config = pkgsConfig;
         overlays = [
           (self: super: {
             agenix = inputs.agenix.packages.${system}.default;
