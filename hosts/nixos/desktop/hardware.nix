@@ -39,9 +39,9 @@
         "dmask=0077"
       ];
     };
-    # "/mnt/zfs" = {
-    #   device = "zfs";
-    #   fsType = "zfs";
-    # };
+    "/mnt/zfs" = {
+      device = "zfs";
+      fsType = "zfs";
+    };
   };
 }
