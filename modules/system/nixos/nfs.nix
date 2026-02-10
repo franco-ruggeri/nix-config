@@ -2,7 +2,7 @@
 let
   cfg = config.myModules.system.nfs;
   allowedIP = "10.34.0.0/24"; # only over VPN (secure)
-  options = "rw";
+  options = "rw,no_root_squash";
 in
 {
   options.myModules.system.nfs = {
