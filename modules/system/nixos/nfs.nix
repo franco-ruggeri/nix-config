@@ -12,8 +12,8 @@ in
   config = lib.mkIf cfg.enable {
     networking.firewall.allowedTCPPorts = [ 2049 ];
 
-    fileSystems."/srv/nfs/k8s" = {
-      device = "/mnt/zfs/k8s";
+    fileSystems."/srv/nfs/k8s-nfs" = {
+      device = "/mnt/zfs/k8s-nfs";
       options = [ "bind" ];
     };
 
@@ -21,7 +21,7 @@ in
       enable = true;
       exports = ''
         /srv/nfs ${allowedIP}(${options},fsid=0)
-        /srv/nfs/k8s ${allowedIP}(${options})
+        /srv/nfs/k8s-nfs ${allowedIP}(${options})
       '';
     };
   };
