@@ -7,7 +7,7 @@
     tui.enable = true;
     gui.enable = true;
     gaming.enable = true;
-    nfs.enable = true;
+    nfs.server.enable = true;
     kubernetes = {
       enable = true;
       server = config.networking.hostName;

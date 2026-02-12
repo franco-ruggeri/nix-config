@@ -16,7 +16,7 @@ in
     ./gaming.nix
     ./wireguard.nix
     ./kubernetes.nix
-    ./nfs.nix
+    ./nfs-server.nix
   ];
 
   networking = {
