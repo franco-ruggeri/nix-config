@@ -12,6 +12,13 @@ in
   options.myModules.system.gaming.enable = lib.mkEnableOption "Enable gaming setup";
 
   config = lib.mkIf cfg.enable {
+    assertions = [
+      {
+        assertion = config.myModules.system.gui.enable;
+        message = "GUI must be enabled for the gaming setup.";
+      }
+    ];
+
     programs = {
       gamemode.enable = true;
       gamescope.enable = true;
@@ -20,6 +27,7 @@ in
         gamescopeSession.enable = true;
       };
     };
+
     environment.systemPackages = with pkgs; [
       mangohud
       heroic
