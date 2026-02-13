@@ -5,16 +5,16 @@ in
 {
   options.myModules.system.nfs.client = {
     enable = lib.mkEnableOption "Enable NFS client for homelab";
-    address = lib.mkOption { type = lib.types.str; };
+    serverAddress = lib.mkOption { type = lib.types.str; };
   };
 
   config = lib.mkIf cfg.enable {
     fileSystems."/mnt/nfs" = {
-      device = "${cfg.address}:/";
+      device = "${cfg.serverAddress}:/";
       fsType = "nfs";
       options = [
         "nfsvers=4.2"
-        "addr=${cfg.address}"
+        "addr=${cfg.serverAddress}"
       ];
     };
   };
