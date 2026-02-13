@@ -20,8 +20,7 @@
     };
     kernelModules = [ "kvm-intel" ];
     extraModulePackages = [ ];
-    supportedFilesystems = [ "zfs" ];
-    zfs.forceImportRoot = false;
+    zfs.extraPools = [ "zfs" ];
   };
 
   networking.hostId = "1c86da41";
@@ -38,10 +37,6 @@
         "fmask=0077"
         "dmask=0077"
       ];
-    };
-    "/mnt/zfs" = {
-      device = "zfs";
-      fsType = "zfs";
     };
   };
 }
