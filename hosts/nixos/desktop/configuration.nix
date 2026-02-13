@@ -7,6 +7,7 @@
     tui.enable = true;
     gui.enable = true;
     gaming.enable = true;
+    zfs.enable = true;
     nfs.server.enable = true;
     kubernetes = {
       enable = true;

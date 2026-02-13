@@ -16,6 +16,7 @@ in
     ./gaming.nix
     ./wireguard.nix
     ./kubernetes.nix
+    ./zfs.nix
     ./nfs-server.nix
   ];
 

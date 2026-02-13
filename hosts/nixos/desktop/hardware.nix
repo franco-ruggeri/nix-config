@@ -16,11 +16,8 @@
         "usbhid"
         "sd_mod"
       ];
-      kernelModules = [ ];
     };
     kernelModules = [ "kvm-intel" ];
-    extraModulePackages = [ ];
-    zfs.extraPools = [ "zfs" ];
   };
 
   networking.hostId = "1c86da41";
