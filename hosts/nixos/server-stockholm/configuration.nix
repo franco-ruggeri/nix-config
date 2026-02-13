@@ -10,6 +10,7 @@
       address = "10.34.0.6/24";
       privateKeyFile = config.age.secrets.wireguard-server-stockholm-private-key.path;
     };
+    nfs.client.enable = true;
   };
 
   age.secrets = myLib.mkWireguardSecrets [

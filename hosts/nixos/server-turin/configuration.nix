@@ -10,6 +10,7 @@
       address = "10.34.0.5/24";
       privateKeyFile = config.age.secrets.wireguard-server-turin-private-key.path;
     };
+    nfs.client.enable = true;
   };
 
   age.secrets = myLib.mkWireguardSecrets [
