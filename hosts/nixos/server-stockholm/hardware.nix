@@ -15,10 +15,8 @@
         "usbhid"
         "sd_mod"
       ];
-      kernelModules = [ ];
     };
     kernelModules = [ "kvm-intel" ];
-    extraModulePackages = [ ];
   };
 
   networking.hostId = "f15005f2";

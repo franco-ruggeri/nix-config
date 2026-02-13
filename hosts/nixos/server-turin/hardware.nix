@@ -18,10 +18,8 @@
         "sd_mod"
         "sr_mod"
       ];
-      kernelModules = [ ];
     };
     kernelModules = [ "kvm-intel" ];
-    extraModulePackages = [ ];
   };
 
   networking.hostId = "178e65e3";
