@@ -20,6 +20,7 @@ in
 
     fileSystems =
       let
+        # Options from https://wiki.archlinux.org/title/ZFS#Bind_mount
         options = [
           "bind"
           "nofail"
