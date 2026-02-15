@@ -3,6 +3,8 @@ let
   cfg = config.myModules.system.nfs.backup;
 in
 {
+  options.myModules.system.nfs.backup.enable = lib.mkEnableOption "Enable NFS backup for homelab";
+
   config = lib.mkIf cfg.enable {
     assertions = [
       {

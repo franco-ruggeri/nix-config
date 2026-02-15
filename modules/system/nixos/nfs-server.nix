@@ -4,9 +4,7 @@ let
   cfg = config.myModules.system.nfs.server;
 in
 {
-  options.myModules.system.nfs.server = {
-    enable = lib.mkEnableOption "Enable NFS server for homelab";
-  };
+  options.myModules.system.nfs.server.enable = lib.mkEnableOption "Enable NFS server for homelab";
 
   config = lib.mkIf cfg.enable {
     assertions = [

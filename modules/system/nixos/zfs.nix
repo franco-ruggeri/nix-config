@@ -4,9 +4,7 @@ let
   cfg = config.myModules.system.zfs;
 in
 {
-  options.myModules.system.zfs = {
-    enable = lib.mkEnableOption "Enable ZFS pool loading";
-  };
+  options.myModules.system.zfs.enable = lib.mkEnableOption "Enable ZFS pool loading";
 
   config = lib.mkIf cfg.enable {
     boot = {
