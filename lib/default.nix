@@ -2,6 +2,7 @@
 rec {
   dotfilesConfigDir = ../dotfiles/config;
   dotfilesLocalDir = ../dotfiles/local;
+  scriptsDir = ../scripts;
   secretsDir = ../secrets;
 
   mkConfigDotfiles =
@@ -10,6 +11,7 @@ rec {
       mkConfigDir = map (path: {
         name = path;
         value = {
+          # TODO: try interpolation also for dotfilesConfigDir... here and in the rest of the functions
           source = dotfilesConfigDir + "/${path}";
           recursive = true;
         };
@@ -60,6 +62,15 @@ rec {
       secrets = builtins.listToAttrs (map mkSecret names);
     in
     secrets;
+
+  mkShellScript =
+    name:
+    let
+      path = scriptsDir + "/${name}";
+      file = builtins.readFile path;
+      script = pkgs.writeShellScript name file;
+    in
+    script;
 
   isDarwin = lib.strings.hasSuffix "darwin" pkgs.system;
   isLinux = lib.strings.hasSuffix "linux" pkgs.system;

@@ -7,6 +7,7 @@ in
     ../common
     ./gui.nix
     ./tui.nix
+    ./nfs-backup.nix
   ];
 
   users.users.${cfg.username} = {

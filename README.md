@@ -81,6 +81,7 @@ where:
   - `hosts/nixos` contains system configurations for NixOS machines.
   - `hosts/darwin` contains system configurations for macOS machines.
   - `hosts/home` contains home configurations for linux or darwin machines.
+- `scripts` contains shell scripts used in `modules`.
 - `lib` contains common functions used in `modules`.
 - `modules`:
   - `modules/home` contains home-manager modules imported in home
