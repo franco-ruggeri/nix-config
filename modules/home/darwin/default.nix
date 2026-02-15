@@ -8,6 +8,7 @@
   imports = [
     ./gui.nix
     ./tui.nix
+    ./nfs-backup.nix
   ];
 
   config = lib.mkIf (myLib.isDarwin) {

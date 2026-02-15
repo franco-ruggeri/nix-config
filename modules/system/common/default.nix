@@ -3,6 +3,7 @@
   imports = [
     ./gui.nix
     ./tui.nix
+    ./nfs-backup.nix
   ];
 
   options.myModules.system.username = lib.mkOption {

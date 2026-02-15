@@ -18,7 +18,7 @@ in
     ./kubernetes.nix
     ./zfs.nix
     ./nfs-server.nix
-    ./nfs-client.nix
+    ./nfs-backup.nix
   ];
 
   networking = {
