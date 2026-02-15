@@ -18,6 +18,12 @@ in
   "wireguard-desktop-private-key.age".publicKeys = [ systemDesktop ];
   "wireguard-server-turin-private-key.age".publicKeys = [ systemServerTurin ];
   "wireguard-server-stockholm-private-key.age".publicKeys = [ systemServerStockholm ];
+  "restic-repository-laptop.age".publicKeys = [ homeLaptop ];
+  "restic-password.age".publicKeys = [
+    systemServerStockholm
+    systemServerTurin
+    homeLaptop
+  ];
   "rclone-nextcloud-password.age".publicKeys = [ homeDesktop ];
   "rclone-gdrive-personal-client-secret.age".publicKeys = [ homeDesktop ];
   "rclone-gdrive-personal-token.age".publicKeys = [ homeDesktop ];

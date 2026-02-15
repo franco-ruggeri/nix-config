@@ -8,9 +8,9 @@
     wireguard = {
       enable = true;
       address = "10.34.0.6/24";
-      privateKeyFile = config.age.secrets.wireguard-server-stockholm-private-key.path;
+      privateKeyFile = config.age.secrets.wireguard-private-key-server-stockholm.path;
     };
-    nfs.client = {
+    nfs.backup = {
       enable = true;
       serverAddress = "10.34.0.2";
     };
