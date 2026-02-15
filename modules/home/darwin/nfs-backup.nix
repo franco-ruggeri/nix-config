@@ -32,13 +32,12 @@ in
             ${myLib.mkShellScript "nfs-backup.sh"}
           ''
         ];
-        # TODO: re-enable
-        # StartCalendarInterval = [
-        #   {
-        #     Hour = 17;
-        #     Minute = 0;
-        #   }
-        # ];
+        StartCalendarInterval = [
+          {
+            Hour = 17;
+            Minute = 0;
+          }
+        ];
         StandardOutPath = "${config.home.homeDirectory}/Library/Logs/nfs-backup/out.log";
         StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/nfs-backup/error.log";
         EnvironmentVariables = {
