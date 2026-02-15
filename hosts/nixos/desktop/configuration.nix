@@ -21,7 +21,7 @@
   };
 
   age.secrets = myLib.mkWireguardSecrets [
-    "wireguard-desktop-private-key"
+    "wireguard-private-key-desktop"
   ];
 
   # DO NOT change! Used for backward compatibility.

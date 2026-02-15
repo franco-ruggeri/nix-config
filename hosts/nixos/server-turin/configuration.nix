@@ -20,7 +20,7 @@
   };
 
   age.secrets = myLib.mkWireguardSecrets [
-    "wireguard-server-turin-private-key"
+    "wireguard-private-key-server-turin"
   ];
 
   # DO NOT change! Used for backward compatibility.
