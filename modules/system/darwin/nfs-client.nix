@@ -5,7 +5,7 @@
   ...
 }:
 let
-  cfg = config.myModules.system.nfs.backup;
+  cfg = config.myModules.system.nfs.client;
 in
 {
   config = lib.mkIf cfg.enable {

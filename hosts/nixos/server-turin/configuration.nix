@@ -10,9 +10,12 @@
       address = "10.34.0.5/24";
       privateKeyFile = config.age.secrets.wireguard-private-key-server-turin.path;
     };
-    nfs.backup = {
-      enable = true;
-      serverAddress = "10.34.0.2";
+    nfs = {
+      client = {
+        enable = true;
+        serverAddress = "10.34.0.2";
+      };
+      backup.enable = true;
     };
   };
 
