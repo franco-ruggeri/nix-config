@@ -33,7 +33,11 @@ in
     dates = "weekly";
   };
 
-  nix.gc.dates = "weekly";
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
 
   users = {
     mutableUsers = false;
