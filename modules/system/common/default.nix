@@ -14,10 +14,7 @@
   config = {
     nix = {
       settings.experimental-features = "nix-command flakes";
-      gc = {
-        automatic = true;
-        options = "--delete-older-than 30d";
-      };
+      gc.automatic = true;
     };
 
     fonts.packages = builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts); # all nerd fonts

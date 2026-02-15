@@ -21,6 +21,8 @@
       packages = with pkgs; [ agenix ];
     };
 
+    nix.gc.automatic = true;
+
     programs.home-manager.enable = true;
 
     age.identityPaths = [ "${config.home.homeDirectory}/.ssh/agenix" ];
