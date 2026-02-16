@@ -42,7 +42,7 @@ in
         description = "NFS backup timer";
         wantedBy = [ "timers.target" ];
         timerConfig = {
-          OnCalendar = "23:00";
+          OnCalendar = "02:00";
           Persistent = true;
         };
       };
