@@ -12,8 +12,6 @@ if ! restic cat config; then
 	restic init
 fi
 
-# TODO: add encryption
-
 echo "Starting restic backup..."
 restic backup "$NFS_MOUNT_POINT"
 

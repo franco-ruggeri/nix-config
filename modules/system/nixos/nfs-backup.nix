@@ -31,7 +31,7 @@ in
             "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
             "RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path}"
             "NFS_SERVER_ADDRESS=${config.myModules.system.nfs.client.serverAddress}"
-            "RESTIC_REPOSITORY=/mnt/zfs/backup"
+            "RESTIC_REPOSITORY=/mnt/zfs/k8s-backup"
             "NFS_MOUNT_POINT=/mnt/nfs"
           ];
         };
