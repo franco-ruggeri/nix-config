@@ -28,9 +28,9 @@ in
           Type = "oneshot";
           ExecStart = myLib.mkShellScript "nfs-backup.sh";
           Environment = [
-            "PATH=${config.home.homeDirectory}/.nix-profile/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+            "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
             "RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path}"
-            "NFS_SERVER_ADDRESS=${cfg.serverAddress}"
+            "NFS_SERVER_ADDRESS=${config.myModules.system.nfs.client.serverAddress}"
             "RESTIC_REPOSITORY=/mnt/zfs/backup"
             "NFS_MOUNT_POINT=/mnt/nfs"
           ];
