@@ -1,4 +1,4 @@
-# Assumption: The user has created a ZFS dataset named k8s-nfs with mountpoint=/mnt/k8s-nfs.
+# Assumption: The user has created a ZFS dataset named k8s-nfs with mountpoint=/mnt/zfs/k8s-nfs.
 { config, lib, ... }:
 let
   cfg = config.myModules.system.nfs.server;
