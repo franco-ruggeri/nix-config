@@ -17,3 +17,4 @@ mount_nfs_export() {
 
 echo "Mounting NFS exports..."
 mount_nfs_export "/k8s-nfs-ro"
+echo "NFS exports mounted successfully"
