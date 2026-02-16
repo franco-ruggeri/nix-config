@@ -15,6 +15,9 @@ mount_nfs_export() {
 	mount -t nfs -o vers=4.1,resvport "$export_path" "$mount_point"
 }
 
+# On macOS, mounting only the root export does not give the necessary
+# permissions for the subdirectories. So we need to mount each export
+# separately.
 echo "Mounting NFS exports..."
 mount_nfs_export "/k8s-nfs-ro"
 echo "NFS exports mounted successfully"
