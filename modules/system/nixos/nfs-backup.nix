@@ -1,3 +1,4 @@
+# Assumption: The user has created a ZFS dataset named k8s-backup with mountpoint=/mnt/zfs/k8s-backup.
 {
   config,
   pkgs,
