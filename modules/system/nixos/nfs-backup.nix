@@ -1,4 +1,10 @@
-{ config, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  myLib,
+  ...
+}:
 let
   cfg = config.myModules.system.nfs.backup;
 in
@@ -13,6 +19,33 @@ in
       }
     ];
 
-    # TODO: implement a systemd service + timer for calling nfs-backup.sh. See darwin version for reference.
+    environment.systemPackages = with pkgs; [ restic ];
+
+    systemd = {
+      services.nfs-backup = {
+        description = "NFS backup service";
+        serviceConfig = {
+          Type = "oneshot";
+          ExecStart = myLib.mkShellScript "nfs-backup.sh";
+          Environment = [
+            "PATH=${config.home.homeDirectory}/.nix-profile/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+            "RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path}"
+            "NFS_SERVER_ADDRESS=${cfg.serverAddress}"
+            "RESTIC_REPOSITORY=/mnt/zfs/backup"
+            "NFS_MOUNT_POINT=/mnt/nfs"
+          ];
+        };
+      };
+      timers.nfs-backup = {
+        description = "NFS backup timer";
+        wantedBy = [ "timers.target" ];
+        timerConfig = {
+          OnCalendar = "23:00";
+          Persistent = true;
+        };
+      };
+    };
+
+    age.secrets = myLib.mkSecrets [ "restic-password" ];
   };
 }
