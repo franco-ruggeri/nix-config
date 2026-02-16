@@ -10,6 +10,12 @@ in
       options = [
         "nfsvers=4.2"
         "addr=${cfg.serverAddress}"
+        # Lazy-mounting
+        # See https://nixos.wiki/wiki/NFS#Lazy-mounting
+        # ====================
+        "x-systemd.automount"
+        "noauto"
+        # ====================
       ];
     };
   };
