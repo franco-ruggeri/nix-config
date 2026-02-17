@@ -111,6 +111,9 @@ in
         serviceConfig = {
           Type = "oneshot";
           ExecStart = myLib.mkShellScript "nfs-snapshot.sh";
+          Environment = [
+            "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
+          ];
         };
       };
       timers.nfs-backup = {
