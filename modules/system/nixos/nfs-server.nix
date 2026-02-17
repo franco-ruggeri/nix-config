@@ -70,8 +70,8 @@ in
           /srv/nfs 10.34.0.0/24(${roOptions},fsid=0)
           /srv/nfs/k8s-nfs 10.34.0.2/32(${rwOptions})
           /srv/nfs/k8s-longhorn 10.34.0.2/32(${rwOptions})
-          /srv/nfs/k8s-backup/nfs 10.34.0.3/24(${roOptions}) 10.34.0.5/24(${roOptions}) 10.34.0.6/24(${roOptions})
-          /srv/nfs/k8s-backup/longhorn 10.34.0.3/24(${roOptions}) 10.34.0.5/24(${roOptions}) 10.34.0.6/24(${roOptions})
+          /srv/nfs/k8s-backup/nfs 10.34.0.3/32(${roOptions}) 10.34.0.5/32(${roOptions}) 10.34.0.6/32(${roOptions})
+          /srv/nfs/k8s-backup/longhorn 10.34.0.3/32(${roOptions}) 10.34.0.5/32(${roOptions}) 10.34.0.6/32(${roOptions})
         '';
       };
 
