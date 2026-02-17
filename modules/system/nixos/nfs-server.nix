@@ -52,7 +52,7 @@ in
       };
 
     # NFS exports:
-    # * k8s-nfs: read-write access from K8s nodes.
+    # * k8s-nfs: read-write access from K8s nodes and K8s cluster.
     # * k8s-backup: read-only access from backup servers.
     #
     # The no_root_squash option is needed:
@@ -63,15 +63,45 @@ in
       let
         rwOptions = "rw,no_root_squash";
         roOptions = "ro,no_root_squash";
+        rootOptions = "${roOptions},fsid=0";
+        rwIPs = [
+          "10.34.0.0/24"
+          "10.42.0.0/24"
+        ];
+        roIPs = [
+          "10.34.0.3/32"
+          "10.34.0.5/32"
+          "10.34.0.6/32"
+        ];
       in
       {
         enable = true;
         exports = ''
-          /srv/nfs 10.34.0.0/24(${roOptions},fsid=0)
-          /srv/nfs/k8s-nfs 10.34.0.2/32(${rwOptions})
-          /srv/nfs/k8s-longhorn 10.34.0.2/32(${rwOptions})
-          /srv/nfs/k8s-backup/nfs 10.34.0.3/32(${roOptions}) 10.34.0.5/32(${roOptions}) 10.34.0.6/32(${roOptions})
-          /srv/nfs/k8s-backup/longhorn 10.34.0.3/32(${roOptions}) 10.34.0.5/32(${roOptions}) 10.34.0.6/32(${roOptions})
+          ${myLib.mkNfsExport {
+            path = "/srv/nfs";
+            allowedIPs = roIPs ++ rwIPs;
+            options = rootOptions;
+          }}
+          ${myLib.mkNfsExport {
+            path = "/srv/nfs/k8s-nfs";
+            allowedIPs = rwIPs;
+            options = rwOptions;
+          }}
+          ${myLib.mkNfsExport {
+            path = "/srv/nfs/k8s-longhorn";
+            allowedIPs = rwIPs;
+            options = rwOptions;
+          }}
+          ${myLib.mkNfsExport {
+            path = "/srv/nfs/k8s-backup/nfs";
+            allowedIPs = roIPs;
+            options = roOptions;
+          }}
+          ${myLib.mkNfsExport {
+            path = "/srv/nfs/k8s-backup/longhorn";
+            allowedIPs = roIPs;
+            options = roOptions;
+          }}
         '';
       };
 

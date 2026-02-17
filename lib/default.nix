@@ -72,6 +72,18 @@ rec {
     in
     script;
 
+  mkNfsExport =
+    {
+      path,
+      allowedIPs,
+      options,
+    }:
+    let
+      allowedIPWithOptions = map (ip: "${ip}(${options})") allowedIPs;
+      export = "${path} ${lib.concatStringsSep " " allowedIPWithOptions}";
+    in
+    export;
+
   isDarwin = lib.strings.hasSuffix "darwin" pkgs.system;
   isLinux = lib.strings.hasSuffix "linux" pkgs.system;
 }
