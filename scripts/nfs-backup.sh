@@ -2,6 +2,8 @@
 
 set -e
 
+BACKUP_PATH="$NFS_MOUNT_POINT/k8s-backup"
+
 if ! mount | grep -q "$NFS_MOUNT_POINT"; then
 	echo "NFS export not mounted at $NFS_MOUNT_POINT."
 	exit 1
@@ -13,7 +15,8 @@ if ! restic cat config; then
 fi
 
 echo "Starting restic backup..."
-restic backup "$NFS_MOUNT_POINT"
+cd "$BACKUP_PATH"
+restic backup .
 
 echo "Pruning old snapshots..."
 restic forget --keep-daily=7 --keep-weekly=4 --keep-monthly=6
