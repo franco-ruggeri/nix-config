@@ -2,22 +2,16 @@
 
 set -e
 
+EXPORT="k8s-backup"
+EXPORT_PATH="$NFS_SERVER_ADDRESS:/$EXPORT"
+MOUNT_POINT="$NFS_MOUNT_POINT/$EXPORT"
+
 if mount | grep -q "$NFS_MOUNT_POINT"; then
 	echo "NFS export already mounted at $NFS_MOUNT_POINT"
 	exit 0
 fi
 
-mount_nfs_export() {
-	local export="$1"
-	local export_path="$NFS_SERVER_ADDRESS:/$export"
-	local mount_point="$NFS_MOUNT_POINT/$export"
-	mkdir -p "$mount_point"
-	mount -t nfs -o vers=4.1,resvport "$export_path" "$mount_point"
-}
-
-# On macOS, mounting only the root export does not give the necessary
-# permissions for the subdirectories. So we need to mount each export
-# separately.
 echo "Mounting NFS exports..."
-mount_nfs_export "/k8s-nfs-ro"
+mkdir -p "$MOUNT_POINT"
+mount -t nfs -o vers=4.1,resvport "$EXPORT_PATH" "$MOUNT_POINT"
 echo "NFS exports mounted successfully"
