@@ -42,9 +42,11 @@ in
         StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/nfs-backup/error.log";
         EnvironmentVariables = {
           PATH = "${config.home.homeDirectory}/.nix-profile/bin:/usr/bin:/bin:/usr/sbin:/sbin";
-          NFS_SERVER_ADDRESS = cfg.serverAddress;
           NFS_MOUNT_POINT = "/Volumes/nfs";
           RESTIC_CACHE_DIR = "/tmp/restic-cache";
+          # Needed to avoid considering all files changed for every new ZFS snapshot.
+          # See https://forum.restic.net/t/backing-up-zfs-snapshots-good-idea/9604
+          RESTIC_FEATURES = "device-id-for-hardlinks";
         };
       };
     };
