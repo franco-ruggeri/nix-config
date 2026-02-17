@@ -106,7 +106,7 @@ in
       };
 
     systemd = {
-      services.nfs-backup = {
+      services.nfs-snapshot = {
         description = "NFS snapshot service";
         serviceConfig = {
           Type = "oneshot";
