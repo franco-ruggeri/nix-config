@@ -118,6 +118,7 @@ in
 
           # LaTeX
           texlab
+          python3Packages.pylatexenc
 
           # Java
           jdt-language-server
