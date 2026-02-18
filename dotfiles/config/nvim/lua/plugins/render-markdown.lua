@@ -15,6 +15,7 @@ return {
 		},
 		win_options = {
 			conceallevel = {
+				rendered = 2,
 				default = 0, -- insert mode => links not concealed
 			},
 		},
@@ -38,6 +39,9 @@ return {
 		},
 		dash = {
 			width = textwidth,
+		},
+		latex = {
+			enabled = false,
 		},
 	},
 	config = function(_, opts)

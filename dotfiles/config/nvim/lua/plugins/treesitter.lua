@@ -19,7 +19,7 @@ return {
 			"markdown",
 			"markdown_inline",
 			"yaml",
-			-- render-markdown
+			-- nabla
 			"latex",
 		},
 	},
