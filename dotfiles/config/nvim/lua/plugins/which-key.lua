@@ -11,7 +11,6 @@ return {
 			{ "<Leader>f", group = "+[f]ind" },
 			{ "<Leader>g", group = "+[g]it" },
 			{ "<Leader>h", group = "+[h]arpoon" },
-			{ "<Leader>l", group = "+[l]atex" },
 			{ "<Leader>o", group = "+[o]bsidian" },
 			{ "<Leader>t", group = "+[t]ask" },
 			{ "<Leader>c", group = "+todo [c]omment" },
