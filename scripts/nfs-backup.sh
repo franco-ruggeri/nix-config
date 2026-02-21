@@ -13,10 +13,10 @@ if ! restic cat config; then
 fi
 
 echo "Preparing backup environment..."
-TIMESTAMP=$(date +%Y%m%d-%H%M%S)
-BACKUP_PATH="/tmp/k8s-backup-$TIMESTAMP"
-mkdir -p "$BACKUP_PATH"
-cd "$BACKUP_PATH" # relative paths for restic
+timestamp=$(date +%Y%m%d-%H%M%S)
+backup_path="/tmp/k8s-backup-$timestamp"
+mkdir -p "$backup_path"
+cd "$backup_path" # relative paths for restic
 
 echo "Linking latest snapshots..."
 link_latest() {
