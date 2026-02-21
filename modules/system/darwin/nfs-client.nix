@@ -1,33 +1,16 @@
-{
-  config,
-  lib,
-  myLib,
-  ...
-}:
+# We use autofs to mount the NFS export /k8s-backup on demand.
+# Assumption: The user has added the following line to /etc/auto_master
+# /Volumes/nfs auto_nfs -nobrowse,hidefromfinder,nosuid
+{ config, lib, ... }:
 let
   cfg = config.myModules.system.nfs.client;
 in
 {
   config = lib.mkIf cfg.enable {
-    launchd.daemons.nfs-mount = {
-      serviceConfig = {
-        Label = "org.nixos.nfs-mount";
-        ProgramArguments = [
-          "bash"
-          "-c"
-          ''
-            ${myLib.mkShellScript "nfs-mount.sh"}
-          ''
-        ];
-        RunAtLoad = true; # run at boot
-        StartInterval = 300; # retry every 5 minutes
-        StandardOutPath = "/var/log/nfs-mount/out.log";
-        StandardErrorPath = "/var/log/nfs-mount/error.log";
-        EnvironmentVariables = {
-          NFS_SERVER_ADDRESS = cfg.serverAddress;
-          NFS_MOUNT_POINT = "/Volumes/nfs";
-        };
-      };
+    environment.etc."auto_nfs" = {
+      text = ''
+        k8s-backup -fstype=nfs,vers=4,resvport 10.34.0.2:/k8s-backup
+      '';
     };
   };
 }
