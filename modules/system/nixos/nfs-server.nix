@@ -104,25 +104,5 @@ in
           }}
         '';
       };
-
-    systemd = {
-      services.nfs-snapshot = {
-        description = "NFS snapshot service";
-        serviceConfig = {
-          Type = "oneshot";
-          ExecStart = myLib.mkShellScript "nfs-snapshot.sh";
-          Environment = [
-            "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
-          ];
-        };
-      };
-      timers.nfs-backup = {
-        description = "NFS snapshot timer";
-        wantedBy = [ "timers.target" ];
-        timerConfig = {
-          OnCalendar = "01:00";
-        };
-      };
-    };
   };
 }
