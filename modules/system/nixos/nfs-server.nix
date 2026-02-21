@@ -62,7 +62,7 @@ in
     services.nfs.server =
       let
         rwOptions = "rw,no_root_squash";
-        roOptions = "ro,no_root_squash";
+        roOptions = "ro,no_root_squash,crossmnt";
         rootOptions = "${roOptions},fsid=0";
         rwIPs = [
           "10.34.0.0/24"
