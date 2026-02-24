@@ -5,13 +5,20 @@ local function to_kebab_case(str)
 end
 
 local function open_note()
-	local open_cmd = vim.uv.os_uname().sysname == "Darwin" and "open" or "xdg-open"
+	local open_cmd
+	if vim.uv.os_uname().sysname == "Darwin" then
+		-- Unfortunately, `open` doesn't call the Nix-installed Firefox on macOS.
+		-- So, we have to use the full path to the binary.
+		open_cmd = os.getenv("HOME") .. "/Applications/Home Manager Apps/Firefox.app/Contents/MacOS/firefox"
+	else
+		open_cmd = "xdg-open"
+	end
 
 	local full_path = vim.api.nvim_buf_get_name(0)
 	local note_path = vim.fn.fnamemodify(full_path, ":.:r")
 	local url = ("https://www.quartz.ruggeri.ddnsfree.com/%s"):format(note_path)
 
-	local cmd = ('%s "%s"'):format(open_cmd, url)
+	local cmd = ('"%s" "%s"'):format(open_cmd, url)
 	vim.fn.system(cmd)
 end
 
