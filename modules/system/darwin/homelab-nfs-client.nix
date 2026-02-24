@@ -3,7 +3,7 @@
 # /Volumes/nfs auto_nfs -nobrowse,hidefromfinder,nosuid
 { config, lib, ... }:
 let
-  cfg = config.myModules.system.nfs.client;
+  cfg = config.myModules.system.homelab.nfs.client;
 in
 {
   config = lib.mkIf cfg.enable {

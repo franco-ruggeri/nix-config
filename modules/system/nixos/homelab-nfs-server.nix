@@ -8,10 +8,11 @@
   ...
 }:
 let
-  cfg = config.myModules.system.nfs.server;
+  cfg = config.myModules.system.homelab.nfs.server;
 in
 {
-  options.myModules.system.nfs.server.enable = lib.mkEnableOption "Enable NFS server for homelab";
+  options.myModules.system.homelab.nfs.server.enable =
+    lib.mkEnableOption "Enable NFS server for homelab";
 
   config = lib.mkIf cfg.enable {
     assertions = [
@@ -104,5 +105,32 @@ in
           }}
         '';
       };
+
+    systemd = {
+      services.backup-test = {
+        description = "Homelab backup tests";
+        serviceConfig = {
+          Type = "oneshot";
+          ExecStart = myLib.mkShellScript "nfs-backup.sh";
+          Environment = [
+            "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
+            "NFS_SERVER_ADDRESS=${config.myModules.system.nfs.client.serverAddress}"
+            "RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path}"
+            "RESTIC_REPOSITORY=/mnt/zfs/k8s-backup"
+            "RESTIC_CACHE_DIR=/tmp/restic-cache"
+            "NFS_MOUNT_POINT=/mnt/nfs"
+          ];
+        };
+      };
+      timers.nfs-backup = {
+        description = "NFS backup timer";
+        wantedBy = [ "timers.target" ];
+        timerConfig = {
+          OnCalendar = "02:00";
+          Persistent = true;
+        };
+      };
+    };
+
   };
 }

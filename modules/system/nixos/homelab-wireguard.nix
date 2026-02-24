@@ -1,9 +1,9 @@
 # Based on https://wiki.nixos.org/wiki/WireGuard#systemd.network
 { config, lib, ... }:
 let
-  cfg = config.myModules.system.wireguard;
+  cfg = config.myModules.system.homelab.wireguard;
   listenPort = 51820;
-  kubernetes = config.myModules.system.kubernetes.enable;
+  kubernetes = config.myModules.system.homelab.kubernetes.enable;
   allowedIPs =
     # On K8s nodes, the K8s cluster is accessible directly, without VPN.
     # Only traffic to the WireGuard peers should go to the VPN.
@@ -18,7 +18,7 @@ let
     ];
 in
 {
-  options.myModules.system.wireguard = {
+  options.myModules.system.homelab.wireguard = {
     enable = lib.mkEnableOption "Enable WireGuard client connected to homelab";
     address = lib.mkOption { type = lib.types.str; };
     privateKeyFile = lib.mkOption { type = lib.types.str; };

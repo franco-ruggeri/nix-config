@@ -3,7 +3,7 @@
     username = "erugfra";
     tui.enable = true;
     gui.enable = true;
-    nfs.client = {
+    homelab.nfs.client = {
       enable = true;
       serverAddress = "10.34.0.2";
     };

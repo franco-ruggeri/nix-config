@@ -6,11 +6,11 @@
   ...
 }:
 let
-  cfg = config.myModules.system.kubernetes;
+  cfg = config.myModules.system.homelab.kubernetes;
   adminGroup = "kubeadmin";
 in
 {
-  options.myModules.system.kubernetes = {
+  options.myModules.system.homelab.kubernetes = {
     enable = lib.mkEnableOption "Enable Kubernetes for homelab";
     server = lib.mkOption { type = lib.types.str; };
   };
