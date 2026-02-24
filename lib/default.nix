@@ -72,6 +72,23 @@ rec {
     in
     script;
 
+  mkPythonScripts =
+    { derivationName, scriptNames }:
+    let
+      deriv = pkgs.stdenv.mkDerivation {
+        name = derivationName;
+        src = scriptsDir;
+        installPhase = ''
+          mkdir -p $out
+          for script in ${toString scriptNames}; do
+            cp $script $out
+            chmod +x $out/$script
+          done
+        '';
+      };
+    in
+    deriv;
+
   mkBinScript =
     name:
     let

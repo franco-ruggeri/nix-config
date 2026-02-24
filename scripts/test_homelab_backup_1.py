@@ -1,11 +1,15 @@
+#!/usr/bin/env python3
+
 import logging
 from datetime import datetime
-from test_backup_utils import run, MAX_AGE_HOURS, BackupTestError, alert, test
+from test_homelab_backup_utils import run, MAX_AGE_HOURS, BackupTestError, notify, test
 
-KUBECONFIG = "/etc/rancher/k3s/k3s.yaml"
 ZFS_DATASETS = {"zfs/k8s-nfs", "zfs/k8s-longhorn"}
+KUBECONFIG = "/etc/rancher/k3s/k3s.yaml"
 LONGHORN_STORAGE_CLASS = "longhorn"
 LONGHORN_NAMESPACE = "longhorn"
+
+logging.basicConfig(level=logging.INFO)
 
 
 def test_zfs_snapshots() -> None:
@@ -21,7 +25,7 @@ def test_zfs_snapshots() -> None:
     )
 
     dataset_to_latest: dict[str, datetime] = {}
-    for line in result.stdout.splitlines():
+    for line in result.stdout.splitlines()[1:]:
         parts = line.split(maxsplit=1)
         if len(parts) != 2:
             continue
@@ -33,11 +37,11 @@ def test_zfs_snapshots() -> None:
 
     if set(dataset_to_latest.keys()) != ZFS_DATASETS:
         raise BackupTestError("Not all the ZFS datasets have snapshosts")
-    logging.info("Found snapshots for all the ZFS datasets")
+    logging.info("Found snapshots for all the ZFS datasets.")
 
     if any(datetime.now() - dt > MAX_AGE_HOURS for dt in dataset_to_latest.values()):
         raise BackupTestError("Some ZFS snapshots are too old")
-    logging.info("All ZFS snapshots are recent enough")
+    logging.info("All ZFS snapshots are recent enough.")
 
 
 # def test_longhorn_backups(errors: list[str]) -> None:
@@ -125,7 +129,7 @@ def main() -> None:
     errors: list[str] = []
     test(test_zfs_snapshots, errors)
     # test(test_longhorn_backups, errors)
-    alert(errors)
+    notify(errors)
 
 
 if __name__ == "__main__":

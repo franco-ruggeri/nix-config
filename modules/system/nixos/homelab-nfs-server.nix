@@ -3,6 +3,7 @@
 # - The user has created a ZFS dataset named k8s-longhorn with mountpoint=/mnt/zfs/k8s-longhorn.
 {
   config,
+  pkgs,
   lib,
   myLib,
   ...
@@ -20,6 +21,10 @@ in
         assertion = config.myModules.system.zfs.enable;
         message = "ZFS must be enabled for NFS server.";
       }
+    ];
+
+    environment.systemPackages = with pkgs; [
+      python3
     ];
 
     networking.firewall.allowedTCPPorts = [ 2049 ];
@@ -109,14 +114,26 @@ in
     systemd = {
       services.homelab-backup-test = {
         description = "Homelab backup tests";
-        serviceConfig = {
-          Type = "oneshot";
-          ExecStart = myLib.mkBinScript "test_homelab_backup_1.py";
-          Environment = [
-            "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
-            "SMTP_PASSWORD=${config.age.secrets.smtp-password.path}"
-          ];
-        };
+        serviceConfig =
+          let
+            scriptDir = myLib.mkPythonScripts {
+              derivationName = "test_homelab_backup_1";
+              scriptNames = [
+                "test_homelab_backup_1.py"
+                "test_homelab_backup_utils.py"
+              ];
+            };
+            scriptPath = "${scriptDir}/test_homelab_backup_1.py";
+          in
+          {
+            Type = "oneshot";
+            ExecStart = "${scriptPath}";
+            WorkingDirectory = "${scriptDir}";
+            Environment = [
+              "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
+              "SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path}"
+            ];
+          };
       };
       timers.homelab-backup-test = {
         description = "Homelab backup tests";
