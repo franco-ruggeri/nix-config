@@ -72,6 +72,15 @@ rec {
     in
     script;
 
+  mkBinScript =
+    name:
+    let
+      path = scriptsDir + "/${name}";
+      file = builtins.readFile path;
+      script = pkgs.writeScriptBin name file;
+    in
+    script;
+
   mkNfsExport =
     {
       path,

@@ -14,6 +14,12 @@ in
     systemServerTurin
     systemServerStockholm
   ];
+  "smtp-password.age".publicKeys = [
+    systemDesktop
+    systemLaptop
+    systemServerTurin
+    systemServerStockholm
+  ];
   "k3s-token.age".publicKeys = [ systemDesktop ];
   "wireguard-desktop-private-key.age".publicKeys = [ systemDesktop ];
   "wireguard-server-turin-private-key.age".publicKeys = [ systemServerTurin ];

@@ -107,30 +107,27 @@ in
       };
 
     systemd = {
-      services.backup-test = {
+      services.homelab-backup-test = {
         description = "Homelab backup tests";
         serviceConfig = {
           Type = "oneshot";
-          ExecStart = myLib.mkShellScript "nfs-backup.sh";
+          ExecStart = myLib.mkBinScript "test_homelab_backup_1.py";
           Environment = [
             "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
-            "NFS_SERVER_ADDRESS=${config.myModules.system.nfs.client.serverAddress}"
-            "RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path}"
-            "RESTIC_REPOSITORY=/mnt/zfs/k8s-backup"
-            "RESTIC_CACHE_DIR=/tmp/restic-cache"
-            "NFS_MOUNT_POINT=/mnt/nfs"
+            "SMTP_PASSWORD=${config.age.secrets.smtp-password.path}"
           ];
         };
       };
-      timers.nfs-backup = {
-        description = "NFS backup timer";
+      timers.homelab-backup-test = {
+        description = "Homelab backup tests";
         wantedBy = [ "timers.target" ];
         timerConfig = {
-          OnCalendar = "02:00";
+          OnCalendar = "03:00";
           Persistent = true;
         };
       };
     };
 
+    age.secrets = myLib.mkSecrets [ "smtp-password" ];
   };
 }

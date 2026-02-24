@@ -9,6 +9,8 @@ for _, language_server in pairs({
 	"taplo",
 	"lemminx",
 	"nil_ls",
+	"pylsp",
+	"ruff",
 }) do
 	vim.lsp.enable(language_server)
 end
@@ -25,6 +27,7 @@ end
 
 for _, linter in pairs({
 	"markdownlint",
+	"mypy",
 }) do
 	null_ls.register(null_ls.builtins.diagnostics[linter])
 end

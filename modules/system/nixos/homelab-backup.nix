@@ -24,7 +24,7 @@ in
 
     systemd = {
       services.homelab-backup = {
-        description = "Homelab backup service";
+        description = "Homelab backup";
         serviceConfig = {
           Type = "oneshot";
           ExecStart = myLib.mkShellScript "homelab-backup.sh";
@@ -39,7 +39,7 @@ in
         };
       };
       timers.homelab-backup = {
-        description = "Homelab backup timer";
+        description = "Homelab backup";
         wantedBy = [ "timers.target" ];
         timerConfig = {
           OnCalendar = "02:00";
