@@ -3,7 +3,7 @@
   imports = [
     ./gui.nix
     ./tui.nix
-    ./nfs-client.nix
+    ./homelab-nfs-client.nix
   ];
 
   options.myModules.system.username = lib.mkOption {

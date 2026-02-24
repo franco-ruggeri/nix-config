@@ -14,12 +14,12 @@ in
     ./gui.nix
     ./tui.nix
     ./gaming.nix
-    ./wireguard.nix
-    ./kubernetes.nix
     ./zfs.nix
-    ./nfs-server.nix
-    ./nfs-client.nix
-    ./nfs-backup.nix
+    ./homelab-kubernetes.nix
+    ./homelab-wireguard.nix
+    ./homelab-nfs-server.nix
+    ./homelab-nfs-client.nix
+    ./homelab-backup.nix
   ];
 
   networking = {

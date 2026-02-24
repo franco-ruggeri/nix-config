@@ -7,7 +7,7 @@ in
     ../common
     ./gui.nix
     ./tui.nix
-    ./nfs-client.nix
+    ./homelab-nfs-client.nix
   ];
 
   users.users.${cfg.username} = {
