@@ -42,7 +42,7 @@ in
         StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/homelab-backup/error.log";
         EnvironmentVariables = {
           PATH = "${config.home.homeDirectory}/.nix-profile/bin:/usr/bin:/bin:/usr/sbin:/sbin";
-          NFS_MOUNT_POINT = "/Volumes/nfs";
+          NFS_EXPORT_PATH = "/Volumes/nfs/k8s-backup";
           RESTIC_CACHE_DIR = "/tmp/restic-cache";
           # Needed to avoid considering all files changed for every new ZFS snapshot.
           # See https://forum.restic.net/t/backing-up-zfs-snapshots-good-idea/9604

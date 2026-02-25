@@ -34,7 +34,7 @@ in
             "RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path}"
             "RESTIC_REPOSITORY=/mnt/zfs/k8s-backup"
             "RESTIC_CACHE_DIR=/tmp/restic-cache"
-            "NFS_MOUNT_POINT=/mnt/nfs"
+            "NFS_EXPORT_PATH=/mnt/nfs/k8s-backup"
           ];
         };
       };

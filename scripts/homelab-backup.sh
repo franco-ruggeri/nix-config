@@ -2,21 +2,12 @@
 
 set -e
 
-is_mounted() {
-	mount | grep -q "$NFS_MOUNT_POINT"
-}
-
 link_latest() {
 	local dir="$1"
 	local src
-	src=$(find "$NFS_MOUNT_POINT/k8s-backup/$dir" -mindepth 1 -maxdepth 1 -type d | sort | tail -n1)
+	src=$(find "$NFS_EXPORT_PATH/$dir" -mindepth 1 -maxdepth 1 -type d | sort | tail -n1)
 	ln -s "$src" "$dir"
 }
-
-if ! is_mounted; then
-	echo "NFS export not mounted at $NFS_MOUNT_POINT."
-	exit 1
-fi
 
 if ! restic cat config; then
 	echo "Restic repository not found. Initializing..."
