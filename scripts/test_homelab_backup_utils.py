@@ -1,19 +1,22 @@
 import logging
-import smtplib
-import subprocess
-import socket
 import os
-from typing import Callable
-from subprocess import CompletedProcess
+import smtplib
+import socket
+import subprocess
 from datetime import datetime, timedelta
 from email.message import EmailMessage
+from subprocess import CompletedProcess
+from typing import Callable
 
+MAX_AGE_HOURS = timedelta(hours=25)
 
 _SMTP_SERVER = "smtp.gmail.com"
 _SMTP_PORT = 465
 _SMTP_USER = "franco.ruggeri.pro@gmail.com"
 _EMAIL_RECIPIENT = _SMTP_USER
-MAX_AGE_HOURS = timedelta(hours=25)
+
+
+logging.basicConfig(level=logging.INFO)
 
 
 class BackupTestError(Exception):
@@ -73,13 +76,3 @@ def notify(errors: list[str]) -> None:
         logging.info("Email sent to %s", _EMAIL_RECIPIENT)
     except Exception as e:
         logging.error("Failed to send email: %s", e)
-
-
-# def age_hours(timestamp_str: str) -> float:
-#     """Return the age in hours of an ISO 8601 timestamp string."""
-#     # Handle timestamps with or without timezone info
-#     dt = datetime.fromisoformat(timestamp_str.replace("Z", "+00:00"))
-#     if dt.tzinfo is None:
-#         dt = dt.replace(tzinfo=timezone.utc)
-#     now = datetime.now(timezone.utc)
-#     return (now - dt).total_seconds() / 3600
