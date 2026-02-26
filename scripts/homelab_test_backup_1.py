@@ -8,7 +8,6 @@ from homelab_test_backup_utils import MAX_AGE_HOURS, BackupTestError, notify, ru
 
 ZFS_DATASETS = {"zfs/k8s-nfs", "zfs/k8s-longhorn"}
 LONGHORN_STORAGE_CLASS = "longhorn"
-LONGHORN_NAMESPACE = "longhorn"
 
 logging.basicConfig(level=logging.INFO)
 
@@ -70,8 +69,7 @@ def test_longhorn_backups() -> None:
             "kubectl",
             "get",
             "backups.longhorn.io",
-            "-n",
-            LONGHORN_NAMESPACE,
+            "-A",
             "-o",
             "json",
         ]
