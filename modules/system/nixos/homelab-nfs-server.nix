@@ -47,12 +47,12 @@ in
           device = "/mnt/zfs/k8s-longhorn";
           inherit options;
         };
-        "/srv/nfs/k8s-backup/nfs" = {
-          device = "/mnt/zfs/k8s-nfs/.zfs/snapshot";
+        "/srv/nfs/k8s-nfs-ro" = {
+          device = "/mnt/zfs/k8s-nfs";
           inherit options;
         };
-        "/srv/nfs/k8s-backup/longhorn" = {
-          device = "/mnt/zfs/k8s-longhorn/.zfs/snapshot";
+        "/srv/nfs/k8s-longhorn-ro" = {
+          device = "/mnt/zfs/k8s-longhorn";
           inherit options;
         };
       };
@@ -100,12 +100,12 @@ in
             options = rwOptions;
           }}
           ${myLib.mkNfsExport {
-            path = "/srv/nfs/k8s-backup/nfs";
+            path = "/srv/nfs/k8s-nfs-ro";
             allowedIPs = roIPs;
             options = roOptions;
           }}
           ${myLib.mkNfsExport {
-            path = "/srv/nfs/k8s-backup/longhorn";
+            path = "/srv/nfs/k8s-longhorn-ro";
             allowedIPs = roIPs;
             options = roOptions;
           }}
