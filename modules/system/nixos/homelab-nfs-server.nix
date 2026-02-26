@@ -113,35 +113,54 @@ in
       };
 
     systemd = {
-      services.homelab-backup-test = {
-        description = "Homelab backup tests";
-        serviceConfig =
-          let
-            scriptDir = myLib.mkPythonScripts {
-              derivationName = "test_homelab_backup_1";
-              scriptNames = [
-                "test_homelab_backup_1.py"
-                "test_homelab_backup_utils.py"
+      services = {
+        homelab-chmod-backup = {
+          description = "Homelab chmod backup";
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = myLib.mkShellScript "homelab-chmod-backup.sh";
+          };
+        };
+        homelab-test-backup = {
+          description = "Homelab test backup";
+          serviceConfig =
+            let
+              scriptDir = myLib.mkPythonScripts {
+                derivationName = "homelab_test_backup_1";
+                scriptNames = [
+                  "homelab_test_backup_1.py"
+                  "homelab_test_backup_utils.py"
+                ];
+              };
+              scriptPath = "${scriptDir}/homelab_test_backup_1.py";
+            in
+            {
+              Type = "oneshot";
+              ExecStart = "${scriptPath}";
+              WorkingDirectory = "${scriptDir}";
+              Environment = [
+                "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
+                "SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path}"
               ];
             };
-            scriptPath = "${scriptDir}/test_homelab_backup_1.py";
-          in
-          {
-            Type = "oneshot";
-            ExecStart = "${scriptPath}";
-            WorkingDirectory = "${scriptDir}";
-            Environment = [
-              "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
-              "SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path}"
-            ];
-          };
+        };
       };
-      timers.homelab-backup-test = {
-        description = "Homelab backup tests";
-        wantedBy = [ "timers.target" ];
-        timerConfig = {
-          OnCalendar = "03:00";
-          Persistent = true;
+      timers = {
+        homelab-chmod-backup = {
+          description = "Homelab chmod backup";
+          wantedBy = [ "timers.target" ];
+          timerConfig = {
+            OnCalendar = "01:30";
+            Persistent = true;
+          };
+        };
+        homelab-test-backup = {
+          description = "Homelab test backup";
+          wantedBy = [ "timers.target" ];
+          timerConfig = {
+            OnCalendar = "03:00";
+            Persistent = true;
+          };
         };
       };
     };

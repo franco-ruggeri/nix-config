@@ -3,7 +3,7 @@
 import logging
 import os
 
-from test_homelab_backup_utils import (
+from homelab_test_backup_utils import (
     MAX_AGE_HOURS,
     run,
     test,

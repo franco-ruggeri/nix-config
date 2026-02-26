@@ -17,10 +17,10 @@ in
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [ restic ];
 
-    launchd.agents.homelab-backup = {
+    launchd.agents.homelab-make-backup = {
       enable = true;
       config = {
-        Label = "org.nixos.homelab-backup";
+        Label = "org.nixos.homelab-make-backup";
         # In EnvironmentVariables, the home-manager command to get the agenix path would not be expanded.
         # So we have to export the environment variables with agenix secrets in the command itself.
         ProgramArguments = [
@@ -29,7 +29,7 @@ in
           ''
             export RESTIC_REPOSITORY_FILE=${config.age.secrets.restic-repository-laptop.path} && \
             export RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path} && \
-            ${myLib.mkShellScript "homelab-backup.sh"}
+            ${myLib.mkShellScript "homelab-make-backup.sh"}
           ''
         ];
         StartCalendarInterval = [

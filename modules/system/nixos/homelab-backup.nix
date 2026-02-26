@@ -23,11 +23,11 @@ in
     environment.systemPackages = with pkgs; [ restic ];
 
     systemd = {
-      services.homelab-backup = {
-        description = "Homelab backup";
+      services.homelab-make-backup = {
+        description = "Homelab make backup";
         serviceConfig = {
           Type = "oneshot";
-          ExecStart = myLib.mkShellScript "homelab-backup.sh";
+          ExecStart = myLib.mkShellScript "homelab-make-backup.sh";
           Environment = [
             "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
             "NFS_SERVER_ADDRESS=${config.myModules.system.nfs.client.serverAddress}"
