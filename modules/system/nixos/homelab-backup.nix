@@ -8,6 +8,21 @@
 }:
 let
   cfg = config.myModules.system.homelab.backup;
+  environment = [
+    "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
+    "NFS_SERVER_ADDRESS=${config.myModules.system.nfs.client.serverAddress}"
+    "RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path}"
+    "RESTIC_REPOSITORY=/mnt/zfs/k8s-backup"
+    "RESTIC_CACHE_DIR=/tmp/restic-cache"
+    "NFS_MOUNT_PATH=/mnt/nfs"
+  ];
+  pythonScriptDir = myLib.mkPythonScriptDir {
+    derivationName = "homelab_test_backup_daily";
+    scriptNames = [
+      "homelab_test_backup_daily.py"
+      "homelab_test_backup_utils.py"
+    ];
+  };
 in
 {
   options.myModules.system.homelab.backup.enable = lib.mkEnableOption "Enable backups for homelab";
@@ -23,27 +38,40 @@ in
     environment.systemPackages = with pkgs; [ restic ];
 
     systemd = {
-      services.homelab-make-backup = {
-        description = "Homelab make backup";
-        serviceConfig = {
-          Type = "oneshot";
-          ExecStart = myLib.mkShellScript "homelab-make-backup.sh";
-          Environment = [
-            "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
-            "NFS_SERVER_ADDRESS=${config.myModules.system.nfs.client.serverAddress}"
-            "RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path}"
-            "RESTIC_REPOSITORY=/mnt/zfs/k8s-backup"
-            "RESTIC_CACHE_DIR=/tmp/restic-cache"
-            "NFS_MOUNT_PATH=/mnt/nfs"
-          ];
+      services = {
+        homelab-make-backup = {
+          description = "Homelab make backup";
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = myLib.mkShellScript "homelab-make-backup.sh";
+            Environment = environment;
+          };
+        };
+        homelab-test-backup-daily = {
+          description = "Homelab test backup daily";
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${pythonScriptDir}/homelab_test_backup_daily.py";
+            Environment = environment;
+          };
         };
       };
-      timers.homelab-backup = {
-        description = "Homelab backup";
-        wantedBy = [ "timers.target" ];
-        timerConfig = {
-          OnCalendar = "02:00";
-          Persistent = true;
+      timers = {
+        homelab-make-backup = {
+          description = "Homelab make backup";
+          wantedBy = [ "timers.target" ];
+          timerConfig = {
+            OnCalendar = "02:00";
+            Persistent = true;
+          };
+        };
+        homelab-test-backup-daily = {
+          description = "Homelab test backup daily";
+          wantedBy = [ "timers.target" ];
+          timerConfig = {
+            OnCalendar = "01:00";
+            Persistent = true;
+          };
         };
       };
     };
