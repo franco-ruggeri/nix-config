@@ -20,6 +20,8 @@ let
     derivationName = "homelab_test_backup_daily";
     scriptNames = [
       "homelab_test_backup_daily.py"
+      "homelab_test_backup_weekly.py"
+      "homelab_test_backup_monthly.py"
       "homelab_test_backup_utils.py"
     ];
   };
