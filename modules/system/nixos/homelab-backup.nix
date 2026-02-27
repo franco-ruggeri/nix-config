@@ -36,6 +36,9 @@ in
             "RESTIC_CACHE_DIR=/tmp/restic-cache"
             "NFS_MOUNT_PATH=/mnt/nfs"
             "SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path}"
+            # Needed to avoid considering all files changed for every new ZFS snapshot.
+            # See https://forum.restic.net/t/backing-up-zfs-snapshots-good-idea/9604
+            "RESTIC_FEATURES=device-id-for-hardlinks"
           ];
           pythonScriptDir = myLib.mkPythonScriptDir {
             derivationName = "homelab_test_backup_daily";
