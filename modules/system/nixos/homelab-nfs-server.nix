@@ -47,14 +47,6 @@ in
           device = "/mnt/zfs/k8s-longhorn";
           inherit options;
         };
-        "/srv/nfs/k8s-nfs-ro" = {
-          device = "/mnt/zfs/k8s-nfs";
-          inherit options;
-        };
-        "/srv/nfs/k8s-longhorn-ro" = {
-          device = "/mnt/zfs/k8s-longhorn";
-          inherit options;
-        };
       };
 
     # NFS exports:
