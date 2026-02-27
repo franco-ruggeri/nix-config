@@ -30,7 +30,7 @@ in
   config = lib.mkIf cfg.enable {
     assertions = [
       {
-        assertion = config.myModules.system.nfs.client.enable;
+        assertion = config.myModules.system.homelab.nfs.client.enable;
         message = "NFS client must be enabled for NFS backup.";
       }
     ];
