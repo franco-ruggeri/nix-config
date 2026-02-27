@@ -72,7 +72,7 @@ rec {
     in
     script;
 
-  mkPythonScripts =
+  mkPythonScriptDir =
     { derivationName, scriptNames }:
     let
       deriv = pkgs.stdenv.mkDerivation {
@@ -88,15 +88,6 @@ rec {
       };
     in
     deriv;
-
-  mkBinScript =
-    name:
-    let
-      path = scriptsDir + "/${name}";
-      file = builtins.readFile path;
-      script = pkgs.writeScriptBin name file;
-    in
-    script;
 
   mkNfsExport =
     {

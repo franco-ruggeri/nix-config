@@ -19,10 +19,6 @@ _EMAIL_RECIPIENT = _SMTP_USER
 logging.basicConfig(level=logging.INFO)
 
 
-class BackupTestError(Exception):
-    pass
-
-
 def run(cmd: list[str], env: dict | None = None) -> CompletedProcess:
     cmd_str = " ".join(cmd)
     logging.debug(f"Running: {cmd_str}")
@@ -34,7 +30,7 @@ def run(cmd: list[str], env: dict | None = None) -> CompletedProcess:
         env=env,
     )
     if result.returncode != 0:
-        raise BackupTestError(f"Command failed: {cmd_str}\n{result.stderr}")
+        raise Exception(f"Command failed: {cmd_str}\n{result.stderr}")
 
     return result
 

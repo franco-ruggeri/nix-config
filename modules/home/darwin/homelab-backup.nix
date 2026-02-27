@@ -7,7 +7,26 @@
 }:
 let
   cfg = config.myModules.home.homelab.backup;
-  nfs_mount_path = "/Volumes/nfs";
+  environmentVariables = {
+    PATH = "${config.home.homeDirectory}/.nix-profile/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+    NFS_MOUNT_PATH = "/Volumes/nfs";
+    RESTIC_CACHE_DIR = "/tmp/restic-cache";
+    # Needed to avoid considering all files changed for every new ZFS snapshot.
+    # See https://forum.restic.net/t/backing-up-zfs-snapshots-good-idea/9604
+    RESTIC_FEATURES = "device-id-for-hardlinks";
+  };
+  scriptSecrets = ''
+    export RESTIC_REPOSITORY_FILE=${config.age.secrets.restic-repository-laptop.path} && \
+    export RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path} && \
+    export SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path}
+  '';
+  pythonScriptDir = myLib.mkPythonScriptDir {
+    derivationName = "homelab_test_backup_daily";
+    scriptNames = [
+      "homelab_test_backup_daily.py"
+      "homelab_test_backup_utils.py"
+    ];
+  };
 in
 {
   options.myModules.home.homelab.backup = {
@@ -25,15 +44,10 @@ in
         enable = true;
         config = {
           Label = "org.nixos.homelab-make-backup";
-          # TODO: define the exported vars in a variable to avoid repeating in every unit
           ProgramArguments = [
             "bash"
             "-c"
-            ''
-              export RESTIC_REPOSITORY_FILE=${config.age.secrets.restic-repository-laptop.path} && \
-              export RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path} && \
-              ${myLib.mkShellScript "homelab-make-backup.sh"}
-            ''
+            "${scriptSecrets} && ${myLib.mkShellScript "homelab-make-backup.sh"}"
           ];
           StartCalendarInterval = [
             {
@@ -41,56 +55,30 @@ in
               Minute = 0;
             }
           ];
+          EnvironmentVariables = environmentVariables;
           StandardOutPath = "${config.home.homeDirectory}/Library/Logs/homelab-make-backup/out.log";
           StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/homelab-make-backup/error.log";
-          EnvironmentVariables = {
-            PATH = "${config.home.homeDirectory}/.nix-profile/bin:/usr/bin:/bin:/usr/sbin:/sbin";
-            NFS_MOUNT_PATH = nfs_mount_path;
-            RESTIC_CACHE_DIR = "/tmp/restic-cache";
-            # Needed to avoid considering all files changed for every new ZFS snapshot.
-            # See https://forum.restic.net/t/backing-up-zfs-snapshots-good-idea/9604
-            RESTIC_FEATURES = "device-id-for-hardlinks";
-          };
         };
       };
       homelab-test-backup-daily = {
         enable = true;
-        config =
-          let
-            scriptDir = myLib.mkPythonScripts {
-              derivationName = "homelab_test_backup_daily";
-              scriptNames = [
-                "homelab_test_backup_daily.py"
-                "homelab_test_backup_utils.py"
-              ];
-            };
-            scriptPath = "${scriptDir}/homelab_test_backup_daily.py";
-          in
-          {
-            Label = "org.nixos.homelab-test-backup-daily";
-            ProgramArguments = [
-              "bash"
-              "-c"
-              ''
-                export RESTIC_REPOSITORY_FILE=${config.age.secrets.restic-repository-laptop.path} && \
-                export RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path} && \
-                export SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path} && \
-                ${scriptPath}
-              ''
-            ];
-            StartCalendarInterval = [
-              {
-                Hour = 14;
-                Minute = 0;
-              }
-            ];
-            StandardOutPath = "${config.home.homeDirectory}/Library/Logs/homelab-test-backup-daily/out.log";
-            StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/homelab-test-backup-daily/error.log";
-            EnvironmentVariables = {
-              PATH = "${config.home.homeDirectory}/.nix-profile/bin:/usr/bin:/bin:/usr/sbin:/sbin";
-              NFS_MOUNT_PATH = nfs_mount_path;
-            };
-          };
+        config = {
+          Label = "org.nixos.homelab-test-backup-daily";
+          ProgramArguments = [
+            "bash"
+            "-c"
+            "${scriptSecrets} && ${pythonScriptDir}/homelab_test_backup_daily.py"
+          ];
+          StartCalendarInterval = [
+            {
+              Hour = 13;
+              Minute = 0;
+            }
+          ];
+          EnvironmentVariables = environmentVariables;
+          StandardOutPath = "${config.home.homeDirectory}/Library/Logs/homelab-test-backup-daily/out.log";
+          StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/homelab-test-backup-daily/error.log";
+        };
       };
     };
 

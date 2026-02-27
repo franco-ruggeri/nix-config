@@ -4,7 +4,7 @@ import json
 import logging
 from datetime import datetime
 
-from homelab_test_backup_utils import MAX_AGE_HOURS, BackupTestError, notify, run, test
+from homelab_test_backup_utils import MAX_AGE_HOURS, notify, run, test
 
 ZFS_DATASETS = {"zfs/k8s-nfs", "zfs/k8s-longhorn"}
 LONGHORN_STORAGE_CLASS = "longhorn"
@@ -38,11 +38,11 @@ def test_zfs_snapshots() -> None:
         logging.info(f"ZFS: Found snapshot for {dataset} created at {dt}.")
 
     if set(dataset_to_dt.keys()) != ZFS_DATASETS:
-        raise BackupTestError("ZFS: Not all the ZFS datasets have snapshosts.")
+        raise Exception("ZFS: Not all the ZFS datasets have snapshosts.")
     logging.info("ZFS: Found snapshots for all the ZFS datasets.")
 
     if any(datetime.now() - dt > MAX_AGE_HOURS for dt in dataset_to_dt.values()):
-        raise BackupTestError("ZFS: Some ZFS snapshots are too old.")
+        raise Exception("ZFS: Some ZFS snapshots are too old.")
     logging.info("ZFS: All ZFS snapshots are recent enough.")
 
 
@@ -57,7 +57,7 @@ def test_longhorn_backups() -> None:
         pvc = f"{pvc_ref['namespace']}/{pvc_ref['name']}"
         pv_to_pvc[pv["metadata"]["name"]] = pvc
     if not pv_to_pvc:
-        raise BackupTestError("Longhorn: No Longhorn PVs found.")
+        raise Exception("Longhorn: No Longhorn PVs found.")
 
     result = run(
         [
@@ -86,11 +86,11 @@ def test_longhorn_backups() -> None:
         logging.info(f"Longhorn: Found backup for PV {pv} created at {dt}.")
 
     if set(pv_to_dt.keys()) != pv_to_pvc.keys():
-        raise BackupTestError("Longhorn: Not all the PVs have backups.")
+        raise Exception("Longhorn: Not all the PVs have backups.")
     logging.info("Longhorn: Found backups for all the PVs.")
 
     if any(datetime.now() - dt > MAX_AGE_HOURS for dt in pv_to_dt.values()):
-        raise BackupTestError("Longhorn: Some Longhorn backups are too old.")
+        raise Exception("Longhorn: Some Longhorn backups are too old.")
     logging.info("Longhorn: All Longhorn backups are recent enough.")
 
 

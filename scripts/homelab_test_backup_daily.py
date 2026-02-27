@@ -6,7 +6,7 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-from homelab_test_backup_utils import MAX_AGE_HOURS, BackupTestError, notify, run, test
+from homelab_test_backup_utils import MAX_AGE_HOURS, notify, run, test
 
 ZFS_DATASETS = {"k8s-nfs", "k8s-longhorn"}
 
@@ -18,7 +18,7 @@ def test_nfs_mount() -> None:
         path = Path(nfs_mount_path) / zfs_dataset / ".zfs" / "snapshot"
         zfs_snapshots = list(path.iterdir())
         if len(zfs_snapshots) == 0:
-            raise BackupTestError(f"NFS: No ZFS snapshots found for {zfs_dataset}.")
+            raise Exception(f"NFS: No ZFS snapshots found for {zfs_dataset}.")
 
         latest_dt = None
         for zfs_snapshot in zfs_snapshots:
@@ -28,7 +28,7 @@ def test_nfs_mount() -> None:
         assert latest_dt is not None
 
         if datetime.now() - latest_dt > MAX_AGE_HOURS:
-            raise BackupTestError(f"NFS: No recent ZFS snapshots for {zfs_dataset}.")
+            raise Exception(f"NFS: No recent ZFS snapshots for {zfs_dataset}.")
     logging.info("NFS: Found recent ZFS snapshots for all ZFS datasets.")
 
 
@@ -38,7 +38,7 @@ def test_restic_snapshots() -> None:
 
     tags = [tag for snapshot in data for tag in snapshot["tags"]]
     if set(tags) != ZFS_DATASETS:
-        raise BackupTestError("Restic: Not all the ZFS datasets have restic snapshots.")
+        raise Exception("Restic: Not all the ZFS datasets have restic snapshots.")
 
     tag_to_dt: dict[str, datetime] = {}
     for snapshot in data:
@@ -48,7 +48,7 @@ def test_restic_snapshots() -> None:
                 tag_to_dt[tag] = dt
 
     if any(datetime.now() - dt > MAX_AGE_HOURS for dt in tag_to_dt.values()):
-        raise BackupTestError("Restic: Some restic snapshots are too old.")
+        raise Exception("Restic: Some restic snapshots are too old.")
     logging.info("Restic: Found recent restic snapshots for all ZFS datasets.")
 
 
