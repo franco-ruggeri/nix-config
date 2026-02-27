@@ -31,7 +31,3 @@ done
 echo "Pruning old snapshots..."
 restic forget --group-by=tags --keep-daily=7 --keep-weekly=4 --keep-monthly=6
 restic prune
-
-# TODO: this should be part of the tests (?)
-echo "Checking backup integrity..."
-restic check
