@@ -104,29 +104,28 @@ in
             ExecStart = myLib.mkShellScript "homelab-chmod-backup.sh";
           };
         };
-        homelab-test-backup = {
-          description = "Homelab test backup";
-          serviceConfig =
-            let
-              scriptDir = myLib.mkPythonScripts {
-                derivationName = "homelab_test_backup_source";
-                scriptNames = [
-                  "homelab_test_backup_source.py"
-                  "homelab_test_backup_utils.py"
-                ];
-              };
-              scriptPath = "${scriptDir}/homelab_test_backup_source.py";
-            in
-            {
+        homelab-test-backup =
+          let
+            pythonScriptDir = myLib.mkPythonScriptDir {
+              derivationName = "homelab_test_backup_source";
+              scriptNames = [
+                "homelab_test_backup_source.py"
+                "homelab_test_backup_utils.py"
+              ];
+            };
+          in
+          {
+            description = "Homelab test backup";
+            serviceConfig = {
               Type = "oneshot";
-              ExecStart = "${scriptPath}";
-              WorkingDirectory = "${scriptDir}";
+              ExecStart = "${pythonScriptDir}/homelab_test_backup_source.py";
+              WorkingDirectory = pythonScriptDir;
               Environment = [
                 "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
                 "SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path}"
               ];
             };
-        };
+          };
       };
       timers = {
         homelab-chmod-backup = {
