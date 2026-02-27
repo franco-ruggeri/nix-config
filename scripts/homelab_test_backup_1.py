@@ -24,29 +24,24 @@ def test_zfs_snapshots() -> None:
         ]
     )
 
-    dataset_to_snapshot_time: dict[str, datetime] = {}
+    dataset_to_dt: dict[str, datetime] = {}
     for line in result.stdout.splitlines()[1:]:
         parts = line.split(maxsplit=1)
         if len(parts) != 2:
             continue
         name = parts[0]
-        time = datetime.strptime(parts[1].strip(), "%a %b %d %H:%M %Y")
+        dt = datetime.strptime(parts[1].strip(), "%a %b %d %H:%M %Y")
         dataset = name.split("@")[0]
-        if (
-            dataset not in dataset_to_snapshot_time
-            or time > dataset_to_snapshot_time[dataset]
-        ):
-            dataset_to_snapshot_time[dataset] = time
-    for dataset, time in dataset_to_snapshot_time.items():
-        logging.info(f"ZFS: Found snapshot for {dataset} created at {time}.")
+        if dataset not in dataset_to_dt or dt > dataset_to_dt[dataset]:
+            dataset_to_dt[dataset] = dt
+    for dataset, dt in dataset_to_dt.items():
+        logging.info(f"ZFS: Found snapshot for {dataset} created at {dt}.")
 
-    if set(dataset_to_snapshot_time.keys()) != ZFS_DATASETS:
+    if set(dataset_to_dt.keys()) != ZFS_DATASETS:
         raise BackupTestError("ZFS: Not all the ZFS datasets have snapshosts.")
     logging.info("ZFS: Found snapshots for all the ZFS datasets.")
 
-    if any(
-        datetime.now() - dt > MAX_AGE_HOURS for dt in dataset_to_snapshot_time.values()
-    ):
+    if any(datetime.now() - dt > MAX_AGE_HOURS for dt in dataset_to_dt.values()):
         raise BackupTestError("ZFS: Some ZFS snapshots are too old.")
     logging.info("ZFS: All ZFS snapshots are recent enough.")
 
@@ -75,26 +70,26 @@ def test_longhorn_backups() -> None:
         ]
     )
     data = json.loads(result.stdout)
-    pv_to_backup_time: dict[str, datetime] = {}
+    pv_to_dt: dict[str, datetime] = {}
     for backup in data["items"]:
         pv = backup["metadata"]["labels"]["backup-volume"]
         state = backup["status"]["state"]
         if state != "Completed":
             continue
-        time = datetime.strptime(
+        dt = datetime.strptime(
             backup["status"]["snapshotCreatedAt"],
             "%Y-%m-%dT%H:%M:%SZ",
         )
-        if pv not in pv_to_backup_time or time > pv_to_backup_time[pv]:
-            pv_to_backup_time[pv] = time
-    for pv, time in pv_to_backup_time.items():
-        logging.info(f"Longhorn: Found backup for PV {pv} created at {time}.")
+        if pv not in pv_to_dt or dt > pv_to_dt[pv]:
+            pv_to_dt[pv] = dt
+    for pv, dt in pv_to_dt.items():
+        logging.info(f"Longhorn: Found backup for PV {pv} created at {dt}.")
 
-    if set(pv_to_backup_time.keys()) != pv_to_pvc.keys():
+    if set(pv_to_dt.keys()) != pv_to_pvc.keys():
         raise BackupTestError("Longhorn: Not all the PVs have backups.")
     logging.info("Longhorn: Found backups for all the PVs.")
 
-    if any(datetime.now() - dt > MAX_AGE_HOURS for dt in pv_to_backup_time.values()):
+    if any(datetime.now() - dt > MAX_AGE_HOURS for dt in pv_to_dt.values()):
         raise BackupTestError("Longhorn: Some Longhorn backups are too old.")
     logging.info("Longhorn: All Longhorn backups are recent enough.")
 

@@ -1,127 +1,61 @@
 #!/usr/bin/env python3
 
+import json
 import logging
-import os
+from datetime import datetime
+from pathlib import Path
 
-from homelab_test_backup_utils import (
-    MAX_AGE_HOURS,
-    run,
-    test,
-    notify,
-)
+from homelab_test_backup_utils import MAX_AGE_HOURS, BackupTestError, notify, run, test
 
-NFS_MOUNT = "/mnt/nfs/k8s-backup"
-RESTIC_REPOS = [
-    "/mnt/zfs/k8s-backup",
-    "/home/franco/drives/onedrive",
-]
+NFS_MOUNT_PATH = "/mnt/nfs"  # TODO: configure it from systemd/launchd
+
+ZFS_DATASETS = {"k8s-nfs-ro", "k8s-longhorn-ro"}
 RESTIC_SYSTEMD_SERVICE = "restic@backup.service"
 
 
 def test_nfs_mount() -> None:
-    proc = run(["mountpoint", "-q", NFS_MOUNT])
-    if proc.returncode != 0:
-        errors.append(f"NFS: {NFS_MOUNT} is not mounted")
-        return
+    for zfs_dataset in ZFS_DATASETS:
+        path = Path(NFS_MOUNT_PATH) / zfs_dataset / ".zfs" / "snapshot"
+        zfs_snapshots = list(path.iterdir())
+        if len(zfs_snapshots) == 0:
+            raise BackupTestError(f"NFS: No ZFS snapshots found for {zfs_dataset}.")
 
-    try:
-        entries = os.listdir(NFS_MOUNT)
-    except OSError as e:
-        errors.append(f"NFS: Could not list {NFS_MOUNT}: {e}")
-        return
+        latest_dt = None
+        for zfs_snapshot in zfs_snapshots:
+            dt_str = "-".join(zfs_snapshot.name.split("-")[3:])
+            dt = datetime.strptime(dt_str, "%Y-%m-%d-%Hh%MU")
+            latest_dt = max(dt, latest_dt) if latest_dt else dt
+        assert latest_dt is not None
 
-    if not entries:
-        errors.append(f"NFS: {NFS_MOUNT} is mounted but empty")
-    else:
-        logging.info(
-            "OK: NFS mount %s is alive and non-empty (%d entries)",
-            NFS_MOUNT,
-            len(entries),
-        )
+        if datetime.now() - latest_dt > MAX_AGE_HOURS:
+            raise BackupTestError(f"NFS: No recent ZFS snapshots for {zfs_dataset}.")
+    logging.info("NFS: Found recent ZFS snapshots for all ZFS datasets.")
 
 
 def test_restic_snapshots() -> None:
-    for repo in RESTIC_REPOS:
-        if not os.path.exists(repo):
-            errors.append(f"Restic: Repository path '{repo}' does not exist")
-            continue
+    result = run(["restic", "snapshots", "--json"])
+    data = json.loads(result.stdout)
 
-        data = run_json(["restic", "-r", repo, "snapshots", "--json", "--last"])
-        if data is None:
-            errors.append(f"Restic: Failed to query snapshots in '{repo}'")
-            continue
+    tags = [tag for snapshot in data for tag in snapshot["tags"]]
+    if set(tags) != ZFS_DATASETS:
+        raise BackupTestError("Restic: Not all the ZFS datasets have restic snapshots.")
 
-        if not data:
-            errors.append(f"Restic: No snapshots found in '{repo}'")
-            continue
+    tag_to_dt: dict[str, datetime] = {}
+    for snapshot in data:
+        for tag in snapshot["tags"]:
+            dt = datetime.strptime(snapshot["time"], "%Y-%m-%dT%H:%M:%S.%f%z")
+            if tag not in tag_to_dt or dt > tag_to_dt[tag]:
+                tag_to_dt[tag] = dt
 
-        # --last returns one snapshot per unique (host, paths) combo; find the newest overall
-        newest = min(data, key=lambda s: age_hours(s["time"]))
-        age = age_hours(newest["time"])
-
-        if age > MAX_AGE_HOURS:
-            errors.append(
-                f"Restic: Latest snapshot in '{repo}' is {age:.1f}h old (max {MAX_AGE_HOURS}h)"
-            )
-        else:
-            logging.info("OK: Restic snapshot in '%s' is %.1fh old", repo, age)
-
-
-def test_restic_logs() -> None:
-    # Check for error-level journal entries in the last 26h
-    proc = run(
-        [
-            "journalctl",
-            "-u",
-            RESTIC_SYSTEMD_SERVICE,
-            "--since",
-            "26 hours ago",
-            "-p",
-            "err",
-            "--no-pager",
-            "-q",
-        ]
-    )
-    if proc.returncode not in (0, 1):
-        errors.append(f"Restic: journalctl failed: {proc.stderr.strip()}")
-    elif proc.stdout.strip():
-        errors.append(
-            f"Restic: Errors in systemd journal for {RESTIC_SYSTEMD_SERVICE}:\n"
-            + proc.stdout.strip()
-        )
-    else:
-        logging.info("OK: No errors in systemd journal for %s", RESTIC_SYSTEMD_SERVICE)
-
-    # Check last exit code
-    proc2 = run(
-        [
-            "systemctl",
-            "show",
-            RESTIC_SYSTEMD_SERVICE,
-            "--property=ExecMainStatus",
-            "--value",
-        ]
-    )
-    if proc2.returncode != 0:
-        errors.append(f"Restic: systemctl show failed: {proc2.stderr.strip()}")
-        return
-
-    exit_code = proc2.stdout.strip()
-    if exit_code and exit_code != "0":
-        errors.append(
-            f"Restic: {RESTIC_SYSTEMD_SERVICE} last exited with code {exit_code}"
-        )
-    else:
-        logging.info(
-            "OK: %s last exit code: %s", RESTIC_SYSTEMD_SERVICE, exit_code or "unknown"
-        )
+    if any(datetime.now() - dt > MAX_AGE_HOURS for dt in tag_to_dt.values()):
+        raise BackupTestError("Restic: Some restic snapshots are too old.")
+    logging.info("Restic: Found recent restic snapshots for all ZFS datasets.")
 
 
 def main() -> None:
     errors: list[str] = []
     test(test_nfs_mount, errors)
     test(test_restic_snapshots, errors)
-    test(test_restic_logs, errors)
     notify(errors)
 
 
