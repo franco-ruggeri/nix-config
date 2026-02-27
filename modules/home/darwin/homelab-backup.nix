@@ -16,7 +16,7 @@ let
     RESTIC_FEATURES = "device-id-for-hardlinks";
   };
   scriptSecrets = ''
-    export RESTIC_REPOSITORY_FILE=${config.age.secrets.restic-repository-laptop.path} && \
+    export RESTIC_REPOSITORY_FILE=${cfg.resticRepositoryFile} && \
     export RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path} && \
     export SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path}
   '';
@@ -32,6 +32,7 @@ in
   options.myModules.home.homelab.backup = {
     enable = lib.mkEnableOption "Enable backups for homelab";
     serverAddress = lib.mkOption { type = lib.types.str; };
+    resticRepositoryFile = lib.mkOption { type = lib.types.str; };
   };
 
   config = lib.mkIf cfg.enable {
@@ -125,7 +126,6 @@ in
     };
 
     age.secrets = myLib.mkSecrets [
-      "restic-repository-laptop"
       "restic-password"
       "smtp-password"
     ];
