@@ -80,35 +80,26 @@ in
           "10.34.0.5/32"
           "10.34.0.6/32"
         ];
+        rootExport = myLib.mkNfsExport {
+          allowedIPs = rwIPs ++ roIPs;
+          options = rootOptions;
+        };
+        rwExport = myLib.mkNfsExport {
+          allowedIPs = rwIPs;
+          options = rwOptions;
+        };
+        roExport = myLib.mkNfsExport {
+          allowedIPs = roIPs;
+          options = roOptions;
+        };
+        nonRootExport = "${rwExport} ${roExport}";
       in
       {
         enable = true;
         exports = ''
-          ${myLib.mkNfsExport {
-            path = "/srv/nfs";
-            allowedIPs = roIPs ++ rwIPs;
-            options = rootOptions;
-          }}
-          ${myLib.mkNfsExport {
-            path = "/srv/nfs/k8s-nfs";
-            allowedIPs = rwIPs;
-            options = rwOptions;
-          }}
-          ${myLib.mkNfsExport {
-            path = "/srv/nfs/k8s-longhorn";
-            allowedIPs = rwIPs;
-            options = rwOptions;
-          }}
-          ${myLib.mkNfsExport {
-            path = "/srv/nfs/k8s-nfs-ro";
-            allowedIPs = roIPs;
-            options = roOptions;
-          }}
-          ${myLib.mkNfsExport {
-            path = "/srv/nfs/k8s-longhorn-ro";
-            allowedIPs = roIPs;
-            options = roOptions;
-          }}
+          /srv/nfs ${rootExport}
+          /srv/nfs/k8s-nfs ${nonRootExport}
+          /srv/nfs/k8s-longhorn ${nonRootExport}
         '';
       };
 

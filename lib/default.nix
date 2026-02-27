@@ -100,13 +100,12 @@ rec {
 
   mkNfsExport =
     {
-      path,
       allowedIPs,
       options,
     }:
     let
       allowedIPWithOptions = map (ip: "${ip}(${options})") allowedIPs;
-      export = "${path} ${lib.concatStringsSep " " allowedIPWithOptions}";
+      export = "${lib.concatStringsSep " " allowedIPWithOptions}";
     in
     export;
 
