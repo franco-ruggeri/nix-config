@@ -8,11 +8,12 @@ from pathlib import Path
 
 from homelab_test_backup_utils import MAX_AGE_HOURS, BackupTestError, notify, run, test
 
-ZFS_DATASETS = {"k8s-nfs-ro", "k8s-longhorn-ro"}
+ZFS_DATASETS = {"k8s-nfs", "k8s-longhorn"}
 
 
 def test_nfs_mount() -> None:
     nfs_mount_path = os.environ.get("NFS_MOUNT_PATH")
+    assert nfs_mount_path is not None
     for zfs_dataset in ZFS_DATASETS:
         path = Path(nfs_mount_path) / zfs_dataset / ".zfs" / "snapshot"
         zfs_snapshots = list(path.iterdir())

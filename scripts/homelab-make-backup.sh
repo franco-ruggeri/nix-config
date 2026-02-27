@@ -3,8 +3,8 @@
 set -e
 
 ZFS_DATASETS=(
-	"$NFS_MOUNT_PATH/k8s-nfs-ro"
-	"$NFS_MOUNT_PATH/k8s-longhorn-ro"
+	"$NFS_MOUNT_PATH/k8s-nfs"
+	"$NFS_MOUNT_PATH/k8s-longhorn"
 )
 
 if ! restic cat config; then
