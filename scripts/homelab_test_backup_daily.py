@@ -2,20 +2,19 @@
 
 import json
 import logging
+import os
 from datetime import datetime
 from pathlib import Path
 
 from homelab_test_backup_utils import MAX_AGE_HOURS, BackupTestError, notify, run, test
 
-NFS_MOUNT_PATH = "/mnt/nfs"  # TODO: configure it from systemd/launchd
-
 ZFS_DATASETS = {"k8s-nfs-ro", "k8s-longhorn-ro"}
-RESTIC_SYSTEMD_SERVICE = "restic@backup.service"
 
 
 def test_nfs_mount() -> None:
+    nfs_mount_path = os.environ.get("NFS_MOUNT_PATH")
     for zfs_dataset in ZFS_DATASETS:
-        path = Path(NFS_MOUNT_PATH) / zfs_dataset / ".zfs" / "snapshot"
+        path = Path(nfs_mount_path) / zfs_dataset / ".zfs" / "snapshot"
         zfs_snapshots = list(path.iterdir())
         if len(zfs_snapshots) == 0:
             raise BackupTestError(f"NFS: No ZFS snapshots found for {zfs_dataset}.")

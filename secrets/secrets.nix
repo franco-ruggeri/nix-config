@@ -16,9 +16,9 @@ in
   ];
   "smtp-password.age".publicKeys = [
     systemDesktop
-    systemLaptop
     systemServerTurin
     systemServerStockholm
+    homeLaptop
   ];
   "k3s-token.age".publicKeys = [ systemDesktop ];
   "wireguard-desktop-private-key.age".publicKeys = [ systemDesktop ];

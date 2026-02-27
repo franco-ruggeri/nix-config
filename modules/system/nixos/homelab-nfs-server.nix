@@ -126,13 +126,13 @@ in
           serviceConfig =
             let
               scriptDir = myLib.mkPythonScripts {
-                derivationName = "homelab_test_backup_1";
+                derivationName = "homelab_test_backup_source";
                 scriptNames = [
-                  "homelab_test_backup_1.py"
+                  "homelab_test_backup_source.py"
                   "homelab_test_backup_utils.py"
                 ];
               };
-              scriptPath = "${scriptDir}/homelab_test_backup_1.py";
+              scriptPath = "${scriptDir}/homelab_test_backup_source.py";
             in
             {
               Type = "oneshot";
