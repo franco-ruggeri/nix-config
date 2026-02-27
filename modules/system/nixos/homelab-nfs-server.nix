@@ -94,37 +94,38 @@ in
       };
 
     systemd = {
-      services = {
-        homelab-chmod-backup = {
-          description = "Homelab chmod backup";
-          serviceConfig = {
-            Type = "oneshot";
-            ExecStart = myLib.mkShellScript "homelab-chmod-backup.sh";
+      services =
+        let
+          environment = [
+            "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
+            "SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path}"
+          ];
+          pythonScriptDir = myLib.mkPythonScriptDir {
+            derivationName = "homelab_test_backup_source";
+            scriptNames = [
+              "homelab_test_backup_source.py"
+              "homelab_test_backup_utils.py"
+            ];
           };
-        };
-        homelab-test-backup =
-          let
-            pythonScriptDir = myLib.mkPythonScriptDir {
-              derivationName = "homelab_test_backup_source";
-              scriptNames = [
-                "homelab_test_backup_source.py"
-                "homelab_test_backup_utils.py"
-              ];
+        in
+        {
+          homelab-chmod-backup = {
+            description = "Homelab chmod backup";
+            serviceConfig = {
+              Type = "oneshot";
+              ExecStart = myLib.mkShellScript "homelab-chmod-backup.sh";
             };
-          in
-          {
+          };
+          homelab-test-backup = {
             description = "Homelab test backup";
             serviceConfig = {
               Type = "oneshot";
               ExecStart = "${pythonScriptDir}/homelab_test_backup_source.py";
               WorkingDirectory = pythonScriptDir;
-              Environment = [
-                "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
-                "SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path}"
-              ];
+              Environment = environment;
             };
           };
-      };
+        };
       timers = {
         homelab-chmod-backup = {
           description = "Homelab chmod backup";

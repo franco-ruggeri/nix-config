@@ -8,23 +8,6 @@
 }:
 let
   cfg = config.myModules.system.homelab.backup;
-  environment = [
-    "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
-    "NFS_SERVER_ADDRESS=${config.myModules.system.homelab.nfs.client.serverAddress}"
-    "RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path}"
-    "RESTIC_REPOSITORY=/mnt/zfs/k8s-backup"
-    "RESTIC_CACHE_DIR=/tmp/restic-cache"
-    "NFS_MOUNT_PATH=/mnt/nfs"
-  ];
-  pythonScriptDir = myLib.mkPythonScriptDir {
-    derivationName = "homelab_test_backup_daily";
-    scriptNames = [
-      "homelab_test_backup_daily.py"
-      "homelab_test_backup_weekly.py"
-      "homelab_test_backup_monthly.py"
-      "homelab_test_backup_utils.py"
-    ];
-  };
 in
 {
   options.myModules.system.homelab.backup.enable = lib.mkEnableOption "Enable backups for homelab";
@@ -43,40 +26,61 @@ in
     ];
 
     systemd = {
-      services = {
-        homelab-make-backup = {
-          description = "Homelab make backup";
-          serviceConfig = {
-            Type = "oneshot";
-            ExecStart = myLib.mkShellScript "homelab-make-backup.sh";
-            Environment = environment;
+      services =
+        let
+          environment = [
+            "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
+            "NFS_SERVER_ADDRESS=${config.myModules.system.homelab.nfs.client.serverAddress}"
+            "RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path}"
+            "RESTIC_REPOSITORY=/mnt/zfs/k8s-backup"
+            "RESTIC_CACHE_DIR=/tmp/restic-cache"
+            "NFS_MOUNT_PATH=/mnt/nfs"
+            "SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path}"
+          ];
+          pythonScriptDir = myLib.mkPythonScriptDir {
+            derivationName = "homelab_test_backup_daily";
+            scriptNames = [
+              "homelab_test_backup_daily.py"
+              "homelab_test_backup_weekly.py"
+              "homelab_test_backup_monthly.py"
+              "homelab_test_backup_utils.py"
+            ];
+          };
+        in
+        {
+          homelab-make-backup = {
+            description = "Homelab make backup";
+            serviceConfig = {
+              Type = "oneshot";
+              ExecStart = myLib.mkShellScript "homelab-make-backup.sh";
+              Environment = environment;
+            };
+          };
+          homelab-test-backup-daily = {
+            description = "Homelab test backup daily";
+            serviceConfig = {
+              Type = "oneshot";
+              ExecStart = "${pythonScriptDir}/homelab_test_backup_daily.py";
+              Environment = environment;
+            };
+          };
+          homelab-test-backup-weekly = {
+            description = "Homelab test backup weekly";
+            serviceConfig = {
+              Type = "oneshot";
+              ExecStart = "${pythonScriptDir}/homelab_test_backup_weekly.py";
+              Environment = environment;
+            };
+          };
+          homelab-test-backup-monthly = {
+            description = "Homelab test backup monthly";
+            serviceConfig = {
+              Type = "oneshot";
+              ExecStart = "${pythonScriptDir}/homelab_test_backup_monthly.py";
+              Environment = environment;
+            };
           };
         };
-        homelab-test-backup-daily = {
-          description = "Homelab test backup daily";
-          serviceConfig = {
-            Type = "oneshot";
-            ExecStart = "${pythonScriptDir}/homelab_test_backup_daily.py";
-            Environment = environment;
-          };
-        };
-        homelab-test-backup-weekly = {
-          description = "Homelab test backup weekly";
-          serviceConfig = {
-            Type = "oneshot";
-            ExecStart = "${pythonScriptDir}/homelab_test_backup_weekly.py";
-            Environment = environment;
-          };
-        };
-        homelab-test-backup-monthly = {
-          description = "Homelab test backup monthly";
-          serviceConfig = {
-            Type = "oneshot";
-            ExecStart = "${pythonScriptDir}/homelab_test_backup_monthly.py";
-            Environment = environment;
-          };
-        };
-      };
       timers = {
         homelab-make-backup = {
           description = "Homelab make backup";
@@ -113,6 +117,9 @@ in
       };
     };
 
-    age.secrets = myLib.mkSecrets [ "restic-password" ];
+    age.secrets = myLib.mkSecrets [
+      "restic-password"
+      "smtp-password"
+    ];
   };
 }
