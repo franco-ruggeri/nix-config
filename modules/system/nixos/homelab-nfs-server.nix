@@ -23,9 +23,7 @@ in
       }
     ];
 
-    environment.systemPackages = with pkgs; [
-      python3
-    ];
+    environment.systemPackages = with pkgs; [ python3 ];
 
     networking.firewall.allowedTCPPorts = [ 2049 ];
 

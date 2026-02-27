@@ -37,7 +37,10 @@ in
       }
     ];
 
-    environment.systemPackages = with pkgs; [ restic ];
+    environment.systemPackages = with pkgs; [
+      restic
+      python3
+    ];
 
     systemd = {
       services = {
