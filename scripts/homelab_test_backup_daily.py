@@ -38,10 +38,6 @@ def test_restic_snapshots() -> None:
     if not data:
         raise Exception("Restic: No restic snapshots found.")
 
-    tags = [tag for snapshot in data for tag in snapshot["tags"]]
-    if set(tags) != ZFS_DATASETS:
-        raise Exception("Restic: Not all the ZFS datasets have restic snapshots.")
-
     tag_to_size: dict[str, float] = {}
     tag_to_dt: dict[str, datetime] = {}
     for snapshot in data:
@@ -54,6 +50,8 @@ def test_restic_snapshots() -> None:
             tag_to_dt[tag] = dt
             tag_to_size[tag] = snapshot["summary"]["total_bytes_processed"]
 
+    if set(tag_to_dt.keys()) != ZFS_DATASETS:
+        raise Exception("Restic: Not all the ZFS datasets have restic snapshots.")
     if any(datetime.now() - dt > MAX_AGE_HOURS for dt in tag_to_dt.values()):
         raise Exception("Restic: Some restic snapshots are too old.")
     if any(size == 0 for size in tag_to_size.values()):
