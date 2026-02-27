@@ -96,8 +96,8 @@ def test_longhorn_backups() -> None:
 
 def main() -> None:
     errors: list[str] = []
-    test(test_zfs_snapshots, errors)
-    test(test_longhorn_backups, errors)
+    test(test_fn=test_zfs_snapshots, errors=errors)
+    test(test_fn=test_longhorn_backups, errors=errors)
     notify(errors)
 
 

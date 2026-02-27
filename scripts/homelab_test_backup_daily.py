@@ -40,22 +40,29 @@ def test_restic_snapshots() -> None:
     if set(tags) != ZFS_DATASETS:
         raise Exception("Restic: Not all the ZFS datasets have restic snapshots.")
 
+    tag_to_size: dict[str, float] = {}
     tag_to_dt: dict[str, datetime] = {}
     for snapshot in data:
-        for tag in snapshot["tags"]:
-            dt = datetime.strptime(snapshot["time"], "%Y-%m-%dT%H:%M:%S.%f%z")
-            if tag not in tag_to_dt or dt > tag_to_dt[tag]:
-                tag_to_dt[tag] = dt
+        tags = snapshot["tags"]
+        if len(tags) != 1:
+            raise Exception("Restic: Each restic snapshot should have exactly one tag.")
+        tag = tags[0]
+        dt = datetime.strptime(snapshot["time"], "%Y-%m-%dT%H:%M:%S.%f%z")
+        if tag not in tag_to_dt or dt > tag_to_dt[tag]:
+            tag_to_dt[tag] = dt
+            tag_to_size[tag] = snapshot["data_size"]
 
     if any(datetime.now() - dt > MAX_AGE_HOURS for dt in tag_to_dt.values()):
         raise Exception("Restic: Some restic snapshots are too old.")
-    logging.info("Restic: Found recent restic snapshots for all ZFS datasets.")
+    if any(size < 1 for size in tag_to_size.values()):
+        raise Exception("Restic: Some restic snapshots have size 0.")
+    logging.info("Restic: Found valid restic snapshots for all ZFS datasets.")
 
 
 def main() -> None:
     errors: list[str] = []
-    test(test_nfs_mount, errors)
-    test(test_restic_snapshots, errors)
+    test(test_fn=test_nfs_mount, errors=errors)
+    test(test_fn=test_restic_snapshots, errors=errors)
     notify(errors)
 
 
