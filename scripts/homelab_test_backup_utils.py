@@ -47,15 +47,20 @@ def test(test_fn: Callable[[], None], errors: list[str]) -> None:
 def notify(errors: list[str]) -> None:
     hostname = socket.gethostname()
     result = "FAILED" if errors else "PASSED"
-    subject = f"[{hostname}] Backup tests {result}"
+    subject = f"[Homelab] Backup tests {result}"
     body_lines = [
-        f"Hostname: {hostname}",
-        f"Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
-        f"Script: {sys.argv[0]}",
-        f"Result: {result}",
-        "",
-        *[f"  - {e}" for e in errors],
+        "Context:",
+        f"- Hostname: {hostname}",
+        f"- Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+        f"- Script: {sys.argv[0]}",
+        f"- Result: {result}",
     ]
+    if errors:
+        body_lines += [
+            "",
+            "Errors:",
+            *[f"- {e}" for e in errors],
+        ]
     body = "\n".join(body_lines)
 
     msg = EmailMessage()
