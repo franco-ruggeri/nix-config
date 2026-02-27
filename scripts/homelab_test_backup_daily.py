@@ -3,7 +3,7 @@
 import json
 import logging
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 from homelab_test_backup_utils import MAX_AGE_HOURS, notify, run, test
@@ -52,7 +52,8 @@ def test_restic_snapshots() -> None:
 
     if set(tag_to_dt.keys()) != ZFS_DATASETS:
         raise Exception("Restic: Not all the ZFS datasets have restic snapshots.")
-    if any(datetime.now() - dt > MAX_AGE_HOURS for dt in tag_to_dt.values()):
+    now = datetime.now(timezone.utc)
+    if any(now - dt > MAX_AGE_HOURS for dt in tag_to_dt.values()):
         raise Exception("Restic: Some restic snapshots are too old.")
     if any(size == 0 for size in tag_to_size.values()):
         raise Exception("Restic: Some restic snapshots have size 0.")
