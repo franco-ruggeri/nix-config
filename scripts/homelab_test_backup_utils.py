@@ -3,6 +3,7 @@ import os
 import smtplib
 import socket
 import subprocess
+import sys
 from datetime import datetime, timedelta
 from email.message import EmailMessage
 from subprocess import CompletedProcess
@@ -48,7 +49,10 @@ def notify(errors: list[str]) -> None:
     result = "FAILED" if errors else "PASSED"
     subject = f"[{hostname}] Backup tests {result}"
     body_lines = [
-        f"Backup tests {result} on {hostname} at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+        f"Hostname: {hostname}",
+        f"Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+        f"Script: {sys.argv[0]}",
+        f"Result: {result}",
         "",
         *[f"  - {e}" for e in errors],
     ]
