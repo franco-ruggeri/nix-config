@@ -12,8 +12,9 @@ if ! restic cat config; then
 	restic init
 fi
 
-for zfs_dataset in "${ZFS_DATASETS[@]}"; do
-	zfs_snapshot=$(find "$zfs_dataset/.zfs/snapshot" -mindepth 1 -maxdepth 1 -type d | sort | tail -n1)
+for zfs_dataset_path in "${ZFS_DATASETS[@]}"; do
+	zfs_dataset=$(basename "$zfs_dataset_path")
+	zfs_snapshot=$(find "$zfs_dataset_path/.zfs/snapshot" -mindepth 1 -maxdepth 1 -type d | sort | tail -n1)
 
 	echo "Backing up $zfs_snapshot..."
 	cd "$zfs_snapshot" # to have relative paths in the backup
