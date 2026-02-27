@@ -3,8 +3,8 @@
 set -e
 
 ZFS_DATASETS=(
-	"$NFS_MOUNT_PATH/k8s-nfs"
-	"$NFS_MOUNT_PATH/k8s-longhorn"
+	"k8s-nfs"
+	"k8s-longhorn"
 )
 
 if ! restic cat config; then
@@ -12,8 +12,8 @@ if ! restic cat config; then
 	restic init
 fi
 
-for zfs_dataset_path in "${ZFS_DATASETS[@]}"; do
-	zfs_dataset=$(basename "$zfs_dataset_path")
+for zfs_dataset in "${ZFS_DATASETS[@]}"; do
+	zfs_dataset_path="$NFS_MOUNT_PATH/$zfs_dataset"
 	zfs_snapshot=$(find "$zfs_dataset_path/.zfs/snapshot" -mindepth 1 -maxdepth 1 -type d | sort | tail -n1)
 
 	echo "Backing up $zfs_snapshot..."
@@ -29,7 +29,7 @@ for zfs_dataset_path in "${ZFS_DATASETS[@]}"; do
 done
 
 echo "Pruning old snapshots..."
-restic forget --keep-daily=7 --keep-weekly=4 --keep-monthly=6
+restic forget --group-by=tags --keep-daily=7 --keep-weekly=4 --keep-monthly=6
 restic prune
 
 # TODO: this should be part of the tests (?)
