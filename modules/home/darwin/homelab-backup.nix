@@ -80,6 +80,48 @@ in
           StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/homelab-test-backup-daily/error.log";
         };
       };
+      homelab-test-backup-weekly = {
+        enable = true;
+        config = {
+          Label = "org.nixos.homelab-test-backup-weekly";
+          ProgramArguments = [
+            "bash"
+            "-c"
+            "${scriptSecrets} && ${pythonScriptDir}/homelab_test_backup_weekly.py"
+          ];
+          StartCalendarInterval = [
+            {
+              Weekday = 1;
+              Hour = 13;
+              Minute = 0;
+            }
+          ];
+          EnvironmentVariables = environmentVariables;
+          StandardOutPath = "${config.home.homeDirectory}/Library/Logs/homelab-test-backup-weekly/out.log";
+          StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/homelab-test-backup-weekly/error.log";
+        };
+      };
+      homelab-test-backup-monthly = {
+        enable = true;
+        config = {
+          Label = "org.nixos.homelab-test-backup-monthly";
+          ProgramArguments = [
+            "bash"
+            "-c"
+            "${scriptSecrets} && ${pythonScriptDir}/homelab_test_backup_monthly.py"
+          ];
+          StartCalendarInterval = [
+            {
+              Day = 1;
+              Hour = 13;
+              Minute = 0;
+            }
+          ];
+          EnvironmentVariables = environmentVariables;
+          StandardOutPath = "${config.home.homeDirectory}/Library/Logs/homelab-test-backup-monthly/out.log";
+          StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/homelab-test-backup-monthly/error.log";
+        };
+      };
     };
 
     age.secrets = myLib.mkSecrets [
