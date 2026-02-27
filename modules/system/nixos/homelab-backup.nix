@@ -55,6 +55,22 @@ in
             Environment = environment;
           };
         };
+        homelab-test-backup-weekly = {
+          description = "Homelab test backup weekly";
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${pythonScriptDir}/homelab_test_backup_weekly.py";
+            Environment = environment;
+          };
+        };
+        homelab-test-backup-monthly = {
+          description = "Homelab test backup monthly";
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${pythonScriptDir}/homelab_test_backup_monthly.py";
+            Environment = environment;
+          };
+        };
       };
       timers = {
         homelab-make-backup = {
@@ -70,6 +86,22 @@ in
           wantedBy = [ "timers.target" ];
           timerConfig = {
             OnCalendar = "01:00";
+            Persistent = true;
+          };
+        };
+        homelab-test-backup-weekly = {
+          description = "Homelab test backup weekly";
+          wantedBy = [ "timers.target" ];
+          timerConfig = {
+            OnCalendar = "Mon *-*-* 01:00";
+            Persistent = true;
+          };
+        };
+        homelab-test-backup-monthly = {
+          description = "Homelab test backup monthly";
+          wantedBy = [ "timers.target" ];
+          timerConfig = {
+            OnCalendar = "*-*-1 01:00";
             Persistent = true;
           };
         };
