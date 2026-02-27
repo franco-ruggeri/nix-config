@@ -9,8 +9,8 @@ in
   config = lib.mkIf cfg.enable {
     environment.etc."auto_nfs" = {
       text = ''
-        k8s-nfs-ro -fstype=nfs,vers=4,resvport 10.34.0.2:/k8s-nfs-ro
-        k8s-longhorn-ro -fstype=nfs,vers=4,resvport 10.34.0.2:/k8s-longhorn-ro
+        k8s-nfs -fstype=nfs,vers=4,resvport 10.34.0.2:/k8s-nfs
+        k8s-longhorn -fstype=nfs,vers=4,resvport 10.34.0.2:/k8s-longhorn
       '';
     };
   };
