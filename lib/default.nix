@@ -11,7 +11,6 @@ rec {
       mkConfigDir = map (path: {
         name = path;
         value = {
-          # TODO: try interpolation also for dotfilesConfigDir... here and in the rest of the functions
           source = dotfilesConfigDir + "/${path}";
           recursive = true;
         };
