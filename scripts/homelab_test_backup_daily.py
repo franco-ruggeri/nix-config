@@ -35,6 +35,8 @@ def test_nfs_mount() -> None:
 def test_restic_snapshots() -> None:
     result = run(["restic", "snapshots", "--json"])
     data = json.loads(result.stdout)
+    if not data:
+        raise Exception("Restic: No restic snapshots found.")
 
     tags = [tag for snapshot in data for tag in snapshot["tags"]]
     if set(tags) != ZFS_DATASETS:
@@ -50,11 +52,11 @@ def test_restic_snapshots() -> None:
         dt = datetime.strptime(snapshot["time"], "%Y-%m-%dT%H:%M:%S.%f%z")
         if tag not in tag_to_dt or dt > tag_to_dt[tag]:
             tag_to_dt[tag] = dt
-            tag_to_size[tag] = snapshot["data_size"]
+            tag_to_size[tag] = snapshot["summary"]["total_bytes_processed"]
 
     if any(datetime.now() - dt > MAX_AGE_HOURS for dt in tag_to_dt.values()):
         raise Exception("Restic: Some restic snapshots are too old.")
-    if any(size < 1 for size in tag_to_size.values()):
+    if any(size == 0 for size in tag_to_size.values()):
         raise Exception("Restic: Some restic snapshots have size 0.")
     logging.info("Restic: Found valid restic snapshots for all ZFS datasets.")
 
