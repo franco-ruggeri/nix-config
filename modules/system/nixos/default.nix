@@ -49,7 +49,6 @@ in
 
   hardware = {
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-    amdgpu.opencl.enable = true;
     openrazer = {
       enable = true;
       users = [ config.myModules.system.username ];

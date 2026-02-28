@@ -22,6 +22,8 @@
 
   networking.hostId = "1c86da41";
 
+  hardware.amdgpu.opencl.enable = true;
+
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-uuid/29a0ee53-d35d-46a6-995d-8dc45df233ad";
