@@ -20,7 +20,7 @@ in
             user = "franco-ruggeri";
             url = "https://www.nextcloud.ruggeri.ddnsfree.com/remote.php/dav/files/${user}";
             vendor = "nextcloud";
-            vfs_cache_mode = "writes";
+            vfs_cache_mode = "full";
           };
           secrets = {
             pass = config.age.secrets.rclone-nextcloud-password.path;
