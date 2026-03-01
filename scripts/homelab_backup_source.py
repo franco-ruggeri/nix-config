@@ -17,6 +17,7 @@ LONGHORN_STORAGE_CLASS = "longhorn"
 
 def chmod_zfs() -> None:
     for zfs_dataset in ZFS_DATASETS:
+        logging.info(f"ZFS: Setting permissions for {zfs_dataset} to 755...")
         run_shell_cmd(
             [
                 "chmod",
@@ -25,6 +26,7 @@ def chmod_zfs() -> None:
                 f"/mnt/zfs/{zfs_dataset}",
             ]
         )
+        logging.info(f"ZFS: Set permissions for {zfs_dataset} to 755.")
 
 
 def test_zfs_snapshots() -> None:
