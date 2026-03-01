@@ -28,7 +28,7 @@ in
     systemd =
       let
         pythonScriptDir = myLib.mkPythonScriptDir {
-          derivationName = "homelab_test_backup_daily";
+          derivationName = "homelab_backup_daily";
           scriptNames = [
             "homelab_backup_source.py"
             "homelab_backup_utils.py"

@@ -96,10 +96,10 @@ in
     systemd =
       let
         pythonScriptDir = myLib.mkPythonScriptDir {
-          derivationName = "homelab_test_backup_source";
+          derivationName = "homelab_backup_source";
           scriptNames = [
-            "homelab_test_backup_source.py"
-            "homelab_test_backup_utils.py"
+            "homelab_backup_source.py"
+            "homelab_backup_utils.py"
           ];
         };
       in

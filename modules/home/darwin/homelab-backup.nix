@@ -21,7 +21,7 @@ in
     launchd.agents =
       let
         pythonScriptDir = myLib.mkPythonScriptDir {
-          derivationName = "homelab_test_backup_daily";
+          derivationName = "homelab_backup_server";
           scriptNames = [
             "homelab_backup_server.py"
             "homelab_backup_utils.py"
