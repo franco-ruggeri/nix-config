@@ -15,7 +15,7 @@ from homelab_backup_utils import (
 LONGHORN_STORAGE_CLASS = "longhorn"
 
 
-def chmod_zfs() -> None:
+def chmod_zfs_datasets() -> None:
     for zfs_dataset in ZFS_DATASETS:
         logging.info(f"ZFS: Setting permissions for {zfs_dataset} to 755...")
         run_shell_cmd(
@@ -54,7 +54,8 @@ def test_zfs_snapshots() -> None:
     for dataset, dt in dataset_to_dt.items():
         logging.info(f"ZFS: Found snapshot for {dataset} created at {dt}.")
 
-    if set(dataset_to_dt.keys()) != ZFS_DATASETS:
+    datasets = {f"zfs/{dataset}" for dataset in ZFS_DATASETS}
+    if set(dataset_to_dt.keys()) != datasets:
         raise Exception("ZFS: Not all the ZFS datasets have snapshosts.")
     logging.info("ZFS: Found snapshots for all the ZFS datasets.")
 
@@ -113,7 +114,7 @@ def test_longhorn_backups() -> None:
 
 def main() -> None:
     errors: list[str] = []
-    run_and_log(run_fn=chmod_zfs, errors=errors)
+    run_and_log(run_fn=chmod_zfs_datasets, errors=errors)
     run_and_log(run_fn=test_zfs_snapshots, errors=errors)
     run_and_log(run_fn=test_longhorn_backups, errors=errors)
     notify(errors)
