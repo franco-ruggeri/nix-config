@@ -40,20 +40,16 @@ def restic_backup():
         snapshots.sort()
         snapshot = snapshots[-1]
         logging.info(f"Backing up {snapshot}...")
-        try:
-            run_shell_cmd(
-                cmd=[
-                    "restic",
-                    "backup",
-                    f"--tag={zfs_dataset}",
-                    "--group-by=tags",
-                    ".",
-                ],
-                cwd=snapshot,
-            )
-        except Exception as e:
-            print(f"Error during backup of {snapshot}: {e}", file=sys.stderr)
-            continue
+        run_shell_cmd(
+            cmd=[
+                "restic",
+                "backup",
+                f"--tag={zfs_dataset}",
+                "--group-by=tags",
+                ".",
+            ],
+            cwd=snapshot,
+        )
         print(f"Backup of {snapshot} completed.")
 
     print("Pruning old snapshots...")
