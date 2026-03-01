@@ -4,16 +4,31 @@ import json
 import logging
 from datetime import datetime
 
-from homelab_test_backup_utils import MAX_AGE_HOURS, notify, run, test
+from homelab_backup_utils import (
+    MAX_AGE_HOURS,
+    ZFS_DATASETS,
+    notify,
+    run_shell_cmd,
+    run_and_log,
+)
 
-ZFS_DATASETS = {"zfs/k8s-nfs", "zfs/k8s-longhorn"}
 LONGHORN_STORAGE_CLASS = "longhorn"
 
-logging.basicConfig(level=logging.INFO)
+
+def chmod_zfs() -> None:
+    for zfs_dataset in ZFS_DATASETS:
+        run_shell_cmd(
+            [
+                "chmod",
+                "-R",
+                "755",
+                f"/mnt/zfs/{zfs_dataset}",
+            ]
+        )
 
 
 def test_zfs_snapshots() -> None:
-    result = run(
+    result = run_shell_cmd(
         [
             "zfs",
             "list",
@@ -47,7 +62,7 @@ def test_zfs_snapshots() -> None:
 
 
 def test_longhorn_backups() -> None:
-    result = run(["kubectl", "get", "pv", "-o", "json"])
+    result = run_shell_cmd(["kubectl", "get", "pv", "-o", "json"])
     data = json.loads(result.stdout)
     pv_to_pvc: dict[str, str] = {}
     for pv in data.get("items"):
@@ -59,7 +74,7 @@ def test_longhorn_backups() -> None:
     if not pv_to_pvc:
         raise Exception("Longhorn: No Longhorn PVs found.")
 
-    result = run(
+    result = run_shell_cmd(
         [
             "kubectl",
             "get",
@@ -96,10 +111,7 @@ def test_longhorn_backups() -> None:
 
 def main() -> None:
     errors: list[str] = []
-    test(test_fn=test_zfs_snapshots, errors=errors)
-    test(test_fn=test_longhorn_backups, errors=errors)
+    run_and_log(run_fn=chmod_zfs, errors=errors)
+    run_and_log(run_fn=test_zfs_snapshots, errors=errors)
+    run_and_log(run_fn=test_longhorn_backups, errors=errors)
     notify(errors)
-
-
-if __name__ == "__main__":
-    main()

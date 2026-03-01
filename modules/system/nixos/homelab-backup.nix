@@ -25,100 +25,46 @@ in
       python3
     ];
 
-    systemd = {
-      services =
-        let
-          environment = [
-            "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
-            "NFS_SERVER_ADDRESS=${config.myModules.system.homelab.nfs.client.serverAddress}"
-            "RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path}"
-            "RESTIC_REPOSITORY=/mnt/zfs/k8s-backup"
-            "RESTIC_CACHE_DIR=/tmp/restic-cache"
-            "NFS_MOUNT_PATH=/mnt/nfs"
-            "SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path}"
-            # Needed to avoid considering all files changed for every new ZFS snapshot.
-            # See https://forum.restic.net/t/backing-up-zfs-snapshots-good-idea/9604
-            "RESTIC_FEATURES=device-id-for-hardlinks"
+    systemd =
+      let
+        pythonScriptDir = myLib.mkPythonScriptDir {
+          derivationName = "homelab_test_backup_daily";
+          scriptNames = [
+            "homelab_backup_source.py"
+            "homelab_backup_utils.py"
           ];
-          pythonScriptDir = myLib.mkPythonScriptDir {
-            derivationName = "homelab_test_backup_daily";
-            scriptNames = [
-              "homelab_test_backup_daily.py"
-              "homelab_test_backup_weekly.py"
-              "homelab_test_backup_monthly.py"
-              "homelab_test_backup_utils.py"
+        };
+      in
+      {
+        services.homelab-backup = {
+          description = "Homelab make backup";
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${pythonScriptDir}/homelab_backup_source.py";
+            WorkingDirectory = pythonScriptDir;
+            Environment = [
+              "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
+              "NFS_SERVER_ADDRESS=${config.myModules.system.homelab.nfs.client.serverAddress}"
+              "RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path}"
+              "RESTIC_REPOSITORY=/mnt/zfs/k8s-backup"
+              "RESTIC_CACHE_DIR=/tmp/restic-cache"
+              "NFS_MOUNT_PATH=/mnt/nfs"
+              "SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path}"
+              # Needed to avoid considering all files changed for every new ZFS snapshot.
+              # See https://forum.restic.net/t/backing-up-zfs-snapshots-good-idea/9604
+              "RESTIC_FEATURES=device-id-for-hardlinks"
             ];
           };
-        in
-        {
-          homelab-make-backup = {
-            description = "Homelab make backup";
-            serviceConfig = {
-              Type = "oneshot";
-              ExecStart = myLib.mkShellScript "homelab-make-backup.sh";
-              Environment = environment;
-            };
-          };
-          homelab-test-backup-daily = {
-            description = "Homelab test backup daily";
-            serviceConfig = {
-              Type = "oneshot";
-              ExecStart = "${pythonScriptDir}/homelab_test_backup_daily.py";
-              Environment = environment;
-            };
-          };
-          homelab-test-backup-weekly = {
-            description = "Homelab test backup weekly";
-            serviceConfig = {
-              Type = "oneshot";
-              ExecStart = "${pythonScriptDir}/homelab_test_backup_weekly.py";
-              Environment = environment;
-            };
-          };
-          homelab-test-backup-monthly = {
-            description = "Homelab test backup monthly";
-            serviceConfig = {
-              Type = "oneshot";
-              ExecStart = "${pythonScriptDir}/homelab_test_backup_monthly.py";
-              Environment = environment;
-            };
-          };
         };
-      timers = {
-        homelab-make-backup = {
-          description = "Homelab make backup";
+        timers.homelab-backup = {
+          description = "Homelab backup";
           wantedBy = [ "timers.target" ];
           timerConfig = {
             OnCalendar = "02:00";
             Persistent = true;
           };
         };
-        homelab-test-backup-daily = {
-          description = "Homelab test backup daily";
-          wantedBy = [ "timers.target" ];
-          timerConfig = {
-            OnCalendar = "01:00";
-            Persistent = true;
-          };
-        };
-        homelab-test-backup-weekly = {
-          description = "Homelab test backup weekly";
-          wantedBy = [ "timers.target" ];
-          timerConfig = {
-            OnCalendar = "Mon *-*-* 01:00";
-            Persistent = true;
-          };
-        };
-        homelab-test-backup-monthly = {
-          description = "Homelab test backup monthly";
-          wantedBy = [ "timers.target" ];
-          timerConfig = {
-            OnCalendar = "*-*-1 01:00";
-            Persistent = true;
-          };
-        };
       };
-    };
 
     age.secrets = myLib.mkSecrets [
       "restic-password"

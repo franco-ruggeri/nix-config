@@ -6,10 +6,13 @@ import subprocess
 import sys
 from datetime import datetime, timedelta
 from email.message import EmailMessage
+from pathlib import Path
 from subprocess import CompletedProcess
 from typing import Callable
 
+ZFS_DATASETS = {"k8s-nfs", "k8s-longhorn"}
 MAX_AGE_HOURS = timedelta(hours=25)
+
 
 _SMTP_SERVER = "smtp.gmail.com"
 _SMTP_PORT = 465
@@ -20,15 +23,15 @@ _EMAIL_RECIPIENT = _SMTP_USER
 logging.basicConfig(level=logging.INFO)
 
 
-def run(cmd: list[str], env: dict | None = None) -> CompletedProcess:
+def run_shell_cmd(cmd: list[str], cwd: Path | None = None) -> CompletedProcess:
     cmd_str = " ".join(cmd)
-    logging.debug(f"Running: {cmd_str}")
+    logging.debug(f"Running: {cmd_str} (cwd={cwd})")
 
     result = subprocess.run(
         args=cmd,
         capture_output=True,
         text=True,
-        env=env,
+        cwd=cwd,
     )
     if result.returncode != 0:
         raise Exception(f"Command failed: {cmd_str}\n{result.stderr}")
@@ -36,9 +39,9 @@ def run(cmd: list[str], env: dict | None = None) -> CompletedProcess:
     return result
 
 
-def test(test_fn: Callable[[], None], errors: list[str]) -> None:
+def run_and_log(run_fn: Callable[[], None], errors: list[str]) -> None:
     try:
-        test_fn()
+        run_fn()
     except Exception as e:
         logging.error(str(e))
         errors.append(f"FAILED: {e}")
@@ -70,7 +73,10 @@ def notify(errors: list[str]) -> None:
     msg.set_content(body)
 
     smtp_password_file = os.environ.get("SMTP_PASSWORD_FILE")
-    assert smtp_password_file is not None
+    if not smtp_password_file:
+        error = "SMTP_PASSWORD_FILE environment variable is not set."
+        logging.error(error)
+        raise Exception(error)
     with open(smtp_password_file, "r") as f:
         smtp_password = f.read()
 
