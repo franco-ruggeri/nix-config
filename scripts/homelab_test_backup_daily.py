@@ -45,16 +45,15 @@ def test_restic_snapshots() -> None:
         if len(tags) != 1:
             raise Exception("Restic: Each restic snapshot should have exactly one tag.")
         tag = tags[0]
-        dt_str = snapshot["time"][:26] + snapshot["time"][29:]  # remove nanoseconds
-        dt = datetime.strptime(dt_str, "%Y-%m-%dT%H:%M:%S.%f%z")
+        dt_str = snapshot["time"].split(".")[0]  # up to seconds
+        dt = datetime.strptime(dt_str, "%Y-%m-%dT%H:%M:%S")
         if tag not in tag_to_dt or dt > tag_to_dt[tag]:
             tag_to_dt[tag] = dt
             tag_to_size[tag] = snapshot["summary"]["total_bytes_processed"]
 
     if set(tag_to_dt.keys()) != ZFS_DATASETS:
         raise Exception("Restic: Not all the ZFS datasets have restic snapshots.")
-    now = datetime.now(timezone.utc)
-    if any(now - dt > MAX_AGE_HOURS for dt in tag_to_dt.values()):
+    if any(datetime.now() - dt > MAX_AGE_HOURS for dt in tag_to_dt.values()):
         raise Exception("Restic: Some restic snapshots are too old.")
     if any(size == 0 for size in tag_to_size.values()):
         raise Exception("Restic: Some restic snapshots have size 0.")
