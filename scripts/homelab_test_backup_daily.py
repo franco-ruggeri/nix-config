@@ -45,7 +45,8 @@ def test_restic_snapshots() -> None:
         if len(tags) != 1:
             raise Exception("Restic: Each restic snapshot should have exactly one tag.")
         tag = tags[0]
-        dt = datetime.strptime(snapshot["time"], "%Y-%m-%dT%H:%M:%S.%f%z")
+        dt_str = snapshot["time"][:26] + snapshot["time"][29:]  # remove nanoseconds
+        dt = datetime.strptime(dt_str, "%Y-%m-%dT%H:%M:%S.%f%z")
         if tag not in tag_to_dt or dt > tag_to_dt[tag]:
             tag_to_dt[tag] = dt
             tag_to_size[tag] = snapshot["summary"]["total_bytes_processed"]
