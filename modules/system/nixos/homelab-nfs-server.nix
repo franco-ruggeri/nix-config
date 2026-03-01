@@ -116,8 +116,8 @@ in
             ];
           };
         };
-        timers.homelab-chmod-backup = {
-          description = "Homelab chmod backup";
+        timers.homelab-backup = {
+          description = "Homelab backup";
           wantedBy = [ "timers.target" ];
           timerConfig = {
             OnCalendar = "01:00";
