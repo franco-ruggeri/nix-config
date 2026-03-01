@@ -117,3 +117,7 @@ def main() -> None:
     run_and_log(run_fn=test_zfs_snapshots, errors=errors)
     run_and_log(run_fn=test_longhorn_backups, errors=errors)
     notify(errors)
+
+
+if __name__ == "__main__":
+    main()
