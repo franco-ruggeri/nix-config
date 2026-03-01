@@ -30,7 +30,7 @@ in
         pythonScriptDir = myLib.mkPythonScriptDir {
           derivationName = "homelab_backup_daily";
           scriptNames = [
-            "homelab_backup_source.py"
+            "homelab_backup_server.py"
             "homelab_backup_utils.py"
           ];
         };
@@ -40,7 +40,7 @@ in
           description = "Homelab make backup";
           serviceConfig = {
             Type = "oneshot";
-            ExecStart = "${pythonScriptDir}/homelab_backup_source.py";
+            ExecStart = "${pythonScriptDir}/homelab_backup_server.py";
             WorkingDirectory = pythonScriptDir;
             Environment = [
               "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
