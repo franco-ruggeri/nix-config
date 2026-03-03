@@ -67,15 +67,15 @@ def test_zfs_snapshots() -> None:
 def test_longhorn_backups() -> None:
     result = run_shell_cmd(["kubectl", "get", "pv", "-o", "json"])
     data = json.loads(result.stdout)
-    pv_to_pvc: dict[str, str] = {}
+    persistent_volumes: set[str] = set()
     for pv in data.get("items"):
         if pv["spec"]["storageClassName"] != LONGHORN_STORAGE_CLASS:
             continue
-        pvc_ref = pv["spec"]["claimRef"]
-        pvc = f"{pvc_ref['namespace']}/{pvc_ref['name']}"
-        pv_to_pvc[pv["metadata"]["name"]] = pvc
-    if not pv_to_pvc:
+        persistent_volumes.add(pv["metadata"]["name"])
+    if not persistent_volumes:
         raise Exception("Longhorn: No Longhorn PVs found.")
+    for pv in persistent_volumes:
+        logging.info(f"Longhorn: Found PV {pv} using Longhorn storage class.")
 
     result = run_shell_cmd(
         [
@@ -98,18 +98,16 @@ def test_longhorn_backups() -> None:
             backup["status"]["snapshotCreatedAt"],
             "%Y-%m-%dT%H:%M:%SZ",
         )
-        if pv not in pv_to_dt or dt > pv_to_dt[pv]:
+        if pv in persistent_volumes and (pv not in pv_to_dt or dt > pv_to_dt[pv]):
             pv_to_dt[pv] = dt
     for pv, dt in pv_to_dt.items():
         logging.info(f"Longhorn: Found backup for PV {pv} created at {dt}.")
 
-    if pv_to_pvc.keys() <= set(pv_to_dt.keys()):
-        raise Exception("Longhorn: Not all the PVs have backups.")
-    logging.info("Longhorn: Found backups for all the PVs.")
-
+    if set(pv_to_dt.keys()) != persistent_volumes:
+        raise Exception("Longhorn: Some PVs have no backups.")
     if any(datetime.now() - dt > MAX_AGE_HOURS for dt in pv_to_dt.values()):
-        raise Exception("Longhorn: Some Longhorn backups are too old.")
-    logging.info("Longhorn: All Longhorn backups are recent enough.")
+        raise Exception("Longhorn: Some backups are too old.")
+    logging.info("Longhorn: All backups are recent enough.")
 
 
 def main() -> None:
