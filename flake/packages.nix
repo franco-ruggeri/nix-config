@@ -60,6 +60,7 @@
             fluxcd = pkgsUnstable.fluxcd;
             super-productivity = pkgsUnstable.super-productivity;
             spotify = pkgsUnstable.spotify;
+            basedpyright = pkgsUnstable.basedpyright;
             # WARNING: The stable Nix package currently has issues with providers.
             opencode = pkgsUnstable.opencode;
             # WARNING: The stable Nix package is currently broken.

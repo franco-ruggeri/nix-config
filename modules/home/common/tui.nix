@@ -106,7 +106,7 @@ in
           helm-ls
 
           # Python
-          python3Packages.python-lsp-server
+          basedpyright
           python3Packages.debugpy
           ruff
           pylint

@@ -7,6 +7,10 @@ return {
 		view_options = {
 			show_hidden = true,
 		},
+		lsp_file_methods = {
+			timeout_ms = 10000, -- 10 seconds, scanning large codebases can be slow
+			autosave_changes = true,
+		},
 	},
 	config = function(_, opts)
 		require("oil").setup(opts)
