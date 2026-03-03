@@ -3,7 +3,6 @@
 import json
 import logging
 import os
-import re
 from datetime import datetime
 from pathlib import Path
 
@@ -26,8 +25,9 @@ def get_nfs_mount_path() -> Path:
 def get_zfs_snapshot_datetime(name: str) -> datetime:
     parts = name.split("-")
     yyyy, mm, dd = parts[3], parts[4], parts[5]
-    dt_str = f"{yyyy}-{mm}-{dd}"
-    return datetime.strptime(dt_str, "%Y-%m-%d")
+    hh = parts[6].split("h")[0]
+    dt_str = f"{yyyy}-{mm}-{dd} {hh}"
+    return datetime.strptime(dt_str, "%Y-%m-%d %H")
 
 
 def restic_backup():
