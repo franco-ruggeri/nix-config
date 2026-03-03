@@ -37,7 +37,7 @@ in
       in
       {
         services.homelab-backup = {
-          description = "Homelab make backup";
+          description = "Homelab backup";
           serviceConfig = {
             Type = "oneshot";
             ExecStart = "${pythonScriptDir}/homelab_backup_server.py";
