@@ -103,7 +103,7 @@ def test_longhorn_backups() -> None:
     for pv, dt in pv_to_dt.items():
         logging.info(f"Longhorn: Found backup for PV {pv} created at {dt}.")
 
-    if set(pv_to_dt.keys()) != pv_to_pvc.keys():
+    if pv_to_pvc.keys() <= set(pv_to_dt.keys()):
         raise Exception("Longhorn: Not all the PVs have backups.")
     logging.info("Longhorn: Found backups for all the PVs.")
 
