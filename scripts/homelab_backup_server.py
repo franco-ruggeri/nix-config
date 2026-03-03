@@ -34,7 +34,7 @@ def restic_backup():
     try:
         run_shell_cmd(["restic", "cat", "config"])
     except Exception:
-        print("Restic repository not found. Initializing...")
+        logging.info("Restic repository not found. Initializing...")
         run_shell_cmd(["restic", "init"])
 
     nfs_mount_path = get_nfs_mount_path()
@@ -57,9 +57,9 @@ def restic_backup():
             ],
             cwd=snapshot,
         )
-        print(f"Backup of {snapshot} completed.")
+        logging.info(f"Backup of {snapshot} completed.")
 
-    print("Pruning old snapshots...")
+    logging.info("Pruning old snapshots...")
     run_shell_cmd(
         [
             "restic",
