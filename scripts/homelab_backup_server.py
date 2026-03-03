@@ -3,6 +3,7 @@
 import json
 import logging
 import os
+import re
 from datetime import datetime
 from pathlib import Path
 
@@ -22,6 +23,13 @@ def get_nfs_mount_path() -> Path:
     return Path(nfs_mount_path)
 
 
+def get_zfs_snapshot_datetime(name: str) -> datetime:
+    parts = name.split("-")
+    yyyy, mm, dd = parts[3], parts[4], parts[5]
+    dt_str = f"{yyyy}-{mm}-{dd}"
+    return datetime.strptime(dt_str, "%Y-%m-%d")
+
+
 def restic_backup():
     try:
         run_shell_cmd(["restic", "cat", "config"])
@@ -37,8 +45,7 @@ def restic_backup():
         if not snapshots:
             raise Exception(f"No snapshots found for {zfs_dataset}.")
 
-        snapshots.sort()
-        snapshot = snapshots[-1]
+        snapshot = max(snapshots, key=lambda d: get_zfs_snapshot_datetime(d.name))
         logging.info(f"Backing up {snapshot}...")
         run_shell_cmd(
             cmd=[
