@@ -59,11 +59,11 @@ in
       };
     };
 
-    systemd.settings.Manager = {
-      KExecWatchdogSec = "5min";
-      RebootWatchdogSec = "10min";
-      RuntimeWatchdogSec = "30s";
-      WatchdogDevice = "/dev/watchdog";
+    systemd.watchdog = {
+      device = "/dev/watchdog";
+      kexecTime = "5min";
+      rebootTime = "10min";
+      runtimeTime = "30s";
     };
   };
 }
