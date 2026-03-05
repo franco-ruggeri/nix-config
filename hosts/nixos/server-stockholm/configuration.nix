@@ -4,6 +4,7 @@
 
   myModules.system = {
     username = "franco";
+    hashedPasswordFile = config.age.secrets.user-password-server-stockholm.path;
     tui.enable = true;
     zfs.enable = true;
     homelab = {
@@ -22,9 +23,9 @@
     };
   };
 
-  age.secrets = myLib.mkWireguardSecrets [
-    "wireguard-private-key-server-stockholm"
-  ];
+  age.secrets =
+    myLib.mkSecrets [ "user-password-server-stockholm" ]
+    // myLib.mkWireguardSecrets [ "wireguard-private-key-server-stockholm" ];
 
   # DO NOT change! Used for backward compatibility.
   system.stateVersion = "25.05";

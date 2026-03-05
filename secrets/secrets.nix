@@ -9,11 +9,9 @@ let
   homeServerStockholm = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHZZfvbOlw1nxzsvnZA0jhx9GPFTsSB3HyvZScpVp3/w franco@franco-ruggeri-server-stockholm";
 in
 {
-  "user-password.age".publicKeys = [
-    systemDesktop
-    systemServerTurin
-    systemServerStockholm
-  ];
+  "user-password-desktop.age".publicKeys = [ systemDesktop ];
+  "user-password-server-turin.age".publicKeys = [ systemServerTurin ];
+  "user-password-server-stockholm.age".publicKeys = [ systemServerStockholm ];
   "smtp-password.age".publicKeys = [
     systemDesktop
     systemServerTurin
@@ -21,9 +19,9 @@ in
     homeLaptop
   ];
   "k3s-token.age".publicKeys = [ systemDesktop ];
-  "wireguard-desktop-private-key.age".publicKeys = [ systemDesktop ];
-  "wireguard-server-turin-private-key.age".publicKeys = [ systemServerTurin ];
-  "wireguard-server-stockholm-private-key.age".publicKeys = [ systemServerStockholm ];
+  "wireguard-private-key-desktop.age".publicKeys = [ systemDesktop ];
+  "wireguard-private-key-server-turin.age".publicKeys = [ systemServerTurin ];
+  "wireguard-private-key-server-stockholm.age".publicKeys = [ systemServerStockholm ];
   "restic-repository-laptop.age".publicKeys = [ homeLaptop ];
   "restic-password.age".publicKeys = [
     systemServerStockholm

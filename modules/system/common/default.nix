@@ -6,10 +6,7 @@
     ./homelab-nfs-client.nix
   ];
 
-  options.myModules.system.username = lib.mkOption {
-    type = lib.types.str;
-    description = "The username of the main user.";
-  };
+  options.myModules.system.username = lib.mkOption { type = lib.types.str; };
 
   config = {
     nix = {

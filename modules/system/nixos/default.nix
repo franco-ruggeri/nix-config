@@ -2,7 +2,6 @@
   config,
   pkgs,
   lib,
-  myLib,
   ...
 }:
 let
@@ -22,38 +21,42 @@ in
     ./homelab-backup.nix
   ];
 
-  networking = {
-    networkmanager.enable = true;
-    useDHCP = lib.mkDefault true;
+  options.myModules.system = {
+    hashedPasswordFile = lib.mkOption { type = lib.types.str; };
   };
 
-  time.timeZone = "Europe/Stockholm";
-
-  system.autoUpgrade = {
-    enable = true;
-    dates = "weekly";
-  };
-
-  users = {
-    mutableUsers = false;
-    users.${cfg.username} = {
-      isNormalUser = true;
-      extraGroups = [
-        "wheel"
-        "networkmanager"
-      ];
-      shell = pkgs.zsh;
-      hashedPasswordFile = config.age.secrets.user-password.path;
+  config = {
+    networking = {
+      networkmanager.enable = true;
+      useDHCP = lib.mkDefault true;
     };
-  };
 
-  hardware = {
-    cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-    openrazer = {
+    time.timeZone = "Europe/Stockholm";
+
+    system.autoUpgrade = {
       enable = true;
-      users = [ config.myModules.system.username ];
+      dates = "weekly";
+    };
+
+    users = {
+      mutableUsers = false;
+      users.${cfg.username} = {
+        isNormalUser = true;
+        extraGroups = [
+          "wheel"
+          "networkmanager"
+        ];
+        shell = pkgs.zsh;
+        hashedPasswordFile = cfg.hashedPasswordFile;
+      };
+    };
+
+    hardware = {
+      cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+      openrazer = {
+        enable = true;
+        users = [ config.myModules.system.username ];
+      };
     };
   };
-
-  age.secrets = myLib.mkSecrets [ "user-password" ];
 }

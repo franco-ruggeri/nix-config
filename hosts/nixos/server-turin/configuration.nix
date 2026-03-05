@@ -4,6 +4,7 @@
 
   myModules.system = {
     username = "franco";
+    hashedPasswordFile = config.age.secrets.user-password-server-turin.path;
     tui.enable = true;
     homelab = {
       wireguard = {
@@ -21,9 +22,9 @@
     };
   };
 
-  age.secrets = myLib.mkWireguardSecrets [
-    "wireguard-private-key-server-turin"
-  ];
+  age.secrets =
+    myLib.mkSecrets [ "user-password-server-turin" ]
+    // myLib.mkWireguardSecrets [ "wireguard-private-key-server-turin" ];
 
   # DO NOT change! Used for backward compatibility.
   system.stateVersion = "25.05";

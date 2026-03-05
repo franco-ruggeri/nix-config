@@ -4,6 +4,7 @@
 
   myModules.system = {
     username = "franco";
+    hashedPasswordFile = config.age.secrets.user-password-desktop.path;
     tui.enable = true;
     gui.enable = true;
     gaming.enable = true;
@@ -22,9 +23,9 @@
     };
   };
 
-  age.secrets = myLib.mkWireguardSecrets [
-    "wireguard-private-key-desktop"
-  ];
+  age.secrets =
+    myLib.mkSecrets [ "user-password-desktop" ]
+    // myLib.mkWireguardSecrets [ "wireguard-private-key-desktop" ];
 
   # DO NOT change! Used for backward compatibility.
   system.stateVersion = "25.05";
