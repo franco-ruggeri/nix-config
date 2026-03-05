@@ -54,6 +54,14 @@ in
               # See https://forum.restic.net/t/backing-up-zfs-snapshots-good-idea/9604
               "RESTIC_FEATURES=device-id-for-hardlinks"
             ];
+            ExecStartPre = pkgs.writeShellScript "wakeup" ''
+              echo 0 > /sys/class/rtc/rtc0/wakealarm
+              date -d "tomorrow 02:00" +%s > /sys/class/rtc/rtc0/wakealarm
+            '';
+            ExecStartPost = pkgs.writeShellScript "shutdown" ''
+              sleep 10
+              systemctl poweroff
+            '';
           };
         };
         timers.homelab-backup = {
