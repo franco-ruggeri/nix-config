@@ -58,5 +58,12 @@ in
         users = [ config.myModules.system.username ];
       };
     };
+
+    systemd.settings.Manager = {
+      KExecWatchdogSec = "5min";
+      RebootWatchdogSec = "10min";
+      RuntimeWatchdogSec = "30s";
+      WatchdogDevice = "/dev/watchdog";
+    };
   };
 }
