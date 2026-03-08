@@ -38,6 +38,10 @@ in
       {
         services.homelab-backup = {
           description = "Homelab backup";
+          after = [
+            "network-online.target"
+            "mnt-nfs.automount"
+          ];
           serviceConfig = {
             Type = "oneshot";
             ExecStart = "${pythonScriptDir}/homelab_backup_server.py";
@@ -54,11 +58,11 @@ in
               # See https://forum.restic.net/t/backing-up-zfs-snapshots-good-idea/9604
               "RESTIC_FEATURES=device-id-for-hardlinks"
             ];
-            ExecStartPre = pkgs.writeShellScript "wakeup" ''
+            ExecStartPre = pkgs.writeShellScript "homelab-backup-pre" ''
               echo 0 > /sys/class/rtc/rtc0/wakealarm
               date -d "tomorrow 02:00" +%s > /sys/class/rtc/rtc0/wakealarm
             '';
-            ExecStartPost = pkgs.writeShellScript "shutdown" ''
+            ExecStartPost = pkgs.writeShellScript "homelab-backup-post" ''
               sleep 10
               systemctl poweroff
             '';
