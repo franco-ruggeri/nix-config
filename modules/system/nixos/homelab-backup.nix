@@ -59,8 +59,8 @@ in
               "RESTIC_FEATURES=device-id-for-hardlinks"
             ];
             ExecStartPre = pkgs.writeShellScript "homelab-backup-pre" ''
+              echo "Waiting for WireGuard to be ready..."
               until wg show wg0 latest-handshakes | awk '{print $2}' | grep -qv '^0$'; do
-                echo "Waiting for WireGuard to be ready..."
                 sleep 5
               done
 
