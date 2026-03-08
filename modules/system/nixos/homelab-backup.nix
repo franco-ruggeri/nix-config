@@ -15,8 +15,12 @@ in
   config = lib.mkIf cfg.enable {
     assertions = [
       {
+        assertion = config.myModules.system.homelab.wireguard.enable;
+        message = "WireGuard client must be enabled for homelab backups.";
+      }
+      {
         assertion = config.myModules.system.homelab.nfs.client.enable;
-        message = "NFS client must be enabled for NFS backup.";
+        message = "NFS client must be enabled for homelab backups.";
       }
     ];
 
@@ -38,10 +42,6 @@ in
       {
         services.homelab-backup = {
           description = "Homelab backup";
-          after = [
-            "network-online.target"
-            "mnt-nfs.automount"
-          ];
           serviceConfig = {
             Type = "oneshot";
             ExecStart = "${pythonScriptDir}/homelab_backup_server.py";
@@ -59,10 +59,17 @@ in
               "RESTIC_FEATURES=device-id-for-hardlinks"
             ];
             ExecStartPre = pkgs.writeShellScript "homelab-backup-pre" ''
+              until wg show wg0 latest-handshakes | awk '{print $2}' | grep -qv '^0$'; do
+                echo "Waiting for WireGuard to be ready..."
+                sleep 5
+              done
+
+              echo "Setting RTC wakealarm for tomorrow 2 AM..."
               echo 0 > /sys/class/rtc/rtc0/wakealarm
               date -d "tomorrow 02:00" +%s > /sys/class/rtc/rtc0/wakealarm
             '';
             ExecStartPost = pkgs.writeShellScript "homelab-backup-post" ''
+              echo "Shutting down in 10 seconds..."
               sleep 10
               systemctl poweroff
             '';

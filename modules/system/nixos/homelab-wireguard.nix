@@ -1,4 +1,4 @@
-# Based on https://wiki.nixos.org/wiki/WireGuard#systemd.network
+# Based on https://wiki.nixos.org/wiki/WireGuard#wg-quick
 { config, lib, ... }:
 let
   cfg = config.myModules.system.homelab.wireguard;
