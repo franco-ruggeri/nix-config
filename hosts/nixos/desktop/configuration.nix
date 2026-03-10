@@ -10,7 +10,20 @@
     gaming.enable = true;
     zfs.enable = true;
     homelab = {
-      nfs.server.enable = true;
+      nfs.server = {
+        enable = true;
+        # Read-write access from K8s nodes and K8s cluster
+        rwIPs = [
+          "10.34.0.2/32"
+          "10.42.0.0/24"
+        ];
+        # Read-only access from backup servers
+        roIPs = [
+          "10.34.0.3/32"
+          "10.34.0.5/32"
+          "10.34.0.6/32"
+        ];
+      };
       kubernetes = {
         enable = true;
         server = config.networking.hostName;

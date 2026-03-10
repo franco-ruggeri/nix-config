@@ -12,8 +12,11 @@ let
   cfg = config.myModules.system.homelab.nfs.server;
 in
 {
-  options.myModules.system.homelab.nfs.server.enable =
-    lib.mkEnableOption "Enable NFS server for homelab";
+  options.myModules.system.homelab.nfs.server = {
+    enable = lib.mkEnableOption "Enable NFS server for homelab";
+    rwIPs = lib.mkOption { type = lib.types.listOf lib.types.str; };
+    roIPs = lib.mkOption { type = lib.types.listOf lib.types.str; };
+  };
 
   config = lib.mkIf cfg.enable {
     assertions = [
@@ -47,10 +50,6 @@ in
         };
       };
 
-    # NFS exports:
-    # * k8s-nfs: read-write access from K8s nodes and K8s cluster.
-    # * k8s-backup: read-only access from backup servers.
-    #
     # The no_root_squash option is needed:
     # * read-write: for NextCloud to work property.
     #   See https://github.com/nextcloud/helm/issues/588
@@ -60,25 +59,16 @@ in
         rwOptions = "rw,no_root_squash";
         roOptions = "ro,no_root_squash,crossmnt";
         rootOptions = "${roOptions},fsid=0";
-        rwIPs = [
-          "10.34.0.2/32"
-          "10.42.0.0/24"
-        ];
-        roIPs = [
-          "10.34.0.3/32"
-          "10.34.0.5/32"
-          "10.34.0.6/32"
-        ];
         rootExport = myLib.mkNfsExport {
-          allowedIPs = rwIPs ++ roIPs;
+          allowedIPs = cfg.rwIPs ++ cfg.roIPs;
           options = rootOptions;
         };
         rwExport = myLib.mkNfsExport {
-          allowedIPs = rwIPs;
+          allowedIPs = cfg.rwIPs;
           options = rwOptions;
         };
         roExport = myLib.mkNfsExport {
-          allowedIPs = roIPs;
+          allowedIPs = cfg.roIPs;
           options = roOptions;
         };
         nonRootExport = "${rwExport} ${roExport}";

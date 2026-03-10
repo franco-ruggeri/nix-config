@@ -7,7 +7,9 @@
     hashedPasswordFile = config.age.secrets.user-password-server-stockholm.path;
     tui.enable = true;
     zfs.enable = true;
+
     homelab = {
+      # Production
       wireguard = {
         enable = true;
         address = "10.34.0.6/24";
@@ -18,6 +20,16 @@
         serverAddress = "10.34.0.2";
       };
       backup.enable = true;
+
+      # Staging
+      nfs.server = {
+        enable = true;
+        rwIPs = [ "127.0.0.1/32" ];
+      };
+      kubernetes = {
+        enable = true;
+        server = config.networking.hostName;
+      };
     };
   };
 
