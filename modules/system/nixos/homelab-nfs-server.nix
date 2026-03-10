@@ -61,7 +61,6 @@ in
         roOptions = "ro,no_root_squash,crossmnt";
         rootOptions = "${roOptions},fsid=0";
         rwIPs = [
-          "192.168.1.30/32"
           "10.34.0.2/32"
           "10.42.0.0/24"
         ];
