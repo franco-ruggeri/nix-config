@@ -6,13 +6,12 @@
   ...
 }:
 let
-  cfg = config.myModules.system.homelab.kubernetes;
+  cfg = config.myModules.system.homelab.k8s.master;
   adminGroup = "kubeadmin";
 in
 {
-  options.myModules.system.homelab.kubernetes = {
+  options.myModules.system.homelab.k8s.master = {
     enable = lib.mkEnableOption "Enable Kubernetes for homelab";
-    server = lib.mkOption { type = lib.types.str; };
     tokenFile = lib.mkOption { type = lib.types.str; };
     clusterCidr = lib.mkOption { type = lib.types.str; };
     serviceCidr = lib.mkOption { type = lib.types.str; };
@@ -37,8 +36,7 @@ in
       k3s = {
         enable = true;
         role = "server";
-        clusterInit = cfg.server == config.networking.hostName;
-        serverAddr = lib.mkIf (!config.services.k3s.clusterInit) "https://${cfg.server}:6443";
+        clusterInit = true;
         tokenFile = cfg.tokenFile;
         extraFlags = [
           "--cluster-cidr=${cfg.clusterCidr}"

@@ -24,9 +24,8 @@
           "10.34.0.6/32"
         ];
       };
-      kubernetes = {
+      k8s.master = {
         enable = true;
-        server = config.networking.hostName;
         tokenFile = config.age.secrets.k3s-token-production.path;
         clusterCidr = "10.42.0.0/16";
         serviceCidr = "10.43.0.0/16";
