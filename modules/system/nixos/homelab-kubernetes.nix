@@ -13,10 +13,9 @@ in
   options.myModules.system.homelab.kubernetes = {
     enable = lib.mkEnableOption "Enable Kubernetes for homelab";
     server = lib.mkOption { type = lib.types.str; };
-    tokenFile = lib.mkOption {
-      type = lib.types.nullOr lib.types.str;
-      default = null;
-    };
+    tokenFile = lib.mkOption { type = lib.types.str; };
+    clusterCidr = lib.mkOption { type = lib.types.str; };
+    serviceCidr = lib.mkOption { type = lib.types.str; };
   };
 
   config = lib.mkIf cfg.enable {
@@ -42,6 +41,8 @@ in
         serverAddr = lib.mkIf (!config.services.k3s.clusterInit) "https://${cfg.server}:6443";
         tokenFile = cfg.tokenFile;
         extraFlags = [
+          "--cluster-cidr=${cfg.clusterCidr}"
+          "--service-cidr=${cfg.serviceCidr}"
           "--write-kubeconfig-mode=640"
           "--write-kubeconfig-group=${adminGroup}"
           "--disable=traefik"
