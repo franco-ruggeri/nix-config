@@ -33,8 +33,7 @@
       k8s.master = {
         enable = true;
         tokenFile = config.age.secrets.k3s-token-staging.path;
-        clusterCidr = "10.45.0.0/16";
-        serviceCidr = "10.46.0.0/16";
+        production = false;
       };
     };
   };

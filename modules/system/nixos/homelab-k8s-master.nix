@@ -13,8 +13,7 @@ in
   options.myModules.system.homelab.k8s.master = {
     enable = lib.mkEnableOption "Enable Kubernetes for homelab";
     tokenFile = lib.mkOption { type = lib.types.str; };
-    clusterCidr = lib.mkOption { type = lib.types.str; };
-    serviceCidr = lib.mkOption { type = lib.types.str; };
+    production = lib.mkOption { type = lib.types.bool; };
   };
 
   config = lib.mkIf cfg.enable {
@@ -38,15 +37,20 @@ in
         role = "server";
         clusterInit = true;
         tokenFile = cfg.tokenFile;
-        extraFlags = [
-          "--cluster-cidr=${cfg.clusterCidr}"
-          "--service-cidr=${cfg.serviceCidr}"
-          "--write-kubeconfig-mode=640"
-          "--write-kubeconfig-group=${adminGroup}"
-          "--disable=traefik"
-          "--disable=servicelb"
-          "--disable=local-storage"
-        ];
+        extraFlags =
+          # Change CIDRs for non-production clusters so that non-production k8s
+          # nodes can still use the production services (VPN, DNS, services).
+          lib.optionals (!cfg.production) [
+            "--cluster-cidr=10.45.0.0/16"
+            "--service-cidr=10.46.0.0/16"
+          ]
+          ++ [
+            "--write-kubeconfig-mode=640"
+            "--write-kubeconfig-group=${adminGroup}"
+            "--disable=traefik"
+            "--disable=servicelb"
+            "--disable=local-storage"
+          ];
       };
       openiscsi = {
         enable = true; # for longhorn
