@@ -64,7 +64,7 @@ in
           PrivateMounts = "yes";
           BindPaths = "/run/current-system/sw/bin:/bin";
         };
-        homelab-backup-nfs =
+        homelab-backup-k8s =
           let
             pythonScriptDir = myLib.mkPythonScriptDir {
               derivationName = "homelab_backup_k8s";
