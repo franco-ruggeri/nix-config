@@ -18,7 +18,8 @@ in
     systemServerStockholm
     homeLaptop
   ];
-  "k3s-token.age".publicKeys = [ systemDesktop ];
+  "k3s-token-production.age".publicKeys = [ systemDesktop ];
+  "k3s-token-staging.age".publicKeys = [ systemServerStockholm ];
   "wireguard-private-key-desktop.age".publicKeys = [ systemDesktop ];
   "wireguard-private-key-server-turin.age".publicKeys = [ systemServerTurin ];
   "wireguard-private-key-server-stockholm.age".publicKeys = [ systemServerStockholm ];

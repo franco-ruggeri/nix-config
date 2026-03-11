@@ -13,6 +13,10 @@ in
   options.myModules.system.homelab.kubernetes = {
     enable = lib.mkEnableOption "Enable Kubernetes for homelab";
     server = lib.mkOption { type = lib.types.str; };
+    tokenFile = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -36,7 +40,7 @@ in
         role = "server";
         clusterInit = cfg.server == config.networking.hostName;
         serverAddr = lib.mkIf (!config.services.k3s.clusterInit) "https://${cfg.server}:6443";
-        token = config.age.secrets.k3s-token.path;
+        tokenFile = cfg.tokenFile;
         extraFlags = [
           "--write-kubeconfig-mode=640"
           "--write-kubeconfig-group=${adminGroup}"
@@ -96,7 +100,5 @@ in
         };
       };
     };
-
-    age.secrets = myLib.mkSecrets [ "k3s-token" ];
   };
 }

@@ -27,6 +27,7 @@
       kubernetes = {
         enable = true;
         server = config.networking.hostName;
+        tokenFile = config.age.secrets.k3s-token-production.path;
       };
       wireguard = {
         enable = true;
@@ -37,7 +38,10 @@
   };
 
   age.secrets =
-    myLib.mkSecrets [ "user-password-desktop" ]
+    myLib.mkSecrets [
+      "user-password-desktop"
+      "k3s-token-production"
+    ]
     // myLib.mkWireguardSecrets [ "wireguard-private-key-desktop" ];
 
   # DO NOT change! Used for backward compatibility.
