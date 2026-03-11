@@ -33,12 +33,16 @@
       kubernetes = {
         enable = true;
         server = config.networking.hostName;
+        tokenFile = config.age.secrets.k3s-token-staging.path;
       };
     };
   };
 
   age.secrets =
-    myLib.mkSecrets [ "user-password-server-stockholm" ]
+    myLib.mkSecrets [
+      "user-password-server-stockholm"
+      "k3s-token-staging"
+    ]
     // myLib.mkWireguardSecrets [ "wireguard-private-key-server-stockholm" ];
 
   # DO NOT change! Used for backward compatibility.
