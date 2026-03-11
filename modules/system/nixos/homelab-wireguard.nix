@@ -3,7 +3,7 @@
 let
   cfg = config.myModules.system.homelab.wireguard;
   listenPort = 51820;
-  kubernetes = config.myModules.system.homelab.kubernetes.enable;
+  kubernetes = config.myModules.system.homelab.k8s.master.enable;
   allowedIPs =
     # On K8s nodes, the K8s cluster is accessible directly, without VPN.
     # Only traffic to the WireGuard peers should go to the VPN.
