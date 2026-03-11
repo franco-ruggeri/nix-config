@@ -85,19 +85,19 @@ in
     systemd =
       let
         pythonScriptDir = myLib.mkPythonScriptDir {
-          derivationName = "homelab_backup_source";
+          derivationName = "homelab_backup_nfs";
           scriptNames = [
-            "homelab_backup_source.py"
+            "homelab_backup_nfs.py"
             "homelab_backup_utils.py"
           ];
         };
       in
       {
-        services.homelab-backup = {
-          description = "Homelab backup";
+        services.homelab-backup-nfs = {
+          description = "Homelab backup NFS";
           serviceConfig = {
             Type = "oneshot";
-            ExecStart = "${pythonScriptDir}/homelab_backup_source.py";
+            ExecStart = "${pythonScriptDir}/homelab_backup_nfs.py";
             WorkingDirectory = pythonScriptDir;
             Environment = [
               "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
@@ -105,8 +105,8 @@ in
             ];
           };
         };
-        timers.homelab-backup = {
-          description = "Homelab backup";
+        timers.homelab-backup-nfs = {
+          description = "Homelab backup NFS";
           wantedBy = [ "timers.target" ];
           timerConfig = {
             OnCalendar = "01:00";

@@ -49,13 +49,15 @@ def run_and_log(run_fn: Callable[[], None], errors: list[str]) -> None:
 
 def notify(errors: list[str]) -> None:
     hostname = socket.gethostname()
+    script = Path(sys.argv[0])
     result = "FAILED" if errors else "PASSED"
-    subject = f"[Homelab] Backup tests {result}"
+
+    subject = f"[Homelab] Backup {script.stem} tests {result}"
     body_lines = [
         "Context:",
         f"- Hostname: {hostname}",
         f"- Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
-        f"- Script: {sys.argv[0]}",
+        f"- Script: {script.name}",
         f"- Result: {result}",
     ]
     if errors:

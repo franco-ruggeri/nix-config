@@ -21,18 +21,18 @@ in
     launchd.agents =
       let
         pythonScriptDir = myLib.mkPythonScriptDir {
-          derivationName = "homelab_backup_server";
+          derivationName = "homelab_backup_restic";
           scriptNames = [
-            "homelab_backup_server.py"
+            "homelab_backup_restic.py"
             "homelab_backup_utils.py"
           ];
         };
       in
       {
-        homelab-backup = {
+        homelab-backup-restic = {
           enable = true;
           config = {
-            Label = "org.nixos.homelab-backup";
+            Label = "org.nixos.homelab-backup-restic";
             # In EnvironmentVariables, the home-manager command to get the agenix path would not be expanded.
             # So we have to export the environment variables with agenix secrets in ProgramArguments.
             ProgramArguments = [
@@ -42,7 +42,7 @@ in
                 export RESTIC_REPOSITORY_FILE=${cfg.resticRepositoryFile} && \
                 export RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path} && \
                 export SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path} && \
-                ${pythonScriptDir}/homelab_backup_server.py
+                ${pythonScriptDir}/homelab_backup_restic.py
               ''
             ];
             StartCalendarInterval = [
@@ -59,8 +59,8 @@ in
               # See https://forum.restic.net/t/backing-up-zfs-snapshots-good-idea/9604
               RESTIC_FEATURES = "device-id-for-hardlinks";
             };
-            StandardOutPath = "${config.home.homeDirectory}/Library/Logs/homelab-backup/out.log";
-            StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/homelab-backup/error.log";
+            StandardOutPath = "${config.home.homeDirectory}/Library/Logs/homelab-backup-restic/out.log";
+            StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/homelab-backup-restic/error.log";
           };
         };
       };

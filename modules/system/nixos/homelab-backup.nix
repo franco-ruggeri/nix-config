@@ -32,19 +32,19 @@ in
     systemd =
       let
         pythonScriptDir = myLib.mkPythonScriptDir {
-          derivationName = "homelab_backup_daily";
+          derivationName = "homelab_backup_restic";
           scriptNames = [
-            "homelab_backup_server.py"
+            "homelab_backup_restic.py"
             "homelab_backup_utils.py"
           ];
         };
       in
       {
-        services.homelab-backup = {
-          description = "Homelab backup";
+        services.homelab-backup-restic = {
+          description = "Homelab backup restic";
           serviceConfig = {
             Type = "oneshot";
-            ExecStart = "${pythonScriptDir}/homelab_backup_server.py";
+            ExecStart = "${pythonScriptDir}/homelab_backup_restic.py";
             WorkingDirectory = pythonScriptDir;
             Environment = [
               "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
@@ -58,7 +58,7 @@ in
               # See https://forum.restic.net/t/backing-up-zfs-snapshots-good-idea/9604
               "RESTIC_FEATURES=device-id-for-hardlinks"
             ];
-            ExecStartPre = pkgs.writeShellScript "homelab-backup-pre" ''
+            ExecStartPre = pkgs.writeShellScript "homelab-backup-restic-pre" ''
               echo "Waiting for WireGuard to be ready..."
               until wg show wg0 latest-handshakes | awk '{print $2}' | grep -qv '^0$'; do
                 sleep 5
@@ -68,15 +68,15 @@ in
               echo 0 > /sys/class/rtc/rtc0/wakealarm
               date -d "tomorrow 02:00" +%s > /sys/class/rtc/rtc0/wakealarm
             '';
-            ExecStartPost = pkgs.writeShellScript "homelab-backup-post" ''
+            ExecStartPost = pkgs.writeShellScript "homelab-backup-restic-post" ''
               echo "Shutting down in 10 seconds..."
               sleep 10
               systemctl poweroff
             '';
           };
         };
-        timers.homelab-backup = {
-          description = "Homelab backup";
+        timers.homelab-backup-restic = {
+          description = "Homelab backup restic";
           wantedBy = [ "timers.target" ];
           timerConfig = {
             OnCalendar = "02:00";
