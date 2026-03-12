@@ -6,6 +6,7 @@ return {
 	keys = {
 		{ "<Leader>tt", "<Cmd>OverseerOpen<CR>", desc = "[t]ask list" },
 		{ "<Leader>tr", "<Cmd>OverseerRun<CR>", desc = "[t]ask [r]un" },
+		{ "<Leader>ta", "<Cmd>OverseerTaskAction<CR>", desc = "[t]ask [a]action" },
 	},
 	opts = {
 		templates = { "builtin", "extra" },
@@ -32,6 +33,5 @@ return {
 				overseer.run_action(tasks[1], "restart")
 			end
 		end, { desc = "[t]ask [r]un last" })
-		vim.keymap.set("n", "<Leader>ta", "<Cmd>OverseerTaskAction<CR>", { desc = "[t]ask [a]action" })
 	end,
 }
