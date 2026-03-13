@@ -12,8 +12,8 @@ let
   cfg = config.myModules.system.homelab.nfs.server;
   rwIPs =
     cfg.rwIPs
-    ++ lib.optional (cfg.production) [ "10.42.0.0/16" ]
-    ++ lib.optional (!cfg.production) [ "10.45.0.0/16" ];
+    ++ lib.optionals cfg.production [ "10.42.0.0/16" ]
+    ++ lib.optionals (!cfg.production) [ "10.45.0.0/16" ];
 in
 {
   options.myModules.system.homelab.nfs.server = {
