@@ -64,36 +64,36 @@ in
     };
 
     systemd = {
-      services = {
-        # Path to make Longhorn find openiscsi
-        # See https://github.com/longhorn/longhorn/issues/2166
-        iscsid.serviceConfig = {
-          PrivateMounts = "yes";
-          BindPaths = "/run/current-system/sw/bin:/bin";
-        };
-        homelab-backup-k8s =
-          let
-            pythonScriptDir = myLib.mkPythonScriptDir {
-              derivationName = "homelab_backup_k8s";
-              scriptNames = [
-                "homelab_backup_k8s.py"
-                "homelab_backup_utils.py"
-              ];
-            };
-          in
-          {
-            description = "Homelab backup K8s";
-            serviceConfig = {
-              Type = "oneshot";
-              ExecStart = "${pythonScriptDir}/homelab_backup_k8s.py";
-              WorkingDirectory = pythonScriptDir;
-              Environment = [
-                "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
-                "SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path}"
-              ];
-            };
-          };
+      # Path to make Longhorn find openiscsi
+      # See https://github.com/longhorn/longhorn/issues/2166
+      services.iscsid.serviceConfig = {
+        PrivateMounts = "yes";
+        BindPaths = "/run/current-system/sw/bin:/bin";
       };
+    }
+    // cfg.production {
+      services.homelab-backup-k8s =
+        let
+          pythonScriptDir = myLib.mkPythonScriptDir {
+            derivationName = "homelab_backup_k8s";
+            scriptNames = [
+              "homelab_backup_k8s.py"
+              "homelab_backup_utils.py"
+            ];
+          };
+        in
+        {
+          description = "Homelab backup K8s";
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${pythonScriptDir}/homelab_backup_k8s.py";
+            WorkingDirectory = pythonScriptDir;
+            Environment = [
+              "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
+              "SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path}"
+            ];
+          };
+        };
       timers.homelab-backup-k8s = {
         description = "Homelab backup K8s";
         wantedBy = [ "timers.target" ];

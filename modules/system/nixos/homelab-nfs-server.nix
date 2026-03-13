@@ -16,6 +16,7 @@ in
     enable = lib.mkEnableOption "Enable NFS server for homelab";
     rwIPs = lib.mkOption { type = lib.types.listOf lib.types.str; };
     roIPs = lib.mkOption { type = lib.types.listOf lib.types.str; };
+    production = lib.mkOption { type = lib.types.bool; };
   };
 
   config = lib.mkIf cfg.enable {
@@ -82,18 +83,18 @@ in
         '';
       };
 
-    systemd =
-      let
-        pythonScriptDir = myLib.mkPythonScriptDir {
-          derivationName = "homelab_backup_nfs";
-          scriptNames = [
-            "homelab_backup_nfs.py"
-            "homelab_backup_utils.py"
-          ];
-        };
-      in
-      {
-        services.homelab-backup-nfs = {
+    systemd = lib.mkIf cfg.production {
+      services.homelab-backup-nfs =
+        let
+          pythonScriptDir = myLib.mkPythonScriptDir {
+            derivationName = "homelab_backup_nfs";
+            scriptNames = [
+              "homelab_backup_nfs.py"
+              "homelab_backup_utils.py"
+            ];
+          };
+        in
+        {
           description = "Homelab backup NFS";
           serviceConfig = {
             Type = "oneshot";
@@ -105,15 +106,15 @@ in
             ];
           };
         };
-        timers.homelab-backup-nfs = {
-          description = "Homelab backup NFS";
-          wantedBy = [ "timers.target" ];
-          timerConfig = {
-            OnCalendar = "01:00";
-            Persistent = true;
-          };
+      timers.homelab-backup-nfs = {
+        description = "Homelab backup NFS";
+        wantedBy = [ "timers.target" ];
+        timerConfig = {
+          OnCalendar = "01:00";
+          Persistent = true;
         };
       };
+    };
 
     age.secrets = myLib.mkSecrets [ "smtp-password" ];
   };

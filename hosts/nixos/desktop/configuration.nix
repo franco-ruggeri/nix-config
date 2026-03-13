@@ -23,6 +23,7 @@
           "10.34.0.5/32"
           "10.34.0.6/32"
         ];
+        production = true;
       };
       k8s.master = {
         enable = true;

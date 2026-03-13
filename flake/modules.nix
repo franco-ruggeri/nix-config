@@ -1,4 +1,3 @@
-{ ... }:
 {
   flake = {
     nixosModules.default = import ../modules/system/nixos;
