@@ -13,10 +13,7 @@
       nfs.server = {
         enable = true;
         # Read-write access from K8s nodes and K8s cluster
-        rwIPs = [
-          "10.34.0.2/32"
-          "10.42.0.0/24"
-        ];
+        rwIPs = [ "10.34.0.2/32" ];
         # Read-only access from backup servers
         roIPs = [
           "10.34.0.3/32"

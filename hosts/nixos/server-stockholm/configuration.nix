@@ -24,10 +24,7 @@
       # Staging
       nfs.server = {
         enable = true;
-        rwIPs = [
-          "127.0.0.1/32"
-          "10.42.0.0/24"
-        ];
+        rwIPs = [ "127.0.0.1/32" ];
         roIPs = [ ];
       };
       k8s.master = {
