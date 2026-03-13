@@ -12,9 +12,10 @@ let
     # * In staging K8s nodes, it prevents accessing the staging K8s cluster.
     #   Thus, pods with hostNetwork would fail (e.g., metallb-speaker).
     #
-    # To avoid these issues, we use VPN only for VPN peers.
+    # To avoid these issues, we use VPN only for VPN peers and DNS.
     lib.optionals kubernetes [
       "10.34.0.0/24" # VPN
+      "10.43.0.12/32" # DNS
     ]
     # On other nodes, route all traffic through the VPN.
     # This allows accessing the K8s cluster (cluster IPs and API server) via the VPN.
