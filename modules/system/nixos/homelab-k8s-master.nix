@@ -71,7 +71,7 @@ in
         BindPaths = "/run/current-system/sw/bin:/bin";
       };
     }
-    // cfg.production {
+    // lib.mkIf cfg.production {
       services.homelab-backup-k8s =
         let
           pythonScriptDir = myLib.mkPythonScriptDir {
