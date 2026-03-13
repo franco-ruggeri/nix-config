@@ -3,18 +3,22 @@
 let
   cfg = config.myModules.system.homelab.wireguard;
   listenPort = 51820;
-  k8sCfg = config.myModules.system.homelab.k8s.master;
-  k8sProduction = k8sCfg.enable && k8sCfg.production;
+  kubernetes = config.myModules.system.homelab.k8s.master.enable;
   allowedIPs =
-    # On production K8s nodes, the production K8s cluster is accessible directly.
-    # Only traffic to the WireGuard peers should go to the VPN.
-    # Otherwise, there would be a network loop (client --> Wireguard --> repeat).
-    lib.optionals k8sProduction [
+    # On K8s nodes, routing all traffic through the VPN raises routing issues:
+    # * In production K8s nodes, it creates a loop:
+    #   host --> router (WireGuard endpoint) -> host --> repeat.
+    #   Thus, the host could not send any traffic.
+    # * In staging K8s nodes, it prevents accessing the staging K8s cluster.
+    #   Thus, pods with hostNetwork would fail (e.g., metallb-speaker).
+    #
+    # To avoid these issues, we use VPN only for VPN peers.
+    lib.optionals kubernetes [
       "10.34.0.0/24" # VPN
     ]
-    # On other nodes, allow all traffic through the VPN.
+    # On other nodes, route all traffic through the VPN.
     # This allows accessing the K8s cluster (cluster IPs and API server) via the VPN.
-    ++ lib.optionals (!k8sProduction) [
+    ++ lib.optionals (!kubernetes) [
       "0.0.0.0/0" # all traffic
     ];
 in
