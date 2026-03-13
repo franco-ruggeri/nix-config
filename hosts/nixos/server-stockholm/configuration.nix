@@ -26,6 +26,7 @@
         enable = true;
         rwIPs = [ "127.0.0.1/32" ];
         roIPs = [ ];
+        production = false;
       };
       k8s.master = {
         enable = true;
