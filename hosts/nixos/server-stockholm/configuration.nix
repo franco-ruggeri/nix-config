@@ -24,7 +24,7 @@
       # Staging
       nfs.server = {
         enable = true;
-        rwIPs = [ "127.0.0.1/32" ];
+        rwIPs = [ "10.34.0.6/32" ];
         roIPs = [ ];
         production = false;
       };
