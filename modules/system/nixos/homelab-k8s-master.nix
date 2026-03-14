@@ -63,45 +63,47 @@ in
       users.${config.myModules.system.username}.extraGroups = [ adminGroup ];
     };
 
-    systemd = {
-      # Path to make Longhorn find openiscsi
-      # See https://github.com/longhorn/longhorn/issues/2166
-      services.iscsid.serviceConfig = {
-        PrivateMounts = "yes";
-        BindPaths = "/run/current-system/sw/bin:/bin";
-      };
-    }
-    // lib.mkIf cfg.production {
-      services.homelab-backup-k8s =
-        let
-          pythonScriptDir = myLib.mkPythonScriptDir {
-            derivationName = "homelab_backup_k8s";
-            scriptNames = [
-              "homelab_backup_k8s.py"
-              "homelab_backup_utils.py"
-            ];
+    systemd = lib.mkMerge [
+      {
+        # Path to make Longhorn find openiscsi
+        # See https://github.com/longhorn/longhorn/issues/2166
+        services.iscsid.serviceConfig = {
+          PrivateMounts = "yes";
+          BindPaths = "/run/current-system/sw/bin:/bin";
+        };
+      }
+      (lib.mkIf cfg.production {
+        services.homelab-backup-k8s =
+          let
+            pythonScriptDir = myLib.mkPythonScriptDir {
+              derivationName = "homelab_backup_k8s";
+              scriptNames = [
+                "homelab_backup_k8s.py"
+                "homelab_backup_utils.py"
+              ];
+            };
+          in
+          {
+            description = "Homelab backup K8s";
+            serviceConfig = {
+              Type = "oneshot";
+              ExecStart = "${pythonScriptDir}/homelab_backup_k8s.py";
+              WorkingDirectory = pythonScriptDir;
+              Environment = [
+                "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
+                "SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path}"
+              ];
+            };
           };
-        in
-        {
+        timers.homelab-backup-k8s = {
           description = "Homelab backup K8s";
-          serviceConfig = {
-            Type = "oneshot";
-            ExecStart = "${pythonScriptDir}/homelab_backup_k8s.py";
-            WorkingDirectory = pythonScriptDir;
-            Environment = [
-              "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
-              "SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path}"
-            ];
+          wantedBy = [ "timers.target" ];
+          timerConfig = {
+            OnCalendar = "01:00";
+            Persistent = true;
           };
         };
-      timers.homelab-backup-k8s = {
-        description = "Homelab backup K8s";
-        wantedBy = [ "timers.target" ];
-        timerConfig = {
-          OnCalendar = "01:00";
-          Persistent = true;
-        };
-      };
-    };
+      })
+    ];
   };
 }
