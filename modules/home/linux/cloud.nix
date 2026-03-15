@@ -27,6 +27,9 @@ in
           mounts."/" = {
             enable = true;
             mountPoint = "${config.home.homeDirectory}/drives/nextcloud";
+            options = {
+              dir-cache-time = "5000h";
+            };
           };
         };
         gdrive-personal = {
