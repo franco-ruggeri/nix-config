@@ -6,6 +6,7 @@
 }:
 let
   cfg = config.myModules.home.cloud;
+  maxCacheSize = "20G";
 in
 {
   options.myModules.home.cloud.enable = lib.mkEnableOption "Enables mounts of cloud storage services";
@@ -27,6 +28,9 @@ in
           mounts."/" = {
             enable = true;
             mountPoint = "${config.home.homeDirectory}/drives/nextcloud";
+            options = {
+              vfs-cache-max-size = maxCacheSize;
+            };
           };
         };
         gdrive-personal = {
@@ -42,6 +46,9 @@ in
           mounts."/" = {
             enable = true;
             mountPoint = "${config.home.homeDirectory}/drives/gdrive-personal";
+            options = {
+              vfs-cache-max-size = maxCacheSize;
+            };
           };
         };
         gdrive-pianeta-costruzioni = {
@@ -57,6 +64,9 @@ in
           mounts."/" = {
             enable = true;
             mountPoint = "${config.home.homeDirectory}/drives/gdrive-pianeta-costruzioni";
+            options = {
+              vfs-cache-max-size = maxCacheSize;
+            };
           };
         };
         onedrive-kth = {
@@ -71,6 +81,9 @@ in
           mounts."/" = {
             enable = true;
             mountPoint = "${config.home.homeDirectory}/drives/onedrive-kth";
+            options = {
+              vfs-cache-max-size = maxCacheSize;
+            };
           };
         };
       };
