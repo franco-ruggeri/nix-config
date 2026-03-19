@@ -33,24 +33,6 @@ in
             };
           };
         };
-        gdrive-personal = {
-          config = {
-            type = "drive";
-            scope = "drive";
-            client_id = "985888792063-bej879uqfvj192se3bueif6kb2djg3ta.apps.googleusercontent.com";
-          };
-          secrets = {
-            client_secret = config.age.secrets.rclone-gdrive-personal-client-secret.path;
-            token = config.age.secrets.rclone-gdrive-personal-token.path;
-          };
-          mounts."/" = {
-            enable = true;
-            mountPoint = "${config.home.homeDirectory}/drives/gdrive-personal";
-            options = {
-              vfs-cache-max-size = maxCacheSize;
-            };
-          };
-        };
         gdrive-pianeta-costruzioni = {
           config = {
             type = "drive";
@@ -91,8 +73,6 @@ in
 
     age.secrets = myLib.mkSecrets [
       "rclone-nextcloud-password"
-      "rclone-gdrive-personal-client-secret"
-      "rclone-gdrive-personal-token"
       "rclone-gdrive-pianeta-costruzioni-client-secret"
       "rclone-gdrive-pianeta-costruzioni-token"
       "rclone-onedrive-kth-token"

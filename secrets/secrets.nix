@@ -30,8 +30,6 @@ in
     homeLaptop
   ];
   "rclone-nextcloud-password.age".publicKeys = [ homeDesktop ];
-  "rclone-gdrive-personal-client-secret.age".publicKeys = [ homeDesktop ];
-  "rclone-gdrive-personal-token.age".publicKeys = [ homeDesktop ];
   "rclone-gdrive-pianeta-costruzioni-client-secret.age".publicKeys = [ homeDesktop ];
   "rclone-gdrive-pianeta-costruzioni-token.age".publicKeys = [ homeDesktop ];
   "rclone-onedrive-kth-token.age".publicKeys = [ homeDesktop ];
