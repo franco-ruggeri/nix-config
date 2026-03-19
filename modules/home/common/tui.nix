@@ -20,6 +20,7 @@ in
         python3
         uv
         nodejs
+        pnpm
         cargo
         gcc
         unzip
