@@ -41,6 +41,7 @@ in
         sops
         age
         texliveFull
+        rustc
       ];
     };
 
