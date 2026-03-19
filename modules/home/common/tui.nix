@@ -21,7 +21,6 @@ in
         uv
         nodejs
         pnpm
-        cargo
         gcc
         unzip
         tree-sitter
@@ -41,7 +40,7 @@ in
         sops
         age
         texliveFull
-        rustc
+        rustup
       ];
     };
 
