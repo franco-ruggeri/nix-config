@@ -26,6 +26,7 @@ in
         tree-sitter
         fd
         ripgrep
+        bat
         gnumake
         oh-my-posh
         cmake

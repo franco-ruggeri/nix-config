@@ -76,7 +76,7 @@ return {
 	dependencies = {
 		"nvim-lua/plenary.nvim", -- required
 		"MeanderingProgrammer/render-markdown.nvim", -- for better rendering
-		"nvim-telescope/telescope.nvim", -- for pickers
+		"ibhagwan/fzf-lua", -- for pickers
 	},
 	opts = {
 		workspaces = { { name = "notes", path = vim.fn.getcwd } },

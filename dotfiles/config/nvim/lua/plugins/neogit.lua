@@ -8,9 +8,5 @@ return {
 	keys = {
 		{ "<Leader>gg", "<Cmd>Neogit<CR>", desc = "[g]it status" },
 	},
-	opts = {
-		integrations = {
-			telescope = false, -- use vim.select.ui() (=> telescope-ui-select)
-		},
-	},
+	opts = {},
 }
