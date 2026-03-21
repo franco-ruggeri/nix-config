@@ -6,7 +6,10 @@ return {
 		"fzf-tmux",
 		files = {
 			previewer = false,
-			fzf_opts = { ["--tmux"] = "center" },
+			fzf_opts = {
+				["--tmux"] = "center",
+				["--keep-right"] = "",
+			},
 		},
 	},
 	config = function(_, opts)
