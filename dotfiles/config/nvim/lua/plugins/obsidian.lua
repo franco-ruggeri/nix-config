@@ -71,7 +71,10 @@ local function img_text_func(path)
 end
 
 return {
-	"obsidian-nvim/obsidian.nvim",
+	-- TODO: restore upstream when my PR is merged and released
+	-- https://github.com/obsidian-nvim/obsidian.nvim/pull/766
+	-- "obsidian-nvim/obsidian.nvim",
+	"franco-ruggeri/obsidian.nvim",
 	lazy = true, -- on-demand loading from .nvim.lua
 	dependencies = {
 		"nvim-lua/plenary.nvim", -- required
@@ -97,6 +100,7 @@ return {
 			confirm_img_paste = false,
 		},
 		templates = { folder = "_assets/templates" },
+		search = { sort = false },
 		ui = { enable = false }, -- render-markdown takes care of nice rendering
 		-- Get rid of the warning. I can remove it from version 4.
 		-- See https://github.com/obsidian-nvim/obsidian.nvim/wiki/Commands
