@@ -2,7 +2,13 @@ return {
 	"ibhagwan/fzf-lua",
 	version = false,
 	dependencies = { "nvim-tree/nvim-web-devicons" },
-	opts = {},
+	opts = {
+		"fzf-tmux",
+		files = {
+			previewer = false,
+			fzf_opts = { ["--tmux"] = "center" },
+		},
+	},
 	config = function(_, opts)
 		local fzf = require("fzf-lua")
 		fzf.setup(opts)
