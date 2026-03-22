@@ -6,7 +6,8 @@
 }:
 let
   cfg = config.myModules.home.cloud;
-  maxCacheSize = "20G";
+  vfsCacheMode = "full";
+  vfsMaxCacheSize = "20G";
 in
 {
   options.myModules.home.cloud.enable = lib.mkEnableOption "Enables mounts of cloud storage services";
@@ -29,7 +30,8 @@ in
             enable = true;
             mountPoint = "${config.home.homeDirectory}/drives/nextcloud";
             options = {
-              vfs-cache-max-size = maxCacheSize;
+              vfs-cache-mode = vfsCacheMode;
+              vfs-cache-max-size = vfsMaxCacheSize;
             };
           };
         };
@@ -47,7 +49,8 @@ in
             enable = true;
             mountPoint = "${config.home.homeDirectory}/drives/gdrive-pianeta-costruzioni";
             options = {
-              vfs-cache-max-size = maxCacheSize;
+              vfs-cache-mode = vfsCacheMode;
+              vfs-cache-max-size = vfsMaxCacheSize;
             };
           };
         };
@@ -64,7 +67,8 @@ in
             enable = true;
             mountPoint = "${config.home.homeDirectory}/drives/onedrive-kth";
             options = {
-              vfs-cache-max-size = maxCacheSize;
+              vfs-cache-mode = vfsCacheMode;
+              vfs-cache-max-size = vfsMaxCacheSize;
             };
           };
         };
