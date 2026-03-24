@@ -48,7 +48,6 @@ in
             WorkingDirectory = pythonScriptDir;
             Environment = [
               "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
-              "NFS_SERVER_ADDRESS=${config.myModules.system.homelab.nfs.client.serverAddress}"
               "RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path}"
               "RESTIC_REPOSITORY=/mnt/zfs/k8s-backup"
               "RESTIC_CACHE_DIR=/tmp/restic-cache"
