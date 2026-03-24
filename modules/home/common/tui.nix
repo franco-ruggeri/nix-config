@@ -42,6 +42,7 @@ in
         age
         texliveFull
         rustup
+        awscli2
       ];
     };
 
