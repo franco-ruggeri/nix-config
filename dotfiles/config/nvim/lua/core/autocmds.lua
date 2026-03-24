@@ -63,6 +63,7 @@ M.setup = function()
 			vim.opt.foldexpr = "v:lua.vim.lsp.foldexpr()"
 
 			-- Keymaps
+			vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf, desc = "[g]oto [d]efinition" })
 			vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = args.buf, desc = "[g]oto [d]eclaration" })
 		end,
 	})
