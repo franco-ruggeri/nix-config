@@ -4,7 +4,7 @@
     "amazon-bedrock": {
       "options": {
         "region": "eu-west-1",
-        "profile": "GFTLIntelligenceOnTap"
+        "profile": "GFTLIoT-Bedrock"
       }
     }
   }
