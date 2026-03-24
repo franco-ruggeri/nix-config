@@ -51,23 +51,6 @@ in
             };
           };
         };
-        onedrive-kth = {
-          config = {
-            type = "onedrive";
-            drive_type = "business";
-            drive_id = "b!4GWf6C2me0m5VC55iKz8_tfjB2clgiFDoKvDM9GYp_zttnyXpLE7R4uiD44KSQH_";
-          };
-          secrets = {
-            token = config.age.secrets.rclone-onedrive-kth-token.path;
-          };
-          mounts."/" = {
-            enable = true;
-            mountPoint = "${config.home.homeDirectory}/drives/onedrive-kth";
-            options = {
-              vfs-cache-max-size = vfsCacheMaxSize;
-            };
-          };
-        };
       };
     };
 
@@ -75,7 +58,6 @@ in
       "rclone-nextcloud-password"
       "rclone-gdrive-pianeta-costruzioni-client-secret"
       "rclone-gdrive-pianeta-costruzioni-token"
-      "rclone-onedrive-kth-token"
     ];
   };
 }
