@@ -50,7 +50,6 @@ M.setup = function()
 			-- Format on save
 			if client:supports_method("textDocument/formatting") then
 				vim.api.nvim_create_autocmd("BufWritePre", {
-					group = vim.api.nvim_create_augroup("my-lsp-format", { clear = false }),
 					buffer = args.buf,
 					callback = function()
 						vim.lsp.buf.format({ filter = format_filter })
