@@ -93,7 +93,10 @@ return {
 			blink = true,
 		},
 		backlinks = { parse_headers = false },
-		link = { style = markdown_link_func },
+		link = {
+			style = markdown_link_func,
+			format = "absolute",
+		},
 		frontmatter = { func = note_frontmatter_func },
 		note_path_func = note_path_func,
 		attachments = {
