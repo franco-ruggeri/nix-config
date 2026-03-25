@@ -106,7 +106,7 @@ return {
 			confirm_img_paste = false,
 		},
 		templates = { folder = "_assets/templates" },
-		search = { sort = false }, -- avoid rg sorting, which is slow for large vaults
+		search = { sort_by = false }, -- avoid rg sorting, which is slow for large vaults
 		ui = { enable = false }, -- render-markdown takes care of nice rendering
 		footer = { enabled = false }, -- reduce rg calls, which are slow for large vaults
 		-- Get rid of the warning. I can remove it from version 4.
