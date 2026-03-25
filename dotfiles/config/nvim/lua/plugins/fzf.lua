@@ -3,14 +3,19 @@ return {
 	version = false,
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	opts = {
-		"fzf-tmux",
+		-- Consistent look with fzf in terminal
+		-- ====================
 		files = {
 			previewer = false,
 			fzf_opts = {
-				["--tmux"] = "center",
 				["--keep-right"] = "",
 			},
+			winopts = {
+				height = 0.5,
+				width = 0.5,
+			},
 		},
+		-- ====================
 	},
 	config = function(_, opts)
 		local fzf = require("fzf-lua")
