@@ -22,24 +22,6 @@ local function open_note()
 	vim.fn.system(cmd)
 end
 
--- Based on defaults, but adding the "/" prefix to the path for compatibility with GitHub
-local function markdown_link_func(opts)
-	local util = require("obsidian.util")
-
-	local anchor = ""
-	local header = ""
-	if opts.anchor then
-		anchor = opts.anchor.anchor
-		header = util.format_anchor_label(opts.anchor)
-	elseif opts.block then
-		anchor = "#" .. opts.block.id
-		header = "#" .. opts.block.id
-	end
-
-	local path = util.urlencode(opts.path, { keep_path_sep = true })
-	return ("[%s%s](/%s%s)"):format(opts.label, header, path, anchor)
-end
-
 local note_frontmatter_func = function(note)
 	local title = note.title
 	local aliases = note.aliases
@@ -80,9 +62,13 @@ local function img_text_func(path)
 	return ("![pasted image](/%s)"):format(path)
 end
 
--- Based on the default, but removing the suffix. The timestamp is enough.
--- The suffix in the default implementation is not always lowercase.
-local function note_id_func()
+local function note_id_func(title, dir)
+	return require("obsidian.builtin").title_id(title, dir)
+end
+
+-- Based on the default zettel_id, but removing the suffix.
+-- The timestamp is enough and the suffix is not always lowercase.
+local function zettel_note_id_func()
 	return tostring(os.time())
 end
 
@@ -112,12 +98,7 @@ return {
 			nvim_cmp = false,
 			blink = true,
 		},
-		backlinks = { parse_headers = false },
 		note_id_func = note_id_func,
-		link = {
-			style = markdown_link_func,
-			format = "absolute",
-		},
 		frontmatter = { func = note_frontmatter_func },
 		attachments = {
 			folder = "_assets/attachments",
@@ -128,9 +109,11 @@ return {
 		templates = {
 			folder = "_assets/templates",
 			customizations = {
+				zettel = { note_id_func = zettel_note_id_func },
 				meeting = { note_id_func = meeting_note_id_func },
 			},
 		},
+		backlinks = { parse_headers = false },
 		search = { sort_by = false }, -- avoid rg sorting, which is slow for large vaults
 		ui = { enable = false }, -- render-markdown takes care of nice rendering
 		footer = { enabled = false }, -- reduce rg calls, which are slow for large vaults
