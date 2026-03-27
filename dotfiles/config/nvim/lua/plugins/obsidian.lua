@@ -105,7 +105,7 @@ return {
 		"ibhagwan/fzf-lua", -- for pickers
 	},
 	opts = {
-		workspaces = { { name = "notes", path = vim.fn.getcwd } },
+		workspaces = { { name = "vault", path = vim.fn.getcwd } },
 		new_notes_location = "notes_subdir",
 		notes_subdir = "0-inbox",
 		completion = {
@@ -160,14 +160,8 @@ return {
 		vim.keymap.set("x", "<Leader>ol", "<Cmd>Obsidian link<CR>", { desc = "[o]bsidian add [l]ink" })
 		vim.keymap.set("n", "<Leader>op", "<Cmd>Obsidian paste_img <CR>", { desc = "[o]bsidian [p]aste image" })
 		vim.keymap.set("n", "<Leader>or", "<Cmd>Obsidian rename<CR>", { desc = "[o]bsidian [r]ename" })
-		vim.keymap.set("n", "<Leader>on", "<Cmd>Obsidian new<CR>", { desc = "[o]bsidian new [n]ote" })
+		vim.keymap.set("n", "<Leader>on", "<Cmd>Obsidian new_from_template<CR>", { desc = "[o]bsidian new [n]ote" })
 		vim.keymap.set("x", "<Leader>on", ":Obsidian extract_note<CR>", { desc = "[o]bsidian extract [n]ote" })
-		vim.keymap.set(
-			"n",
-			"<Leader>oN",
-			"<Cmd>Obsidian new_from_template<CR>",
-			{ desc = "[o]bsidian new [n]ote from template" }
-		)
 
 		vim.api.nvim_create_user_command("ObsidianOpen", open_note, {})
 		vim.keymap.set("n", "<Leader>oo", "<Cmd>ObsidianOpen<CR>", { desc = "[o]bsidian [o]pen" })
