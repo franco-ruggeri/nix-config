@@ -151,7 +151,6 @@ in
       myLib.mkConfigDotfiles [
         "opencode"
         "aichat"
-        "marksman"
         "mcphub"
         "nvim"
         "tmux"
