@@ -42,7 +42,11 @@ end
 
 -- Based on defaults, but removing the note ID and title (unnecessary)
 local note_frontmatter_func = function(note)
-	local out = { aliases = note.aliases, tags = note.tags }
+	local out = {
+		title = note.title, -- TODO: get it from heading
+		aliases = note.aliases,
+		tags = note.tags,
+	}
 	out.aliases = vim.tbl_filter(function(alias)
 		return alias ~= note.title
 	end, out.aliases)
