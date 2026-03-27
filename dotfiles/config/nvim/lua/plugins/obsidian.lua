@@ -40,17 +40,30 @@ local function markdown_link_func(opts)
 	return ("[%s%s](/%s%s)"):format(opts.label, header, path, anchor)
 end
 
--- Based on defaults, but removing the note ID and title (unnecessary)
 local note_frontmatter_func = function(note)
-	local out = {
-		title = note.title, -- TODO: get it from heading
-		aliases = note.aliases,
+	local title = note.title
+	local aliases = note.aliases
+
+	-- Sync title with the first heading
+	local util = require("obsidian.util")
+	for _, line in ipairs(note:body_lines()) do
+		local parsed = util.parse_header(line)
+		if parsed ~= nil and parsed.level == 1 then
+			title = parsed.header
+			break
+		end
+	end
+
+	-- Remove the title from aliases to avoid redundancy in frontmatter.
+	aliases = vim.tbl_filter(function(alias)
+		return alias ~= note.title
+	end, aliases)
+
+	return {
+		title = title,
+		aliases = aliases,
 		tags = note.tags,
 	}
-	out.aliases = vim.tbl_filter(function(alias)
-		return alias ~= note.title
-	end, out.aliases)
-	return out
 end
 
 -- Use kebab-case timestamp. By default, "Pasted image %Y%m%d%H%M%S" is used.
