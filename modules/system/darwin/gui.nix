@@ -7,6 +7,7 @@ in
     homebrew = {
       casks = [
         "nextcloud-vfs"
+        "google-drive"
         "adobe-acrobat-reader"
         "linearmouse"
         "docker-desktop"
