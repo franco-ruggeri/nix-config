@@ -80,6 +80,12 @@ local function img_text_func(path)
 	return ("![pasted image](/%s)"):format(path)
 end
 
+-- Based on the default, but removing the suffix. The timestamp is enough.
+-- The suffix in the default implementation is not always lowercase.
+local function note_id_func()
+	return tostring(os.time())
+end
+
 local function meeting_note_id_func(title)
 	return ("%s-%s"):format(os.date("%Y-%m-%d"), to_kebab_case(title))
 end
@@ -107,6 +113,7 @@ return {
 			blink = true,
 		},
 		backlinks = { parse_headers = false },
+		note_id_func = note_id_func,
 		link = {
 			style = markdown_link_func,
 			format = "absolute",
