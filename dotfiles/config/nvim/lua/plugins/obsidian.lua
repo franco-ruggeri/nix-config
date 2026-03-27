@@ -49,13 +49,6 @@ local note_frontmatter_func = function(note)
 	return out
 end
 
--- Use kebab-case title for the filename. By default, the note ID is used.
-local function note_path_func(spec)
-	spec.title = spec.title or spec.id
-	local path = spec.dir / to_kebab_case(tostring(spec.title))
-	return path:with_suffix(".md")
-end
-
 -- Use kebab-case timestamp. By default, "Pasted image %Y%m%d%H%M%S" is used.
 local function img_name_func()
 	return ("pasted-image-%s"):format(os.date("%Y%m%d%H%M%S"))
@@ -68,6 +61,10 @@ local function img_text_func(path)
 	path = tostring(path:vault_relative_path())
 	path = util.urlencode(path, { keep_path_sep = true })
 	return ("![pasted image](/%s)"):format(path)
+end
+
+local function meeting_note_id_func(title)
+	return ("%s-%s"):format(os.date("%Y-%m-%d"), to_kebab_case(title))
 end
 
 return {
@@ -98,14 +95,18 @@ return {
 			format = "absolute",
 		},
 		frontmatter = { func = note_frontmatter_func },
-		note_path_func = note_path_func,
 		attachments = {
 			folder = "_assets/attachments",
 			img_name_func = img_name_func,
 			img_text_func = img_text_func,
 			confirm_img_paste = false,
 		},
-		templates = { folder = "_assets/templates" },
+		templates = {
+			folder = "_assets/templates",
+			customizations = {
+				meeting = { note_id_func = meeting_note_id_func },
+			},
+		},
 		search = { sort_by = false }, -- avoid rg sorting, which is slow for large vaults
 		ui = { enable = false }, -- render-markdown takes care of nice rendering
 		footer = { enabled = false }, -- reduce rg calls, which are slow for large vaults
