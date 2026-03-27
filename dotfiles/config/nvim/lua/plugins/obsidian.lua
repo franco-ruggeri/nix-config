@@ -48,15 +48,6 @@ local function img_name_func()
 	return ("pasted-image-%s"):format(os.date("%Y%m%d%H%M%S"))
 end
 
--- Use the vault-relative path in the image link.
--- By default, the link is created with only the filename.
-local function img_text_func(path)
-	local util = require("obsidian.util")
-	path = tostring(path:vault_relative_path())
-	path = util.urlencode(path, { keep_path_sep = true })
-	return ("![pasted image](/%s)"):format(path)
-end
-
 local function note_id_func(title, dir)
 	return require("obsidian.builtin").title_id(title, dir)
 end
@@ -98,7 +89,6 @@ return {
 		attachments = {
 			folder = "_assets/attachments",
 			img_name_func = img_name_func,
-			img_text_func = img_text_func,
 			confirm_img_paste = false,
 		},
 		templates = {
