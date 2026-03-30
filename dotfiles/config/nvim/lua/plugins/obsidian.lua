@@ -37,7 +37,6 @@ local note_frontmatter_func = function(note)
 	end
 
 	return {
-		id = note.id,
 		title = title,
 		aliases = aliases,
 		tags = note.tags,
