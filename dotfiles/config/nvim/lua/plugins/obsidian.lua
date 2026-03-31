@@ -36,6 +36,11 @@ local note_frontmatter_func = function(note)
 		end
 	end
 
+	-- Remove the title from aliases to avoid redundancy in frontmatter.
+	aliases = vim.tbl_filter(function(alias)
+		return alias ~= note.title
+	end, aliases)
+
 	return {
 		title = title,
 		aliases = aliases,
