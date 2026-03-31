@@ -22,27 +22,39 @@ local function open_note()
 	vim.fn.system(cmd)
 end
 
-local note_frontmatter_func = function(note)
-	local title = note.title
-	local aliases = note.aliases
+local function note_id_func(title, dir)
+	return require("obsidian.builtin").title_id(title, dir)
+end
 
-	-- Sync title with the first heading
+local function meeting_note_id_func(title)
+	return ("%s-%s"):format(os.date("%Y-%m-%d"), to_kebab_case(title))
+end
+
+local note_frontmatter_func = function(note)
 	local util = require("obsidian.util")
-	for _, line in ipairs(note:body_lines()) do
-		local parsed = util.parse_header(line)
-		if parsed ~= nil and parsed.level == 1 then
-			title = parsed.header
-			break
-		end
-	end
+	local aliases = note.aliases
 
 	-- Remove the title from aliases to avoid redundancy in frontmatter.
 	aliases = vim.tbl_filter(function(alias)
 		return alias ~= note.title
 	end, aliases)
 
+	-- Sync title and filename
+	for _, line in ipairs(note:body_lines()) do
+		local parsed = util.parse_header(line)
+		if parsed ~= nil and parsed.level == 1 then
+			local title = parsed.header
+			local id = note_id_func(title, note.path)
+			if id ~= note.id then
+				vim.schedule(function()
+					vim.cmd("Obsidian rename " .. id)
+				end)
+			end
+			break
+		end
+	end
+
 	return {
-		title = title,
 		aliases = aliases,
 		tags = note.tags,
 	}
@@ -51,20 +63,6 @@ end
 -- Use kebab-case timestamp. By default, "Pasted image %Y%m%d%H%M%S" is used.
 local function img_name_func()
 	return ("pasted-image-%s"):format(os.date("%Y%m%d%H%M%S"))
-end
-
-local function note_id_func(title, dir)
-	return require("obsidian.builtin").title_id(title, dir)
-end
-
--- Based on the default zettel_id, but removing the suffix.
--- The timestamp is enough and the suffix is not always lowercase.
-local function zettel_note_id_func()
-	return tostring(os.time())
-end
-
-local function meeting_note_id_func(title)
-	return ("%s-%s"):format(os.date("%Y-%m-%d"), to_kebab_case(title))
 end
 
 return {
@@ -99,7 +97,6 @@ return {
 		templates = {
 			folder = "_assets/templates",
 			customizations = {
-				zettel = { note_id_func = zettel_note_id_func },
 				meeting = { note_id_func = meeting_note_id_func },
 			},
 		},
