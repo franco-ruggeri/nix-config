@@ -16,6 +16,11 @@ return {
 			},
 		},
 		-- ====================
+		-- Keymap to send to quickfix.
+		-- See https://github.com/ibhagwan/fzf-lua/issues/324
+		keymap = {
+			fzf = { ["ctrl-q"] = "select-all+accept" },
+		},
 	},
 	config = function(_, opts)
 		local fzf = require("fzf-lua")
