@@ -66,13 +66,7 @@ local function img_name_func()
 end
 
 return {
-	-- TODO: restore upstream when my PR is merged and released
-	-- https://github.com/obsidian-nvim/obsidian.nvim/pull/766
-	-- ==============================================
-	-- "obsidian-nvim/obsidian.nvim",
-	"franco-ruggeri/obsidian.nvim",
-	version = false,
-	-- ==============================================
+	"obsidian-nvim/obsidian.nvim",
 	lazy = true, -- on-demand loading from .nvim.lua
 	dependencies = {
 		"nvim-lua/plenary.nvim", -- required
