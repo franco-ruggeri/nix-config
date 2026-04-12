@@ -14,7 +14,6 @@ in
   config = lib.mkIf cfg.enable {
     home = {
       packages = with pkgs; [
-        aichat
         opencode
         tmux
         python3
@@ -52,9 +51,6 @@ in
         enableCompletion = true;
         autosuggestion.enable = true;
         syntaxHighlighting.enable = true;
-        shellAliases = {
-          aichat = "GEMINI_API_KEY=$(cat ${config.age.secrets.gemini-api-key.path}) aichat";
-        };
         envExtra = "source $HOME/.config/zsh/zshenv.sh";
         initContent = "source $HOME/.config/zsh/zshrc.sh";
         history.ignoreSpace = true;
@@ -150,7 +146,6 @@ in
       in
       myLib.mkConfigDotfiles [
         "opencode"
-        "aichat"
         "mcphub"
         "nvim"
         "tmux"
@@ -158,7 +153,5 @@ in
         "git"
       ]
       // nvim_constants;
-
-    age.secrets = myLib.mkSecrets [ "gemini-api-key" ];
   };
 }

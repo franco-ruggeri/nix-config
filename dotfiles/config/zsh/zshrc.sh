@@ -58,13 +58,6 @@ if is_command_available devpod; then
 	source <(devpod completion zsh)
 fi
 
-if is_command_available aichat; then
-	# shellcheck source=/dev/null
-	source <(curl -sSL https://raw.githubusercontent.com/sigoden/aichat/main/scripts/shell-integration/integration.zsh)
-	# shellcheck source=/dev/null
-	source <(curl -sSL https://raw.githubusercontent.com/sigoden/aichat/main/scripts/completions/aichat.zsh)
-fi
-
 if is_command_available flux; then
 	# shellcheck source=/dev/null
 	source <(flux completion zsh)

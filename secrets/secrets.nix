@@ -32,10 +32,4 @@ in
   "rclone-nextcloud-password.age".publicKeys = [ homeDesktop ];
   "rclone-gdrive-pianeta-costruzioni-client-secret.age".publicKeys = [ homeDesktop ];
   "rclone-gdrive-pianeta-costruzioni-token.age".publicKeys = [ homeDesktop ];
-  "gemini-api-key.age".publicKeys = [
-    homeDesktop
-    homeLaptop
-    homeServerTurin
-    homeServerStockholm
-  ];
 }
