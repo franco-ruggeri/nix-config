@@ -42,6 +42,64 @@ in
         texliveFull
         rustup
         awscli2
+
+        # LSP, DAP, formatters, linteger
+        # ====================
+        # Data serialization formats
+        vscode-langservers-extracted # jsonls
+        yaml-language-server
+        taplo
+        lemminx
+        nodePackages.prettier
+
+        # Lua
+        lua-language-server
+        stylua
+
+        # Bash
+        bash-language-server
+        shfmt
+
+        # Markdown
+        marksman
+        markdownlint-cli
+
+        # Javascript/Typescript
+        typescript-language-server
+        vscode-js-debug
+
+        # Docker
+        docker-language-server
+        hadolint
+
+        # Helm
+        helm-ls
+
+        # Python
+        basedpyright
+        python3Packages.debugpy
+        ruff
+        pylint
+        mypy
+
+        # C/C++
+        clang-tools # clangd and clang-format
+        vscode-extensions.ms-vscode.cpptools
+
+        # LaTeX
+        texlab
+        python3Packages.pylatexenc
+
+        # Java
+        jdt-language-server
+        google-java-format
+        vscode-extensions.vscjava.vscode-java-debug # java-debug-adapter
+        vscode-extensions.vscjava.vscode-java-test # to use debug adapter on tests
+
+        # Nix
+        nil
+        nixfmt-rfc-style
+        # ====================
       ];
     };
 
@@ -73,62 +131,6 @@ in
       neovim = {
         enable = true;
         defaultEditor = true;
-        extraPackages = with pkgs; [
-          # Data serialization formats
-          vscode-langservers-extracted # jsonls
-          yaml-language-server
-          taplo
-          lemminx
-          nodePackages.prettier
-
-          # Lua
-          lua-language-server
-          stylua
-
-          # Bash
-          bash-language-server
-          shfmt
-
-          # Markdown
-          marksman
-          markdownlint-cli
-
-          # Javascript/Typescript
-          typescript-language-server
-          vscode-js-debug
-
-          # Docker
-          docker-language-server
-          hadolint
-
-          # Helm
-          helm-ls
-
-          # Python
-          basedpyright
-          python3Packages.debugpy
-          ruff
-          pylint
-          mypy
-
-          # C/C++
-          clang-tools # clangd and clang-format
-          vscode-extensions.ms-vscode.cpptools
-
-          # LaTeX
-          texlab
-          python3Packages.pylatexenc
-
-          # Java
-          jdt-language-server
-          google-java-format
-          vscode-extensions.vscjava.vscode-java-debug # java-debug-adapter
-          vscode-extensions.vscjava.vscode-java-test # to use debug adapter on tests
-
-          # Nix
-          nil
-          nixfmt-rfc-style
-        ];
       };
     };
 
