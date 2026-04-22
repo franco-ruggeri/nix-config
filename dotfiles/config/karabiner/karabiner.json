@@ -431,6 +431,18 @@
               },
               {
                 "from": {
+                  "key_code": "f",
+                  "modifiers": { "mandatory": ["fn", "shift"] }
+                },
+                "to": [
+                  {
+                    "shell_command": "$HOME/.nix-profile/bin/aerospace layout floating tiling"
+                  }
+                ],
+                "type": "basic"
+              },
+              {
+                "from": {
                   "key_code": "spacebar",
                   "modifiers": { "mandatory": ["fn"] }
                 },
