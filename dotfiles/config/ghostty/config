@@ -15,6 +15,9 @@ title = " "
 # See https://github.com/ghostty-org/ghostty/discussions/3716
 window-padding-balance = true
 
+# Add a small x-padding
+window-padding-x = 10
+
 # Disable confirmation popup on close
 confirm-close-surface = false
 
