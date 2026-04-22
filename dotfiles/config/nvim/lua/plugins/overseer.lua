@@ -9,11 +9,6 @@ return {
 	},
 	opts = {
 		templates = { "builtin", "extra" },
-		task_list = {
-			-- If direction is "bottom", the task view gets opened alongside the task list.
-			-- We want to open the task list but not the task view.
-			direction = "left",
-		},
 	},
 	config = function(_, opts)
 		local overseer = require("overseer")
