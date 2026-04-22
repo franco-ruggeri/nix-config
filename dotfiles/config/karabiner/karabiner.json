@@ -503,6 +503,18 @@
                   }
                 ],
                 "type": "basic"
+              },
+              {
+                "from": {
+                  "key_code": "z",
+                  "modifiers": { "mandatory": ["fn"] }
+                },
+                "to": [
+                  {
+                    "shell_command": "$HOME/.config/aerospace-zen/toggle.sh"
+                  }
+                ],
+                "type": "basic"
               }
             ]
           },
