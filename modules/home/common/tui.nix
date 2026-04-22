@@ -148,7 +148,6 @@ in
       in
       myLib.mkConfigDotfiles [
         "opencode"
-        "mcphub"
         "nvim"
         "tmux"
         "zsh"

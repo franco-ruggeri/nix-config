@@ -18,7 +18,6 @@ return {
 		},
 		"nvim-treesitter/nvim-treesitter", -- required
 		"MeanderingProgrammer/render-markdown.nvim", -- for rendering chat
-		"ravitemer/mcphub.nvim", -- for MCP servers
 		"zbirenbaum/copilot.lua", -- for copilot authentication
 		"ravitemer/codecompanion-history.nvim", -- for chat history management
 		{ "franco-ruggeri/codecompanion-spinner.nvim", version = false, dev = true }, -- for spinner
@@ -93,8 +92,7 @@ return {
 					chat_filter = function(chat_data) -- only chats for the cwd
 						return chat_data.cwd == vim.fn.getcwd()
 					end,
-					-- WARNING: The models used for titles and summaries default to the models used in the chats.
-					-- So, it is crucial to set them, in order not to waste requests potentially from premium models.
+					-- Use cheap models for generating summaries.
 					-- ====================
 					title_generation_opts = {
 						adapter = "copilot",
@@ -112,9 +110,6 @@ return {
 			spinner = {
 				-- opts = { log_level = "debug" },
 			},
-			-- Integration with mcphub.nvim
-			-- See https://ravitemer.github.io/mcphub.nvim/extensions/codecompanion.html
-			mcphub = { callback = "mcphub.extensions.codecompanion" },
 		},
 	},
 	config = function(_, opts)
