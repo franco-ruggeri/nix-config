@@ -34,13 +34,13 @@
         {
           "type": "git",
           "style": "plain",
-          "foreground": "p:rose-pine-main-iris",
+          "foreground": "p:rose-pine-main-pine",
           "template": " {{ .HEAD }}"
         },
         {
           "type": "python",
           "style": "plain",
-          "foreground": "p:rose-pine-main-iris",
+          "foreground": "p:rose-pine-main-gold",
           "template": " \uE235 {{ .Venv }}",
           "properties": {
             "home_enabled": true
@@ -62,7 +62,7 @@
         {
           "type": "text",
           "style": "plain",
-          "foreground": "p:rose-pine-main-rose",
+          "foreground": "p:rose-pine-main-text",
           "template": "$"
         }
       ]
