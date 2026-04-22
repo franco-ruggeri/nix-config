@@ -77,6 +77,11 @@ return {
 			},
 		},
 		display = {
+			chat = {
+				window = {
+					layout = "tab",
+				},
+			},
 			action_palette = {
 				provider = "default", -- use vim.ui.select()
 			},
