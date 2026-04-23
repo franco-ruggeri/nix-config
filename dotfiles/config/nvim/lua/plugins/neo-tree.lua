@@ -7,7 +7,6 @@ return {
 		"nvim-tree/nvim-web-devicons", -- for file icons
 	},
 	opts = {
-		window = { position = "current" },
 		filesystem = {
 			hijack_netrw_behavior = "disabled",
 			filtered_items = {
