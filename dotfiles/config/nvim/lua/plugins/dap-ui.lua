@@ -4,8 +4,6 @@ return {
 	dependencies = {
 		"nvim-neotest/nvim-nio", -- required
 		"mfussenegger/nvim-dap",
-		"nvim-neotest/neotest", -- [*]
-		"folke/edgy.nvim", -- [*]
 	},
 	config = function()
 		local dapui = require("dapui")
@@ -21,26 +19,9 @@ return {
 			-- bypassing the DAP UI close function.
 			vim.cmd("tabfirst")
 			vim.cmd("tabonly")
-
-			-- HACK: [*] Scenario: See below.
-			-- edgy.nvim loses track of its managed windows when new tabs are
-			-- created/closed. Thus, at this point, edgy.nvim does not have the
-			-- neotest summary window registered anymore. In order for `goto_main()`
-			-- to work (see below), we toggle the neotest summary window twice. If
-			-- the neotest summary window was open, it will be closed and re-opened
-			-- so that edgy.nvim registers it.
-			local neotest = require("neotest")
-			neotest.summary.toggle()
-			neotest.summary.toggle()
 		end
 		local function open_dapui()
 			close_dapui() -- support opening DAP UI multiple times
-
-			-- [*] Scenario: Test launched in debugging mode from the neotest
-			-- summary window. The neotest summary window is managed by edgy.nvim. If
-			-- we open the DAP UI around this window, the layout becomes a mess.
-			-- Thus, we jump to the main window using edgy.nvim.
-			require("edgy").goto_main()
 
 			local buffer = vim.api.nvim_get_current_buf()
 			vim.cmd("tabnew")
