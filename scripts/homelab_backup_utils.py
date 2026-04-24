@@ -52,7 +52,7 @@ def notify(errors: list[str]) -> None:
     script = Path(sys.argv[0])
     result = "FAILED" if errors else "PASSED"
 
-    subject = f"[Homelab] Backup {script.stem} tests {result}"
+    subject = f"[Homelab] {result} - {hostname}"
     body_lines = [
         "Context:",
         f"- Hostname: {hostname}",
