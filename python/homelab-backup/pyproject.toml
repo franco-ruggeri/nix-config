@@ -1,11 +1,9 @@
 [project]
 name = "homelab-backup"
 version = "0.1.0"
-description = "Add your description here"
+description = "Homelab backup"
 readme = "README.md"
-authors = [
-    { name = "Franco Ruggeri", email = "franco.ruggeri.pro@gmail.com" }
-]
+authors = [{ name = "Franco Ruggeri", email = "franco.ruggeri.pro@gmail.com" }]
 requires-python = ">=3.13"
 dependencies = []
 

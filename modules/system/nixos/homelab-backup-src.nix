@@ -37,11 +37,11 @@ in
     ];
 
     systemd = {
-      services.homelab-backup-restic = {
-        description = "Homelab backup restic on source";
+      services.homelab-backup-src = {
+        description = "Homelab backup source";
         serviceConfig = {
           Type = "oneshot";
-          ExecStart = "${homelabBackup}/bin/homelab-backup restic";
+          ExecStart = "${homelabBackup}/bin/homelab-backup src";
           Environment = [
             "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
             "RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path}"
@@ -49,8 +49,8 @@ in
           ];
         };
       };
-      timers.homelab-backup-restic = {
-        description = "Homelab backup restic on source";
+      timers.homelab-backup-src = {
+        description = "Homelab backup source";
         wantedBy = [ "timers.target" ];
         timerConfig = {
           OnCalendar = "02:00";

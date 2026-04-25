@@ -38,11 +38,11 @@ in
     ];
 
     systemd = {
-      services.homelab-backup-zfs-pull = {
-        description = "Homelab backup ZFS pull on destination";
+      services.homelab-backup-dst = {
+        description = "Homelab backup destination";
         serviceConfig = {
           Type = "oneshot";
-          ExecStart = "${homelabBackup}/bin/homelab-backup zfs-pull";
+          ExecStart = "${homelabBackup}/bin/homelab-backup dst --mode zfs";
           Environment = [
             "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
             "SOURCE_HOST=${cfg.sourceHost}"
@@ -57,8 +57,8 @@ in
           '';
         };
       };
-      timers.homelab-backup-zfs-pull = {
-        description = "Homelab backup ZFS pull on destination";
+      timers.homelab-backup-dst = {
+        description = "Homelab backup destination";
         wantedBy = [ "timers.target" ];
         timerConfig = {
           OnCalendar = "03:00";
