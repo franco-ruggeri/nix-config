@@ -18,7 +18,7 @@
       backup.enable = true;
 
       # Staging
-      nfs.server = {
+      nfs = {
         enable = true;
         rwIPs = [ "10.34.0.6/32" ];
         roIPs = [ ];

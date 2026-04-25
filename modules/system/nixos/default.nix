@@ -16,7 +16,7 @@ in
     ./zfs.nix
     ./homelab-k8s-master.nix
     ./homelab-wireguard.nix
-    ./homelab-nfs-server.nix
+    ./homelab-nfs.nix
     ./homelab-backup.nix
   ];
 

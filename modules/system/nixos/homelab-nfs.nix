@@ -9,14 +9,14 @@
   ...
 }:
 let
-  cfg = config.myModules.system.homelab.nfs.server;
+  cfg = config.myModules.system.homelab.nfs;
   rwIPs =
     cfg.rwIPs
     ++ lib.optionals cfg.production [ "10.42.0.0/16" ]
     ++ lib.optionals (!cfg.production) [ "10.45.0.0/16" ];
 in
 {
-  options.myModules.system.homelab.nfs.server = {
+  options.myModules.system.homelab.nfs = {
     enable = lib.mkEnableOption "Enable NFS server for homelab";
     rwIPs = lib.mkOption { type = lib.types.listOf lib.types.str; };
     roIPs = lib.mkOption { type = lib.types.listOf lib.types.str; };

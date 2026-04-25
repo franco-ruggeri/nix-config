@@ -178,7 +178,7 @@ age.secrets =
 
 | Context                         | Convention   | Example                                    |
 | ------------------------------- | ------------ | ------------------------------------------ |
-| Option names under `myModules`  | `camelCase`  | `tui.enable`, `nfs.server`                 |
+| Option names under `myModules`  | `camelCase`  | `tui.enable`, `nfs`                        |
 | Module / host file names        | `kebab-case` | `homelab-backup.nix`, `server-stockholm`   |
 | `myLib` helper functions        | `camelCase`  | `mkSecrets`, `isDarwin`, `mkNfsExport`     |
 | Local `let` bindings            | `camelCase`  | `mkSecret`, `allowedIPWithOptions`         |

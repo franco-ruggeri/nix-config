@@ -10,7 +10,7 @@
     gaming.enable = true;
     zfs.enable = true;
     homelab = {
-      nfs.server = {
+      nfs = {
         enable = true;
         # Read-write access from K8s nodes and K8s cluster
         rwIPs = [ "10.34.0.2/32" ];
