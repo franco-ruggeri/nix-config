@@ -3,10 +3,6 @@
     username = "erugfra";
     tui.enable = true;
     gui.enable = true;
-    homelab.nfs.client = {
-      enable = true;
-      serverAddress = "10.34.0.2";
-    };
   };
 
   # DO NOT change! Used for backward compatibility.

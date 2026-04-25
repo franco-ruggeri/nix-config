@@ -17,7 +17,6 @@ in
     ./homelab-k8s-master.nix
     ./homelab-wireguard.nix
     ./homelab-nfs-server.nix
-    ./homelab-nfs-client.nix
     ./homelab-backup.nix
   ];
 

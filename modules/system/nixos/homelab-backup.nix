@@ -18,6 +18,7 @@ in
         assertion = config.myModules.system.homelab.wireguard.enable;
         message = "WireGuard client must be enabled for homelab backups.";
       }
+      # TODO: update, removed nfs client
       {
         assertion = config.myModules.system.homelab.nfs.client.enable;
         message = "NFS client must be enabled for homelab backups.";
