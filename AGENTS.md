@@ -209,6 +209,12 @@ age.secrets =
 config = lib.mkIf (myLib.isDarwin && cfg.enable) { ... };
 ```
 
+### Commit Messages
+
+- Summary line must be < 50 characters
+- Use conventional commits format: `type(scope): summary`
+- Common types: `feat`, `fix`, `refactor`, `chore`, `docs`
+
 ### Comments
 
 - Reference upstream docs: `# Based on https://wiki.nixos.org/wiki/...`
