@@ -9,7 +9,7 @@ for _, language_server in pairs({
 	"taplo",
 	"lemminx",
 	"nil_ls",
-	"pylsp",
+	"basedpyright",
 	"ruff",
 }) do
 	vim.lsp.enable(language_server)
