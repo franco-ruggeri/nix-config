@@ -6,13 +6,13 @@
     username = "franco";
     hashedPasswordFile = config.age.secrets.user-password-server-turin.path;
     tui.enable = true;
+    zfs.enable = true;
     homelab = {
       wireguard = {
         enable = true;
         address = "10.34.0.5/24";
         privateKeyFile = config.age.secrets.wireguard-private-key-server-turin.path;
       };
-      backup.enable = true;
     };
   };
 

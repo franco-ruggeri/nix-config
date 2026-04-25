@@ -15,7 +15,11 @@
         address = "10.34.0.6/24";
         privateKeyFile = config.age.secrets.wireguard-private-key-server-stockholm.path;
       };
-      backup.enable = true;
+      backup = {
+        enable = true;
+        role = "destination";
+        sourceHost = "10.34.0.2";
+      };
 
       # Staging
       nfs = {
