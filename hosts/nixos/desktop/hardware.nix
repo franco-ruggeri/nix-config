@@ -18,6 +18,11 @@
       ];
     };
     kernelModules = [ "kvm-intel" ];
+    # Keyboard and mouse are connected via the monitor (KVM switch).
+    # Autosuspend creates a problem when turning off and on the monitor.
+    # Often, keyboard and mouse are not detected when the monitor is turned on again.
+    # To avoid this problem, we disable autosuspend.
+    kernelParams = [ "usbcore.autosuspend=-1" ];
   };
 
   networking.hostId = "1c86da41";
