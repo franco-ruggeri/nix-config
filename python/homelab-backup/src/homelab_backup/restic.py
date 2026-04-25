@@ -11,19 +11,10 @@ from .utils import (
     run_shell_cmd,
 )
 
-
-def _get_zfs_mount_root() -> Path:
-    zfs_mount_root = os.environ.get("ZFS_MOUNT_ROOT")
-    if not zfs_mount_root:
-        raise Exception("ZFS_MOUNT_ROOT environment variable not set.")
-    return Path(zfs_mount_root)
-
-
-def _get_zfs_datasets() -> list[str]:
-    zfs_datasets_str = os.environ.get("ZFS_DATASETS")
-    if not zfs_datasets_str:
-        raise Exception("ZFS_DATASETS environment variable not set.")
-    return zfs_datasets_str.split(",")
+_ZFS_MOUNT_ROOT = Path("/mnt/zfs")
+_ZFS_DATASETS = ["zfs/k8s-nfs", "zfs/k8s-longhorn"]
+_RESTIC_REPOSITORY = "/mnt/zfs/k8s-backup"
+_RESTIC_CACHE_DIR = "/tmp/restic-cache"
 
 
 def _get_zfs_snapshot_datetime(name: str) -> datetime:
@@ -41,10 +32,8 @@ def _restic_backup():
         logging.info("Restic repository not found. Initializing...")
         run_shell_cmd(["restic", "init"])
 
-    zfs_mount_root = _get_zfs_mount_root()
-    zfs_datasets = _get_zfs_datasets()
-    for zfs_dataset in zfs_datasets:
-        zfs_dataset_path = zfs_mount_root / zfs_dataset
+    for zfs_dataset in _ZFS_DATASETS:
+        zfs_dataset_path = _ZFS_MOUNT_ROOT / zfs_dataset
         snapshots_root = zfs_dataset_path / ".zfs" / "snapshot"
         snapshots = [d for d in snapshots_root.iterdir() if d.is_dir()]
         if not snapshots:
@@ -79,10 +68,8 @@ def _restic_backup():
 
 
 def _test_zfs_snapshots() -> None:
-    zfs_mount_root = _get_zfs_mount_root()
-    zfs_datasets = _get_zfs_datasets()
-    for zfs_dataset in zfs_datasets:
-        path = zfs_mount_root / zfs_dataset / ".zfs" / "snapshot"
+    for zfs_dataset in _ZFS_DATASETS:
+        path = _ZFS_MOUNT_ROOT / zfs_dataset / ".zfs" / "snapshot"
         zfs_snapshots = list(path.iterdir())
         if len(zfs_snapshots) == 0:
             raise Exception(f"ZFS: No ZFS snapshots found for {zfs_dataset}.")
@@ -119,7 +106,7 @@ def _test_restic_snapshots() -> None:
             tag_to_dt[tag] = dt
             tag_to_size[tag] = snapshot["summary"]["total_bytes_processed"]
 
-    if set(tag_to_dt.keys()) != set(_get_zfs_datasets()):
+    if set(tag_to_dt.keys()) != set(_ZFS_DATASETS):
         raise Exception("Restic: Not all the ZFS datasets have restic snapshots.")
     if any(datetime.now() - dt > MAX_AGE_HOURS for dt in tag_to_dt.values()):
         raise Exception("Restic: Some restic snapshots are too old.")
@@ -139,6 +126,12 @@ def _test_restic_data() -> None:
 
 
 def main() -> None:
+    os.environ.setdefault("RESTIC_REPOSITORY", _RESTIC_REPOSITORY)
+    os.environ.setdefault("RESTIC_CACHE_DIR", _RESTIC_CACHE_DIR)
+    # Needed to avoid considering all files changed for every new ZFS snapshot.
+    # See https://forum.restic.net/t/backing-up-zfs-snapshots-good-idea/9604
+    os.environ.setdefault("RESTIC_FEATURES", "device-id-for-hardlinks")
+
     errors: list[str] = []
     now = datetime.now()
 

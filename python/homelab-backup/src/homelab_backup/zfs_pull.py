@@ -12,6 +12,8 @@ from .utils import (
     run_shell_cmd,
 )
 
+_BACKUP_DATASET = "zfs/k8s-backup"
+
 
 def snapshot_exists(dataset: str, snapshot_name: str) -> bool:
     snapshot = f"{dataset}@{snapshot_name}"
@@ -34,10 +36,10 @@ def snapshot_exists(dataset: str, snapshot_name: str) -> bool:
 
 
 def pull_latest_snapshot() -> None:
-    source_dataset = get_env("SOURCE_DATASET")
+    source_dataset = _BACKUP_DATASET
     source_host = get_env("SOURCE_HOST")
     source_user = get_env("SOURCE_USER")
-    dest_dataset = get_env("DEST_DATASET")
+    dest_dataset = _BACKUP_DATASET
 
     prefix = get_snapshot_prefix()
     last_name = f"{prefix}-last"

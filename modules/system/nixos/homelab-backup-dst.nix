@@ -1,6 +1,4 @@
-# Assumptions:
-# - A ZFS dataset named zfs/k8s-backup exists with mountpoint=/mnt/zfs/k8s-backup.
-# - The ZFS dataset named zfs/k8s-backup has ZFS receive delegations granted to the main user.
+# Assumption: A ZFS dataset named zfs/k8s-backup exists with mountpoint=/mnt/zfs/k8s-backup.
 {
   config,
   pkgs,
@@ -12,7 +10,6 @@ let
   cfg = config.myModules.system.homelab.backupDst;
   mainUser = config.myModules.system.username;
   mainHome = "/home/${mainUser}";
-  backupDataset = "zfs/k8s-backup";
   homelabBackup = myLib.mkPythonApplication "homelab-backup";
 in
 {
@@ -53,8 +50,6 @@ in
             "HOME=${mainHome}"
             "SOURCE_HOST=${cfg.sourceHost}"
             "SOURCE_USER=${mainUser}"
-            "SOURCE_DATASET=${backupDataset}"
-            "DEST_DATASET=${backupDataset}"
             "SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path}"
           ]
           ++ lib.optionals (cfg.sshPrivateKeyFile != null) [
