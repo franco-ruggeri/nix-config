@@ -1,9 +1,6 @@
 # Assumptions:
-#   - A ZFS dataset named "zfs/k8s-backup" exists with mountpoint=/mnt/zfs/k8s-backup.
-#   - The dataset has ZFS send/receive delegations granted to the main user
-#     (myModules.system.username), e.g.:
-#       zfs allow -u <user> send,snapshot,destroy,rename zfs/k8s-backup   # source
-#       zfs allow -u <user> receive,mount,create,destroy,rollback,rename zfs/k8s-backup  # destination
+# - A ZFS dataset named zfs/k8s-backup exists with mountpoint=/mnt/zfs/k8s-backup.
+# - The ZFS dataset named zfs/k8s-backup has ZFS send/receive delegations granted to the main user.
 {
   config,
   pkgs,
@@ -17,14 +14,10 @@ let
   mainHome = "/home/${mainUser}";
   backupDataset = "zfs/k8s-backup";
   zfsDatasets = [
-    "k8s-nfs"
-    "k8s-longhorn"
+    "zfs/k8s-nfs"
+    "zfs/k8s-longhorn"
   ];
-
-  homelabBackupPython = myLib.mkPythonPackage {
-    derivationName = "homelab-backup-python";
-    packageName = "homelab_backup";
-  };
+  homelabBackup = myLib.mkPythonApplication "homelab-backup";
 in
 {
   options.myModules.system.homelab.backup = {
@@ -69,7 +62,6 @@ in
 
     environment.systemPackages = with pkgs; [
       restic
-      python3
     ];
 
     systemd = {
@@ -80,11 +72,9 @@ in
             serviceConfig = {
               Type = "oneshot";
               User = mainUser;
-              ExecStart = "${pkgs.python3}/bin/python -m homelab_backup restic";
-              WorkingDirectory = homelabBackupPython;
+              ExecStart = "${homelabBackup}/bin/homelab-backup restic";
               Environment = [
                 "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
-                "PYTHONPATH=${homelabBackupPython}"
                 "HOME=${mainHome}"
                 "RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path}"
                 "RESTIC_REPOSITORY=/mnt/zfs/k8s-backup"
@@ -105,11 +95,9 @@ in
             serviceConfig = {
               Type = "oneshot";
               User = mainUser;
-              ExecStart = "${pkgs.python3}/bin/python -m homelab_backup zfs-pull";
-              WorkingDirectory = homelabBackupPython;
+              ExecStart = "${homelabBackup}/bin/homelab-backup zfs-pull";
               Environment = [
                 "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
-                "PYTHONPATH=${homelabBackupPython}"
                 "HOME=${mainHome}"
                 "SOURCE_HOST=${cfg.sourceHost}"
                 "SOURCE_USER=${mainUser}"

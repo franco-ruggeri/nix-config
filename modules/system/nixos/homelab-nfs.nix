@@ -1,6 +1,6 @@
 # Assumption:
-# - The user has created a ZFS dataset named k8s-nfs with mountpoint=/mnt/zfs/k8s-nfs.
-# - The user has created a ZFS dataset named k8s-longhorn with mountpoint=/mnt/zfs/k8s-longhorn.
+# - A ZFS dataset named k8s-nfs exists with mountpoint=/mnt/zfs/k8s-nfs.
+# - A ZFS dataset named k8s-longhorn exists with mountpoint=/mnt/zfs/k8s-longhorn.
 {
   config,
   lib,

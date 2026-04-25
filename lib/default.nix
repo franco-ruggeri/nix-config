@@ -71,19 +71,15 @@ rec {
     in
     script;
 
-  mkPythonPackage =
-    { derivationName, packageName }:
-    let
-      deriv = pkgs.stdenv.mkDerivation {
-        name = derivationName;
-        src = pythonDir;
-        installPhase = ''
-          mkdir -p "$out/${packageName}"
-          cp -r "${packageName}/"* "$out/${packageName}"
-        '';
-      };
-    in
-    deriv;
+  mkPythonApplication =
+    name:
+    pkgs.python3Packages.buildPythonApplication {
+      pname = name;
+      version = "0.1.0";
+      pyproject = true;
+      src = pythonDir + "/${name}";
+      build-system = [ pkgs.python3Packages.hatchling ];
+    };
 
   mkNfsExport =
     {

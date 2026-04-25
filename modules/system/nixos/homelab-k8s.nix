@@ -76,20 +76,15 @@ in
       (lib.mkIf cfg.production {
         services.homelab-backup-k8s =
           let
-            homelabBackupPython = myLib.mkPythonPackage {
-              derivationName = "homelab-backup-python";
-              packageName = "homelab_backup";
-            };
+            homelabBackup = myLib.mkPythonApplication "homelab-backup";
           in
           {
             description = "Homelab backup K8s";
             serviceConfig = {
               Type = "oneshot";
-              ExecStart = "${pkgs.python3}/bin/python -m homelab_backup k8s";
-              WorkingDirectory = homelabBackupPython;
+              ExecStart = "${homelabBackup}/bin/homelab-backup k8s";
               Environment = [
                 "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
-                "PYTHONPATH=${homelabBackupPython}"
                 "SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path}"
               ];
             };
