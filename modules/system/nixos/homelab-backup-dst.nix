@@ -1,4 +1,6 @@
-# Assumption: A ZFS dataset named zfs/k8s-backup exists with mountpoint=/mnt/zfs/k8s-backup.
+# Assumptions:
+# - A ZFS dataset named zfs/k8s-backup exists with mountpoint=/mnt/zfs/k8s-backup.
+# - Root on this host can SSH into sourceHost as sourceUser without a password.
 {
   config,
   pkgs,
@@ -8,8 +10,6 @@
 }:
 let
   cfg = config.myModules.system.homelab.backupDst;
-  mainUser = config.myModules.system.username;
-  mainHome = "/home/${mainUser}";
   homelabBackup = myLib.mkPythonApplication "homelab-backup";
 in
 {
@@ -19,10 +19,9 @@ in
       type = lib.types.str;
       description = "Source host reachable by the destination backup server.";
     };
-    sshPrivateKeyFile = lib.mkOption {
-      type = lib.types.nullOr lib.types.str;
-      default = null;
-      description = "SSH private key file used to authenticate to source.";
+    sourceUser = lib.mkOption {
+      type = lib.types.str;
+      description = "User on the source host to connect as via SSH.";
     };
   };
 
@@ -43,17 +42,12 @@ in
         description = "Homelab backup ZFS pull on destination";
         serviceConfig = {
           Type = "oneshot";
-          User = mainUser;
           ExecStart = "${homelabBackup}/bin/homelab-backup zfs-pull";
           Environment = [
             "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
-            "HOME=${mainHome}"
             "SOURCE_HOST=${cfg.sourceHost}"
-            "SOURCE_USER=${mainUser}"
+            "SOURCE_USER=${cfg.sourceUser}"
             "SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path}"
-          ]
-          ++ lib.optionals (cfg.sshPrivateKeyFile != null) [
-            "SSH_PRIVATE_KEY_FILE=${cfg.sshPrivateKeyFile}"
           ];
           ExecStartPre = pkgs.writeShellScript "homelab-backup-zfs-pull-pre" ''
             echo "Waiting for WireGuard to be ready..."
@@ -63,7 +57,6 @@ in
           '';
         };
       };
-
       timers.homelab-backup-zfs-pull = {
         description = "Homelab backup ZFS pull on destination";
         wantedBy = [ "timers.target" ];
@@ -74,15 +67,6 @@ in
       };
     };
 
-    age.secrets =
-      let
-        smtpSecret = (myLib.mkSecrets [ "smtp-password" ])."smtp-password";
-      in
-      {
-        "smtp-password" = smtpSecret // {
-          owner = mainUser;
-          group = mainUser;
-        };
-      };
+    age.secrets = myLib.mkSecrets [ "smtp-password" ];
   };
 }
