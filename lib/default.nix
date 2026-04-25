@@ -2,7 +2,7 @@
 rec {
   dotfilesConfigDir = ../dotfiles/config;
   dotfilesLocalDir = ../dotfiles/local;
-  scriptsDir = ../scripts;
+  pythonDir = ../python;
   secretsDir = ../secrets;
 
   mkConfigDotfiles =
@@ -65,24 +65,21 @@ rec {
   mkShellScript =
     name:
     let
-      path = scriptsDir + "/${name}";
+      path = pythonDir + "/${name}";
       file = builtins.readFile path;
       script = pkgs.writeShellScript name file;
     in
     script;
 
-  mkPythonScriptDir =
-    { derivationName, scriptNames }:
+  mkPythonPackage =
+    { derivationName, packageName }:
     let
       deriv = pkgs.stdenv.mkDerivation {
         name = derivationName;
-        src = scriptsDir;
+        src = pythonDir;
         installPhase = ''
-          mkdir -p $out
-          for script in ${toString scriptNames}; do
-            cp $script $out
-            chmod +x $out/$script
-          done
+          mkdir -p "$out/${packageName}"
+          cp -r "${packageName}/"* "$out/${packageName}"
         '';
       };
     in

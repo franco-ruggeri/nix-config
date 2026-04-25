@@ -1,6 +1,7 @@
 # Based on https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/cluster/k3s/docs/USAGE.md
 {
   config,
+  pkgs,
   lib,
   myLib,
   ...
@@ -75,22 +76,20 @@ in
       (lib.mkIf cfg.production {
         services.homelab-backup-k8s =
           let
-            pythonScriptDir = myLib.mkPythonScriptDir {
-              derivationName = "homelab_backup_k8s";
-              scriptNames = [
-                "homelab_backup_k8s.py"
-                "homelab_backup_utils.py"
-              ];
+            homelabBackupPython = myLib.mkPythonPackage {
+              derivationName = "homelab-backup-python";
+              packageName = "homelab_backup";
             };
           in
           {
             description = "Homelab backup K8s";
             serviceConfig = {
               Type = "oneshot";
-              ExecStart = "${pythonScriptDir}/homelab_backup_k8s.py";
-              WorkingDirectory = pythonScriptDir;
+              ExecStart = "${pkgs.python3}/bin/python -m homelab_backup k8s";
+              WorkingDirectory = homelabBackupPython;
               Environment = [
                 "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
+                "PYTHONPATH=${homelabBackupPython}"
                 "SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path}"
               ];
             };
