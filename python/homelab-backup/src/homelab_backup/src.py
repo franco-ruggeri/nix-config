@@ -12,14 +12,15 @@ from .utils import (
 )
 
 _ZFS_MOUNT_ROOT = Path("/mnt/zfs")
-_ZFS_DATASETS = ["zfs/k8s-nfs", "zfs/k8s-longhorn"]
+_ZFS_DATASETS = ["k8s-nfs", "k8s-longhorn"]
 _RESTIC_REPOSITORY = "/mnt/zfs/k8s-backup"
 _RESTIC_CACHE_DIR = "/tmp/restic-cache"
-
 _LONGHORN_STORAGE_CLASS = "longhorn"
 
 
-# --- restic ---
+# ====================
+# ZFS
+# ====================
 
 
 def _get_zfs_snapshot_datetime(name: str) -> datetime:
@@ -28,6 +29,31 @@ def _get_zfs_snapshot_datetime(name: str) -> datetime:
     hh = parts[6].split("h")[0]
     dt_str = f"{yyyy}-{mm}-{dd} {hh}"
     return datetime.strptime(dt_str, "%Y-%m-%d %H")
+
+
+def _test_zfs_snapshots() -> None:
+    for zfs_dataset in _ZFS_DATASETS:
+        path = _ZFS_MOUNT_ROOT / zfs_dataset / ".zfs" / "snapshot"
+        zfs_snapshots = list(path.iterdir())
+        if len(zfs_snapshots) == 0:
+            raise Exception(f"ZFS: No ZFS snapshots found for {zfs_dataset}.")
+
+        latest_dt = None
+        for zfs_snapshot in zfs_snapshots:
+            dt_str = "-".join(zfs_snapshot.name.split("-")[3:])
+            dt = datetime.strptime(dt_str, "%Y-%m-%d-%Hh%MU")
+            latest_dt = max(dt, latest_dt) if latest_dt else dt
+        if not latest_dt:
+            raise Exception(f"ZFS: No valid ZFS snapshots found for {zfs_dataset}.")
+
+        if datetime.now() - latest_dt > MAX_AGE_HOURS:
+            raise Exception(f"ZFS: No recent ZFS snapshots for {zfs_dataset}.")
+    logging.info("ZFS: Found recent ZFS snapshots for all ZFS datasets.")
+
+
+# ====================
+# Restic
+# ====================
 
 
 def _restic_backup() -> None:
@@ -72,26 +98,6 @@ def _restic_backup() -> None:
     run_shell_cmd(["restic", "prune"])
 
 
-def _test_zfs_snapshots() -> None:
-    for zfs_dataset in _ZFS_DATASETS:
-        path = _ZFS_MOUNT_ROOT / zfs_dataset / ".zfs" / "snapshot"
-        zfs_snapshots = list(path.iterdir())
-        if len(zfs_snapshots) == 0:
-            raise Exception(f"ZFS: No ZFS snapshots found for {zfs_dataset}.")
-
-        latest_dt = None
-        for zfs_snapshot in zfs_snapshots:
-            dt_str = "-".join(zfs_snapshot.name.split("-")[3:])
-            dt = datetime.strptime(dt_str, "%Y-%m-%d-%Hh%MU")
-            latest_dt = max(dt, latest_dt) if latest_dt else dt
-        if not latest_dt:
-            raise Exception(f"ZFS: No valid ZFS snapshots found for {zfs_dataset}.")
-
-        if datetime.now() - latest_dt > MAX_AGE_HOURS:
-            raise Exception(f"ZFS: No recent ZFS snapshots for {zfs_dataset}.")
-    logging.info("ZFS: Found recent ZFS snapshots for all ZFS datasets.")
-
-
 def _test_restic_snapshots() -> None:
     result = run_shell_cmd(["restic", "snapshots", "--json"])
     data = json.loads(result.stdout)
@@ -130,7 +136,9 @@ def _test_restic_data() -> None:
     logging.info("Restic: Restic data is valid.")
 
 
-# --- k8s ---
+# ====================
+# Longhorn
+# ====================
 
 
 def _test_longhorn_backups() -> None:
@@ -176,19 +184,19 @@ def _test_longhorn_backups() -> None:
 
 
 def main() -> None:
-    os.environ.setdefault("RESTIC_REPOSITORY", _RESTIC_REPOSITORY)
-    os.environ.setdefault("RESTIC_CACHE_DIR", _RESTIC_CACHE_DIR)
+    os.environ["RESTIC_REPOSITORY"] = _RESTIC_REPOSITORY
+    os.environ["RESTIC_CACHE_DIR"] = _RESTIC_CACHE_DIR
     # Needed to avoid considering all files changed for every new ZFS snapshot.
     # See https://forum.restic.net/t/backing-up-zfs-snapshots-good-idea/9604
-    os.environ.setdefault("RESTIC_FEATURES", "device-id-for-hardlinks")
+    os.environ["RESTIC_FEATURES"] = "device-id-for-hardlinks"
 
     errors: list[str] = []
     now = datetime.now()
 
-    run_and_log(run_fn=_restic_backup, errors=errors)
-    run_and_log(run_fn=_test_zfs_snapshots, errors=errors)
-    run_and_log(run_fn=_test_restic_snapshots, errors=errors)
     run_and_log(run_fn=_test_longhorn_backups, errors=errors)
+    run_and_log(run_fn=_test_zfs_snapshots, errors=errors)
+    run_and_log(run_fn=_restic_backup, errors=errors)
+    run_and_log(run_fn=_test_restic_snapshots, errors=errors)
 
     if now.weekday() == 0:
         run_and_log(run_fn=_test_restic_metadata, errors=errors)
