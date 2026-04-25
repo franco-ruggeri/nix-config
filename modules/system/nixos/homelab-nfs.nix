@@ -3,7 +3,6 @@
 # - The user has created a ZFS dataset named k8s-longhorn with mountpoint=/mnt/zfs/k8s-longhorn.
 {
   config,
-  pkgs,
   lib,
   myLib,
   ...
@@ -30,8 +29,6 @@ in
         message = "ZFS must be enabled for NFS server.";
       }
     ];
-
-    environment.systemPackages = with pkgs; [ python3 ];
 
     networking.firewall.allowedTCPPorts = [ 2049 ];
 
@@ -87,39 +84,5 @@ in
         '';
       };
 
-    systemd = lib.mkIf cfg.production {
-      services.homelab-backup-nfs =
-        let
-          pythonScriptDir = myLib.mkPythonScriptDir {
-            derivationName = "homelab_backup_nfs";
-            scriptNames = [
-              "homelab_backup_nfs.py"
-              "homelab_backup_utils.py"
-            ];
-          };
-        in
-        {
-          description = "Homelab backup NFS";
-          serviceConfig = {
-            Type = "oneshot";
-            ExecStart = "${pythonScriptDir}/homelab_backup_nfs.py";
-            WorkingDirectory = pythonScriptDir;
-            Environment = [
-              "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
-              "SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path}"
-            ];
-          };
-        };
-      timers.homelab-backup-nfs = {
-        description = "Homelab backup NFS";
-        wantedBy = [ "timers.target" ];
-        timerConfig = {
-          OnCalendar = "01:00";
-          Persistent = true;
-        };
-      };
-    };
-
-    age.secrets = myLib.mkSecrets [ "smtp-password" ];
   };
 }
