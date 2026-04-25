@@ -1,4 +1,9 @@
-# Assumption: The user has created a ZFS dataset named k8s-backup with mountpoint=/mnt/zfs/k8s-backup.
+# Assumptions:
+#   - A ZFS dataset named "zfs/k8s-backup" exists with mountpoint=/mnt/zfs/k8s-backup.
+#   - The dataset has ZFS send/receive delegations granted to the main user
+#     (myModules.system.username), e.g.:
+#       zfs allow -u <user> send,snapshot,destroy,rename zfs/k8s-backup   # source
+#       zfs allow -u <user> receive,mount,create,destroy,rollback,rename zfs/k8s-backup  # destination
 {
   config,
   pkgs,
@@ -8,8 +13,8 @@
 }:
 let
   cfg = config.myModules.system.homelab.backup;
-  backupUser = cfg.user;
-  backupHome = "/home/${backupUser}";
+  mainUser = config.myModules.system.username;
+  mainHome = "/home/${mainUser}";
   backupDataset = "zfs/k8s-backup";
   zfsDatasets = [
     "k8s-nfs"
@@ -24,11 +29,6 @@ in
 {
   options.myModules.system.homelab.backup = {
     enable = lib.mkEnableOption "Enable backups for homelab";
-    user = lib.mkOption {
-      type = lib.types.str;
-      default = "k8s-backup";
-      description = "User that runs backup jobs and owns ZFS backup permissions.";
-    };
     role = lib.mkOption {
       type = lib.types.enum [
         "source"
@@ -44,11 +44,6 @@ in
       type = lib.types.nullOr lib.types.str;
       default = null;
       description = "SSH private key file used by destination to authenticate to source.";
-    };
-    sourceAuthorizedKeys = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = [ ];
-      description = "SSH public keys allowed to log into the backup user on source hosts.";
     };
   };
 
@@ -66,31 +61,16 @@ in
         assertion = cfg.role != "destination" || cfg.sourceHost != null;
         message = "A sourceHost must be set for destination backups.";
       }
+      {
+        assertion = cfg.role != "source" || config.myModules.system.homelab.nfs.enable;
+        message = "NFS server must be enabled on the backup source host.";
+      }
     ];
-
-    users.users.${backupUser} = {
-      isNormalUser = true;
-      createHome = true;
-      home = backupHome;
-      shell = pkgs.bashInteractive;
-      hashedPassword = "!";
-      openssh.authorizedKeys.keys = lib.optionals (cfg.role == "source") cfg.sourceAuthorizedKeys;
-    };
 
     environment.systemPackages = with pkgs; [
       restic
       python3
     ];
-
-    system.activationScripts.homelabBackupZfsAllow.text =
-      lib.optionalString (cfg.role == "source") ''
-        ${pkgs.zfs}/bin/zfs set com.sun:auto-snapshot=false ${backupDataset}
-        ${pkgs.zfs}/bin/zfs allow -u ${backupUser} send,snapshot,destroy,rename ${backupDataset}
-      ''
-      + lib.optionalString (cfg.role == "destination") ''
-        ${pkgs.zfs}/bin/zfs set com.sun:auto-snapshot=false ${backupDataset}
-        ${pkgs.zfs}/bin/zfs allow -u ${backupUser} receive,mount,create,destroy,rollback,rename ${backupDataset}
-      '';
 
     systemd = {
       services =
@@ -99,13 +79,13 @@ in
             description = "Homelab backup restic on source";
             serviceConfig = {
               Type = "oneshot";
-              User = backupUser;
+              User = mainUser;
               ExecStart = "${pkgs.python3}/bin/python -m homelab_backup restic";
               WorkingDirectory = homelabBackupPython;
               Environment = [
                 "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
                 "PYTHONPATH=${homelabBackupPython}"
-                "HOME=${backupHome}"
+                "HOME=${mainHome}"
                 "RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path}"
                 "RESTIC_REPOSITORY=/mnt/zfs/k8s-backup"
                 "RESTIC_CACHE_DIR=/tmp/restic-cache"
@@ -124,15 +104,15 @@ in
             description = "Homelab backup ZFS pull on destination";
             serviceConfig = {
               Type = "oneshot";
-              User = backupUser;
+              User = mainUser;
               ExecStart = "${pkgs.python3}/bin/python -m homelab_backup zfs-pull";
               WorkingDirectory = homelabBackupPython;
               Environment = [
                 "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
                 "PYTHONPATH=${homelabBackupPython}"
-                "HOME=${backupHome}"
+                "HOME=${mainHome}"
                 "SOURCE_HOST=${cfg.sourceHost}"
-                "SOURCE_USER=${backupUser}"
+                "SOURCE_USER=${mainUser}"
                 "SOURCE_DATASET=${backupDataset}"
                 "DEST_DATASET=${backupDataset}"
                 "SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path}"
@@ -180,14 +160,14 @@ in
       in
       {
         "smtp-password" = smtpSecret // {
-          owner = backupUser;
-          group = backupUser;
+          owner = mainUser;
+          group = mainUser;
         };
       }
       // lib.optionalAttrs (cfg.role == "source") {
         "restic-password" = resticSecret // {
-          owner = backupUser;
-          group = backupUser;
+          owner = mainUser;
+          group = mainUser;
         };
       };
   };
