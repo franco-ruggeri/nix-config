@@ -24,7 +24,7 @@
         roIPs = [ ];
         production = false;
       };
-      k8s.master = {
+      k8s = {
         enable = true;
         tokenFile = config.age.secrets.k3s-token-staging.path;
         production = false;

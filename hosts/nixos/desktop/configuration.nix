@@ -22,7 +22,7 @@
         ];
         production = true;
       };
-      k8s.master = {
+      k8s = {
         enable = true;
         tokenFile = config.age.secrets.k3s-token-production.path;
         production = true;

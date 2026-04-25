@@ -3,7 +3,7 @@
 let
   cfg = config.myModules.system.homelab.wireguard;
   listenPort = 51820;
-  kubernetes = config.myModules.system.homelab.k8s.master.enable;
+  kubernetes = config.myModules.system.homelab.k8s.enable;
   allowedIPs =
     # On K8s nodes, routing all traffic through the VPN raises routing issues:
     # * In production K8s nodes, it creates a loop:

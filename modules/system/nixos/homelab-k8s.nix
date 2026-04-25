@@ -6,12 +6,12 @@
   ...
 }:
 let
-  cfg = config.myModules.system.homelab.k8s.master;
+  cfg = config.myModules.system.homelab.k8s;
   adminGroup = "kubeadmin";
 in
 {
-  options.myModules.system.homelab.k8s.master = {
-    enable = lib.mkEnableOption "Enable Kubernetes for homelab";
+  options.myModules.system.homelab.k8s = {
+    enable = lib.mkEnableOption "Enable Kubernetes master for homelab";
     tokenFile = lib.mkOption { type = lib.types.str; };
     production = lib.mkOption { type = lib.types.bool; };
   };

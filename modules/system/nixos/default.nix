@@ -14,7 +14,7 @@ in
     ./tui.nix
     ./gaming.nix
     ./zfs.nix
-    ./homelab-k8s-master.nix
+    ./homelab-k8s.nix
     ./homelab-wireguard.nix
     ./homelab-nfs.nix
     ./homelab-backup.nix
