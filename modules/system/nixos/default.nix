@@ -17,7 +17,8 @@ in
     ./homelab-k8s.nix
     ./homelab-wireguard.nix
     ./homelab-nfs.nix
-    ./homelab-backup.nix
+    ./homelab-backup-src.nix
+    ./homelab-backup-dst.nix
   ];
 
   options.myModules.system = {
