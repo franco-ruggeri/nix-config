@@ -9,11 +9,11 @@
   ...
 }:
 let
-  cfg = config.myModules.system.homelab.backupDst;
+  cfg = config.myModules.system.homelab.backup.dst;
   homelabBackup = myLib.mkPythonApplication "homelab-backup";
 in
 {
-  options.myModules.system.homelab.backupDst = {
+  options.myModules.system.homelab.backup.dst = {
     enable = lib.mkEnableOption "Enable backup destination for homelab";
     sourceHost = lib.mkOption {
       type = lib.types.str;

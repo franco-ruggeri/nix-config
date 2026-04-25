@@ -32,10 +32,7 @@
         address = "10.34.0.2/24";
         privateKeyFile = config.age.secrets.wireguard-private-key-desktop.path;
       };
-      backup = {
-        enable = true;
-        role = "source";
-      };
+      backup.src.enable = true;
     };
   };
 
