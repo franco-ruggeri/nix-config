@@ -101,7 +101,7 @@ in
               export SOURCE_DATASET=${cfg.rsyncPull.sourceDataset} && \
               export RSYNC_DEST_PATH=${cfg.rsyncPull.destinationPath} && \
               export SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path} && \
-              ${homelabBackup}/bin/homelab-backup dst --mode rsync
+              ${homelabBackup}/bin/homelab-backup dst-rsync
             ''
           ];
           StartCalendarInterval = [

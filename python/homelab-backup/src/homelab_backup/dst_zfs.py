@@ -8,7 +8,7 @@ from .utils import (
     notify,
     remote_snapshot_exists,
     run_and_log,
-    run_remote_cmd,
+    run_ssh_cmd,
     run_shell_cmd,
 )
 
@@ -59,10 +59,10 @@ def pull_latest_snapshot() -> None:
         snapshot_name=current_name,
     ):
         logging.info("Destroying stale source snapshot %s", source_current)
-        run_remote_cmd(source_host=source_host, source_user=source_user, remote_cmd=["zfs", "destroy", source_current])
+        run_ssh_cmd(source_host=source_host, source_user=source_user, remote_cmd=["zfs", "destroy", source_current])
 
     logging.info("Creating source snapshot %s", source_current)
-    run_remote_cmd(source_host=source_host, source_user=source_user, remote_cmd=["zfs", "snapshot", source_current])
+    run_ssh_cmd(source_host=source_host, source_user=source_user, remote_cmd=["zfs", "snapshot", source_current])
 
     has_source_last = remote_snapshot_exists(
         source_host=source_host,
@@ -119,9 +119,9 @@ def pull_latest_snapshot() -> None:
         snapshot_name=last_name,
     ):
         logging.info("Destroying source snapshot %s", source_last)
-        run_remote_cmd(source_host=source_host, source_user=source_user, remote_cmd=["zfs", "destroy", source_last])
+        run_ssh_cmd(source_host=source_host, source_user=source_user, remote_cmd=["zfs", "destroy", source_last])
     logging.info("Renaming source snapshot %s -> %s", source_current, source_last)
-    run_remote_cmd(source_host=source_host, source_user=source_user, remote_cmd=["zfs", "rename", source_current, source_last])
+    run_ssh_cmd(source_host=source_host, source_user=source_user, remote_cmd=["zfs", "rename", source_current, source_last])
 
 
 def main() -> None:

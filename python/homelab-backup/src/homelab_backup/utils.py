@@ -74,7 +74,7 @@ def get_snapshot_prefix() -> str:
     return prefix
 
 
-def run_remote_cmd(source_host: str, source_user: str, remote_cmd: list[str]) -> CompletedProcess:
+def run_ssh_cmd(source_host: str, source_user: str, remote_cmd: list[str]) -> CompletedProcess:
     return run_shell_cmd(build_ssh_cmd() + [f"{source_user}@{source_host}"] + remote_cmd)
 
 
@@ -86,7 +86,7 @@ def remote_snapshot_exists(
 ) -> bool:
     snapshot = f"{dataset}@{snapshot_name}"
     try:
-        run_remote_cmd(
+        run_ssh_cmd(
             source_host=source_host,
             source_user=source_user,
             remote_cmd=[
@@ -140,12 +140,7 @@ def notify(errors: list[str]) -> None:
     msg["To"] = _EMAIL_RECIPIENT
     msg.set_content(body)
 
-    smtp_password_file = os.environ.get("SMTP_PASSWORD_FILE")
-    if not smtp_password_file:
-        error = "SMTP_PASSWORD_FILE environment variable is not set."
-        logging.error(error)
-        raise Exception(error)
-    with open(smtp_password_file, "r") as f:
+    with open(os.environ["SMTP_PASSWORD_FILE"], "r") as f:
         smtp_password = f.read()
 
     try:

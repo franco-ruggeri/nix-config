@@ -180,7 +180,9 @@ def _test_longhorn_backups() -> None:
     logging.info("Longhorn: All backups are recent enough.")
 
 
-# --- entrypoint ---
+# ====================
+# Entrypoint
+# ====================
 
 
 def main() -> None:

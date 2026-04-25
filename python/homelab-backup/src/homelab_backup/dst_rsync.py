@@ -8,7 +8,7 @@ from .utils import (
     notify,
     remote_snapshot_exists,
     run_and_log,
-    run_remote_cmd,
+    run_ssh_cmd,
     run_shell_cmd,
 )
 
@@ -51,9 +51,9 @@ def _rsync_pull() -> None:
         dataset=source_dataset,
         snapshot_name=snapshot_name,
     ):
-        run_remote_cmd(source_host=source_host, source_user=source_user, remote_cmd=["zfs", "destroy", snapshot])
+        run_ssh_cmd(source_host=source_host, source_user=source_user, remote_cmd=["zfs", "destroy", snapshot])
 
-    run_remote_cmd(source_host=source_host, source_user=source_user, remote_cmd=["zfs", "snapshot", snapshot])
+    run_ssh_cmd(source_host=source_host, source_user=source_user, remote_cmd=["zfs", "snapshot", snapshot])
 
     try:
         remote_mountpoint = _get_remote_mountpoint(source_dataset)
@@ -80,7 +80,7 @@ def _rsync_pull() -> None:
             dataset=source_dataset,
             snapshot_name=snapshot_name,
         ):
-            run_remote_cmd(source_host=source_host, source_user=source_user, remote_cmd=["zfs", "destroy", snapshot])
+            run_ssh_cmd(source_host=source_host, source_user=source_user, remote_cmd=["zfs", "destroy", snapshot])
 
 
 def main() -> None:
