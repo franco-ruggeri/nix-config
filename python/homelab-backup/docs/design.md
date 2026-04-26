@@ -98,7 +98,7 @@ This structure keeps backup logic in domain objects and isolates transport/proce
 Source code is organized by capability:
 
 - `homelab_backup/cli/`: command entrypoints (`src`, `dst-zfs`, `dst-rsync`) and wiring.
-- `homelab_backup/backup/`: restic backup workflow (`DatasetBackup`, `ResticRepository`, `SrcBackupOrchestrator`).
+- `homelab_backup/backup/`: restic backup workflow (`DatasetBackup`, `ResticRepository`).
 - `homelab_backup/transfer/`: dataset transfer contract and implementations (`DatasetTransfer`, `ZfsReplication`, `RsyncPull`).
 - `homelab_backup/datasets/`: dataset model (`ZfsDataset`).
 - `homelab_backup/execution/`: command execution backends (`CommandRunner`, `LocalRunner`, `SshRunner`).
@@ -146,7 +146,7 @@ A single `ResticRepository` instance may be shared across multiple `DatasetBacku
 Responsibilities:
 
 - Execute backup cycle for a snapshot name (create snapshot, back up, clean up).
-- Expose `prune_repository()` so the orchestrator can apply retention after all datasets are backed up.
+- Expose `prune_repository()` so the `src` CLI can apply retention after all datasets are backed up.
 - Expose per-dataset repository validation, filtering restic snapshots by the dataset's snapshot path.
 
 ## Transfer Services
