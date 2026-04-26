@@ -1,7 +1,7 @@
 import argparse
 import logging
 
-from homelab_backup.cli import dst_rsync, dst_zfs, src
+from homelab_backup.cli import dst_rsync, dst_zfs, source
 
 
 def main() -> None:
@@ -11,7 +11,7 @@ def main() -> None:
     args = parser.parse_args()
 
     if args.command == "src":
-        src.main()
+        source.main()
     elif args.command == "dst-zfs":
         dst_zfs.main()
     elif args.command == "dst-rsync":
