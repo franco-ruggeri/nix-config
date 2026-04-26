@@ -1,8 +1,8 @@
+import logging
 import os
 from pathlib import Path
 
 from homelab_backup.backup.zfs_dataset import ZfsDataset
-from homelab_backup.execution.job_runner import JobRunner
 from homelab_backup.execution.local_runner import LocalRunner
 from homelab_backup.execution.notifier import Notifier
 from homelab_backup.execution.ssh_runner import SshRunner
@@ -22,6 +22,9 @@ def _rsync_pull() -> None:
 
 
 def main() -> None:
-    job = JobRunner()
-    job.run("rsync-pull", _rsync_pull)
-    Notifier().notify(job.errors)
+    try:
+        _rsync_pull()
+        Notifier().notify(None)
+    except Exception as e:
+        logging.error("%s", e)
+        Notifier().notify(e)

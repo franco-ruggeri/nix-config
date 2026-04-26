@@ -18,10 +18,10 @@ class Notifier:
         with open(os.environ["SMTP_PASSWORD_FILE"], "r") as f:
             self._smtp_password = f.read()
 
-    def notify(self, errors: list[str]) -> None:
+    def notify(self, error: Exception | None) -> None:
         hostname = socket.gethostname()
         script = Path(sys.argv[0])
-        result = "FAILED" if errors else "PASSED"
+        result = "FAILED" if error else "PASSED"
 
         subject = f"[Homelab] {result} - {hostname}"
         body_lines = [
@@ -31,11 +31,11 @@ class Notifier:
             f"- Script: {script.name}",
             f"- Result: {result}",
         ]
-        if errors:
+        if error:
             body_lines += [
                 "",
-                "Errors:",
-                *[f"- {e}" for e in errors],
+                "Error:",
+                f"- {error}",
             ]
         body = "\n".join(body_lines)
 
