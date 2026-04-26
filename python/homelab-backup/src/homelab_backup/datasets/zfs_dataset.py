@@ -47,7 +47,7 @@ class ZfsDataset:
         self.runner.run(["zfs", "rename", old_ref, new_ref])
         logging.info("ZFS: Renamed snapshot %s -> %s", old_ref, new_ref)
 
-    def mountpoint(self) -> Path:
+    def _mountpoint(self) -> Path:
         result = self.runner.run(
             [
                 "zfs",
@@ -66,4 +66,4 @@ class ZfsDataset:
         return Path(mountpoint)
 
     def snapshot_path(self, snapshot_name: str) -> Path:
-        return self.mountpoint() / ".zfs" / "snapshot" / snapshot_name
+        return self._mountpoint() / ".zfs" / "snapshot" / snapshot_name
