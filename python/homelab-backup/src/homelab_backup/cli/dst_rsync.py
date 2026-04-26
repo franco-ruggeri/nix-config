@@ -5,8 +5,8 @@ from homelab_backup.execution.job_runner import JobRunner
 from homelab_backup.execution.local_runner import LocalRunner
 from homelab_backup.execution.notifier import Notifier
 from homelab_backup.execution.ssh_runner import SshRunner
-from homelab_backup.transfer.rsync_pull import RsyncPull
-from homelab_backup.utils import get_env, get_snapshot_prefix
+from homelab_backup.transfer.zfs_rsync_transfer import ZfsRsyncTransfer
+from homelab_backup.utils import get_env
 
 
 def _rsync_pull() -> None:
@@ -15,11 +15,10 @@ def _rsync_pull() -> None:
     source_user = get_env("SOURCE_USER")
     rsync_dest_path = Path(get_env("RSYNC_DEST_PATH")).expanduser()
 
-    snapshot_prefix = get_snapshot_prefix()
     source = ZfsDataset(name=source_dataset, runner=SshRunner(host=source_host, user=source_user))
-    transfer = RsyncPull(source=source, destination_path=rsync_dest_path, rsync_runner=LocalRunner())
+    transfer = ZfsRsyncTransfer(source=source, destination_path=rsync_dest_path, rsync_runner=LocalRunner())
 
-    transfer.transfer(snapshot_prefix=snapshot_prefix)
+    transfer.transfer()
 
 
 def main() -> None:

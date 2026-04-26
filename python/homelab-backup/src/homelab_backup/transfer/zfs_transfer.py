@@ -3,5 +3,5 @@ from abc import ABC, abstractmethod
 
 class ZfsTransfer(ABC):
     @abstractmethod
-    def transfer(self, snapshot_prefix: str) -> None:
+    def transfer(self) -> None:
         raise NotImplementedError

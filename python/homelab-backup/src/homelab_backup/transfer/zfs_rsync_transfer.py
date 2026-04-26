@@ -5,9 +5,10 @@ from homelab_backup.execution.command_runner import CommandRunner
 from homelab_backup.execution.local_runner import LocalRunner
 from homelab_backup.execution.ssh_runner import SshRunner
 from homelab_backup.transfer.zfs_transfer import ZfsTransfer
+from homelab_backup.utils import get_snapshot_prefix
 
 
-class RsyncPull(ZfsTransfer):
+class ZfsRsyncTransfer(ZfsTransfer):
     def __init__(
         self,
         source: ZfsDataset,
@@ -45,5 +46,5 @@ class RsyncPull(ZfsTransfer):
             if self._source.snapshot_exists(snapshot_name):
                 self._source.destroy_snapshot(snapshot_name)
 
-    def transfer(self, snapshot_prefix: str) -> None:
-        self._pull(snapshot_name=f"{snapshot_prefix}-current")
+    def transfer(self) -> None:
+        self._pull(snapshot_name=f"{get_snapshot_prefix()}-current")

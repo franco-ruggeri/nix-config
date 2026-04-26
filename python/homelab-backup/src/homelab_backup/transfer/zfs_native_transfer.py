@@ -3,9 +3,10 @@ import subprocess
 
 from homelab_backup.backup.zfs_dataset import ZfsDataset
 from homelab_backup.transfer.zfs_transfer import ZfsTransfer
+from homelab_backup.utils import get_snapshot_prefix
 
 
-class ZfsReplication(ZfsTransfer):
+class ZfsNativeTransfer(ZfsTransfer):
     def __init__(self, source: ZfsDataset, destination: ZfsDataset) -> None:
         self._source = source
         self._destination = destination
@@ -70,5 +71,5 @@ class ZfsReplication(ZfsTransfer):
             self._source.destroy_snapshot(last_name)
         self._source.rename_snapshot(current_name, last_name)
 
-    def transfer(self, snapshot_prefix: str) -> None:
-        self._replicate(snapshot_prefix)
+    def transfer(self) -> None:
+        self._replicate(get_snapshot_prefix())
