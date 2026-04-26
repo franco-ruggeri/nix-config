@@ -89,6 +89,17 @@ The backup system is organized into three layers:
 
 This structure keeps backup logic in domain objects and isolates transport/process concerns.
 
+## Package Organization
+
+Source code is organized by capability:
+
+- `homelab_backup/cli/`: command entrypoints (`src`, `dst-zfs`, `dst-rsync`) and wiring.
+- `homelab_backup/backup/`: restic backup workflow (`DatasetBackup`, `ResticRepository`, `SrcBackupOrchestrator`).
+- `homelab_backup/transfer/`: dataset transfer contract and implementations (`DatasetTransfer`, `ZfsReplication`, `RsyncPull`).
+- `homelab_backup/datasets/`: dataset model (`ZfsDataset`).
+- `homelab_backup/execution/`: command execution backends (`CommandRunner`, `LocalRunner`, `SshRunner`).
+- `homelab_backup/utils.py`: shared runtime helpers (env access, shell execution, notifications).
+
 ## Core Domain Objects
 
 ### Command runners

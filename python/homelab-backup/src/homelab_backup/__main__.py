@@ -1,6 +1,6 @@
 import argparse
 
-from . import dst_rsync, dst_zfs, src
+from .cli import dst_rsync, dst_zfs, src
 
 
 def main() -> None:
