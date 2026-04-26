@@ -3,7 +3,6 @@ from pathlib import Path
 from homelab_backup.datasets.zfs_dataset import ZfsDataset
 from homelab_backup.execution.command_runner import CommandRunner
 from homelab_backup.execution.local_runner import LocalRunner
-from homelab_backup.execution.ssh_runner import SshRunner
 from homelab_backup.transfer.dataset_transfer import DatasetTransfer
 
 
@@ -14,36 +13,35 @@ class RsyncPull(DatasetTransfer):
         destination_path: Path,
         rsync_runner: CommandRunner | None = None,
     ) -> None:
-        self.source = source
-        self.destination_path = destination_path
-        self.rsync_runner = rsync_runner or LocalRunner()
+        self._source = source
+        self._destination_path = destination_path
+        self._rsync_runner = rsync_runner or LocalRunner()
 
-    def pull(self, snapshot_name: str) -> None:
-        if self.source.snapshot_exists(snapshot_name):
-            self.source.destroy_snapshot(snapshot_name)
-
-        self.source.create_snapshot(snapshot_name)
+    def _pull(self, snapshot_name: str) -> None:
+        if self._source.snapshot_exists(snapshot_name):
+            self._source.destroy_snapshot(snapshot_name)
+        self._source.create_snapshot(snapshot_name)
         try:
-            snapshot_path = self.source.snapshot_path(snapshot_name)
-            self.rsync_runner.run(["mkdir", "-p", str(self.destination_path)])
+            snapshot_path = self._source.snapshot_path(snapshot_name)
+            self._rsync_runner.run(["mkdir", "-p", str(self._destination_path)])
 
             source_ref = str(snapshot_path) + "/"
             rsync_cmd = ["rsync", "-a", "--delete"]
 
-            if isinstance(self.source.runner, SshRunner):
+            if self._source.is_remote():
                 rsync_cmd += [
                     "-e",
-                    self.source.runner.ssh_transport(),
-                    self.source.runner.remote(source_ref),
-                    f"{self.destination_path}/",
+                    self._source.ssh_transport(),
+                    self._source.remote(source_ref),
+                    f"{self._destination_path}/",
                 ]
             else:
-                rsync_cmd += [source_ref, f"{self.destination_path}/"]
+                rsync_cmd += [source_ref, f"{self._destination_path}/"]
 
-            self.rsync_runner.run(rsync_cmd)
+            self._rsync_runner.run(rsync_cmd)
         finally:
-            if self.source.snapshot_exists(snapshot_name):
-                self.source.destroy_snapshot(snapshot_name)
+            if self._source.snapshot_exists(snapshot_name):
+                self._source.destroy_snapshot(snapshot_name)
 
     def transfer(self, snapshot_prefix: str) -> None:
-        self.pull(snapshot_name=f"{snapshot_prefix}-current")
+        self._pull(snapshot_name=f"{snapshot_prefix}-current")

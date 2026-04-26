@@ -11,7 +11,7 @@ from homelab_backup.execution.local_runner import LocalRunner
 
 class ResticRepository:
     def __init__(self, path: Path) -> None:
-        self.path = path
+        self._path = path
         self._runner = LocalRunner()
 
     def _run(
@@ -20,7 +20,7 @@ class ResticRepository:
         capture_output: bool = False,
         cwd: Path | None = None,
     ) -> CompletedProcess[str]:
-        os.environ["RESTIC_REPOSITORY"] = str(self.path)
+        os.environ["RESTIC_REPOSITORY"] = str(self._path)
         os.environ["RESTIC_CACHE_DIR"] = "/tmp/restic-cache"
         os.environ["RESTIC_PROGRESS_FPS"] = str(1 / 60)
         os.environ["RESTIC_FEATURES"] = "device-id-for-hardlinks"
@@ -31,7 +31,7 @@ class ResticRepository:
             self._run(["restic", "cat", "config"])
         except Exception:
             self._run(["restic", "init"])
-            logging.info("Restic: Initialized repository %s", self.path)
+            logging.info("Restic: Initialized repository %s", self._path)
 
     def backup(self, path: Path) -> None:
         self._run(["restic", "backup", "."], cwd=path)

@@ -7,21 +7,21 @@ from homelab_backup.transfer.dataset_transfer import DatasetTransfer
 
 class ZfsReplication(DatasetTransfer):
     def __init__(self, source: ZfsDataset, destination: ZfsDataset) -> None:
-        self.source = source
-        self.destination = destination
+        self._source = source
+        self._destination = destination
 
-    def replicate(self, prefix: str) -> None:
+    def _replicate(self, prefix: str) -> None:
         last_name = f"{prefix}-last"
         current_name = f"{prefix}-current"
 
-        if self.source.snapshot_exists(current_name):
-            self.source.destroy_snapshot(current_name)
-        self.source.create_snapshot(current_name)
+        if self._source.snapshot_exists(current_name):
+            self._source.destroy_snapshot(current_name)
+        self._source.create_snapshot(current_name)
 
-        source_last = self.source.snapshot_ref(last_name)
-        source_current = self.source.snapshot_ref(current_name)
-        has_source_last = self.source.snapshot_exists(last_name)
-        has_dest_last = self.destination.snapshot_exists(last_name)
+        source_last = self._source.snapshot_ref(last_name)
+        source_current = self._source.snapshot_ref(current_name)
+        has_source_last = self._source.snapshot_exists(last_name)
+        has_dest_last = self._destination.snapshot_exists(last_name)
         use_incremental = has_source_last and has_dest_last
 
         send_cmd = ["zfs", "send"]
@@ -29,7 +29,7 @@ class ZfsReplication(DatasetTransfer):
             send_cmd += ["-I", source_last]
             logging.info(
                 "Running incremental replication for %s from %s to %s",
-                self.source.name,
+                self._source.name,
                 source_last,
                 source_current,
             )
@@ -38,12 +38,12 @@ class ZfsReplication(DatasetTransfer):
         send_cmd += [source_current]
 
         send_proc = subprocess.Popen(
-            self.source.runner.build_command(send_cmd),
+            self._source.build_command(send_cmd),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
         recv_proc = subprocess.Popen(
-            self.destination.runner.build_command(["zfs", "receive", "-F", self.destination.name]),
+            self._destination.build_command(["zfs", "receive", "-F", self._destination.name]),
             stdin=send_proc.stdout,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
@@ -62,13 +62,13 @@ class ZfsReplication(DatasetTransfer):
         if recv_stdout:
             logging.info(recv_stdout.decode(errors="replace").strip())
 
-        if self.destination.snapshot_exists(last_name):
-            self.destination.destroy_snapshot(last_name)
-        self.destination.rename_snapshot(current_name, last_name)
+        if self._destination.snapshot_exists(last_name):
+            self._destination.destroy_snapshot(last_name)
+        self._destination.rename_snapshot(current_name, last_name)
 
-        if self.source.snapshot_exists(last_name):
-            self.source.destroy_snapshot(last_name)
-        self.source.rename_snapshot(current_name, last_name)
+        if self._source.snapshot_exists(last_name):
+            self._source.destroy_snapshot(last_name)
+        self._source.rename_snapshot(current_name, last_name)
 
     def transfer(self, snapshot_prefix: str) -> None:
-        self.replicate(snapshot_prefix)
+        self._replicate(snapshot_prefix)

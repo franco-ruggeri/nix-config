@@ -2,19 +2,40 @@ import logging
 from pathlib import Path
 
 from homelab_backup.execution.command_runner import CommandRunner
+from homelab_backup.execution.ssh_runner import SshRunner
 
 
 class ZfsDataset:
     def __init__(self, name: str, runner: CommandRunner) -> None:
-        self.name = name
-        self.runner = runner
+        self._name = name
+        self._runner = runner
+
+    @property
+    def name(self) -> str:
+        return self._name
+
+    def build_command(self, cmd: list[str]) -> list[str]:
+        return self._runner.build_command(cmd)
+
+    def is_remote(self) -> bool:
+        return isinstance(self._runner, SshRunner)
+
+    def ssh_transport(self) -> str:
+        if not isinstance(self._runner, SshRunner):
+            raise Exception("ssh_transport() called on a non-SSH dataset.")
+        return self._runner.ssh_transport()
+
+    def remote(self, path: str | Path) -> str:
+        if not isinstance(self._runner, SshRunner):
+            raise Exception("remote() called on a non-SSH dataset.")
+        return self._runner.remote(path)
 
     def snapshot_ref(self, snapshot_name: str) -> str:
-        return f"{self.name}@{snapshot_name}"
+        return f"{self._name}@{snapshot_name}"
 
     def snapshot_exists(self, snapshot_name: str) -> bool:
         try:
-            self.runner.run(
+            self._runner.run(
                 [
                     "zfs",
                     "list",
@@ -33,22 +54,22 @@ class ZfsDataset:
 
     def create_snapshot(self, snapshot_name: str) -> None:
         snapshot = self.snapshot_ref(snapshot_name)
-        self.runner.run(["zfs", "snapshot", snapshot])
+        self._runner.run(["zfs", "snapshot", snapshot])
         logging.info("ZFS: Created snapshot %s", snapshot)
 
     def destroy_snapshot(self, snapshot_name: str) -> None:
         snapshot = self.snapshot_ref(snapshot_name)
-        self.runner.run(["zfs", "destroy", snapshot])
+        self._runner.run(["zfs", "destroy", snapshot])
         logging.info("ZFS: Destroyed snapshot %s", snapshot)
 
     def rename_snapshot(self, old_name: str, new_name: str) -> None:
         old_ref = self.snapshot_ref(old_name)
         new_ref = self.snapshot_ref(new_name)
-        self.runner.run(["zfs", "rename", old_ref, new_ref])
+        self._runner.run(["zfs", "rename", old_ref, new_ref])
         logging.info("ZFS: Renamed snapshot %s -> %s", old_ref, new_ref)
 
     def _mountpoint(self) -> Path:
-        result = self.runner.run(
+        result = self._runner.run(
             [
                 "zfs",
                 "get",
@@ -56,13 +77,13 @@ class ZfsDataset:
                 "-o",
                 "value",
                 "mountpoint",
-                self.name,
+                self._name,
             ],
             capture_output=True,
         )
         mountpoint = result.stdout.strip()
         if not mountpoint:
-            raise Exception(f"Could not resolve mountpoint for dataset {self.name}.")
+            raise Exception(f"Could not resolve mountpoint for dataset {self._name}.")
         return Path(mountpoint)
 
     def snapshot_path(self, snapshot_name: str) -> Path:
