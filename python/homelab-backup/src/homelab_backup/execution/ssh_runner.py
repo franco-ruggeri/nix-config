@@ -4,7 +4,6 @@ from pathlib import Path
 from subprocess import CompletedProcess
 
 from homelab_backup.execution.command_runner import CommandRunner
-from homelab_backup.utils import run_shell_cmd
 
 
 def _build_ssh_cmd() -> list[str]:
@@ -37,7 +36,7 @@ class SshRunner(CommandRunner):
     ) -> CompletedProcess[str]:
         if cwd is not None:
             raise Exception("cwd is not supported for remote commands.")
-        return run_shell_cmd(self.build(cmd), capture_output=capture_output)
+        return self._run_cmd(self.build(cmd), capture_output=capture_output)
 
     def ssh_transport(self) -> str:
         return " ".join(shlex.quote(part) for part in _build_ssh_cmd())

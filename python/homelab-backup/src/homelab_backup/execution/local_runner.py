@@ -2,7 +2,6 @@ from pathlib import Path
 from subprocess import CompletedProcess
 
 from homelab_backup.execution.command_runner import CommandRunner
-from homelab_backup.utils import run_shell_cmd
 
 
 class LocalRunner(CommandRunner):
@@ -15,4 +14,4 @@ class LocalRunner(CommandRunner):
         capture_output: bool = False,
         cwd: Path | None = None,
     ) -> CompletedProcess[str]:
-        return run_shell_cmd(cmd, capture_output=capture_output, cwd=cwd)
+        return self._run_cmd(cmd, capture_output=capture_output, cwd=cwd)
