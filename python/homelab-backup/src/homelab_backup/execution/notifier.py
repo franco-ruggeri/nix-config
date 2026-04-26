@@ -43,6 +43,7 @@ class Notifier:
         msg["Subject"] = subject
         msg["From"] = self._SMTP_USER
         msg["To"] = self._EMAIL_RECIPIENT
+        msg.set_content(body)
 
         try:
             with smtplib.SMTP_SSL(self._SMTP_SERVER, self._SMTP_PORT) as smtp:
