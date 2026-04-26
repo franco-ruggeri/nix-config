@@ -10,7 +10,7 @@ class DatasetBackup:
         self._dataset = dataset
         self._repository = repository
 
-    def run_backup_cycle(self, snapshot_name: str = "restic") -> None:
+    def backup(self, snapshot_name: str = "restic") -> None:
         self._dataset.create_snapshot(snapshot_name)
         primary_error: Exception | None = None
         try:
@@ -36,15 +36,6 @@ class DatasetBackup:
                 if primary_error is None:
                     raise
 
-    def prune_repository(self) -> None:
-        self._repository.prune()
-
     def verify_snapshot(self, max_age: timedelta) -> None:
         snapshot_path = self._dataset.snapshot_path("restic")
         self._repository.verify_snapshot(max_age, snapshot_path)
-
-    def check_repository_metadata(self) -> None:
-        self._repository.check_metadata()
-
-    def check_repository_data(self) -> None:
-        self._repository.check_data()

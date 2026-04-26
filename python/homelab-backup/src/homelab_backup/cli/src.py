@@ -18,9 +18,10 @@ _ZFS_DATASETS = [
 ]
 
 
-def _build_dataset_backups() -> list[DatasetBackup]:
+def _build_dataset_backups(
+    repository: ResticRepository,
+) -> list[DatasetBackup]:
     local_runner = LocalRunner()
-    repository = ResticRepository(path=_RESTIC_REPOSITORY)
     return [
         DatasetBackup(
             dataset=ZfsDataset(name=zfs_dataset, runner=local_runner),
@@ -30,12 +31,13 @@ def _build_dataset_backups() -> list[DatasetBackup]:
     ]
 
 
-def _run_backup(dataset_backups: list[DatasetBackup]) -> None:
+def _run_backup(
+    dataset_backups: list[DatasetBackup], repository: ResticRepository
+) -> None:
     for dataset_backup in dataset_backups:
-        dataset_backup.run_backup_cycle(snapshot_name="restic")
-    if dataset_backups:
-        dataset_backups[0].prune_repository()
-        logging.info("Restic: Pruned old snapshots from shared repository.")
+        dataset_backup.backup(snapshot_name="restic")
+    repository.prune()
+    logging.info("Restic: Pruned old snapshots from shared repository.")
 
 
 def _verify_snapshots(dataset_backups: list[DatasetBackup]) -> None:
@@ -44,30 +46,29 @@ def _verify_snapshots(dataset_backups: list[DatasetBackup]) -> None:
     logging.info("Restic: Found valid restic snapshots for all ZFS datasets.")
 
 
-def _verify_metadata(dataset_backups: list[DatasetBackup]) -> None:
-    if dataset_backups:
-        dataset_backups[0].check_repository_metadata()
-        logging.info("Restic: Restic metadata for shared repository is valid.")
+def _verify_metadata(repository: ResticRepository) -> None:
+    repository.check_metadata()
+    logging.info("Restic: Restic metadata for shared repository is valid.")
 
 
-def _verify_data(dataset_backups: list[DatasetBackup]) -> None:
-    if dataset_backups:
-        dataset_backups[0].check_repository_data()
-        logging.info("Restic: Restic data for shared repository is valid.")
+def _verify_data(repository: ResticRepository) -> None:
+    repository.check_data()
+    logging.info("Restic: Restic data for shared repository is valid.")
 
 
 def main() -> None:
     job = JobRunner()
     now = datetime.now()
-    dataset_backups = _build_dataset_backups()
+    repository = ResticRepository(path=_RESTIC_REPOSITORY)
+    dataset_backups = _build_dataset_backups(repository)
 
-    job.run("backup", lambda: _run_backup(dataset_backups))
+    job.run("backup", lambda: _run_backup(dataset_backups, repository))
     job.run("verify-snapshots", lambda: _verify_snapshots(dataset_backups))
 
     if now.weekday() == 0:
-        job.run("verify-metadata", lambda: _verify_metadata(dataset_backups))
+        job.run("verify-metadata", lambda: _verify_metadata(repository))
 
     if now.day == 1:
-        job.run("verify-data", lambda: _verify_data(dataset_backups))
+        job.run("verify-data", lambda: _verify_data(repository))
 
     Notifier().notify(job.errors)
