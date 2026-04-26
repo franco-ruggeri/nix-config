@@ -3,7 +3,10 @@ import logging
 from datetime import datetime
 from pathlib import Path
 
-from .domain import DatasetBackup, LocalRunner, ResticRepository, ZfsDataset
+from .dataset_backup import DatasetBackup
+from .local_runner import LocalRunner
+from .restic_repository import ResticRepository
+from .zfs_dataset import ZfsDataset
 from .utils import (
     MAX_AGE_HOURS,
     notify,

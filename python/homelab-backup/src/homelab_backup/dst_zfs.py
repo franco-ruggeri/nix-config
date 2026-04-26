@@ -1,7 +1,10 @@
 import logging
 
-from .domain import LocalRunner, SshRunner, ZfsDataset, ZfsReplication
+from .local_runner import LocalRunner
+from .ssh_runner import SshRunner
 from .utils import get_env, get_snapshot_prefix, notify, run_and_log
+from .zfs_dataset import ZfsDataset
+from .zfs_replication import ZfsReplication
 
 _BACKUP_DATASETS = [
     "zfs/k8s-nfs-backup",
