@@ -10,18 +10,20 @@ from homelab_backup.runners import LocalRunner, SshRunner
 
 def main() -> None:
     try:
-        source_host = os.environ["SOURCE_HOST"]
-        source_user = os.environ["SOURCE_USER"]
-        rsync_dest_path = Path(os.environ["RSYNC_DEST_PATH"]).expanduser()
-
         source = ZfsDataset(
-            name=BACKUP_DATASET, runner=SshRunner(host=source_host, user=source_user)
+            name=BACKUP_DATASET,
+            runner=SshRunner(
+                host=os.environ["SOURCE_HOST"],
+                user=os.environ["SOURCE_USER"],
+            ),
         )
+        destination_path = Path(os.environ["RSYNC_DEST_PATH"]).expanduser()
         zfs_transfer = ZfsRsyncTransfer(
-            source=source, destination_path=rsync_dest_path, rsync_runner=LocalRunner()
+            source=source,
+            destination_path=destination_path,
+            rsync_runner=LocalRunner(),
         )
         zfs_transfer.transfer()
-
         EmailNotifier().notify()
     except Exception as e:
         logging.error("%s", e)
