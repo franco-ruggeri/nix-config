@@ -9,7 +9,9 @@ class ZfsTransfer(ABC):
 
     @staticmethod
     def _get_prefix() -> str:
-        raw_hostname = subprocess.run(["hostname", "-s"], capture_output=True, text=True).stdout.strip()
+        raw_hostname = subprocess.run(
+            ["hostname", "-s"], capture_output=True, text=True
+        ).stdout.strip()
         if not raw_hostname:
             raise Exception("Could not determine local hostname for snapshot prefix.")
         prefix = re.sub(r"[^a-zA-Z0-9:_\-\.]", "-", raw_hostname)

@@ -14,8 +14,12 @@ def main() -> None:
         source_user = os.environ["SOURCE_USER"]
         rsync_dest_path = Path(os.environ["RSYNC_DEST_PATH"]).expanduser()
 
-        source = ZfsDataset(name=BACKUP_DATASET, runner=SshRunner(host=source_host, user=source_user))
-        zfs_transfer = ZfsRsyncTransfer(source=source, destination_path=rsync_dest_path, rsync_runner=LocalRunner())
+        source = ZfsDataset(
+            name=BACKUP_DATASET, runner=SshRunner(host=source_host, user=source_user)
+        )
+        zfs_transfer = ZfsRsyncTransfer(
+            source=source, destination_path=rsync_dest_path, rsync_runner=LocalRunner()
+        )
         zfs_transfer.transfer()
 
         EmailNotifier().notify()

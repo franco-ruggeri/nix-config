@@ -11,7 +11,9 @@ def main() -> None:
     try:
         source_host = os.environ["SOURCE_HOST"]
         source_user = os.environ["SOURCE_USER"]
-        source = ZfsDataset(name=BACKUP_DATASET, runner=SshRunner(host=source_host, user=source_user))
+        source = ZfsDataset(
+            name=BACKUP_DATASET, runner=SshRunner(host=source_host, user=source_user)
+        )
         destination = ZfsDataset(name=BACKUP_DATASET, runner=LocalRunner())
         zfs_transfer = ZfsNativeTransfer(source=source, destination=destination)
 
