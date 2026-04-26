@@ -78,23 +78,21 @@ def _test_longhorn_backups() -> None:
 
 
 def _zfs_snapshot_exists(snapshot_name: str) -> bool:
-    try:
-        run_shell_cmd(
-            [
-                "zfs",
-                "list",
-                "-H",
-                "-t",
-                "snapshot",
-                "-o",
-                "name",
-                snapshot_name,
-            ],
-            capture_output=True,
-        )
-        return True
-    except Exception:
-        return False
+    result = run_shell_cmd(
+        [
+            "zfs",
+            "list",
+            "-H",
+            "-t",
+            "snapshot",
+            "-o",
+            "name",
+            snapshot_name,
+        ],
+        capture_output=True,
+        raise_on_error=False,
+    )
+    return result.returncode == 0
 
 
 def _create_zfs_snapshots() -> dict[str, Path]:
