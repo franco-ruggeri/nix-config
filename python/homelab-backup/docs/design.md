@@ -1,4 +1,74 @@
-# Dataset Backup Design
+# Design
+
+## Class Diagram
+
+```mermaid
+classDiagram
+  class CommandRunner {
+    <<interface>>
+    +run(cmd, capture_output=False, cwd=None)
+  }
+
+  class LocalRunner {
+    +run(cmd, capture_output=False, cwd=None)
+  }
+
+  class SshRunner {
+    -host: str
+    -user: str
+    +run(cmd, capture_output=False, cwd=None)
+  }
+
+  class ZfsDataset {
+    -name: str
+    -runner: CommandRunner
+    +snapshot_exists(snapshot_name)
+    +create_snapshot(snapshot_name)
+    +destroy_snapshot(snapshot_name)
+    +rename_snapshot(old_name, new_name)
+    +mountpoint()
+    +snapshot_path(snapshot_name)
+  }
+
+  class ResticRepository {
+    -path: Path
+    +ensure_initialized()
+    +backup_directory(path)
+    +forget_prune()
+    +latest_snapshot()
+    +check_metadata()
+    +check_data()
+  }
+
+  class DatasetBackup {
+    -dataset: ZfsDataset
+    -repository: ResticRepository
+    +run_backup_cycle(snapshot_name)
+    +verify_recent_snapshot(max_age)
+  }
+
+  class ZfsReplication {
+    -source: ZfsDataset
+    -destination: ZfsDataset
+    +replicate(prefix)
+  }
+
+  class RsyncPull {
+    -source: ZfsDataset
+    -destination_path: Path
+    +pull(snapshot_name)
+  }
+
+  CommandRunner <|.. LocalRunner
+  CommandRunner <|.. SshRunner
+
+  ZfsDataset --> CommandRunner : uses
+  DatasetBackup *-- ZfsDataset : dataset
+  DatasetBackup *-- ResticRepository : repository
+  ZfsReplication *-- ZfsDataset : source
+  ZfsReplication *-- ZfsDataset : destination
+  RsyncPull *-- ZfsDataset : source
+```
 
 ## Architecture
 
@@ -99,92 +169,6 @@ Responsibilities:
 
 - CLI commands: `homelab-backup src`, `homelab-backup dst-zfs`, `homelab-backup dst-rsync`.
 - Environment variables remain the runtime contract (for example `SOURCE_HOST`, `SOURCE_USER`, dataset and destination settings).
-
-## Class Diagram
-
-```mermaid
-classDiagram
-  class CommandRunner {
-    <<interface>>
-    +run(cmd, capture_output=False, cwd=None)
-  }
-
-  class LocalRunner {
-    +run(cmd, capture_output=False, cwd=None)
-  }
-
-  class SshRunner {
-    -host: str
-    -user: str
-    +run(cmd, capture_output=False, cwd=None)
-  }
-
-  class ZfsDataset {
-    -name: str
-    -runner: CommandRunner
-    +snapshot_exists(snapshot_name)
-    +create_snapshot(snapshot_name)
-    +destroy_snapshot(snapshot_name)
-    +rename_snapshot(old_name, new_name)
-    +mountpoint()
-    +snapshot_path(snapshot_name)
-  }
-
-  class ResticRepository {
-    -path: Path
-    +ensure_initialized()
-    +backup_directory(path)
-    +forget_prune()
-    +latest_snapshot()
-    +check_metadata()
-    +check_data()
-  }
-
-  class DatasetBackup {
-    -dataset: ZfsDataset
-    -repository: ResticRepository
-    +run_backup_cycle(snapshot_name)
-    +verify_recent_snapshot(max_age)
-  }
-
-  class ZfsReplication {
-    -source: ZfsDataset
-    -destination: ZfsDataset
-    +replicate(prefix)
-  }
-
-  class RsyncPull {
-    -source: ZfsDataset
-    -destination_path: Path
-    +pull(snapshot_name)
-  }
-
-  class SrcEntrypoint {
-    +main()
-  }
-
-  class DstZfsEntrypoint {
-    +main()
-  }
-
-  class DstRsyncEntrypoint {
-    +main()
-  }
-
-  CommandRunner <|.. LocalRunner
-  CommandRunner <|.. SshRunner
-
-  ZfsDataset --> CommandRunner : uses
-  DatasetBackup *-- ZfsDataset : dataset
-  DatasetBackup *-- ResticRepository : repository
-  ZfsReplication *-- ZfsDataset : source
-  ZfsReplication *-- ZfsDataset : destination
-  RsyncPull *-- ZfsDataset : source
-
-  SrcEntrypoint ..> DatasetBackup : orchestrates
-  DstZfsEntrypoint ..> ZfsReplication : orchestrates
-  DstRsyncEntrypoint ..> RsyncPull : orchestrates
-```
 
 ## Design Rationale
 
