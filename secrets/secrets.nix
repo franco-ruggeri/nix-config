@@ -25,6 +25,7 @@ in
   "wireguard-private-key-server-stockholm.age".publicKeys = [ systemServerStockholm ];
   "restic-repository-laptop.age".publicKeys = [ homeLaptop ];
   "restic-password.age".publicKeys = [
+    systemDesktop
     systemServerStockholm
     systemServerTurin
     homeLaptop

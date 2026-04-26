@@ -23,16 +23,21 @@ _EMAIL_RECIPIENT = _SMTP_USER
 logging.basicConfig(level=logging.INFO)
 
 
-def run_shell_cmd(cmd: list[str], cwd: Path | None = None) -> CompletedProcess:
+def run_shell_cmd(
+    cmd: list[str],
+    capture_output: bool = False,
+    cwd: Path | None = None,
+) -> CompletedProcess:
     cmd_str = " ".join(cmd)
     logging.debug(f"Running: {cmd_str} (cwd={cwd})")
 
     result = subprocess.run(
         args=cmd,
-        capture_output=True,
+        capture_output=capture_output,
         text=True,
         cwd=cwd,
     )
+
     if result.returncode != 0:
         raise Exception(f"Command failed: {cmd_str}\n{result.stderr}")
 
@@ -64,7 +69,7 @@ def build_ssh_cmd() -> list[str]:
 
 
 def get_snapshot_prefix() -> str:
-    raw_hostname = run_shell_cmd(["hostname", "-s"]).stdout.strip()
+    raw_hostname = run_shell_cmd(["hostname", "-s"], capture_output=True).stdout.strip()
     if not raw_hostname:
         raise Exception("Could not determine local hostname for snapshot prefix.")
 
@@ -74,8 +79,12 @@ def get_snapshot_prefix() -> str:
     return prefix
 
 
-def run_ssh_cmd(source_host: str, source_user: str, remote_cmd: list[str]) -> CompletedProcess:
-    return run_shell_cmd(build_ssh_cmd() + [f"{source_user}@{source_host}"] + remote_cmd)
+def run_ssh_cmd(
+    source_host: str, source_user: str, remote_cmd: list[str]
+) -> CompletedProcess:
+    return run_shell_cmd(
+        build_ssh_cmd() + [f"{source_user}@{source_host}"] + remote_cmd,
+    )
 
 
 def remote_snapshot_exists(

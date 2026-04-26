@@ -27,7 +27,8 @@ def _get_remote_mountpoint(source_dataset: str) -> str:
             "value",
             "mountpoint",
             source_dataset,
-        ]
+        ],
+        capture_output=True,
     )
     mountpoint = result.stdout.strip()
     if not mountpoint:
@@ -71,7 +72,7 @@ def _rsync_pull() -> None:
                 ssh_transport,
                 f"{source_user}@{source_host}:{remote_snapshot_path}",
                 f"{rsync_dest_path}/",
-            ]
+            ],
         )
     finally:
         if remote_snapshot_exists(

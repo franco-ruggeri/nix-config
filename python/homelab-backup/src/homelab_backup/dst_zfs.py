@@ -28,7 +28,8 @@ def snapshot_exists(dataset: str, snapshot_name: str) -> bool:
                 "-o",
                 "name",
                 snapshot,
-            ]
+            ],
+            capture_output=True,
         )
         return True
     except Exception:

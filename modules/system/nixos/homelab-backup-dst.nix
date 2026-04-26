@@ -61,7 +61,7 @@ in
         description = "Homelab backup destination";
         wantedBy = [ "timers.target" ];
         timerConfig = {
-          OnCalendar = "03:00";
+          OnCalendar = "02:00";
           Persistent = true;
         };
       };
