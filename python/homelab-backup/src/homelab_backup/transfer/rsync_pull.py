@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from homelab_backup.datasets.zfs_dataset import ZfsDataset
+from homelab_backup.backup.zfs_dataset import ZfsDataset
 from homelab_backup.execution.command_runner import CommandRunner
 from homelab_backup.execution.local_runner import LocalRunner
 from homelab_backup.transfer.dataset_transfer import DatasetTransfer

@@ -2,9 +2,9 @@ import logging
 from datetime import datetime
 from pathlib import Path
 
-from homelab_backup.backup.dataset_backup import DatasetBackup
 from homelab_backup.backup.restic_repository import ResticRepository
-from homelab_backup.datasets.zfs_dataset import ZfsDataset
+from homelab_backup.backup.zfs_backup import ZfsBackup
+from homelab_backup.backup.zfs_dataset import ZfsDataset
 from homelab_backup.execution.job_runner import JobRunner
 from homelab_backup.execution.local_runner import LocalRunner
 from homelab_backup.execution.notifier import Notifier
@@ -20,10 +20,10 @@ _ZFS_DATASETS = [
 
 def _build_dataset_backups(
     repository: ResticRepository,
-) -> list[DatasetBackup]:
+) -> list[ZfsBackup]:
     local_runner = LocalRunner()
     return [
-        DatasetBackup(
+        ZfsBackup(
             dataset=ZfsDataset(name=zfs_dataset, runner=local_runner),
             repository=repository,
         )
@@ -32,7 +32,7 @@ def _build_dataset_backups(
 
 
 def _run_backup(
-    dataset_backups: list[DatasetBackup], repository: ResticRepository
+    dataset_backups: list[ZfsBackup], repository: ResticRepository
 ) -> None:
     for dataset_backup in dataset_backups:
         dataset_backup.backup(snapshot_name="restic")
@@ -40,7 +40,7 @@ def _run_backup(
     logging.info("Restic: Pruned old snapshots from shared repository.")
 
 
-def _verify_snapshots(dataset_backups: list[DatasetBackup]) -> None:
+def _verify_snapshots(dataset_backups: list[ZfsBackup]) -> None:
     for dataset_backup in dataset_backups:
         dataset_backup.verify_snapshot(MAX_AGE_HOURS)
     logging.info("Restic: Found valid restic snapshots for all ZFS datasets.")

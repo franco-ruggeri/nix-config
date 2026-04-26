@@ -1,6 +1,6 @@
 import logging
 
-from homelab_backup.datasets.zfs_dataset import ZfsDataset
+from homelab_backup.backup.zfs_dataset import ZfsDataset
 from homelab_backup.execution.job_runner import JobRunner
 from homelab_backup.execution.local_runner import LocalRunner
 from homelab_backup.execution.notifier import Notifier

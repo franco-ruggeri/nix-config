@@ -2,10 +2,10 @@ import logging
 from datetime import timedelta
 
 from homelab_backup.backup.restic_repository import ResticRepository
-from homelab_backup.datasets.zfs_dataset import ZfsDataset
+from homelab_backup.backup.zfs_dataset import ZfsDataset
 
 
-class DatasetBackup:
+class ZfsBackup:
     def __init__(self, dataset: ZfsDataset, repository: ResticRepository) -> None:
         self._dataset = dataset
         self._repository = repository
