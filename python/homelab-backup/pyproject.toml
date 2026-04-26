@@ -22,3 +22,9 @@ extend-select = ["I"]
 
 [tool.mypy]
 strict = true
+
+[dependency-groups]
+dev = [
+    "mypy>=1.20.2",
+    "ruff>=0.15.12",
+]
