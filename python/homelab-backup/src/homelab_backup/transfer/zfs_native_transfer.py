@@ -7,13 +7,13 @@ from homelab_backup.transfer.zfs_transfer import ZfsTransfer
 
 class ZfsNativeTransfer(ZfsTransfer):
     def __init__(self, source: ZfsDataset, destination: ZfsDataset) -> None:
+        super().__init__()
         self._source = source
         self._destination = destination
 
     def transfer(self) -> None:
-        prefix = self._snapshot_prefix()
-        last_name = f"{prefix}-last"
-        current_name = f"{prefix}-current"
+        last_name = f"{self._prefix}-last"
+        current_name = f"{self._prefix}-current"
 
         if self._source.snapshot_exists(current_name):
             self._source.destroy_snapshot(current_name)

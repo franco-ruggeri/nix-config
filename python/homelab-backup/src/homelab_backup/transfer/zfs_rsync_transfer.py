@@ -14,12 +14,13 @@ class ZfsRsyncTransfer(ZfsTransfer):
         destination_path: Path,
         rsync_runner: CommandRunner | None = None,
     ) -> None:
+        super().__init__()
         self._source = source
         self._destination_path = destination_path
         self._rsync_runner = rsync_runner or LocalRunner()
 
     def transfer(self) -> None:
-        snapshot_name = f"{self._snapshot_prefix()}-current"
+        snapshot_name = f"{self._prefix}-current"
         if self._source.snapshot_exists(snapshot_name):
             self._source.destroy_snapshot(snapshot_name)
         self._source.create_snapshot(snapshot_name)
