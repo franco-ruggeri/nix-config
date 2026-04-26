@@ -47,20 +47,29 @@ classDiagram
     +verify_recent_snapshot(max_age)
   }
 
+  class DatasetTransfer {
+    <<interface>>
+    +transfer(snapshot_prefix)
+  }
+
   class ZfsReplication {
     -source: ZfsDataset
     -destination: ZfsDataset
+    +transfer(snapshot_prefix)
     +replicate(prefix)
   }
 
   class RsyncPull {
     -source: ZfsDataset
     -destination_path: Path
+    +transfer(snapshot_prefix)
     +pull(snapshot_name)
   }
 
   CommandRunner <|.. LocalRunner
   CommandRunner <|.. SshRunner
+  DatasetTransfer <|.. ZfsReplication
+  DatasetTransfer <|.. RsyncPull
 
   ZfsDataset --> CommandRunner : uses
   DatasetBackup *-- ZfsDataset : dataset
@@ -134,6 +143,7 @@ Responsibilities:
 - Determine full vs incremental transfer based on `last` snapshot presence on both sides.
 - Execute `zfs send | zfs receive` pipeline.
 - Rotate snapshots (`current` to `last`) on source and destination.
+- Expose transfer through the shared `transfer(snapshot_prefix)` interface.
 
 ### `RsyncPull`
 
@@ -144,6 +154,16 @@ Responsibilities:
 - Create temporary source snapshot.
 - Transfer from source snapshot path (`.zfs/snapshot/<name>/`).
 - Ensure snapshot cleanup even on transfer failure.
+- Expose transfer through the shared `transfer(snapshot_prefix)` interface.
+
+### `DatasetTransfer`
+
+`DatasetTransfer.transfer(snapshot_prefix: str)` is the common contract for transferring dataset snapshots.
+
+Responsibilities:
+
+- Provide one transfer entrypoint used by destination workflows.
+- Keep transfer mode-specific mechanics (`zfs send/receive` or `rsync`) behind a common API.
 
 ## Operational Semantics
 

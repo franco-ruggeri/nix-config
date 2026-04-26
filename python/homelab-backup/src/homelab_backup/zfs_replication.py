@@ -1,10 +1,11 @@
 import logging
 import subprocess
 
+from .dataset_transfer import DatasetTransfer
 from .zfs_dataset import ZfsDataset
 
 
-class ZfsReplication:
+class ZfsReplication(DatasetTransfer):
     def __init__(self, source: ZfsDataset, destination: ZfsDataset) -> None:
         self.source = source
         self.destination = destination
@@ -68,3 +69,6 @@ class ZfsReplication:
         if self.source.snapshot_exists(last_name):
             self.source.destroy_snapshot(last_name)
         self.source.rename_snapshot(current_name, last_name)
+
+    def transfer(self, snapshot_prefix: str) -> None:
+        self.replicate(snapshot_prefix)

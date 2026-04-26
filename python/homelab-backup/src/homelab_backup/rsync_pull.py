@@ -1,12 +1,13 @@
 from pathlib import Path
 
 from .command_runner import CommandRunner
+from .dataset_transfer import DatasetTransfer
 from .local_runner import LocalRunner
 from .ssh_runner import SshRunner
 from .zfs_dataset import ZfsDataset
 
 
-class RsyncPull:
+class RsyncPull(DatasetTransfer):
     def __init__(
         self,
         source: ZfsDataset,
@@ -43,3 +44,6 @@ class RsyncPull:
         finally:
             if self.source.snapshot_exists(snapshot_name):
                 self.source.destroy_snapshot(snapshot_name)
+
+    def transfer(self, snapshot_prefix: str) -> None:
+        self.pull(snapshot_name=f"{snapshot_prefix}-current")

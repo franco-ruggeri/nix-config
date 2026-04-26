@@ -17,12 +17,12 @@ def _pull_latest_snapshot_for_dataset(source_dataset: str) -> None:
     source_user = get_env("SOURCE_USER")
     source = ZfsDataset(name=source_dataset, runner=SshRunner(host=source_host, user=source_user))
     destination = ZfsDataset(name=source_dataset, runner=LocalRunner())
-    replication = ZfsReplication(source=source, destination=destination)
+    transfer = ZfsReplication(source=source, destination=destination)
 
     prefix = get_snapshot_prefix()
 
     logging.info("Using snapshot prefix for %s: %s", source_dataset, prefix)
-    replication.replicate(prefix)
+    transfer.transfer(prefix)
 
 
 def pull_latest_snapshot() -> None:

@@ -14,11 +14,10 @@ def _rsync_pull() -> None:
     rsync_dest_path = Path(get_env("RSYNC_DEST_PATH")).expanduser()
 
     snapshot_prefix = get_snapshot_prefix()
-    snapshot_name = f"{snapshot_prefix}-current"
     source = ZfsDataset(name=source_dataset, runner=SshRunner(host=source_host, user=source_user))
-    pull = RsyncPull(source=source, destination_path=rsync_dest_path, rsync_runner=LocalRunner())
+    transfer = RsyncPull(source=source, destination_path=rsync_dest_path, rsync_runner=LocalRunner())
 
-    pull.pull(snapshot_name=snapshot_name)
+    transfer.transfer(snapshot_prefix=snapshot_prefix)
 
 
 def main() -> None:
