@@ -44,36 +44,3 @@ def build_ssh_cmd() -> list[str]:
             ssh_private_key_file,
         ]
     return cmd
-
-
-def run_ssh_cmd(source_host: str, source_user: str, remote_cmd: list[str]) -> CompletedProcess[str]:
-    return run_shell_cmd(
-        build_ssh_cmd() + [f"{source_user}@{source_host}"] + remote_cmd,
-    )
-
-
-def remote_snapshot_exists(
-    source_host: str,
-    source_user: str,
-    dataset: str,
-    snapshot_name: str,
-) -> bool:
-    snapshot = f"{dataset}@{snapshot_name}"
-    try:
-        run_ssh_cmd(
-            source_host=source_host,
-            source_user=source_user,
-            remote_cmd=[
-                "zfs",
-                "list",
-                "-H",
-                "-t",
-                "snapshot",
-                "-o",
-                "name",
-                snapshot,
-            ],
-        )
-        return True
-    except Exception:
-        return False
