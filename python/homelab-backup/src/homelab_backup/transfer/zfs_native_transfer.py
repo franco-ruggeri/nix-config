@@ -10,7 +10,8 @@ class ZfsNativeTransfer(ZfsTransfer):
         self._source = source
         self._destination = destination
 
-    def _replicate(self, prefix: str) -> None:
+    def transfer(self) -> None:
+        prefix = self._snapshot_prefix()
         last_name = f"{prefix}-last"
         current_name = f"{prefix}-current"
 
@@ -69,6 +70,3 @@ class ZfsNativeTransfer(ZfsTransfer):
         if self._source.snapshot_exists(last_name):
             self._source.destroy_snapshot(last_name)
         self._source.rename_snapshot(current_name, last_name)
-
-    def transfer(self) -> None:
-        self._replicate(self._snapshot_prefix())

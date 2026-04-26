@@ -18,7 +18,8 @@ class ZfsRsyncTransfer(ZfsTransfer):
         self._destination_path = destination_path
         self._rsync_runner = rsync_runner or LocalRunner()
 
-    def _pull(self, snapshot_name: str) -> None:
+    def transfer(self) -> None:
+        snapshot_name = f"{self._snapshot_prefix()}-current"
         if self._source.snapshot_exists(snapshot_name):
             self._source.destroy_snapshot(snapshot_name)
         self._source.create_snapshot(snapshot_name)
@@ -44,6 +45,3 @@ class ZfsRsyncTransfer(ZfsTransfer):
         finally:
             if self._source.snapshot_exists(snapshot_name):
                 self._source.destroy_snapshot(snapshot_name)
-
-    def transfer(self) -> None:
-        self._pull(snapshot_name=f"{self._snapshot_prefix()}-current")
