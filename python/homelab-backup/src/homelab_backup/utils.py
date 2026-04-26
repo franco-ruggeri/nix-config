@@ -1,6 +1,5 @@
 import logging
 import os
-import re
 import subprocess
 from datetime import timedelta
 from pathlib import Path
@@ -55,17 +54,6 @@ def build_ssh_cmd() -> list[str]:
             ssh_private_key_file,
         ]
     return cmd
-
-
-def get_snapshot_prefix() -> str:
-    raw_hostname = run_shell_cmd(["hostname", "-s"], capture_output=True).stdout.strip()
-    if not raw_hostname:
-        raise Exception("Could not determine local hostname for snapshot prefix.")
-
-    prefix = re.sub(r"[^a-zA-Z0-9:_\-\.]", "-", raw_hostname)
-    if not prefix:
-        raise Exception("Resolved snapshot prefix is empty.")
-    return prefix
 
 
 def run_ssh_cmd(source_host: str, source_user: str, remote_cmd: list[str]) -> CompletedProcess[str]:
