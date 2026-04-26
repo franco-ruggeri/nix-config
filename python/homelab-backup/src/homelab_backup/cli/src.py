@@ -5,12 +5,10 @@ from pathlib import Path
 from homelab_backup.backup.dataset_backup import DatasetBackup
 from homelab_backup.backup.restic_repository import ResticRepository
 from homelab_backup.datasets.zfs_dataset import ZfsDataset
+from homelab_backup.execution.job_runner import JobRunner
 from homelab_backup.execution.local_runner import LocalRunner
-from homelab_backup.utils import (
-    MAX_AGE_HOURS,
-    notify,
-    run_and_log,
-)
+from homelab_backup.execution.notifier import Notifier
+from homelab_backup.utils import MAX_AGE_HOURS
 
 _ZFS_ROOT = Path("/mnt")
 _RESTIC_REPOSITORY = _ZFS_ROOT / "zfs" / "k8s-backup"
@@ -60,17 +58,17 @@ def _verify_data(dataset_backups: list[DatasetBackup]) -> None:
 
 
 def main() -> None:
-    errors: list[str] = []
+    job = JobRunner()
     now = datetime.now()
     dataset_backups = _build_dataset_backups()
 
-    run_and_log(run_fn=lambda: _run_backup(dataset_backups), errors=errors)
-    run_and_log(run_fn=lambda: _verify_snapshots(dataset_backups), errors=errors)
+    job.run("backup", lambda: _run_backup(dataset_backups))
+    job.run("verify-snapshots", lambda: _verify_snapshots(dataset_backups))
 
     if now.weekday() == 0:
-        run_and_log(run_fn=lambda: _verify_metadata(dataset_backups), errors=errors)
+        job.run("verify-metadata", lambda: _verify_metadata(dataset_backups))
 
     if now.day == 1:
-        run_and_log(run_fn=lambda: _verify_data(dataset_backups), errors=errors)
+        job.run("verify-data", lambda: _verify_data(dataset_backups))
 
-    notify(errors)
+    Notifier().notify(job.errors)

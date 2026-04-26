@@ -1,10 +1,12 @@
 from pathlib import Path
 
 from homelab_backup.datasets.zfs_dataset import ZfsDataset
+from homelab_backup.execution.job_runner import JobRunner
 from homelab_backup.execution.local_runner import LocalRunner
+from homelab_backup.execution.notifier import Notifier
 from homelab_backup.execution.ssh_runner import SshRunner
 from homelab_backup.transfer.rsync_pull import RsyncPull
-from homelab_backup.utils import get_env, get_snapshot_prefix, notify, run_and_log
+from homelab_backup.utils import get_env, get_snapshot_prefix
 
 
 def _rsync_pull() -> None:
@@ -21,6 +23,6 @@ def _rsync_pull() -> None:
 
 
 def main() -> None:
-    errors: list[str] = []
-    run_and_log(run_fn=_rsync_pull, errors=errors)
-    notify(errors)
+    job = JobRunner()
+    job.run("rsync-pull", _rsync_pull)
+    Notifier().notify(job.errors)
