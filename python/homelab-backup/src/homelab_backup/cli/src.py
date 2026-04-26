@@ -24,16 +24,14 @@ def _build_dataset_backups(
     local_runner = LocalRunner()
     return [
         ZfsBackup(
-            dataset=ZfsDataset(name=zfs_dataset, runner=local_runner),
-            repository=repository,
+            zfs_dataset=ZfsDataset(name=zfs_dataset, runner=local_runner),
+            restic_repository=repository,
         )
         for zfs_dataset in _ZFS_DATASETS
     ]
 
 
-def _run_backup(
-    dataset_backups: list[ZfsBackup], repository: ResticRepository
-) -> None:
+def _run_backup(dataset_backups: list[ZfsBackup], repository: ResticRepository) -> None:
     for dataset_backup in dataset_backups:
         dataset_backup.backup(snapshot_name="restic")
     repository.prune()
