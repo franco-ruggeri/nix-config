@@ -14,27 +14,23 @@ class ResticRepository:
         self.path = path
         self.runner = runner
 
-    def _set_env(self) -> None:
-        os.environ["RESTIC_REPOSITORY"] = str(self.path)
-        os.environ["RESTIC_CACHE_DIR"] = "/tmp/restic-cache"
-        os.environ["RESTIC_PROGRESS_FPS"] = str(1 / 60)
-        os.environ["RESTIC_FEATURES"] = "device-id-for-hardlinks"
-
     def _run(
         self,
         cmd: list[str],
         capture_output: bool = False,
         cwd: Path | None = None,
     ) -> CompletedProcess[str]:
-        self._set_env()
+        os.environ["RESTIC_REPOSITORY"] = str(self.path)
+        os.environ["RESTIC_CACHE_DIR"] = "/tmp/restic-cache"
+        os.environ["RESTIC_PROGRESS_FPS"] = str(1 / 60)
+        os.environ["RESTIC_FEATURES"] = "device-id-for-hardlinks"
         return self.runner.run(cmd, capture_output=capture_output, cwd=cwd)
 
     def ensure_initialized(self) -> None:
-        self._set_env()
         try:
-            self.runner.run(["restic", "cat", "config"])
+            self._run(["restic", "cat", "config"])
         except Exception:
-            self.runner.run(["restic", "init"])
+            self._run(["restic", "init"])
             logging.info("Restic: Initialized repository %s", self.path)
 
     def backup(self, path: Path) -> None:
