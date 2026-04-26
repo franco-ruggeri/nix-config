@@ -1,10 +1,10 @@
 from pathlib import Path
 
 from homelab_backup.backup.zfs_dataset import ZfsDataset
+from homelab_backup.backup.zfs_transfer import ZfsTransfer
 from homelab_backup.execution.command_runner import CommandRunner
 from homelab_backup.execution.local_runner import LocalRunner
 from homelab_backup.execution.ssh_runner import SshRunner
-from homelab_backup.transfer.zfs_transfer import ZfsTransfer
 
 
 class ZfsRsyncTransfer(ZfsTransfer):

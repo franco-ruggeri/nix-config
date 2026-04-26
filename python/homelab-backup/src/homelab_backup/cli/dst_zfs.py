@@ -2,10 +2,10 @@ import logging
 import os
 
 from homelab_backup.backup.zfs_dataset import ZfsDataset
+from homelab_backup.backup.zfs_native_transfer import ZfsNativeTransfer
 from homelab_backup.execution.local_runner import LocalRunner
-from homelab_backup.execution.notifier import Notifier
 from homelab_backup.execution.ssh_runner import SshRunner
-from homelab_backup.transfer.zfs_native_transfer import ZfsNativeTransfer
+from homelab_backup.notifications.notifier import Notifier
 
 _BACKUP_DATASETS = ["zfs/k8s-backup"]
 

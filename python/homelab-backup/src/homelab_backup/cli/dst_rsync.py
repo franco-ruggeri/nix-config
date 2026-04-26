@@ -3,10 +3,10 @@ import os
 from pathlib import Path
 
 from homelab_backup.backup.zfs_dataset import ZfsDataset
+from homelab_backup.backup.zfs_rsync_transfer import ZfsRsyncTransfer
 from homelab_backup.execution.local_runner import LocalRunner
-from homelab_backup.execution.notifier import Notifier
 from homelab_backup.execution.ssh_runner import SshRunner
-from homelab_backup.transfer.zfs_rsync_transfer import ZfsRsyncTransfer
+from homelab_backup.notifications.notifier import Notifier
 
 
 def _rsync_pull() -> None:

@@ -18,7 +18,7 @@ class Notifier:
         with open(os.environ["SMTP_PASSWORD_FILE"], "r") as f:
             self._smtp_password = f.read()
 
-    def notify(self, error: Exception | None) -> None:
+    def notify(self, error: Exception | None = None) -> None:
         hostname = socket.gethostname()
         script = Path(sys.argv[0])
         result = "FAILED" if error else "PASSED"
