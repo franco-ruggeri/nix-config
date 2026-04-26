@@ -12,6 +12,14 @@ class ZfsNativeTransfer(ZfsTransfer):
         self._destination = destination
 
     def transfer(self) -> None:
+        logging.info("Starting ZFS replication for %s", self._source.name)
+        try:
+            self._do_transfer()
+        except Exception as e:
+            logging.error("%s", e)
+            raise
+
+    def _do_transfer(self) -> None:
         last_name = f"{self._prefix}-last"
         current_name = f"{self._prefix}-current"
 
