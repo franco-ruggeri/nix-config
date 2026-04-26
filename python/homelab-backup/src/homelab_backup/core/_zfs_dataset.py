@@ -18,6 +18,25 @@ class ZfsDataset:
     def runner(self) -> Runner:
         return self._runner
 
+    @property
+    def mountpoint(self) -> Path:
+        result = self._runner.run(
+            [
+                "zfs",
+                "get",
+                "-H",
+                "-o",
+                "value",
+                "mountpoint",
+                self._name,
+            ],
+            capture_output=True,
+        )
+        mountpoint = result.stdout.strip()
+        if not mountpoint:
+            raise Exception(f"Could not resolve mountpoint for dataset {self._name}.")
+        return Path(mountpoint)
+
     def is_remote(self) -> bool:
         return isinstance(self._runner, SshRunner)
 
@@ -65,23 +84,5 @@ class ZfsDataset:
         self._runner.run(["zfs", "rename", old_ref, new_ref])
         logging.info("ZFS: Renamed snapshot %s -> %s", old_ref, new_ref)
 
-    def _mountpoint(self) -> Path:
-        result = self._runner.run(
-            [
-                "zfs",
-                "get",
-                "-H",
-                "-o",
-                "value",
-                "mountpoint",
-                self._name,
-            ],
-            capture_output=True,
-        )
-        mountpoint = result.stdout.strip()
-        if not mountpoint:
-            raise Exception(f"Could not resolve mountpoint for dataset {self._name}.")
-        return Path(mountpoint)
-
     def snapshot_path(self, snapshot_name: str) -> Path:
-        return self._mountpoint() / ".zfs" / "snapshot" / snapshot_name
+        return self.mountpoint / ".zfs" / "snapshot" / snapshot_name

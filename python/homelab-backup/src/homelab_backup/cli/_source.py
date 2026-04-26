@@ -1,11 +1,10 @@
 from datetime import datetime
-from pathlib import Path
 
+from homelab_backup.cli._utils import BACKUP_DATASET
 from homelab_backup.core import ResticRepository, ZfsDataset
 from homelab_backup.notifiers import EmailNotifier
 from homelab_backup.runners import LocalRunner
 
-_RESTIC_REPOSITORY = Path("/mnt") / "zfs" / "k8s-backup"
 _ZFS_DATASETS = ["zfs/k8s-nfs", "zfs/k8s-longhorn"]
 _SNAPSHOT_NAME = "restic"
 
@@ -14,8 +13,10 @@ def main() -> None:
     try:
         now = datetime.now()
         local_runner = LocalRunner()
+        backup_dataset = ZfsDataset(name=BACKUP_DATASET, runner=local_runner)
 
-        restic_repository = ResticRepository(path=_RESTIC_REPOSITORY)
+        restic_path = backup_dataset.mountpoint
+        restic_repository = ResticRepository(path=restic_path)
         restic_repository.ensure_initialized()
 
         zfs_datasets = [ZfsDataset(name=name, runner=local_runner) for name in _ZFS_DATASETS]
