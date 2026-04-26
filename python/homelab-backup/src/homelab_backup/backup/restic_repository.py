@@ -4,7 +4,6 @@ import os
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from subprocess import CompletedProcess
-from typing import Any
 
 from homelab_backup.execution.local_runner import LocalRunner
 
@@ -48,16 +47,15 @@ class ResticRepository:
             ]
         )
 
-    def _latest_snapshot(self, path: Path) -> dict[str, Any]:
-        cmd = ["restic", "snapshots", "--json", "--path", str(path)]
-        result = self._run(cmd, capture_output=True)
+    def verify_snapshot(self, max_age: timedelta, path: Path) -> None:
+        result = self._run(
+            ["restic", "snapshots", "--json", "--path", str(path)],
+            capture_output=True,
+        )
         snapshots = json.loads(result.stdout)
         if not snapshots:
             raise Exception(f"Restic: No restic snapshots found for {path}.")
-        return max(snapshots, key=lambda snapshot: snapshot["time"])
-
-    def verify_snapshot(self, max_age: timedelta, path: Path) -> None:
-        latest = self._latest_snapshot(path)
+        latest = max(snapshots, key=lambda snapshot: snapshot["time"])
         dt = datetime.fromisoformat(latest["time"].replace("Z", "+00:00"))
         if datetime.now(timezone.utc) - dt > max_age:
             raise Exception(f"Restic: Snapshot is too old for {path}.")
