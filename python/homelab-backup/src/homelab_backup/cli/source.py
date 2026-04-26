@@ -11,22 +11,11 @@ _ZFS_DATASETS = ["zfs/k8s-nfs", "zfs/k8s-longhorn"]
 _SNAPSHOT_NAME = "restic"
 
 
-def _backup_dataset(dataset: ZfsDataset, repository: ResticRepository) -> None:
-    snapshot_name = _SNAPSHOT_NAME
-    primary_error: Exception | None = None
+def _backup_dataset(zfs_dataset: ZfsDataset, restic_repository: ResticRepository) -> None:
     try:
-        snapshot_path = dataset.snapshot_path(snapshot_name)
-        repository.backup(snapshot_path)
-    except Exception as error:
-        primary_error = error
-        raise
+        restic_repository.backup(zfs_dataset.snapshot_path(_SNAPSHOT_NAME))
     finally:
-        try:
-            if dataset.snapshot_exists(snapshot_name):
-                dataset.destroy_snapshot(snapshot_name)
-        except Exception as cleanup_error:
-            if primary_error is None:
-                raise cleanup_error
+        zfs_dataset.destroy_snapshot(_SNAPSHOT_NAME)
 
 
 def main() -> None:
@@ -37,17 +26,16 @@ def main() -> None:
         restic_repository = ResticRepository(path=_RESTIC_REPOSITORY)
         restic_repository.ensure_initialized()
 
-        zfs_datasets = [ZfsDataset(name=zfs_dataset, runner=local_runner) for zfs_dataset in _ZFS_DATASETS]
+        zfs_datasets = [ZfsDataset(name=name, runner=local_runner) for name in _ZFS_DATASETS]
 
         for dataset in zfs_datasets:
             dataset.create_snapshot(_SNAPSHOT_NAME)  # first, snapshot all ZFS datasets (fast)
         for dataset in zfs_datasets:
             _backup_dataset(dataset, restic_repository)  # then, backup all ZFS datasets one by one (slow)
-
-        restic_repository.prune()
-
         for dataset in zfs_datasets:
             restic_repository.verify_snapshot(dataset.snapshot_path(_SNAPSHOT_NAME))
+
+        restic_repository.prune()
 
         if now.weekday() == 0:
             restic_repository.check_metadata()
