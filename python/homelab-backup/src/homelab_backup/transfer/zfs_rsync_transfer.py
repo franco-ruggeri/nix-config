@@ -5,7 +5,6 @@ from homelab_backup.execution.command_runner import CommandRunner
 from homelab_backup.execution.local_runner import LocalRunner
 from homelab_backup.execution.ssh_runner import SshRunner
 from homelab_backup.transfer.zfs_transfer import ZfsTransfer
-from homelab_backup.utils import get_snapshot_prefix
 
 
 class ZfsRsyncTransfer(ZfsTransfer):
@@ -47,4 +46,4 @@ class ZfsRsyncTransfer(ZfsTransfer):
                 self._source.destroy_snapshot(snapshot_name)
 
     def transfer(self) -> None:
-        self._pull(snapshot_name=f"{get_snapshot_prefix()}-current")
+        self._pull(snapshot_name=f"{self._snapshot_prefix()}-current")
