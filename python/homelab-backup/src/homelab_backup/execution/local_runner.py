@@ -1,10 +1,8 @@
 from pathlib import Path
 from subprocess import CompletedProcess
 
-from ..utils import run_shell_cmd
-
-
-from .command_runner import CommandRunner
+from homelab_backup.execution.command_runner import CommandRunner
+from homelab_backup.utils import run_shell_cmd
 
 
 class LocalRunner(CommandRunner):

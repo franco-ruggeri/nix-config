@@ -2,8 +2,8 @@ import shlex
 from pathlib import Path
 from subprocess import CompletedProcess
 
-from .command_runner import CommandRunner
-from ..utils import build_ssh_cmd, run_shell_cmd
+from homelab_backup.execution.command_runner import CommandRunner
+from homelab_backup.utils import build_ssh_cmd, run_shell_cmd
 
 
 class SshRunner(CommandRunner):

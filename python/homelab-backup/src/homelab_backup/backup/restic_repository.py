@@ -5,7 +5,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from subprocess import CompletedProcess
 
-from ..utils import run_shell_cmd
+from homelab_backup.utils import run_shell_cmd
 
 
 class ResticRepository:

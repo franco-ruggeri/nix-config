@@ -1,7 +1,7 @@
 import logging
 from datetime import timedelta
 
-from .dataset_backup import DatasetBackup
+from homelab_backup.backup.dataset_backup import DatasetBackup
 
 
 class SrcBackupOrchestrator:

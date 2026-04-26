@@ -1,10 +1,10 @@
 import logging
 
-from ..datasets.zfs_dataset import ZfsDataset
-from ..execution.local_runner import LocalRunner
-from ..execution.ssh_runner import SshRunner
-from ..transfer.zfs_replication import ZfsReplication
-from ..utils import get_env, get_snapshot_prefix, notify, run_and_log
+from homelab_backup.datasets.zfs_dataset import ZfsDataset
+from homelab_backup.execution.local_runner import LocalRunner
+from homelab_backup.execution.ssh_runner import SshRunner
+from homelab_backup.transfer.zfs_replication import ZfsReplication
+from homelab_backup.utils import get_env, get_snapshot_prefix, notify, run_and_log
 
 _BACKUP_DATASETS = [
     "zfs/k8s-backup",

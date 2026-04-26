@@ -1,8 +1,8 @@
 import logging
 import subprocess
 
-from ..datasets.zfs_dataset import ZfsDataset
-from .dataset_transfer import DatasetTransfer
+from homelab_backup.datasets.zfs_dataset import ZfsDataset
+from homelab_backup.transfer.dataset_transfer import DatasetTransfer
 
 
 class ZfsReplication(DatasetTransfer):

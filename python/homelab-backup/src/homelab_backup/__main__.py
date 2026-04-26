@@ -1,6 +1,6 @@
 import argparse
 
-from .cli import dst_rsync, dst_zfs, src
+from homelab_backup.cli import dst_rsync, dst_zfs, src
 
 
 def main() -> None:

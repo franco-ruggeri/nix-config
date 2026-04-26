@@ -1,8 +1,8 @@
 import logging
 from datetime import timedelta
 
-from .restic_repository import ResticRepository
-from ..datasets.zfs_dataset import ZfsDataset
+from homelab_backup.backup.restic_repository import ResticRepository
+from homelab_backup.datasets.zfs_dataset import ZfsDataset
 
 
 class DatasetBackup:

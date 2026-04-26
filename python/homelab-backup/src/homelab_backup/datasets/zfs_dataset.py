@@ -1,7 +1,7 @@
 import logging
 from pathlib import Path
 
-from ..execution.command_runner import CommandRunner
+from homelab_backup.execution.command_runner import CommandRunner
 
 
 class ZfsDataset:
