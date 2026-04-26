@@ -29,7 +29,6 @@ in
 
     programs = {
       firefox.enable = true;
-      chromium.enable = true;
       mpv.enable = true;
     };
 

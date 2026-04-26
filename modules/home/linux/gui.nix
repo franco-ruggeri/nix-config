@@ -49,6 +49,7 @@ in
         profiles.default.isDefault = true;
       };
       obs-studio.enable = true;
+      chromium.enable = true;
     };
 
     services = {
