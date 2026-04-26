@@ -2,10 +2,10 @@ import logging
 from datetime import datetime
 from pathlib import Path
 
-from homelab_backup.backup.restic_repository import ResticRepository
-from homelab_backup.backup.zfs_dataset import ZfsDataset
-from homelab_backup.execution.local_runner import LocalRunner
-from homelab_backup.notifications.notifier import Notifier
+from homelab_backup.core.restic_repository import ResticRepository
+from homelab_backup.core.zfs_dataset import ZfsDataset
+from homelab_backup.notifiers.email_notifier import EmailNotifier
+from homelab_backup.runners.local_runner import LocalRunner
 
 _RESTIC_REPOSITORY = Path("/mnt") / "zfs" / "k8s-backup"
 _ZFS_DATASETS = ["zfs/k8s-nfs", "zfs/k8s-longhorn"]
@@ -66,7 +66,7 @@ def main() -> None:
             repository.check_data()
             logging.info("Restic: Restic data for shared repository is valid.")
 
-        Notifier().notify()
+        EmailNotifier().notify(None)
     except Exception as e:
         logging.error("%s", e)
-        Notifier().notify(e)
+        EmailNotifier().notify(e)

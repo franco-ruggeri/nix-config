@@ -1,11 +1,11 @@
 import logging
 import os
 
-from homelab_backup.backup.zfs_dataset import ZfsDataset
-from homelab_backup.backup.zfs_native_transfer import ZfsNativeTransfer
-from homelab_backup.execution.local_runner import LocalRunner
-from homelab_backup.execution.ssh_runner import SshRunner
-from homelab_backup.notifications.notifier import Notifier
+from homelab_backup.core.zfs_dataset import ZfsDataset
+from homelab_backup.core.zfs_native_transfer import ZfsNativeTransfer
+from homelab_backup.notifiers.email_notifier import EmailNotifier
+from homelab_backup.runners.local_runner import LocalRunner
+from homelab_backup.runners.ssh_runner import SshRunner
 
 _BACKUP_DATASETS = ["zfs/k8s-backup"]
 
@@ -29,7 +29,7 @@ def pull_latest_snapshot() -> None:
 def main() -> None:
     try:
         pull_latest_snapshot()
-        Notifier().notify(None)
+        EmailNotifier().notify(None)
     except Exception as e:
         logging.error("%s", e)
-        Notifier().notify(e)
+        EmailNotifier().notify(e)

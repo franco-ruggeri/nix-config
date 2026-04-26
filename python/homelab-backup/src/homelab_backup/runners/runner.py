@@ -5,7 +5,7 @@ from pathlib import Path
 from subprocess import CompletedProcess
 
 
-class CommandRunner(ABC):
+class Runner(ABC):
     @staticmethod
     def _run_cmd(
         cmd: list[str],

@@ -2,11 +2,11 @@ import logging
 import os
 from pathlib import Path
 
-from homelab_backup.backup.zfs_dataset import ZfsDataset
-from homelab_backup.backup.zfs_rsync_transfer import ZfsRsyncTransfer
-from homelab_backup.execution.local_runner import LocalRunner
-from homelab_backup.execution.ssh_runner import SshRunner
-from homelab_backup.notifications.notifier import Notifier
+from homelab_backup.core.zfs_dataset import ZfsDataset
+from homelab_backup.core.zfs_rsync_transfer import ZfsRsyncTransfer
+from homelab_backup.notifiers.email_notifier import EmailNotifier
+from homelab_backup.runners.local_runner import LocalRunner
+from homelab_backup.runners.ssh_runner import SshRunner
 
 
 def _rsync_pull() -> None:
@@ -24,7 +24,7 @@ def _rsync_pull() -> None:
 def main() -> None:
     try:
         _rsync_pull()
-        Notifier().notify(None)
+        EmailNotifier().notify(None)
     except Exception as e:
         logging.error("%s", e)
-        Notifier().notify(e)
+        EmailNotifier().notify(e)

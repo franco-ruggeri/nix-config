@@ -1,12 +1,12 @@
 import logging
 from pathlib import Path
 
-from homelab_backup.execution.command_runner import CommandRunner
-from homelab_backup.execution.ssh_runner import SshRunner
+from homelab_backup.runners.runner import Runner
+from homelab_backup.runners.ssh_runner import SshRunner
 
 
 class ZfsDataset:
-    def __init__(self, name: str, runner: CommandRunner) -> None:
+    def __init__(self, name: str, runner: Runner) -> None:
         self._name = name
         self._runner = runner
 
@@ -15,7 +15,7 @@ class ZfsDataset:
         return self._name
 
     @property
-    def runner(self) -> CommandRunner:
+    def runner(self) -> Runner:
         return self._runner
 
     def is_remote(self) -> bool:
