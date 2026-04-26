@@ -1,10 +1,9 @@
 from datetime import datetime
 from pathlib import Path
 
-from homelab_backup.core.restic_repository import ResticRepository
-from homelab_backup.core.zfs_dataset import ZfsDataset
-from homelab_backup.notifiers.email_notifier import EmailNotifier
-from homelab_backup.runners.local_runner import LocalRunner
+from homelab_backup.core import ResticRepository, ZfsDataset
+from homelab_backup.notifiers import EmailNotifier
+from homelab_backup.runners import LocalRunner
 
 _RESTIC_REPOSITORY = Path("/mnt") / "zfs" / "k8s-backup"
 _ZFS_DATASETS = ["zfs/k8s-nfs", "zfs/k8s-longhorn"]

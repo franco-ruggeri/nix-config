@@ -5,7 +5,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from subprocess import CompletedProcess
 
-from homelab_backup.runners.local_runner import LocalRunner
+from homelab_backup.runners._local_runner import LocalRunner
 
 
 class ResticRepository:

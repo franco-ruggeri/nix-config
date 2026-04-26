@@ -7,7 +7,7 @@ from datetime import datetime
 from email.message import EmailMessage
 from pathlib import Path
 
-from homelab_backup.notifiers.notifier import Notifier
+from homelab_backup.notifiers._notifier import Notifier
 
 
 class EmailNotifier(Notifier):

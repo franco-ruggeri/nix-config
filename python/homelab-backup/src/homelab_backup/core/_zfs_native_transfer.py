@@ -1,8 +1,8 @@
 import logging
 import subprocess
 
-from homelab_backup.core.zfs_dataset import ZfsDataset
-from homelab_backup.core.zfs_transfer import ZfsTransfer
+from homelab_backup.core._zfs_dataset import ZfsDataset
+from homelab_backup.core._zfs_transfer import ZfsTransfer
 
 
 class ZfsNativeTransfer(ZfsTransfer):

@@ -1,7 +1,7 @@
 from pathlib import Path
 from subprocess import CompletedProcess
 
-from homelab_backup.runners.runner import Runner
+from homelab_backup.runners._runner import Runner
 
 
 class LocalRunner(Runner):

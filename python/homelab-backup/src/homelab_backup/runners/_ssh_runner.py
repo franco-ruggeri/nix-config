@@ -3,10 +3,10 @@ import shlex
 from pathlib import Path
 from subprocess import CompletedProcess
 
-from homelab_backup.execution.command_runner import CommandRunner
+from homelab_backup.runners._runner import Runner
 
 
-class SshRunner(CommandRunner):
+class SshRunner(Runner):
     def __init__(self, host: str, user: str) -> None:
         self._host = host
         self._user = user
