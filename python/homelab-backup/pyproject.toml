@@ -8,7 +8,7 @@ requires-python = ">=3.13"
 dependencies = []
 
 [project.scripts]
-homelab-backup = "homelab_backup.__main__:main"
+homelab-backup = "homelab_backup.cli.__main__:main"
 
 [build-system]
 requires = ["hatchling"]
