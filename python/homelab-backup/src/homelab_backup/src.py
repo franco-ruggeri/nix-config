@@ -39,16 +39,36 @@ def _set_restic_repository(dataset: str) -> None:
 # ====================
 
 
-def _get_script_snapshot_name() -> str:
-    return datetime.utcnow().strftime("zfs-auto-snap_daily-%Y-%m-%d-%Hh%MU")
+def _zfs_snapshot_exists(snapshot_name: str) -> bool:
+    try:
+        run_shell_cmd(
+            [
+                "zfs",
+                "list",
+                "-H",
+                "-t",
+                "snapshot",
+                "-o",
+                "name",
+                snapshot_name,
+            ],
+            capture_output=True,
+        )
+        return True
+    except Exception:
+        return False
 
 
 def _create_zfs_snapshots() -> dict[str, Path]:
-    snapshot_name = _get_script_snapshot_name()
+    snapshot_name = "restic"
     dataset_to_snapshot_path: dict[str, Path] = {}
 
     for zfs_dataset in _ZFS_DATASETS:
         zfs_snapshot = f"zfs/{zfs_dataset}@{snapshot_name}"
+        if _zfs_snapshot_exists(zfs_snapshot):
+            logging.info(f"ZFS: Destroying existing snapshot {zfs_snapshot}.")
+            run_shell_cmd(["zfs", "destroy", zfs_snapshot])
+
         run_shell_cmd(["zfs", "snapshot", zfs_snapshot])
 
         snapshot_path = _ZFS_MOUNT_ROOT / zfs_dataset / ".zfs" / "snapshot" / snapshot_name
