@@ -12,7 +12,10 @@ from .utils import (
     run_shell_cmd,
 )
 
-_BACKUP_DATASET = "zfs/k8s-backup"
+_BACKUP_DATASETS = [
+    "zfs/k8s-nfs-backup",
+    "zfs/k8s-longhorn-backup",
+]
 
 
 def snapshot_exists(dataset: str, snapshot_name: str) -> bool:
@@ -36,11 +39,10 @@ def snapshot_exists(dataset: str, snapshot_name: str) -> bool:
         return False
 
 
-def pull_latest_snapshot() -> None:
-    source_dataset = _BACKUP_DATASET
+def _pull_latest_snapshot_for_dataset(source_dataset: str) -> None:
     source_host = get_env("SOURCE_HOST")
     source_user = get_env("SOURCE_USER")
-    dest_dataset = _BACKUP_DATASET
+    dest_dataset = source_dataset
 
     prefix = get_snapshot_prefix()
     last_name = f"{prefix}-last"
@@ -51,7 +53,7 @@ def pull_latest_snapshot() -> None:
     dest_last = f"{dest_dataset}@{last_name}"
     dest_current = f"{dest_dataset}@{current_name}"
 
-    logging.info("Using snapshot prefix: %s", prefix)
+    logging.info("Using snapshot prefix for %s: %s", source_dataset, prefix)
 
     if remote_snapshot_exists(
         source_host=source_host,
@@ -77,7 +79,7 @@ def pull_latest_snapshot() -> None:
     send_cmd = ["zfs", "send"]
     if use_incremental:
         send_cmd += ["-I", source_last]
-        logging.info("Running incremental replication from %s to %s", source_last, source_current)
+        logging.info("Running incremental replication for %s from %s to %s", source_dataset, source_last, source_current)
     else:
         logging.info("Running full replication for %s", source_current)
     send_cmd += [source_current]
@@ -123,6 +125,11 @@ def pull_latest_snapshot() -> None:
         run_ssh_cmd(source_host=source_host, source_user=source_user, remote_cmd=["zfs", "destroy", source_last])
     logging.info("Renaming source snapshot %s -> %s", source_current, source_last)
     run_ssh_cmd(source_host=source_host, source_user=source_user, remote_cmd=["zfs", "rename", source_current, source_last])
+
+
+def pull_latest_snapshot() -> None:
+    for backup_dataset in _BACKUP_DATASETS:
+        _pull_latest_snapshot_for_dataset(backup_dataset)
 
 
 def main() -> None:

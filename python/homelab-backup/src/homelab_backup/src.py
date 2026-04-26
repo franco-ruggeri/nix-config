@@ -12,20 +12,26 @@ from .utils import (
 )
 
 _ZFS_MOUNT_ROOT = Path("/mnt/zfs")
-_ZFS_DATASETS = ["k8s-nfs", "k8s-longhorn"]
-_RESTIC_REPOSITORY = "/mnt/zfs/k8s-backup"
+_RESTIC_REPOSITORIES = {
+    "k8s-nfs": "/mnt/zfs/k8s-nfs-backup",
+    "k8s-longhorn": "/mnt/zfs/k8s-longhorn-backup",
+}
+_ZFS_DATASETS = list(_RESTIC_REPOSITORIES.keys())
 _RESTIC_CACHE_DIR = "/tmp/restic-cache"
 _LONGHORN_STORAGE_CLASS = "longhorn"
 
 
 def _init_env() -> None:
-    os.environ["RESTIC_REPOSITORY"] = _RESTIC_REPOSITORY
     os.environ["RESTIC_CACHE_DIR"] = _RESTIC_CACHE_DIR
     os.environ["RESTIC_PROGRESS_FPS"] = str(1 / 60)  # print progress once per minute
 
     # Needed to avoid considering all files changed for every new ZFS snapshot.
     # See https://forum.restic.net/t/backing-up-zfs-snapshots-good-idea/9604
     os.environ["RESTIC_FEATURES"] = "device-id-for-hardlinks"
+
+
+def _set_restic_repository(dataset: str) -> None:
+    os.environ["RESTIC_REPOSITORY"] = _RESTIC_REPOSITORIES[dataset]
 
 
 # ====================
@@ -61,78 +67,74 @@ def _create_zfs_snapshots() -> dict[str, Path]:
 
 
 def _restic_backup() -> None:
-    try:
-        run_shell_cmd(["restic", "cat", "config"], capture_output=True)
-    except Exception:
-        logging.info("Restic repository not found. Initializing...")
-        run_shell_cmd(["restic", "init"])
-
     dataset_to_snapshot_path = _create_zfs_snapshots()
 
     for zfs_dataset in _ZFS_DATASETS:
+        _set_restic_repository(zfs_dataset)
+
+        try:
+            run_shell_cmd(["restic", "cat", "config"], capture_output=True)
+        except Exception:
+            logging.info("Restic repository not found for %s. Initializing...", zfs_dataset)
+            run_shell_cmd(["restic", "init"])
+
         snapshot = dataset_to_snapshot_path[zfs_dataset]
         logging.info(f"Restic: Backing up {snapshot}...")
         run_shell_cmd(
             cmd=[
                 "restic",
                 "backup",
-                f"--tag={zfs_dataset}",
-                "--group-by=tags",
                 ".",
             ],
             cwd=snapshot,
         )
         logging.info(f"Restic: Backup of {snapshot} completed.")
 
-    logging.info("Restic: Pruning old snapshots...")
-    run_shell_cmd(
-        [
-            "restic",
-            "forget",
-            "--group-by=tags",
-            "--keep-daily=7",
-            "--keep-weekly=4",
-            "--keep-monthly=6",
-        ],
-    )
-    run_shell_cmd(["restic", "prune"])
+        logging.info("Restic: Pruning old snapshots for %s...", zfs_dataset)
+        run_shell_cmd(
+            [
+                "restic",
+                "forget",
+                "--keep-daily=7",
+                "--keep-weekly=4",
+                "--keep-monthly=6",
+            ],
+        )
+        run_shell_cmd(["restic", "prune"])
 
 
 def _test_restic_snapshots() -> None:
-    result = run_shell_cmd(["restic", "snapshots", "--json"], capture_output=True)
-    data = json.loads(result.stdout)
-    if not data:
-        raise Exception("Restic: No restic snapshots found.")
+    for zfs_dataset in _ZFS_DATASETS:
+        _set_restic_repository(zfs_dataset)
+        result = run_shell_cmd(["restic", "snapshots", "--json"], capture_output=True)
+        snapshots = json.loads(result.stdout)
+        if not snapshots:
+            raise Exception(f"Restic: No restic snapshots found for {zfs_dataset}.")
 
-    tag_to_size: dict[str, float] = {}
-    tag_to_dt: dict[str, datetime] = {}
-    for snapshot in data:
-        tags = snapshot["tags"]
-        if len(tags) != 1:
-            raise Exception("Restic: Each restic snapshot should have exactly one tag.")
-        tag = tags[0]
-        dt_str = snapshot["time"].split(".")[0]
+        latest_snapshot = max(snapshots, key=lambda snapshot: snapshot["time"])
+        dt_str = latest_snapshot["time"].split(".")[0]
         dt = datetime.strptime(dt_str, "%Y-%m-%dT%H:%M:%S")
-        if tag not in tag_to_dt or dt > tag_to_dt[tag]:
-            tag_to_dt[tag] = dt
-            tag_to_size[tag] = snapshot["summary"]["total_bytes_processed"]
+        if datetime.now() - dt > MAX_AGE_HOURS:
+            raise Exception(f"Restic: Snapshot is too old for {zfs_dataset}.")
 
-    if set(tag_to_dt.keys()) != set(_ZFS_DATASETS):
-        raise Exception("Restic: Not all the ZFS datasets have restic snapshots.")
-    if any(datetime.now() - dt > MAX_AGE_HOURS for dt in tag_to_dt.values()):
-        raise Exception("Restic: Some restic snapshots are too old.")
-    if any(size == 0 for size in tag_to_size.values()):
-        raise Exception("Restic: Some restic snapshots have size 0.")
+        size = latest_snapshot["summary"]["total_bytes_processed"]
+        if size == 0:
+            raise Exception(f"Restic: Snapshot size is 0 for {zfs_dataset}.")
+
     logging.info("Restic: Found valid restic snapshots for all ZFS datasets.")
 
 
 def _test_restic_metadata() -> None:
-    run_shell_cmd(["restic", "check"])
+    for zfs_dataset in _ZFS_DATASETS:
+        _set_restic_repository(zfs_dataset)
+        run_shell_cmd(["restic", "check"])
     logging.info("Restic: Restic metadata is valid.")
 
 
 def _test_restic_data() -> None:
-    run_shell_cmd(["restic", "check", "--read-data"])
+    for zfs_dataset in _ZFS_DATASETS:
+        _set_restic_repository(zfs_dataset)
+        run_shell_cmd(["restic", "check", "--read-data"])
     logging.info("Restic: Restic data is valid.")
 
 
