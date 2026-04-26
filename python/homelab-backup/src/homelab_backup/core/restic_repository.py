@@ -35,7 +35,9 @@ class ResticRepository:
             logging.info("Restic: Initialized repository %s", self._path)
 
     def backup(self, path: Path) -> None:
+        logging.info("Restic: Backing up %s...", path)
         self._run(["restic", "backup", "."], cwd=path)
+        logging.info("Restic: Backup of %s completed.", path)
 
     def prune(self) -> None:
         self._run(
@@ -48,6 +50,7 @@ class ResticRepository:
                 "--prune",
             ]
         )
+        logging.info("Restic: Pruned old snapshots from shared repository.")
 
     def verify_snapshot(self, path: Path) -> None:
         result = self._run(
@@ -64,9 +67,12 @@ class ResticRepository:
         size = latest.get("summary", {}).get("total_bytes_processed", 0)
         if size == 0:
             raise Exception(f"Restic: Snapshot size is 0 for {path}.")
+        logging.info("Restic: Found valid snapshot for %s.", path)
 
     def check_metadata(self) -> None:
         self._run(["restic", "check"])
+        logging.info("Restic: Metadata for shared repository is valid.")
 
     def check_data(self) -> None:
         self._run(["restic", "check", "--read-data"])
+        logging.info("Restic: Data for shared repository is valid.")

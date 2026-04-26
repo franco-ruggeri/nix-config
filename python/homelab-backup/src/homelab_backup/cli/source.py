@@ -1,4 +1,3 @@
-import logging
 from datetime import datetime
 from pathlib import Path
 
@@ -16,11 +15,8 @@ def _backup_dataset(dataset: ZfsDataset, repository: ResticRepository) -> None:
     snapshot_name = _SNAPSHOT_NAME
     primary_error: Exception | None = None
     try:
-        repository.ensure_initialized()
         snapshot_path = dataset.snapshot_path(snapshot_name)
-        logging.info("Restic: Backing up %s...", dataset.name)
         repository.backup(snapshot_path)
-        logging.info("Restic: Backup of %s completed.", dataset.name)
     except Exception as error:
         primary_error = error
         raise
@@ -29,44 +25,36 @@ def _backup_dataset(dataset: ZfsDataset, repository: ResticRepository) -> None:
             if dataset.snapshot_exists(snapshot_name):
                 dataset.destroy_snapshot(snapshot_name)
         except Exception as cleanup_error:
-            logging.error(
-                "Failed to cleanup snapshot %s for %s: %s",
-                snapshot_name,
-                dataset.name,
-                cleanup_error,
-            )
             if primary_error is None:
-                raise
+                raise cleanup_error
 
 
 def main() -> None:
     try:
         now = datetime.now()
-        repository = ResticRepository(path=_RESTIC_REPOSITORY)
-
         local_runner = LocalRunner()
-        datasets = [ZfsDataset(name=zfs_dataset, runner=local_runner) for zfs_dataset in _ZFS_DATASETS]
 
-        for dataset in datasets:
-            dataset.create_snapshot(_SNAPSHOT_NAME)
-        for dataset in datasets:
-            _backup_dataset(dataset, repository)
-        repository.prune()
-        logging.info("Restic: Pruned old snapshots from shared repository.")
+        restic_repository = ResticRepository(path=_RESTIC_REPOSITORY)
+        restic_repository.ensure_initialized()
 
-        for dataset in datasets:
-            repository.verify_snapshot(dataset.snapshot_path(_SNAPSHOT_NAME))
-        logging.info("Restic: Found valid restic snapshots for all ZFS datasets.")
+        zfs_datasets = [ZfsDataset(name=zfs_dataset, runner=local_runner) for zfs_dataset in _ZFS_DATASETS]
+
+        for dataset in zfs_datasets:
+            dataset.create_snapshot(_SNAPSHOT_NAME)  # first, snapshot all ZFS datasets (fast)
+        for dataset in zfs_datasets:
+            _backup_dataset(dataset, restic_repository)  # then, backup all ZFS datasets one by one (slow)
+
+        restic_repository.prune()
+
+        for dataset in zfs_datasets:
+            restic_repository.verify_snapshot(dataset.snapshot_path(_SNAPSHOT_NAME))
 
         if now.weekday() == 0:
-            repository.check_metadata()
-            logging.info("Restic: Restic metadata for shared repository is valid.")
+            restic_repository.check_metadata()
 
         if now.day == 1:
-            repository.check_data()
-            logging.info("Restic: Restic data for shared repository is valid.")
+            restic_repository.check_data()
 
         EmailNotifier().notify(None)
     except Exception as e:
-        logging.error("%s", e)
         EmailNotifier().notify(e)
