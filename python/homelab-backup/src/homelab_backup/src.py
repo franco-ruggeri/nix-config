@@ -59,20 +59,6 @@ def _test_longhorn_backups() -> None:
     logging.info("Longhorn: All backups are recent enough.")
 
 
-def _create_zfs_snapshots() -> None:
-    for zfs_dataset in _RESTIC_REPOSITORIES.keys():
-        snapshot = f"{zfs_dataset}@restic"
-        run_shell_cmd(["zfs", "snapshot", snapshot])
-        logging.info(f"ZFS: Created snapshot {snapshot}.")
-
-
-def _destroy_zfs_snapshots() -> None:
-    for zfs_dataset in _RESTIC_REPOSITORIES.keys():
-        snapshot = f"{zfs_dataset}@restic"
-        run_shell_cmd(["zfs", "destroy", snapshot])
-        logging.info(f"ZFS: Destroyed snapshot {snapshot}.")
-
-
 def _set_restic_env(repository: Path) -> None:
     os.environ["RESTIC_REPOSITORY"] = str(repository)
     os.environ["RESTIC_CACHE_DIR"] = "/tmp/restic-cache"
@@ -84,7 +70,10 @@ def _set_restic_env(repository: Path) -> None:
 
 
 def _make_restic_backup() -> None:
-    _create_zfs_snapshots()
+    for zfs_dataset in _RESTIC_REPOSITORIES.keys():
+        snapshot = f"{zfs_dataset}@restic"
+        run_shell_cmd(["zfs", "snapshot", snapshot])
+        logging.info(f"ZFS: Created snapshot {snapshot}.")
 
     for zfs_dataset, restic_repository in _RESTIC_REPOSITORIES.items():
         _set_restic_env(restic_repository)
@@ -115,7 +104,10 @@ def _make_restic_backup() -> None:
         )
         logging.info(f"Restic: Pruned old snapshots for {zfs_dataset}...")
 
-    _destroy_zfs_snapshots()
+    for zfs_dataset in _RESTIC_REPOSITORIES.keys():
+        snapshot = f"{zfs_dataset}@restic"
+        run_shell_cmd(["zfs", "destroy", snapshot])
+        logging.info(f"ZFS: Destroyed snapshot {snapshot}.")
 
 
 def _test_restic_snapshots() -> None:
