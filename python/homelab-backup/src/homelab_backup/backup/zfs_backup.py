@@ -11,9 +11,11 @@ class ZfsBackup:
         self._zfs_dataset = zfs_dataset
         self._restic_repository = restic_repository
 
-    def backup(self) -> None:
+    def create_snapshot(self) -> None:
+        self._zfs_dataset.create_snapshot(self._SNAPSHOT_NAME)
+
+    def backup_snapshot(self) -> None:
         snapshot_name = self._SNAPSHOT_NAME
-        self._zfs_dataset.create_snapshot(snapshot_name)
         primary_error: Exception | None = None
         try:
             self._restic_repository.ensure_initialized()

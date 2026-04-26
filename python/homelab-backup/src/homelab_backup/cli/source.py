@@ -11,10 +11,7 @@ from homelab_backup.execution.notifier import Notifier
 
 _ZFS_ROOT = Path("/mnt")
 _RESTIC_REPOSITORY = _ZFS_ROOT / "zfs" / "k8s-backup"
-_ZFS_DATASETS = [
-    "zfs/k8s-nfs",
-    "zfs/k8s-longhorn",
-]
+_ZFS_DATASETS = ["zfs/k8s-nfs", "zfs/k8s-longhorn"]
 
 
 def main() -> None:
@@ -33,7 +30,9 @@ def main() -> None:
 
     def run_backup() -> None:
         for dataset_backup in dataset_backups:
-            dataset_backup.backup()
+            dataset_backup.create_snapshot()
+        for dataset_backup in dataset_backups:
+            dataset_backup.backup_snapshot()
         repository.prune()
         logging.info("Restic: Pruned old snapshots from shared repository.")
 
@@ -50,13 +49,13 @@ def main() -> None:
         repository.check_data()
         logging.info("Restic: Restic data for shared repository is valid.")
 
-    job.run("backup", run_backup)
-    job.run("verify-snapshots", verify_snapshots)
+    job.run(run_backup)
+    job.run(verify_snapshots)
 
     if now.weekday() == 0:
-        job.run("verify-metadata", verify_metadata)
+        job.run(verify_metadata)
 
     if now.day == 1:
-        job.run("verify-data", verify_data)
+        job.run(verify_data)
 
     Notifier().notify(job.errors)
