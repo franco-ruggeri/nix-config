@@ -51,7 +51,7 @@ classDiagram
     +verify_latest_snapshot_nonzero()
   }
 
-  class DatasetTransfer {
+  class ZfsTransfer {
     <<interface>>
     +transfer(snapshot_prefix)
   }
@@ -72,8 +72,8 @@ classDiagram
 
   CommandRunner <|.. LocalRunner
   CommandRunner <|.. SshRunner
-  DatasetTransfer <|.. ZfsReplication
-  DatasetTransfer <|.. RsyncPull
+  ZfsTransfer <|.. ZfsReplication
+  ZfsTransfer <|.. RsyncPull
 
   ZfsDataset --> CommandRunner : uses
   DatasetBackup *-- ZfsDataset : dataset
@@ -99,7 +99,7 @@ Source code is organized by capability:
 
 - `homelab_backup/cli/`: command entrypoints (`src`, `dst-zfs`, `dst-rsync`) and wiring.
 - `homelab_backup/backup/`: restic backup workflow (`DatasetBackup`, `ResticRepository`).
-- `homelab_backup/transfer/`: dataset transfer contract and implementations (`DatasetTransfer`, `ZfsReplication`, `RsyncPull`).
+- `homelab_backup/transfer/`: dataset transfer contract and implementations (`ZfsTransfer`, `ZfsReplication`, `RsyncPull`).
 - `homelab_backup/datasets/`: dataset model (`ZfsDataset`).
 - `homelab_backup/execution/`: command execution backends (`CommandRunner`, `LocalRunner`, `SshRunner`).
 - `homelab_backup/utils.py`: shared runtime helpers (env access, shell execution, notifications).
@@ -173,9 +173,9 @@ Responsibilities:
 - Ensure snapshot cleanup even on transfer failure.
 - Expose transfer through the shared `transfer(snapshot_prefix)` interface.
 
-### `DatasetTransfer`
+### `ZfsTransfer`
 
-`DatasetTransfer.transfer(snapshot_prefix: str)` is the common contract for transferring dataset snapshots.
+`ZfsTransfer.transfer(snapshot_prefix: str)` is the common contract for transferring dataset snapshots.
 
 Responsibilities:
 

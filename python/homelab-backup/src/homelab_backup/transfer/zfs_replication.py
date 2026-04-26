@@ -2,10 +2,10 @@ import logging
 import subprocess
 
 from homelab_backup.backup.zfs_dataset import ZfsDataset
-from homelab_backup.transfer.dataset_transfer import DatasetTransfer
+from homelab_backup.transfer.zfs_transfer import ZfsTransfer
 
 
-class ZfsReplication(DatasetTransfer):
+class ZfsReplication(ZfsTransfer):
     def __init__(self, source: ZfsDataset, destination: ZfsDataset) -> None:
         self._source = source
         self._destination = destination
