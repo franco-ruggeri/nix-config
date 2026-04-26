@@ -35,7 +35,9 @@ classDiagram
     +ensure_initialized()
     +backup_directory(path)
     +forget_prune()
-    +latest_snapshot()
+    +latest_snapshot(path=None)
+    +verify_recent_snapshot(max_age, path=None)
+    +verify_latest_snapshot_nonzero(path=None)
     +check_metadata()
     +check_data()
   }
@@ -44,7 +46,9 @@ classDiagram
     -dataset: ZfsDataset
     -repository: ResticRepository
     +run_backup_cycle(snapshot_name)
+    +prune_repository()
     +verify_recent_snapshot(max_age)
+    +verify_latest_snapshot_nonzero()
   }
 
   class DatasetTransfer {
@@ -131,17 +135,19 @@ Responsibilities:
 - Restic environment setup (`RESTIC_REPOSITORY`, `RESTIC_CACHE_DIR`, feature flags).
 - Repository bootstrap: `ensure_initialized`.
 - Backup and retention: `backup_directory`, `forget_prune`.
-- Verification: latest snapshot retrieval, age/size checks, metadata/data checks.
+- Verification: latest snapshot retrieval (optionally filtered by source path via `--path`), age/size checks, metadata/data checks.
+
+A single `ResticRepository` instance may be shared across multiple `DatasetBackup` instances when all datasets back up into one shared repository.
 
 ### `DatasetBackup`
 
-`DatasetBackup(dataset: ZfsDataset, repository: ResticRepository)` models one dataset-to-repository pair.
+`DatasetBackup(dataset: ZfsDataset, repository: ResticRepository)` models one dataset-to-repository pairing.
 
 Responsibilities:
 
-- Execute backup cycle for a snapshot name.
-- Coordinate create/backup/prune/cleanup sequence.
-- Expose repository validation at pair level.
+- Execute backup cycle for a snapshot name (create snapshot, back up, clean up).
+- Expose `prune_repository()` so the orchestrator can apply retention after all datasets are backed up.
+- Expose per-dataset repository validation, filtering restic snapshots by the dataset's snapshot path.
 
 ## Transfer Services
 
@@ -178,7 +184,7 @@ Responsibilities:
 
 ## Operational Semantics
 
-- **Backup cycle**: create snapshot -> ensure repository -> backup snapshot view -> apply retention -> cleanup snapshot.
+- **Backup cycle**: for each ZFS dataset: create snapshot → ensure repository → backup snapshot view → cleanup snapshot. After all datasets are backed up, apply retention once on the shared repository.
 - **Replication cycle**: create source `current` -> send/receive full or incremental stream -> rotate `current` to `last` on both sides.
 - **Rsync cycle**: create source snapshot -> rsync snapshot tree -> destroy temporary snapshot.
 
@@ -187,6 +193,8 @@ Responsibilities:
 - Each `ZfsDataset` has exactly one runner and therefore one execution location.
 - Snapshot operations are only performed through `ZfsDataset` methods.
 - Restic commands are only performed through `ResticRepository` methods.
+- A single `ResticRepository` is shared across all `DatasetBackup` instances; retention (`forget_prune`) is applied once after all datasets are backed up, not per dataset.
+- Per-dataset snapshot verification filters by the dataset's snapshot path within the shared repository.
 - Backup and transfer workflows compose domain objects; they do not issue ad-hoc dataset shell commands directly.
 - Cleanup paths run on best effort and do not suppress primary operation errors.
 

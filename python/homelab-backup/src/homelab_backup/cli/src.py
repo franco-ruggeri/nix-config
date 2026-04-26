@@ -13,20 +13,22 @@ from ..utils import (
 )
 
 _ZFS_ROOT = Path("/mnt")
-_RESTIC_REPOSITORIES = {
-    "zfs/k8s-nfs": _ZFS_ROOT / "zfs" / "k8s-nfs-backup",
-    "zfs/k8s-longhorn": _ZFS_ROOT / "zfs" / "k8s-longhorn-backup",
-}
+_RESTIC_REPOSITORY = _ZFS_ROOT / "zfs" / "k8s-backup"
+_ZFS_DATASETS = [
+    "zfs/k8s-nfs",
+    "zfs/k8s-longhorn",
+]
 
 
 def _build_dataset_backups() -> list[DatasetBackup]:
     local_runner = LocalRunner()
+    repository = ResticRepository(path=_RESTIC_REPOSITORY)
     return [
         DatasetBackup(
             dataset=ZfsDataset(name=zfs_dataset, runner=local_runner),
-            repository=ResticRepository(path=restic_repository),
+            repository=repository,
         )
-        for zfs_dataset, restic_repository in _RESTIC_REPOSITORIES.items()
+        for zfs_dataset in _ZFS_DATASETS
     ]
 
 

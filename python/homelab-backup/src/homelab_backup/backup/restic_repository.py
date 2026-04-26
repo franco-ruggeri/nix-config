@@ -50,24 +50,30 @@ class ResticRepository:
             ]
         )
 
-    def latest_snapshot(self) -> dict:
-        result = self._run(["restic", "snapshots", "--json"], capture_output=True)
+    def latest_snapshot(self, path: Path | None = None) -> dict:
+        cmd = ["restic", "snapshots", "--json"]
+        if path is not None:
+            cmd += ["--path", str(path)]
+        result = self._run(cmd, capture_output=True)
         snapshots = json.loads(result.stdout)
         if not snapshots:
-            raise Exception(f"Restic: No restic snapshots found for {self.path}.")
+            label = str(path) if path is not None else str(self.path)
+            raise Exception(f"Restic: No restic snapshots found for {label}.")
         return max(snapshots, key=lambda snapshot: snapshot["time"])
 
-    def verify_recent_snapshot(self, max_age: timedelta) -> None:
-        latest = self.latest_snapshot()
+    def verify_recent_snapshot(self, max_age: timedelta, path: Path | None = None) -> None:
+        latest = self.latest_snapshot(path=path)
         dt = datetime.fromisoformat(latest["time"].replace("Z", "+00:00"))
         if datetime.now(timezone.utc) - dt > max_age:
-            raise Exception(f"Restic: Snapshot is too old for {self.path}.")
+            label = str(path) if path is not None else str(self.path)
+            raise Exception(f"Restic: Snapshot is too old for {label}.")
 
-    def verify_latest_snapshot_nonzero(self) -> None:
-        latest = self.latest_snapshot()
+    def verify_latest_snapshot_nonzero(self, path: Path | None = None) -> None:
+        latest = self.latest_snapshot(path=path)
         size = latest.get("summary", {}).get("total_bytes_processed", 0)
         if size == 0:
-            raise Exception(f"Restic: Snapshot size is 0 for {self.path}.")
+            label = str(path) if path is not None else str(self.path)
+            raise Exception(f"Restic: Snapshot size is 0 for {label}.")
 
     def check_metadata(self) -> None:
         self._run(["restic", "check"])

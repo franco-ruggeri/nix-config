@@ -1,8 +1,6 @@
 # Assumptions:
-# - The ZFS datasets named zfs/k8s-nfs-backup and zfs/k8s-longhorn-backup exist with mountpoints
-#   /mnt/zfs/k8s-nfs-backup and /mnt/zfs/k8s-longhorn-backup.
-# - The ZFS datasets zfs/k8s-nfs-backup and zfs/k8s-longhorn-backup have ZFS send delegations
-#   granted to the main user.
+# - The ZFS dataset zfs/k8s-backup exists with mountpoint /mnt/zfs/k8s-backup.
+# - The ZFS dataset zfs/k8s-backup has ZFS send delegations granted to the main user.
 {
   config,
   pkgs,

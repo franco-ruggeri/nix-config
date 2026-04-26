@@ -7,8 +7,7 @@ from ..transfer.zfs_replication import ZfsReplication
 from ..utils import get_env, get_snapshot_prefix, notify, run_and_log
 
 _BACKUP_DATASETS = [
-    "zfs/k8s-nfs-backup",
-    "zfs/k8s-longhorn-backup",
+    "zfs/k8s-backup",
 ]
 
 

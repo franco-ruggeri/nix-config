@@ -12,6 +12,9 @@ class SrcBackupOrchestrator:
     def run_backup(self) -> None:
         for dataset_backup in self.dataset_backups:
             dataset_backup.run_backup_cycle(snapshot_name="restic")
+        if self.dataset_backups:
+            self.dataset_backups[0].prune_repository()
+            logging.info("Restic: Pruned old snapshots from shared repository.")
 
     def verify_snapshots(self) -> None:
         for dataset_backup in self.dataset_backups:
@@ -20,11 +23,11 @@ class SrcBackupOrchestrator:
         logging.info("Restic: Found valid restic snapshots for all ZFS datasets.")
 
     def verify_metadata(self) -> None:
-        for dataset_backup in self.dataset_backups:
-            dataset_backup.check_repository_metadata()
-            logging.info("Restic: Restic metadata for %s is valid.", dataset_backup.dataset.name)
+        if self.dataset_backups:
+            self.dataset_backups[0].check_repository_metadata()
+            logging.info("Restic: Restic metadata for shared repository is valid.")
 
     def verify_data(self) -> None:
-        for dataset_backup in self.dataset_backups:
-            dataset_backup.check_repository_data()
-            logging.info("Restic: Restic data for %s is valid.", dataset_backup.dataset.name)
+        if self.dataset_backups:
+            self.dataset_backups[0].check_repository_data()
+            logging.info("Restic: Restic data for shared repository is valid.")
