@@ -20,7 +20,7 @@ _ZFS_DATASETS = [
 
 def _build_dataset_backups() -> list[DatasetBackup]:
     local_runner = LocalRunner()
-    repository = ResticRepository(path=_RESTIC_REPOSITORY)
+    repository = ResticRepository(path=_RESTIC_REPOSITORY, runner=local_runner)
     return [
         DatasetBackup(
             dataset=ZfsDataset(name=zfs_dataset, runner=local_runner),

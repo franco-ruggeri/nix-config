@@ -10,9 +10,9 @@ from homelab_backup.execution.local_runner import LocalRunner
 
 
 class ResticRepository:
-    def __init__(self, path: Path, runner: LocalRunner | None = None) -> None:
+    def __init__(self, path: Path, runner: LocalRunner) -> None:
         self.path = path
-        self.runner = runner if runner is not None else LocalRunner()
+        self.runner = runner
 
     def _set_env(self) -> None:
         os.environ["RESTIC_REPOSITORY"] = str(self.path)
