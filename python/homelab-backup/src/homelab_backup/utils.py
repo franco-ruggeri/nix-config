@@ -1,5 +1,4 @@
 import logging
-import os
 import subprocess
 from datetime import timedelta
 from pathlib import Path
@@ -27,20 +26,3 @@ def run_shell_cmd(
         raise Exception(f"Command failed: {cmd_str}\n{result.stderr}")
 
     return result
-
-
-def build_ssh_cmd() -> list[str]:
-    cmd = [
-        "ssh",
-        "-o",
-        "BatchMode=yes",
-        "-o",
-        "StrictHostKeyChecking=accept-new",
-    ]
-    ssh_private_key_file = os.environ.get("SSH_PRIVATE_KEY_FILE")
-    if ssh_private_key_file:
-        cmd += [
-            "-i",
-            ssh_private_key_file,
-        ]
-    return cmd
