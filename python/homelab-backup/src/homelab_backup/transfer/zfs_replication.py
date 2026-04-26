@@ -38,12 +38,12 @@ class ZfsReplication(ZfsTransfer):
         send_cmd += [source_current]
 
         send_proc = subprocess.Popen(
-            self._source.build_command(send_cmd),
+            self._source.runner.build(send_cmd),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
         recv_proc = subprocess.Popen(
-            self._destination.build_command(["zfs", "receive", "-F", self._destination.name]),
+            self._destination.runner.build(["zfs", "receive", "-F", self._destination.name]),
             stdin=send_proc.stdout,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,

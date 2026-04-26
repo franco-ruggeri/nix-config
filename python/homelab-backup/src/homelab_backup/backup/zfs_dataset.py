@@ -14,21 +14,12 @@ class ZfsDataset:
     def name(self) -> str:
         return self._name
 
-    def build_command(self, cmd: list[str]) -> list[str]:
-        return self._runner.build_command(cmd)
+    @property
+    def runner(self) -> CommandRunner:
+        return self._runner
 
     def is_remote(self) -> bool:
         return isinstance(self._runner, SshRunner)
-
-    def ssh_transport(self) -> str:
-        if not isinstance(self._runner, SshRunner):
-            raise Exception("ssh_transport() called on a non-SSH dataset.")
-        return self._runner.ssh_transport()
-
-    def remote(self, path: str | Path) -> str:
-        if not isinstance(self._runner, SshRunner):
-            raise Exception("remote() called on a non-SSH dataset.")
-        return self._runner.remote(path)
 
     def snapshot_ref(self, snapshot_name: str) -> str:
         return f"{self._name}@{snapshot_name}"

@@ -5,7 +5,7 @@ from subprocess import CompletedProcess
 
 class CommandRunner(ABC):
     @abstractmethod
-    def build_command(self, cmd: list[str]) -> list[str]:
+    def build(self, cmd: list[str]) -> list[str]:
         raise NotImplementedError
 
     @abstractmethod

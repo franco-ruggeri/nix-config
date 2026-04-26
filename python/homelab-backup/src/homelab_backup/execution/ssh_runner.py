@@ -11,7 +11,7 @@ class SshRunner(CommandRunner):
         self._host = host
         self._user = user
 
-    def build_command(self, cmd: list[str]) -> list[str]:
+    def build(self, cmd: list[str]) -> list[str]:
         return build_ssh_cmd() + [f"{self._user}@{self._host}"] + cmd
 
     def run(
@@ -22,7 +22,7 @@ class SshRunner(CommandRunner):
     ) -> CompletedProcess[str]:
         if cwd is not None:
             raise Exception("cwd is not supported for remote commands.")
-        return run_shell_cmd(self.build_command(cmd), capture_output=capture_output)
+        return run_shell_cmd(self.build(cmd), capture_output=capture_output)
 
     def ssh_transport(self) -> str:
         return " ".join(shlex.quote(part) for part in build_ssh_cmd())

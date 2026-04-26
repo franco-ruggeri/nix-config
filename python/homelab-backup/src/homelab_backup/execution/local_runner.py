@@ -6,7 +6,7 @@ from homelab_backup.utils import run_shell_cmd
 
 
 class LocalRunner(CommandRunner):
-    def build_command(self, cmd: list[str]) -> list[str]:
+    def build(self, cmd: list[str]) -> list[str]:
         return cmd
 
     def run(

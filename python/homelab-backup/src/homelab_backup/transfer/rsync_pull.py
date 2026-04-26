@@ -3,6 +3,7 @@ from pathlib import Path
 from homelab_backup.backup.zfs_dataset import ZfsDataset
 from homelab_backup.execution.command_runner import CommandRunner
 from homelab_backup.execution.local_runner import LocalRunner
+from homelab_backup.execution.ssh_runner import SshRunner
 from homelab_backup.transfer.zfs_transfer import ZfsTransfer
 
 
@@ -29,10 +30,11 @@ class RsyncPull(ZfsTransfer):
             rsync_cmd = ["rsync", "-a", "--delete"]
 
             if self._source.is_remote():
+                assert isinstance(self._source.runner, SshRunner)
                 rsync_cmd += [
                     "-e",
-                    self._source.ssh_transport(),
-                    self._source.remote(source_ref),
+                    self._source.runner.ssh_transport(),
+                    self._source.runner.remote(source_ref),
                     f"{self._destination_path}/",
                 ]
             else:
