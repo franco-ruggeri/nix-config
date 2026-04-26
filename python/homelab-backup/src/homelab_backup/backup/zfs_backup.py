@@ -6,11 +6,14 @@ from homelab_backup.backup.zfs_dataset import ZfsDataset
 
 
 class ZfsBackup:
+    _SNAPSHOT_NAME = "restic"
+
     def __init__(self, zfs_dataset: ZfsDataset, restic_repository: ResticRepository) -> None:
         self._zfs_dataset = zfs_dataset
         self._restic_repository = restic_repository
 
-    def backup(self, snapshot_name: str = "restic") -> None:
+    def backup(self) -> None:
+        snapshot_name = self._SNAPSHOT_NAME
         self._zfs_dataset.create_snapshot(snapshot_name)
         primary_error: Exception | None = None
         try:
@@ -37,5 +40,5 @@ class ZfsBackup:
                     raise
 
     def verify_snapshot(self, max_age: timedelta) -> None:
-        snapshot_path = self._zfs_dataset.snapshot_path("restic")
+        snapshot_path = self._zfs_dataset.snapshot_path(self._SNAPSHOT_NAME)
         self._restic_repository.verify_snapshot(max_age, snapshot_path)
