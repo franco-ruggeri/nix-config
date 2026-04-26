@@ -33,32 +33,26 @@ def _init_env() -> None:
 # ====================
 
 
-def _get_zfs_snapshot_datetime(name: str) -> datetime:
-    parts = name.split("-")
-    yyyy, mm, dd = parts[3], parts[4], parts[5]
-    hh = parts[6].split("h")[0]
-    dt_str = f"{yyyy}-{mm}-{dd} {hh}"
-    return datetime.strptime(dt_str, "%Y-%m-%d %H")
+def _get_script_snapshot_name() -> str:
+    return datetime.utcnow().strftime("zfs-auto-snap_daily-%Y-%m-%d-%Hh%MU")
 
 
-def _test_zfs_snapshots() -> None:
+def _create_zfs_snapshots() -> dict[str, Path]:
+    snapshot_name = _get_script_snapshot_name()
+    dataset_to_snapshot_path: dict[str, Path] = {}
+
     for zfs_dataset in _ZFS_DATASETS:
-        path = _ZFS_MOUNT_ROOT / zfs_dataset / ".zfs" / "snapshot"
-        zfs_snapshots = list(path.iterdir())
-        if len(zfs_snapshots) == 0:
-            raise Exception(f"ZFS: No ZFS snapshots found for {zfs_dataset}.")
+        zfs_snapshot = f"zfs/{zfs_dataset}@{snapshot_name}"
+        run_shell_cmd(["zfs", "snapshot", zfs_snapshot])
 
-        latest_dt = None
-        for zfs_snapshot in zfs_snapshots:
-            dt_str = "-".join(zfs_snapshot.name.split("-")[3:])
-            dt = datetime.strptime(dt_str, "%Y-%m-%d-%Hh%MU")
-            latest_dt = max(dt, latest_dt) if latest_dt else dt
-        if not latest_dt:
-            raise Exception(f"ZFS: No valid ZFS snapshots found for {zfs_dataset}.")
+        snapshot_path = _ZFS_MOUNT_ROOT / zfs_dataset / ".zfs" / "snapshot" / snapshot_name
+        if not snapshot_path.exists() or not snapshot_path.is_dir():
+            raise Exception(f"ZFS: Snapshot path not found: {snapshot_path}.")
 
-        if datetime.now() - latest_dt > MAX_AGE_HOURS:
-            raise Exception(f"ZFS: No recent ZFS snapshots for {zfs_dataset}.")
-    logging.info("ZFS: Found recent ZFS snapshots for all ZFS datasets.")
+        dataset_to_snapshot_path[zfs_dataset] = snapshot_path
+        logging.info(f"ZFS: Created snapshot {zfs_snapshot}.")
+
+    return dataset_to_snapshot_path
 
 
 # ====================
@@ -73,14 +67,10 @@ def _restic_backup() -> None:
         logging.info("Restic repository not found. Initializing...")
         run_shell_cmd(["restic", "init"])
 
-    for zfs_dataset in _ZFS_DATASETS:
-        zfs_dataset_path = _ZFS_MOUNT_ROOT / zfs_dataset
-        snapshots_root = zfs_dataset_path / ".zfs" / "snapshot"
-        snapshots = [d for d in snapshots_root.iterdir() if d.is_dir()]
-        if not snapshots:
-            raise Exception(f"Restic: No snapshots found for {zfs_dataset}.")
+    dataset_to_snapshot_path = _create_zfs_snapshots()
 
-        snapshot = max(snapshots, key=lambda d: _get_zfs_snapshot_datetime(d.name))
+    for zfs_dataset in _ZFS_DATASETS:
+        snapshot = dataset_to_snapshot_path[zfs_dataset]
         logging.info(f"Restic: Backing up {snapshot}...")
         run_shell_cmd(
             cmd=[
@@ -203,7 +193,6 @@ def main() -> None:
     _init_env()
 
     run_and_log(run_fn=_test_longhorn_backups, errors=errors)
-    run_and_log(run_fn=_test_zfs_snapshots, errors=errors)
     run_and_log(run_fn=_restic_backup, errors=errors)
     run_and_log(run_fn=_test_restic_snapshots, errors=errors)
 
