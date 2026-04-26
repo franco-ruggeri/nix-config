@@ -1,5 +1,4 @@
 import logging
-from datetime import timedelta
 
 from homelab_backup.backup.restic_repository import ResticRepository
 from homelab_backup.backup.zfs_dataset import ZfsDataset
@@ -39,6 +38,6 @@ class ZfsBackup:
                 if primary_error is None:
                     raise
 
-    def verify_snapshot(self, max_age: timedelta) -> None:
+    def verify_snapshot(self) -> None:
         snapshot_path = self._zfs_dataset.snapshot_path(self._SNAPSHOT_NAME)
-        self._restic_repository.verify_snapshot(max_age, snapshot_path)
+        self._restic_repository.verify_snapshot(snapshot_path)

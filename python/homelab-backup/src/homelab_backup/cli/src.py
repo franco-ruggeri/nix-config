@@ -8,7 +8,6 @@ from homelab_backup.backup.zfs_dataset import ZfsDataset
 from homelab_backup.execution.job_runner import JobRunner
 from homelab_backup.execution.local_runner import LocalRunner
 from homelab_backup.execution.notifier import Notifier
-from homelab_backup.utils import MAX_AGE_HOURS
 
 _ZFS_ROOT = Path("/mnt")
 _RESTIC_REPOSITORY = _ZFS_ROOT / "zfs" / "k8s-backup"
@@ -40,7 +39,7 @@ def _run_backup(dataset_backups: list[ZfsBackup], repository: ResticRepository) 
 
 def _verify_snapshots(dataset_backups: list[ZfsBackup]) -> None:
     for dataset_backup in dataset_backups:
-        dataset_backup.verify_snapshot(MAX_AGE_HOURS)
+        dataset_backup.verify_snapshot()
     logging.info("Restic: Found valid restic snapshots for all ZFS datasets.")
 
 

@@ -9,6 +9,8 @@ from homelab_backup.execution.local_runner import LocalRunner
 
 
 class ResticRepository:
+    _MAX_AGE = timedelta(hours=25)
+
     def __init__(self, path: Path) -> None:
         self._path = path
         self._runner = LocalRunner()
@@ -47,7 +49,7 @@ class ResticRepository:
             ]
         )
 
-    def verify_snapshot(self, max_age: timedelta, path: Path) -> None:
+    def verify_snapshot(self, path: Path) -> None:
         result = self._run(
             ["restic", "snapshots", "--json", "--path", str(path)],
             capture_output=True,
@@ -57,7 +59,7 @@ class ResticRepository:
             raise Exception(f"Restic: No restic snapshots found for {path}.")
         latest = max(snapshots, key=lambda snapshot: snapshot["time"])
         dt = datetime.fromisoformat(latest["time"].replace("Z", "+00:00"))
-        if datetime.now(timezone.utc) - dt > max_age:
+        if datetime.now(timezone.utc) - dt > self._MAX_AGE:
             raise Exception(f"Restic: Snapshot is too old for {path}.")
         size = latest.get("summary", {}).get("total_bytes_processed", 0)
         if size == 0:
