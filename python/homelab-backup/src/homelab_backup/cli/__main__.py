@@ -1,9 +1,11 @@
 import argparse
+import logging
 
 from homelab_backup.cli import dst_rsync, dst_zfs, src
 
 
 def main() -> None:
+    logging.basicConfig(level=logging.INFO)
     parser = argparse.ArgumentParser(prog="homelab-backup")
     parser.add_argument("command", choices=["src", "dst-zfs", "dst-rsync"])
     args = parser.parse_args()

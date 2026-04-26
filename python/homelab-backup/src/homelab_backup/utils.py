@@ -8,9 +8,6 @@ from subprocess import CompletedProcess
 MAX_AGE_HOURS = timedelta(hours=25)
 
 
-logging.basicConfig(level=logging.INFO)
-
-
 def run_shell_cmd(
     cmd: list[str],
     capture_output: bool = False,
