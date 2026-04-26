@@ -33,7 +33,7 @@ def _build_dataset_backups(
 
 def _run_backup(dataset_backups: list[ZfsBackup], repository: ResticRepository) -> None:
     for dataset_backup in dataset_backups:
-        dataset_backup.backup(snapshot_name="restic")
+        dataset_backup.backup()
     repository.prune()
     logging.info("Restic: Pruned old snapshots from shared repository.")
 
