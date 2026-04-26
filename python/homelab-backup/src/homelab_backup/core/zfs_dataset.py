@@ -55,9 +55,9 @@ class ZfsDataset:
         snapshot = self.snapshot_ref(snapshot_name)
         if not self.snapshot_exists(snapshot_name):
             logging.debug("ZFS: Snapshot %s does not exist, skipping destroy", snapshot)
-            return
-        self._runner.run(["zfs", "destroy", snapshot])
-        logging.info("ZFS: Destroyed snapshot %s", snapshot)
+        else:
+            self._runner.run(["zfs", "destroy", snapshot])
+            logging.info("ZFS: Destroyed snapshot %s", snapshot)
 
     def rename_snapshot(self, old_name: str, new_name: str) -> None:
         old_ref = self.snapshot_ref(old_name)
