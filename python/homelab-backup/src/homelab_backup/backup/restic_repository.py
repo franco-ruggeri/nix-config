@@ -56,14 +56,11 @@ class ResticRepository:
             raise Exception(f"Restic: No restic snapshots found for {path}.")
         return max(snapshots, key=lambda snapshot: snapshot["time"])
 
-    def verify_recent_snapshot(self, max_age: timedelta, path: Path) -> None:
+    def verify_snapshot(self, max_age: timedelta, path: Path) -> None:
         latest = self._latest_snapshot(path)
         dt = datetime.fromisoformat(latest["time"].replace("Z", "+00:00"))
         if datetime.now(timezone.utc) - dt > max_age:
             raise Exception(f"Restic: Snapshot is too old for {path}.")
-
-    def verify_latest_snapshot_nonzero(self, path: Path) -> None:
-        latest = self._latest_snapshot(path)
         size = latest.get("summary", {}).get("total_bytes_processed", 0)
         if size == 0:
             raise Exception(f"Restic: Snapshot size is 0 for {path}.")

@@ -39,13 +39,9 @@ class DatasetBackup:
     def prune_repository(self) -> None:
         self._repository.prune()
 
-    def verify_recent_snapshot(self, max_age: timedelta) -> None:
+    def verify_snapshot(self, max_age: timedelta) -> None:
         snapshot_path = self._dataset.snapshot_path("restic")
-        self._repository.verify_recent_snapshot(max_age, snapshot_path)
-
-    def verify_latest_snapshot_nonzero(self) -> None:
-        snapshot_path = self._dataset.snapshot_path("restic")
-        self._repository.verify_latest_snapshot_nonzero(snapshot_path)
+        self._repository.verify_snapshot(max_age, snapshot_path)
 
     def check_repository_metadata(self) -> None:
         self._repository.check_metadata()

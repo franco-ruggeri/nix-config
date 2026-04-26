@@ -40,8 +40,7 @@ def _run_backup(dataset_backups: list[DatasetBackup]) -> None:
 
 def _verify_snapshots(dataset_backups: list[DatasetBackup]) -> None:
     for dataset_backup in dataset_backups:
-        dataset_backup.verify_recent_snapshot(MAX_AGE_HOURS)
-        dataset_backup.verify_latest_snapshot_nonzero()
+        dataset_backup.verify_snapshot(MAX_AGE_HOURS)
     logging.info("Restic: Found valid restic snapshots for all ZFS datasets.")
 
 
