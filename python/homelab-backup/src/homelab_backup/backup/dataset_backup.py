@@ -18,7 +18,7 @@ class DatasetBackup:
             self.repository.ensure_initialized()
             snapshot_path = self.dataset.snapshot_path(snapshot_name)
             logging.info("Restic: Backing up %s...", self.dataset.name)
-            self.repository.backup_directory(snapshot_path)
+            self.repository.backup(snapshot_path)
             logging.info("Restic: Backup of %s completed.", self.dataset.name)
         except Exception as error:
             primary_error = error
@@ -38,15 +38,15 @@ class DatasetBackup:
                     raise
 
     def prune_repository(self) -> None:
-        self.repository.forget_prune()
+        self.repository.prune()
 
     def verify_recent_snapshot(self, max_age: timedelta) -> None:
         snapshot_path = self.dataset.snapshot_path("restic")
-        self.repository.verify_recent_snapshot(max_age, path=snapshot_path)
+        self.repository.verify_recent_snapshot(max_age, snapshot_path)
 
     def verify_latest_snapshot_nonzero(self) -> None:
         snapshot_path = self.dataset.snapshot_path("restic")
-        self.repository.verify_latest_snapshot_nonzero(path=snapshot_path)
+        self.repository.verify_latest_snapshot_nonzero(snapshot_path)
 
     def check_repository_metadata(self) -> None:
         self.repository.check_metadata()

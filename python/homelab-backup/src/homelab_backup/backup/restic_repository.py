@@ -6,12 +6,13 @@ from pathlib import Path
 from subprocess import CompletedProcess
 from typing import Any
 
-from homelab_backup.utils import run_shell_cmd
+from homelab_backup.execution.local_runner import LocalRunner
 
 
 class ResticRepository:
-    def __init__(self, path: Path) -> None:
+    def __init__(self, path: Path, runner: LocalRunner | None = None) -> None:
         self.path = path
+        self.runner = runner if runner is not None else LocalRunner()
 
     def _set_env(self) -> None:
         os.environ["RESTIC_REPOSITORY"] = str(self.path)
@@ -26,20 +27,20 @@ class ResticRepository:
         cwd: Path | None = None,
     ) -> CompletedProcess[str]:
         self._set_env()
-        return run_shell_cmd(cmd, capture_output=capture_output, cwd=cwd)
+        return self.runner.run(cmd, capture_output=capture_output, cwd=cwd)
 
     def ensure_initialized(self) -> None:
         self._set_env()
         try:
-            run_shell_cmd(["restic", "cat", "config"])
+            self.runner.run(["restic", "cat", "config"])
         except Exception:
-            run_shell_cmd(["restic", "init"])
+            self.runner.run(["restic", "init"])
             logging.info("Restic: Initialized repository %s", self.path)
 
-    def backup_directory(self, directory: Path) -> None:
-        self._run(["restic", "backup", "."], cwd=directory)
+    def backup(self, path: Path) -> None:
+        self._run(["restic", "backup", "."], cwd=path)
 
-    def forget_prune(self) -> None:
+    def prune(self) -> None:
         self._run(
             [
                 "restic",
@@ -51,30 +52,25 @@ class ResticRepository:
             ]
         )
 
-    def latest_snapshot(self, path: Path | None = None) -> dict[str, Any]:
-        cmd = ["restic", "snapshots", "--json"]
-        if path is not None:
-            cmd += ["--path", str(path)]
+    def _latest_snapshot(self, path: Path) -> dict[str, Any]:
+        cmd = ["restic", "snapshots", "--json", "--path", str(path)]
         result = self._run(cmd, capture_output=True)
         snapshots = json.loads(result.stdout)
         if not snapshots:
-            label = str(path) if path is not None else str(self.path)
-            raise Exception(f"Restic: No restic snapshots found for {label}.")
+            raise Exception(f"Restic: No restic snapshots found for {path}.")
         return max(snapshots, key=lambda snapshot: snapshot["time"])
 
-    def verify_recent_snapshot(self, max_age: timedelta, path: Path | None = None) -> None:
-        latest = self.latest_snapshot(path=path)
+    def verify_recent_snapshot(self, max_age: timedelta, path: Path) -> None:
+        latest = self._latest_snapshot(path)
         dt = datetime.fromisoformat(latest["time"].replace("Z", "+00:00"))
         if datetime.now(timezone.utc) - dt > max_age:
-            label = str(path) if path is not None else str(self.path)
-            raise Exception(f"Restic: Snapshot is too old for {label}.")
+            raise Exception(f"Restic: Snapshot is too old for {path}.")
 
-    def verify_latest_snapshot_nonzero(self, path: Path | None = None) -> None:
-        latest = self.latest_snapshot(path=path)
+    def verify_latest_snapshot_nonzero(self, path: Path) -> None:
+        latest = self._latest_snapshot(path)
         size = latest.get("summary", {}).get("total_bytes_processed", 0)
         if size == 0:
-            label = str(path) if path is not None else str(self.path)
-            raise Exception(f"Restic: Snapshot size is 0 for {label}.")
+            raise Exception(f"Restic: Snapshot size is 0 for {path}.")
 
     def check_metadata(self) -> None:
         self._run(["restic", "check"])
