@@ -32,13 +32,6 @@ def run_shell_cmd(
     return result
 
 
-def get_env(name: str) -> str:
-    value = os.environ.get(name)
-    if not value:
-        raise Exception(f"{name} environment variable not set.")
-    return value
-
-
 def build_ssh_cmd() -> list[str]:
     cmd = [
         "ssh",
