@@ -1,6 +1,5 @@
-# Assumption:
-# - A ZFS dataset named k8s-nfs exists with mountpoint=/mnt/zfs/k8s-nfs.
-# - A ZFS dataset named k8s-longhorn exists with mountpoint=/mnt/zfs/k8s-longhorn.
+# Assumption: The ZFS datasets zfs/k8s-nfs and zfs/k8s-longhorn exist with
+# mountpoints /mnt/zfs/k8s-nfs and /mnt/zfs/k8s-longhorn.
 {
   config,
   lib,

@@ -11,30 +11,12 @@ from .utils import (
     run_shell_cmd,
 )
 
-_ZFS_MOUNT_ROOT = Path("/mnt/zfs")
+_ZFS_ROOT = Path("/mnt")
 _RESTIC_REPOSITORIES = {
-    "k8s-nfs": "k8s-nfs-backup",
-    "k8s-longhorn": "k8s-longhorn-backup",
+    "zfs/k8s-nfs": _ZFS_ROOT / "zfs" / "k8s-nfs-backup",
+    "zfs/k8s-longhorn": _ZFS_ROOT / "zfs" / "k8s-longhorn-backup",
 }
-_ZFS_DATASETS = list(_RESTIC_REPOSITORIES.keys())
 _LONGHORN_STORAGE_CLASS = "longhorn"
-
-
-def _init_env() -> None:
-    os.environ["RESTIC_CACHE_DIR"] = "/tmp/restic-cache"
-    os.environ["RESTIC_PROGRESS_FPS"] = str(1 / 60)  # print progress once per minute
-
-    # Needed to avoid considering all files changed for every new ZFS snapshot.
-    # See https://forum.restic.net/t/backing-up-zfs-snapshots-good-idea/9604
-    os.environ["RESTIC_FEATURES"] = "device-id-for-hardlinks"
-
-
-def _restic_repository_path(dataset: str) -> str:
-    return str(_ZFS_MOUNT_ROOT / _RESTIC_REPOSITORIES[dataset])
-
-
-def _restic_cmd(dataset: str, args: list[str]) -> list[str]:
-    return ["restic", "--repo", _restic_repository_path(dataset)] + args
 
 
 def _test_longhorn_backups() -> None:
@@ -77,90 +59,68 @@ def _test_longhorn_backups() -> None:
     logging.info("Longhorn: All backups are recent enough.")
 
 
-def _zfs_snapshot_exists(snapshot_name: str) -> bool:
-    result = run_shell_cmd(
-        [
-            "zfs",
-            "list",
-            "-H",
-            "-t",
-            "snapshot",
-            "-o",
-            "name",
-            snapshot_name,
-        ],
-        capture_output=True,
-        raise_on_error=False,
-    )
-    return result.returncode == 0
+def _create_zfs_snapshots() -> None:
+    for zfs_dataset in _RESTIC_REPOSITORIES.keys():
+        snapshot = f"{zfs_dataset}@restic"
+        run_shell_cmd(["zfs", "snapshot", snapshot])
+        logging.info(f"ZFS: Created snapshot {snapshot}.")
 
 
-def _create_zfs_snapshots() -> dict[str, Path]:
-    snapshot_name = "restic"
-    dataset_to_snapshot_path: dict[str, Path] = {}
-
-    for zfs_dataset in _ZFS_DATASETS:
-        zfs_snapshot = f"zfs/{zfs_dataset}@{snapshot_name}"
-        if _zfs_snapshot_exists(zfs_snapshot):
-            logging.info(f"ZFS: Destroying existing snapshot {zfs_snapshot}.")
-            run_shell_cmd(["zfs", "destroy", zfs_snapshot])
-
-        run_shell_cmd(["zfs", "snapshot", zfs_snapshot])
-
-        snapshot_path = (
-            _ZFS_MOUNT_ROOT / zfs_dataset / ".zfs" / "snapshot" / snapshot_name
-        )
-        if not snapshot_path.exists() or not snapshot_path.is_dir():
-            raise Exception(f"ZFS: Snapshot path not found: {snapshot_path}.")
-
-        dataset_to_snapshot_path[zfs_dataset] = snapshot_path
-        logging.info(f"ZFS: Created snapshot {zfs_snapshot}.")
-
-    return dataset_to_snapshot_path
+def _destroy_zfs_snapshots() -> None:
+    for zfs_dataset in _RESTIC_REPOSITORIES.keys():
+        snapshot = f"{zfs_dataset}@restic"
+        run_shell_cmd(["zfs", "destroy", snapshot])
+        logging.info(f"ZFS: Destroyed snapshot {snapshot}.")
 
 
-def _restic_backup() -> None:
-    dataset_to_snapshot_path = _create_zfs_snapshots()
+def _set_restic_env(repository: Path) -> None:
+    os.environ["RESTIC_REPOSITORY"] = str(repository)
+    os.environ["RESTIC_CACHE_DIR"] = "/tmp/restic-cache"
+    os.environ["RESTIC_PROGRESS_FPS"] = str(1 / 60)  # print progress once per minute
 
-    for zfs_dataset in _ZFS_DATASETS:
+    # Needed to avoid considering all files changed for every new ZFS snapshot.
+    # See https://forum.restic.net/t/backing-up-zfs-snapshots-good-idea/9604
+    os.environ["RESTIC_FEATURES"] = "device-id-for-hardlinks"
+
+
+def _make_restic_backup() -> None:
+    _create_zfs_snapshots()
+
+    for zfs_dataset, restic_repository in _RESTIC_REPOSITORIES.items():
+        _set_restic_env(restic_repository)
+
         try:
-            run_shell_cmd(_restic_cmd(zfs_dataset, ["cat", "config"]), capture_output=True)
+            run_shell_cmd(["restic", "cat", "config"])
         except Exception:
-            logging.info(f"Initializing restic repository for {zfs_dataset}...")
-            run_shell_cmd(_restic_cmd(zfs_dataset, ["init"]))
+            run_shell_cmd(["restic", "init"])
+            logging.info(f"Restic: Initialized restic repository for {zfs_dataset}...")
 
-        snapshot = dataset_to_snapshot_path[zfs_dataset]
-        logging.info(f"Restic: Backing up {snapshot}...")
+        logging.info(f"Restic: Backing up {zfs_dataset}...")
         run_shell_cmd(
-            cmd=[
-                *_restic_cmd(zfs_dataset, ["backup"]),
-                ".",
-            ],
-            cwd=snapshot,
+            cmd=["restic", "backup", "."],
+            cwd=_ZFS_ROOT / zfs_dataset / ".zfs" / "snapshot" / "restic",
         )
-        logging.info(f"Restic: Backup of {snapshot} completed.")
+        logging.info(f"Restic: Backup of {zfs_dataset} completed.")
 
-        logging.info("Restic: Pruning old snapshots for %s...", zfs_dataset)
+        logging.info(f"Restic: Pruning old snapshots for {zfs_dataset}...")
         run_shell_cmd(
-            _restic_cmd(
-                zfs_dataset,
-                [
-                    "forget",
-                    "--keep-daily=7",
-                    "--keep-weekly=4",
-                    "--keep-monthly=6",
-                ],
-            ),
+            [
+                "restic",
+                "forget",
+                "--keep-daily=7",
+                "--keep-weekly=4",
+                "--keep-monthly=6",
+                "--prune",
+            ]
         )
-        run_shell_cmd(_restic_cmd(zfs_dataset, ["prune"]))
+        logging.info(f"Restic: Pruned old snapshots for {zfs_dataset}...")
+
+    _destroy_zfs_snapshots()
 
 
 def _test_restic_snapshots() -> None:
-    for zfs_dataset in _ZFS_DATASETS:
-        result = run_shell_cmd(
-            _restic_cmd(zfs_dataset, ["snapshots", "--json"]),
-            capture_output=True,
-        )
+    for zfs_dataset in _RESTIC_REPOSITORIES.keys():
+        result = run_shell_cmd(["restic", "snapshots", "--json"], capture_output=True)
         snapshots = json.loads(result.stdout)
         if not snapshots:
             raise Exception(f"Restic: No restic snapshots found for {zfs_dataset}.")
@@ -179,26 +139,26 @@ def _test_restic_snapshots() -> None:
 
 
 def _test_restic_metadata() -> None:
-    for zfs_dataset in _ZFS_DATASETS:
-        run_shell_cmd(_restic_cmd(zfs_dataset, ["check"]))
-    logging.info("Restic: Restic metadata is valid.")
+    for zfs_dataset, restic_repository in _RESTIC_REPOSITORIES.items():
+        _set_restic_env(restic_repository)
+        run_shell_cmd(["restic", "check"])
+        logging.info(f"Restic: Restic metadata for {zfs_dataset} is valid.")
 
 
 def _test_restic_data() -> None:
-    for zfs_dataset in _ZFS_DATASETS:
-        run_shell_cmd(_restic_cmd(zfs_dataset, ["check", "--read-data"]))
-    logging.info("Restic: Restic data is valid.")
+    for zfs_dataset, restic_repository in _RESTIC_REPOSITORIES.items():
+        _set_restic_env(restic_repository)
+        run_shell_cmd(["restic", "check", "--read-data"])
+        logging.info(f"Restic: Restic data for {zfs_dataset} is valid.")
 
 
 def main() -> None:
     errors: list[str] = []
     now = datetime.now()
 
-    _init_env()
-
-    run_and_log(run_fn=_test_longhorn_backups, errors=errors)
-    run_and_log(run_fn=_restic_backup, errors=errors)
+    run_and_log(run_fn=_make_restic_backup, errors=errors)
     run_and_log(run_fn=_test_restic_snapshots, errors=errors)
+    run_and_log(run_fn=_test_longhorn_backups, errors=errors)
 
     if now.weekday() == 0:
         run_and_log(run_fn=_test_restic_metadata, errors=errors)

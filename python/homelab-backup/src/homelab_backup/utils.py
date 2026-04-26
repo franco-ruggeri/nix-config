@@ -27,7 +27,6 @@ def run_shell_cmd(
     cmd: list[str],
     capture_output: bool = False,
     cwd: Path | None = None,
-    raise_on_error: bool = True,
 ) -> CompletedProcess:
     cmd_str = " ".join(cmd)
     logging.debug(f"Running: {cmd_str} (cwd={cwd})")
@@ -39,7 +38,7 @@ def run_shell_cmd(
         cwd=cwd,
     )
 
-    if raise_on_error and result.returncode != 0:
+    if result.returncode != 0:
         raise Exception(f"Command failed: {cmd_str}\n{result.stderr}")
 
     return result

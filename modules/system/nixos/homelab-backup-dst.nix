@@ -1,5 +1,6 @@
 # Assumptions:
-# - A ZFS dataset named zfs/k8s-backup exists with mountpoint=/mnt/zfs/k8s-backup.
+# - The ZFS datasets named zfs/k8s-nfs-backup and zfs/k8s-longhorn-backup exist with mountpoints
+#   /mnt/zfs/k8s-nfs-backup and /mnt/zfs/k8s-longhorn-backup.
 # - Root on this host can SSH into sourceHost as sourceUser without a password.
 {
   config,
