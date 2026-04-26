@@ -7,13 +7,17 @@ from datetime import datetime
 from email.message import EmailMessage
 from pathlib import Path
 
-_SMTP_SERVER = "smtp.gmail.com"
-_SMTP_PORT = 465
-_SMTP_USER = "franco.ruggeri.pro@gmail.com"
-_EMAIL_RECIPIENT = _SMTP_USER
-
 
 class Notifier:
+    _SMTP_SERVER = "smtp.gmail.com"
+    _SMTP_PORT = 465
+    _SMTP_USER = "franco.ruggeri.pro@gmail.com"
+    _EMAIL_RECIPIENT = _SMTP_USER
+
+    def __init__(self) -> None:
+        with open(os.environ["SMTP_PASSWORD_FILE"], "r") as f:
+            self._smtp_password = f.read()
+
     def notify(self, errors: list[str]) -> None:
         hostname = socket.gethostname()
         script = Path(sys.argv[0])
@@ -37,17 +41,13 @@ class Notifier:
 
         msg = EmailMessage()
         msg["Subject"] = subject
-        msg["From"] = _SMTP_USER
-        msg["To"] = _EMAIL_RECIPIENT
-        msg.set_content(body)
-
-        with open(os.environ["SMTP_PASSWORD_FILE"], "r") as f:
-            smtp_password = f.read()
+        msg["From"] = self._SMTP_USER
+        msg["To"] = self._EMAIL_RECIPIENT
 
         try:
-            with smtplib.SMTP_SSL(_SMTP_SERVER, _SMTP_PORT) as smtp:
-                smtp.login(_SMTP_USER, smtp_password)
+            with smtplib.SMTP_SSL(self._SMTP_SERVER, self._SMTP_PORT) as smtp:
+                smtp.login(self._SMTP_USER, self._smtp_password)
                 smtp.send_message(msg)
-            logging.info("Email sent to %s", _EMAIL_RECIPIENT)
+            logging.info("Email sent to %s", self._EMAIL_RECIPIENT)
         except Exception as e:
             logging.error("Failed to send email: %s", e)
