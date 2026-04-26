@@ -14,5 +14,5 @@ class CommandRunner(ABC):
         cmd: list[str],
         capture_output: bool = False,
         cwd: Path | None = None,
-    ) -> CompletedProcess:
+    ) -> CompletedProcess[str]:
         raise NotImplementedError

@@ -13,3 +13,12 @@ homelab-backup = "homelab_backup.cli.__main__:main"
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+extend-select = ["I"]
+
+[tool.mypy]
+strict = true

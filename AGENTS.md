@@ -237,8 +237,20 @@ values.
 `pkgs.unstable` is available via overlay (set up in `flake/packages.nix`). Use
 it for packages that need a newer version than the stable channel provides.
 
-### Python Scripts (in `scripts/`)
+### Python (in `python/`)
 
-Python scripts use `ruff` for formatting/linting and `mypy` for type checking.
-Scripts are packaged into derivations using `myLib.mkPythonScriptDir` and should
-not be executed directly from the repo.
+Format and lint with ruff:
+
+```bash
+ruff format python/homelab-backup/src
+ruff check python/homelab-backup/src
+```
+
+Type-check with mypy (run from the package directory):
+
+```bash
+mypy --package homelab_backup
+```
+
+Ruff and mypy are configured in `python/homelab-backup/pyproject.toml`. Always
+run both tools and fix all issues before committing.

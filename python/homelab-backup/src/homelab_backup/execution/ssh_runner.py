@@ -19,7 +19,7 @@ class SshRunner(CommandRunner):
         cmd: list[str],
         capture_output: bool = False,
         cwd: Path | None = None,
-    ) -> CompletedProcess:
+    ) -> CompletedProcess[str]:
         if cwd is not None:
             raise Exception("cwd is not supported for remote commands.")
         return run_shell_cmd(self.build_command(cmd), capture_output=capture_output)

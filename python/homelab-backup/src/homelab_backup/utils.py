@@ -27,7 +27,7 @@ def run_shell_cmd(
     cmd: list[str],
     capture_output: bool = False,
     cwd: Path | None = None,
-) -> CompletedProcess:
+) -> CompletedProcess[str]:
     cmd_str = " ".join(cmd)
     logging.debug(f"Running: {cmd_str} (cwd={cwd})")
 
@@ -79,9 +79,7 @@ def get_snapshot_prefix() -> str:
     return prefix
 
 
-def run_ssh_cmd(
-    source_host: str, source_user: str, remote_cmd: list[str]
-) -> CompletedProcess:
+def run_ssh_cmd(source_host: str, source_user: str, remote_cmd: list[str]) -> CompletedProcess[str]:
     return run_shell_cmd(
         build_ssh_cmd() + [f"{source_user}@{source_host}"] + remote_cmd,
     )

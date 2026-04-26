@@ -4,6 +4,7 @@ import os
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from subprocess import CompletedProcess
+from typing import Any
 
 from homelab_backup.utils import run_shell_cmd
 
@@ -23,7 +24,7 @@ class ResticRepository:
         cmd: list[str],
         capture_output: bool = False,
         cwd: Path | None = None,
-    ) -> CompletedProcess:
+    ) -> CompletedProcess[str]:
         self._set_env()
         return run_shell_cmd(cmd, capture_output=capture_output, cwd=cwd)
 
@@ -50,7 +51,7 @@ class ResticRepository:
             ]
         )
 
-    def latest_snapshot(self, path: Path | None = None) -> dict:
+    def latest_snapshot(self, path: Path | None = None) -> dict[str, Any]:
         cmd = ["restic", "snapshots", "--json"]
         if path is not None:
             cmd += ["--path", str(path)]

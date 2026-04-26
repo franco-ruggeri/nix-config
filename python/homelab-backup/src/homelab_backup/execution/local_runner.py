@@ -6,7 +6,6 @@ from homelab_backup.utils import run_shell_cmd
 
 
 class LocalRunner(CommandRunner):
-
     def build_command(self, cmd: list[str]) -> list[str]:
         return cmd
 
@@ -15,5 +14,5 @@ class LocalRunner(CommandRunner):
         cmd: list[str],
         capture_output: bool = False,
         cwd: Path | None = None,
-    ) -> CompletedProcess:
+    ) -> CompletedProcess[str]:
         return run_shell_cmd(cmd, capture_output=capture_output, cwd=cwd)
