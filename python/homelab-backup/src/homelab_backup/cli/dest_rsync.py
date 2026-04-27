@@ -18,15 +18,15 @@ def main() -> None:
                 user=os.environ["SOURCE_USER"],
             ),
         )
-        dest_path = Path(os.environ["RSYNC_DEST_PATH"]).expanduser()
+        dest_path = Path(os.environ["DEST_PATH"]).expanduser()
+
         zfs_transfer = ZfsRsyncTransfer(
             source=source,
             dest_path=dest_path,
         )
         zfs_transfer.transfer()
 
-        restic_repository_file = Path(os.environ["RESTIC_REPOSITORY_FILE"]).expanduser()
-        restic_repository = ResticRepository(path=Path(restic_repository_file.read_text().strip()))
+        restic_repository = ResticRepository(path=dest_path)
         if now.weekday() == 0:
             restic_repository.check_metadata()
         if now.day == 1:
