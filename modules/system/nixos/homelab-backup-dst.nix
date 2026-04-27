@@ -47,6 +47,7 @@ in
             "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
             "SOURCE_HOST=${cfg.sourceHost}"
             "SOURCE_USER=${cfg.sourceUser}"
+            "RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path}"
             "SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path}"
           ];
           ExecStartPre = pkgs.writeShellScript "homelab-backup-zfs-pull-pre" ''
@@ -67,6 +68,9 @@ in
       };
     };
 
-    age.secrets = myLib.mkSecrets [ "smtp-password" ];
+    age.secrets = myLib.mkSecrets [
+      "restic-password"
+      "smtp-password"
+    ];
   };
 }

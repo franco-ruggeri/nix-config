@@ -4,16 +4,11 @@
     username = "erugfra";
     gui.enable = true;
     tui.enable = true;
-    homelab.backup = {
+    homelab.backup.dst = {
       enable = true;
-      serverAddress = "10.34.0.2";
-      resticRepositoryFile = config.age.secrets.restic-repository-laptop.path;
-      rsyncPull = {
-        enable = true;
-        sourceDataset = "zfs/k8s-backup";
-        sourceUser = "franco";
-        destinationPath = "${config.home.homeDirectory}/Backups/k8s-backup";
-      };
+      sourceDataset = "zfs/k8s-backup";
+      sourceUser = "franco";
+      destinationPath = config.age.secrets.restic-repository-laptop.path;
     };
   };
 
