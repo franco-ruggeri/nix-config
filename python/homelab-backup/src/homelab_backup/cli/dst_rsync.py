@@ -1,4 +1,3 @@
-import logging
 import os
 from datetime import datetime
 from pathlib import Path
@@ -36,5 +35,4 @@ def main() -> None:
 
         EmailNotifier().notify()
     except Exception as e:
-        logging.error("%s", e)
         EmailNotifier().notify(e)
