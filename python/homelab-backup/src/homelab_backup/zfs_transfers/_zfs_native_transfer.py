@@ -23,14 +23,12 @@ class ZfsNativeTransfer(ZfsTransfer):
         last_name = f"{self._prefix}-last"
         current_name = f"{self._prefix}-current"
 
-        if self._source.snapshot_exists(current_name):
-            self._source.destroy_snapshot(current_name)
         self._source.create_snapshot(current_name)
 
         source_last = self._source.snapshot_ref(last_name)
         source_current = self._source.snapshot_ref(current_name)
-        has_source_last = self._source.snapshot_exists(last_name)
-        has_dest_last = self._destination.snapshot_exists(last_name)
+        has_source_last = self._source._snapshot_exists(last_name)
+        has_dest_last = self._destination._snapshot_exists(last_name)
         use_incremental = has_source_last and has_dest_last
 
         send_cmd = ["zfs", "send"]
@@ -71,10 +69,8 @@ class ZfsNativeTransfer(ZfsTransfer):
         if recv_stdout:
             logging.info(recv_stdout.decode(errors="replace").strip())
 
-        if self._destination.snapshot_exists(last_name):
-            self._destination.destroy_snapshot(last_name)
+        self._destination.destroy_snapshot(last_name)
         self._destination.rename_snapshot(current_name, last_name)
 
-        if self._source.snapshot_exists(last_name):
-            self._source.destroy_snapshot(last_name)
+        self._source.destroy_snapshot(last_name)
         self._source.rename_snapshot(current_name, last_name)
