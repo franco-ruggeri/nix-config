@@ -25,7 +25,13 @@ class ZfsRsyncTransfer(ZfsTransfer):
             self._rsync_runner.run(["mkdir", "-p", str(self._dst_path)])
 
             src_ref = str(snapshot_path) + "/"
-            rsync_cmd = ["rsync", "-a", "--delete"]
+            rsync_cmd = [
+                "rsync",
+                "--archive",
+                "--delete-delay",
+                "--numeric-ids",
+                "--verbose",
+            ]
 
             assert isinstance(self._src.runner, SshRunner)
             rsync_cmd += [
