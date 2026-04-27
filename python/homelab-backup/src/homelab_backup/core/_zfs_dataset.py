@@ -37,6 +37,7 @@ class ZfsDataset:
             raise Exception(f"Could not resolve mountpoint for dataset {self._name}.")
         return Path(mountpoint)
 
+    @property
     def is_remote(self) -> bool:
         return isinstance(self._runner, SshRunner)
 

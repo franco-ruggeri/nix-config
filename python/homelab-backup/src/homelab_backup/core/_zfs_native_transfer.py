@@ -7,7 +7,11 @@ from homelab_backup.core._zfs_transfer import ZfsTransfer
 
 class ZfsNativeTransfer(ZfsTransfer):
     def __init__(self, source: ZfsDataset, destination: ZfsDataset) -> None:
-        super().__init__(source)
+        super().__init__(source=source)
+        if destination.is_remote:
+            raise ValueError(
+                f"ZfsNativeTransfer destination must be a local dataset, got remote: {destination.name}"
+            )
         self._destination = destination
 
     def transfer(self) -> None:
