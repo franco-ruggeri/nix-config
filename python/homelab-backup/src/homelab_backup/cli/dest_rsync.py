@@ -18,7 +18,8 @@ def main() -> None:
                 user=os.environ["SOURCE_USER"],
             ),
         )
-        dest_path = Path(os.environ["DEST_PATH"]).expanduser()
+        restic_repository_file = Path(os.environ["RESTIC_REPOSITORY_FILE"])
+        dest_path = Path(restic_repository_file.read_text())
 
         zfs_transfer = ZfsRsyncTransfer(
             source=source,
