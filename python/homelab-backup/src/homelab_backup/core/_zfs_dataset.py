@@ -44,7 +44,7 @@ class ZfsDataset:
     def snapshot_ref(self, snapshot_name: str) -> str:
         return f"{self._name}@{snapshot_name}"
 
-    def snapshot_exists(self, snapshot_name: str) -> bool:
+    def has_snapshot(self, snapshot_name: str) -> bool:
         try:
             self._runner.run(
                 [
@@ -65,7 +65,7 @@ class ZfsDataset:
 
     def create_snapshot(self, snapshot_name: str) -> None:
         snapshot = self.snapshot_ref(snapshot_name)
-        if self.snapshot_exists(snapshot_name):
+        if self.has_snapshot(snapshot_name):
             self._runner.run(["zfs", "destroy", snapshot])
             logging.info("ZFS: Destroyed existing snapshot %s before recreating", snapshot)
         self._runner.run(["zfs", "snapshot", snapshot])
@@ -73,7 +73,7 @@ class ZfsDataset:
 
     def destroy_snapshot(self, snapshot_name: str) -> None:
         snapshot = self.snapshot_ref(snapshot_name)
-        if not self.snapshot_exists(snapshot_name):
+        if not self.has_snapshot(snapshot_name):
             logging.debug("ZFS: Snapshot %s does not exist, skipping destroy", snapshot)
         else:
             self._runner.run(["zfs", "destroy", snapshot])

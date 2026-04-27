@@ -30,8 +30,8 @@ class ZfsNativeTransfer(ZfsTransfer):
 
         source_last = self._source.snapshot_ref(last_name)
         source_current = self._source.snapshot_ref(current_name)
-        has_source_last = self._source.snapshot_exists(last_name)
-        has_dest_last = self._destination.snapshot_exists(last_name)
+        has_source_last = self._source.has_snapshot(last_name)
+        has_dest_last = self._destination.has_snapshot(last_name)
         use_incremental = has_source_last and has_dest_last
 
         send_cmd = ["zfs", "send"]

@@ -22,7 +22,7 @@ classDiagram
   class ZfsDataset {
     -name: str
     -runner: CommandRunner
-    +snapshot_exists(snapshot_name)
+    +has_snapshot(snapshot_name)
     +create_snapshot(snapshot_name)
     +destroy_snapshot(snapshot_name)
     +rename_snapshot(old_name, new_name)
@@ -120,7 +120,7 @@ Execution location is explicit through dependency injection: each dataset is con
 
 Responsibilities:
 
-- Snapshot lifecycle operations: `snapshot_exists`, `create_snapshot`, `destroy_snapshot`, `rename_snapshot`.
+- Snapshot lifecycle operations: `has_snapshot`, `create_snapshot`, `destroy_snapshot`, `rename_snapshot`.
 - Dataset metadata lookup: `mountpoint`.
 - Snapshot path construction: `snapshot_path(snapshot_name)`.
 
