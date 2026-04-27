@@ -19,7 +19,7 @@ def main() -> None:
             ),
         )
         restic_repository_file = Path(os.environ["RESTIC_REPOSITORY_FILE"])
-        dst_path = Path(restic_repository_file.read_text())
+        dst_path = Path(restic_repository_file.read_text().strip())
 
         zfs_transfer = ZfsRsyncTransfer(
             src=src,
