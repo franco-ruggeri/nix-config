@@ -2,8 +2,8 @@ from datetime import datetime
 
 from homelab_backup.cli._utils import BACKUP_DATASET
 from homelab_backup.core import ResticRepository, ZfsDataset
-from homelab_backup.notifiers import EmailNotifier
-from homelab_backup.runners import LocalRunner
+from homelab_backup.shell import LocalRunner
+from homelab_backup.smtp import EmailNotifier
 
 _ZFS_DATASETS = ["zfs/k8s-nfs", "zfs/k8s-longhorn"]
 _SNAPSHOT_NAME = "restic"

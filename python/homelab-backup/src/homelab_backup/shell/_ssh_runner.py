@@ -3,7 +3,7 @@ import shlex
 from pathlib import Path
 from subprocess import CompletedProcess
 
-from homelab_backup.runners._runner import Runner
+from homelab_backup.shell._runner import Runner
 
 
 class SshRunner(Runner):

@@ -1,8 +1,8 @@
 import logging
 from pathlib import Path
 
-from homelab_backup.runners._runner import Runner
-from homelab_backup.runners._ssh_runner import SshRunner
+from homelab_backup.shell._runner import Runner
+from homelab_backup.shell._ssh_runner import SshRunner
 
 
 class ZfsDataset:

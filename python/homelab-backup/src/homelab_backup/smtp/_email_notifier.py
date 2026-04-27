@@ -7,10 +7,8 @@ from datetime import datetime
 from email.message import EmailMessage
 from pathlib import Path
 
-from homelab_backup.notifiers._notifier import Notifier
 
-
-class EmailNotifier(Notifier):
+class EmailNotifier:
     _SMTP_SERVER = "smtp.gmail.com"
     _SMTP_PORT = 465
     _SMTP_USER = "franco.ruggeri.pro@gmail.com"
