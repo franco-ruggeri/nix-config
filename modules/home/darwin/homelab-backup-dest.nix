@@ -24,13 +24,6 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    assertions = [
-      {
-        assertion = config.myModules.system.homelab.wireguard.enable;
-        message = "WireGuard client must be enabled for homelab backup destination.";
-      }
-    ];
-
     home.packages = with pkgs; [
       restic
       rsync
@@ -50,8 +43,6 @@ in
               export RESTIC_REPOSITORY_FILE=${cfg.resticRepositoryFile} && \
               export RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path} && \
               export SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path} && \
-              export SOURCE_HOST=${cfg.sourceHost} && \
-              export SOURCE_USER=${cfg.sourceUser} && \
               ${homelabBackup}/bin/homelab-backup dest-rsync
             ''
           ];
@@ -63,6 +54,8 @@ in
           ];
           EnvironmentVariables = {
             PATH = "${config.home.homeDirectory}/.nix-profile/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+            SOURCE_HOST = "${cfg.sourceHost}";
+            SOURCE_USER = "${cfg.sourceUser}";
           };
           StandardOutPath = "${config.home.homeDirectory}/Library/Logs/homelab-backup-dest/out.log";
           StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/homelab-backup-dest/error.log";
