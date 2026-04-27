@@ -18,6 +18,7 @@ def main() -> None:
             ),
         )
         destination = ZfsDataset(name=BACKUP_DATASET, runner=LocalRunner())
+
         zfs_transfer = ZfsNativeTransfer(source=source, destination=destination)
         zfs_transfer.transfer()
 
