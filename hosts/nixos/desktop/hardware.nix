@@ -1,4 +1,4 @@
-{ modulesPath, ... }:
+{ modulesPath, pkgs, ... }:
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
@@ -18,11 +18,6 @@
       ];
     };
     kernelModules = [ "kvm-intel" ];
-    # Keyboard and mouse are connected via the monitor (KVM switch).
-    # Autosuspend creates a problem when turning off and on the monitor.
-    # Often, keyboard and mouse are not detected when the monitor is turned on again.
-    # To avoid this problem, we disable autosuspend.
-    kernelParams = [ "usbcore.autosuspend=-1" ];
   };
 
   networking.hostId = "1c86da41";
@@ -41,6 +36,32 @@
         "fmask=0077"
         "dmask=0077"
       ];
+    };
+  };
+
+  # Keyboard and mouse are connected via the USB hub in the monitor. When the
+  # monitor is turned off and back on, the USB hub sends malformed USB 3.0
+  # signaling during reconnect. This corrupts the xHCI controller's internal
+  # state, preventing the keyboard and mouse from enumerating.
+  #
+  # The fix is to rebind the xHCI PCI device when the USB hub reconnects,
+  # which resets the controller to a clean state and allows re-enumeration.
+  #
+  # Implementation:
+  # * udev rule: triggers on reconnect of the USB hub and runs the systemd unit.
+  # * systemd unit: resets the controller to a clean state.
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="usb", ENV{ID_VENDOR_ID}=="0bda", ENV{ID_MODEL_ID}=="0483", ATTR{busnum}=="2", RUN+="${pkgs.systemd}/bin/systemctl start xhci-rebind.service"
+  '';
+  systemd.services.xhci-rebind = {
+    description = "Rebind xHCI controller after monitor USB hub reconnect";
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = pkgs.writeShellScript "xhci-rebind" ''
+        echo "0000:00:14.0" > /sys/bus/pci/drivers/xhci_hcd/unbind
+        sleep 1
+        echo "0000:00:14.0" > /sys/bus/pci/drivers/xhci_hcd/bind
+      '';
     };
   };
 }
