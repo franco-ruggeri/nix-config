@@ -51,7 +51,7 @@ in
               export RESTIC_REPOSITORY_FILE=${cfg.resticRepositoryFile} && \
               export RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path} && \
               export SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path} && \
-              ${homelabBackup}/bin/homelab-backup dest-rsync
+              ${homelabBackup}/bin/homelab-backup dest rsync
             ''
           ];
           StartCalendarInterval = [

@@ -42,7 +42,7 @@ in
         description = "Homelab backup destination";
         serviceConfig = {
           Type = "oneshot";
-          ExecStart = "${homelabBackup}/bin/homelab-backup dest-zfs";
+          ExecStart = "${homelabBackup}/bin/homelab-backup dest zfs";
           Environment = [
             "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
             "SOURCE_HOST=${cfg.sourceHost}"
