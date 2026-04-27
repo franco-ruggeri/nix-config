@@ -18,9 +18,9 @@ class ZfsRsyncTransfer(ZfsTransfer):
         self._rsync_runner = LocalRunner()
 
     def transfer(self) -> None:
-        snapshot_name = f"{self._prefix}-current"
-        self._source.create_snapshot(snapshot_name)
         try:
+            snapshot_name = f"{self._prefix}-current"
+            self._source.create_snapshot(snapshot_name)
             snapshot_path = self._source.snapshot_path(snapshot_name)
             self._rsync_runner.run(["mkdir", "-p", str(self._dest_path)])
 
