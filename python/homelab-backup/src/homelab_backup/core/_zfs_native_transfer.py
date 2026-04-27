@@ -9,14 +9,13 @@ class ZfsNativeTransfer(ZfsTransfer):
     def __init__(self, source: ZfsDataset, destination: ZfsDataset) -> None:
         super().__init__(source=source)
         if destination.is_remote:
-            raise ValueError(
-                f"ZfsNativeTransfer destination must be a local dataset, got remote: {destination.name}"
-            )
+            raise ValueError(f"ZfsNativeTransfer destination must be a local dataset, got remote: {destination.name}")
         self._destination = destination
 
     def transfer(self) -> None:
         try:
-            logging.info("Starting ZFS replication for %s", self._source.name)
+            logging.info("Starting ZFS native transfer for %s", self._source.name)
+
             last_name = f"{self._prefix}-last"
             current_name = f"{self._prefix}-current"
 
