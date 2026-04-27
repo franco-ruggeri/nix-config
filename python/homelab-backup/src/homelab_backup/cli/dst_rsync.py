@@ -4,7 +4,7 @@ from pathlib import Path
 
 from homelab_backup.cli._utils import BACKUP_DATASET
 from homelab_backup.core import ResticRepository, ZfsDataset, ZfsRsyncTransfer
-from homelab_backup.shell import LocalRunner, SshRunner
+from homelab_backup.shell import SshRunner
 from homelab_backup.smtp import EmailNotifier
 
 
@@ -22,7 +22,6 @@ def main() -> None:
         zfs_transfer = ZfsRsyncTransfer(
             source=source,
             destination_path=destination_path,
-            rsync_runner=LocalRunner(),
         )
         zfs_transfer.transfer()
 
