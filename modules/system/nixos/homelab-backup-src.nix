@@ -1,6 +1,6 @@
 # Assumptions:
 # - The ZFS dataset zfs/k8s-backup exists with mountpoint /mnt/zfs/k8s-backup.
-# - The ZFS dataset zfs/k8s-backup has ZFS send delegations granted to the main user.
+# - The main user is allowed to destroy,mount,send,snapshot the ZFS dataset zfs/k8s-backup.
 {
   config,
   pkgs,
