@@ -11,12 +11,18 @@
 let
   cfg = config.myModules.system.homelab.backup.source;
   homelabBackup = myLib.mkPythonApplication "homelab-backup";
+  group = "homelab-backup";
 in
 {
   options.myModules.system.homelab.backup.source.enable =
     lib.mkEnableOption "Enable backup source for homelab";
 
   config = lib.mkIf cfg.enable {
+    users = {
+      groups.${group} = { };
+      users.${config.myModules.system.username}.extraGroups = [ group ];
+    };
+
     assertions = [
       {
         assertion = config.myModules.system.homelab.wireguard.enable;
@@ -32,15 +38,15 @@ in
       }
     ];
 
-    environment.systemPackages = with pkgs; [
-      restic
-    ];
+    environment.systemPackages = with pkgs; [ restic ];
 
     systemd = {
       services.homelab-backup-source = {
         description = "Homelab backup source";
         serviceConfig = {
           Type = "oneshot";
+          UMask = "0027";
+          Group = group;
           ExecStart = "${homelabBackup}/bin/homelab-backup source";
           Environment = [
             "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"

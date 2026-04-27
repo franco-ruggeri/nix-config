@@ -1,13 +1,8 @@
 # Based on https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/cluster/k3s/docs/USAGE.md
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}:
+{ config, lib, ... }:
 let
   cfg = config.myModules.system.homelab.k8s;
-  adminGroup = "kubeadmin";
+  group = "homelab-admin";
 in
 {
   options.myModules.system.homelab.k8s = {
@@ -46,7 +41,7 @@ in
           ]
           ++ [
             "--write-kubeconfig-mode=640"
-            "--write-kubeconfig-group=${adminGroup}"
+            "--write-kubeconfig-group=${group}"
             "--disable=traefik"
             "--disable=servicelb"
             "--disable=local-storage"
@@ -59,8 +54,8 @@ in
     };
 
     users = {
-      groups.${adminGroup} = { };
-      users.${config.myModules.system.username}.extraGroups = [ adminGroup ];
+      groups.${group} = { };
+      users.${config.myModules.system.username}.extraGroups = [ group ];
     };
 
     systemd.services.iscsid.serviceConfig = {
