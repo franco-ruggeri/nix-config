@@ -6,17 +6,17 @@
   ...
 }:
 let
-  cfg = config.myModules.home.homelab.backup.dest;
+  cfg = config.myModules.home.homelab.backup.dst;
   homelabBackup = myLib.mkPythonApplication "homelab-backup";
 in
 {
-  options.myModules.home.homelab.backup.dest = {
+  options.myModules.home.homelab.backup.dst = {
     enable = lib.mkEnableOption "Enable backup destination for homelab";
-    sourceHost = lib.mkOption {
+    srcHost = lib.mkOption {
       type = lib.types.str;
       description = "Source host reachable by the destination backup server.";
     };
-    sourceUser = lib.mkOption {
+    srcUser = lib.mkOption {
       type = lib.types.str;
       description = "User on the source host to connect as via SSH.";
     };
@@ -30,10 +30,10 @@ in
     ];
 
     launchd.agents = {
-      homelab-backup-dest = {
+      homelab-backup-dst = {
         enable = true;
         config = {
-          Label = "org.nixos.homelab-backup-dest";
+          Label = "org.nixos.homelab-backup-dst";
           # In EnvironmentVariables, the home-manager command to get the agenix path would not be expanded.
           # So we have to export the environment variables with agenix secrets in ProgramArguments.
           ProgramArguments = [
@@ -43,7 +43,7 @@ in
               export RESTIC_REPOSITORY_FILE=${cfg.resticRepositoryFile} && \
               export RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path} && \
               export SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path} && \
-              ${homelabBackup}/bin/homelab-backup dest-rsync
+              ${homelabBackup}/bin/homelab-backup dst-rsync
             ''
           ];
           StartCalendarInterval = [
@@ -54,11 +54,11 @@ in
           ];
           EnvironmentVariables = {
             PATH = "${config.home.homeDirectory}/.nix-profile/bin:/usr/bin:/bin:/usr/sbin:/sbin";
-            SOURCE_HOST = "${cfg.sourceHost}";
-            SOURCE_USER = "${cfg.sourceUser}";
+            SRC_HOST = "${cfg.srcHost}";
+            SRC_USER = "${cfg.srcUser}";
           };
-          StandardOutPath = "${config.home.homeDirectory}/Library/Logs/homelab-backup-dest/out.log";
-          StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/homelab-backup-dest/error.log";
+          StandardOutPath = "${config.home.homeDirectory}/Library/Logs/homelab-backup-dst/out.log";
+          StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/homelab-backup-dst/error.log";
         };
       };
     };

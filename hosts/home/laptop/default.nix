@@ -4,10 +4,10 @@
     username = "erugfra";
     gui.enable = true;
     tui.enable = true;
-    homelab.backup.dest = {
+    homelab.backup.dst = {
       enable = true;
-      sourceHost = "10.34.0.2";
-      sourceUser = "franco";
+      srcHost = "10.34.0.2";
+      srcUser = "franco";
       resticRepositoryFile = config.age.secrets.restic-repository-laptop.path;
     };
   };

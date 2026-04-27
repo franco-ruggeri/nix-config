@@ -10,19 +10,19 @@ from homelab_backup.smtp import EmailNotifier
 def main() -> None:
     try:
         now = datetime.now()
-        source = ZfsDataset(
+        src = ZfsDataset(
             name=BACKUP_DATASET,
             runner=SshRunner(
-                host=os.environ["SOURCE_HOST"],
-                user=os.environ["SOURCE_USER"],
+                host=os.environ["SRC_HOST"],
+                user=os.environ["SRC_USER"],
             ),
         )
-        destination = ZfsDataset(name=BACKUP_DATASET, runner=LocalRunner())
+        dst = ZfsDataset(name=BACKUP_DATASET, runner=LocalRunner())
 
-        zfs_transfer = ZfsNativeTransfer(source=source, destination=destination)
+        zfs_transfer = ZfsNativeTransfer(src=src, dst=dst)
         zfs_transfer.transfer()
 
-        restic_repository = ResticRepository(path=destination.mountpoint)
+        restic_repository = ResticRepository(path=dst.mountpoint)
         if now.weekday() == 0:
             restic_repository.check_metadata()
         if now.day == 1:

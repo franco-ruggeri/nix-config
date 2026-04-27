@@ -6,47 +6,47 @@ from homelab_backup.core._zfs_transfer import ZfsTransfer
 
 
 class ZfsNativeTransfer(ZfsTransfer):
-    def __init__(self, source: ZfsDataset, destination: ZfsDataset) -> None:
-        super().__init__(source=source)
-        if destination.is_remote:
-            raise ValueError(f"ZfsNativeTransfer destination must be a local dataset, got remote: {destination.name}")
-        self._destination = destination
+    def __init__(self, src: ZfsDataset, dst: ZfsDataset) -> None:
+        super().__init__(src=src)
+        if dst.is_remote:
+            raise ValueError(f"ZfsNativeTransfer dst must be a local dataset, got remote: {dst.name}")
+        self._dst = dst
 
     def transfer(self) -> None:
         try:
-            logging.info("Starting ZFS native transfer for %s", self._source.name)
+            logging.info("Starting ZFS native transfer for %s", self._src.name)
 
             last_name = f"{self._prefix}-last"
             current_name = f"{self._prefix}-current"
 
-            self._source.create_snapshot(current_name)
+            self._src.create_snapshot(current_name)
 
-            source_last = self._source.snapshot_ref(last_name)
-            source_current = self._source.snapshot_ref(current_name)
-            has_source_last = self._source.has_snapshot(last_name)
-            has_dest_last = self._destination.has_snapshot(last_name)
-            use_incremental = has_source_last and has_dest_last
+            src_last = self._src.snapshot_ref(last_name)
+            src_current = self._src.snapshot_ref(current_name)
+            has_src_last = self._src.has_snapshot(last_name)
+            has_dst_last = self._dst.has_snapshot(last_name)
+            use_incremental = has_src_last and has_dst_last
 
             send_cmd = ["zfs", "send"]
             if use_incremental:
-                send_cmd += ["-I", source_last]
+                send_cmd += ["-I", src_last]
                 logging.info(
                     "Running incremental replication for %s from %s to %s",
-                    self._source.name,
-                    source_last,
-                    source_current,
+                    self._src.name,
+                    src_last,
+                    src_current,
                 )
             else:
-                logging.info("Running full replication for %s", source_current)
-            send_cmd += [source_current]
+                logging.info("Running full replication for %s", src_current)
+            send_cmd += [src_current]
 
             send_proc = subprocess.Popen(
-                self._source.runner.build(send_cmd),
+                self._src.runner.build(send_cmd),
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
             )
             recv_proc = subprocess.Popen(
-                self._destination.runner.build(["zfs", "receive", "-F", self._destination.name]),
+                self._dst.runner.build(["zfs", "receive", "-F", self._dst.name]),
                 stdin=send_proc.stdout,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
@@ -65,7 +65,7 @@ class ZfsNativeTransfer(ZfsTransfer):
             if recv_stdout:
                 logging.info(recv_stdout.decode(errors="replace").strip())
 
-            for dataset in [self._source, self._destination]:
+            for dataset in [self._src, self._dst]:
                 dataset.destroy_snapshot(last_name)
                 dataset.rename_snapshot(current_name, last_name)
         except Exception as e:

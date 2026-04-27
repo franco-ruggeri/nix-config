@@ -8,7 +8,7 @@
   imports = [
     ./gui.nix
     ./tui.nix
-    ./homelab-backup-dest.nix
+    ./homelab-backup-dst.nix
   ];
 
   config = lib.mkIf (myLib.isDarwin) {

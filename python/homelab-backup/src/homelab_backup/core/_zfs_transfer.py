@@ -6,10 +6,10 @@ from homelab_backup.core._zfs_dataset import ZfsDataset
 
 
 class ZfsTransfer(ABC):
-    def __init__(self, source: ZfsDataset) -> None:
-        if not source.is_remote:
-            raise ValueError(f"ZfsTransfer source must be a remote dataset, got local: {source.name}")
-        self._source = source
+    def __init__(self, src: ZfsDataset) -> None:
+        if not src.is_remote:
+            raise ValueError(f"ZfsTransfer src must be a remote dataset, got local: {src.name}")
+        self._src = src
         self._prefix = self._get_prefix()
 
     @staticmethod

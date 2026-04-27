@@ -1,3 +1,3 @@
-from homelab_backup.cli import dest_rsync, dest_zfs, source
+from homelab_backup.cli import dst_rsync, dst_zfs, src
 
-__all__ = ["dest_rsync", "dest_zfs", "source"]
+__all__ = ["dst_rsync", "dst_zfs", "src"]

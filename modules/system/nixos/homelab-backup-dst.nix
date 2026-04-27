@@ -1,6 +1,6 @@
 # Assumptions:
 # - The ZFS dataset zfs/k8s-backup exists with mountpoint /mnt/zfs/k8s-backup.
-# - Root on this host can SSH into sourceHost as sourceUser without a password.
+# - Root on this host can SSH into srcHost as srcUser without a password.
 {
   config,
   pkgs,
@@ -9,17 +9,17 @@
   ...
 }:
 let
-  cfg = config.myModules.system.homelab.backup.dest;
+  cfg = config.myModules.system.homelab.backup.dst;
   homelabBackup = myLib.mkPythonApplication "homelab-backup";
 in
 {
-  options.myModules.system.homelab.backup.dest = {
+  options.myModules.system.homelab.backup.dst = {
     enable = lib.mkEnableOption "Enable backup destination for homelab";
-    sourceHost = lib.mkOption {
+    srcHost = lib.mkOption {
       type = lib.types.str;
       description = "Source host reachable by the destination backup server.";
     };
-    sourceUser = lib.mkOption {
+    srcUser = lib.mkOption {
       type = lib.types.str;
       description = "User on the source host to connect as via SSH.";
     };
@@ -38,19 +38,19 @@ in
     ];
 
     systemd = {
-      services.homelab-backup-dest = {
+      services.homelab-backup-dst = {
         description = "Homelab backup destination";
         serviceConfig = {
           Type = "oneshot";
-          ExecStart = "${homelabBackup}/bin/homelab-backup dest-zfs";
+          ExecStart = "${homelabBackup}/bin/homelab-backup dst-zfs";
           Environment = [
             "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
-            "SOURCE_HOST=${cfg.sourceHost}"
-            "SOURCE_USER=${cfg.sourceUser}"
+            "SRC_HOST=${cfg.srcHost}"
+            "SRC_USER=${cfg.srcUser}"
             "RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path}"
             "SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path}"
           ];
-          ExecStartPre = pkgs.writeShellScript "homelab-backup-dest-pre" ''
+          ExecStartPre = pkgs.writeShellScript "homelab-backup-dst-pre" ''
             echo "Waiting for WireGuard to be ready..."
             until wg show wg0 latest-handshakes | awk '{print $2}' | grep -qv '^0$'; do
               sleep 5
@@ -58,7 +58,7 @@ in
           '';
         };
       };
-      timers.homelab-backup-dest = {
+      timers.homelab-backup-dst = {
         description = "Homelab backup destination";
         wantedBy = [ "timers.target" ];
         timerConfig = {
