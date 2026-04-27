@@ -15,7 +15,7 @@
         address = "10.34.0.6/24";
         privateKeyFile = config.age.secrets.wireguard-private-key-server-stockholm.path;
       };
-      backup.dst = {
+      backup.dest = {
         enable = true;
         sourceHost = "10.34.0.2";
         sourceUser = "franco";
