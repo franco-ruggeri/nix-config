@@ -13,8 +13,7 @@ class ZfsRsyncTransfer(ZfsTransfer):
         destination_path: Path,
         rsync_runner: Runner,
     ) -> None:
-        super().__init__()
-        self._source = source
+        super().__init__(source)
         self._destination_path = destination_path
         self._rsync_runner = rsync_runner
 
@@ -28,16 +27,13 @@ class ZfsRsyncTransfer(ZfsTransfer):
             source_ref = str(snapshot_path) + "/"
             rsync_cmd = ["rsync", "-a", "--delete"]
 
-            if self._source.is_remote():
-                assert isinstance(self._source.runner, SshRunner)
-                rsync_cmd += [
-                    "-e",
-                    self._source.runner.ssh_transport(),
-                    self._source.runner.remote(source_ref),
-                    f"{self._destination_path}/",
-                ]
-            else:
-                rsync_cmd += [source_ref, f"{self._destination_path}/"]
+            assert isinstance(self._source.runner, SshRunner)
+            rsync_cmd += [
+                "-e",
+                self._source.runner.ssh_transport(),
+                self._source.runner.remote(source_ref),
+                f"{self._destination_path}/",
+            ]
 
             self._rsync_runner.run(rsync_cmd)
         finally:

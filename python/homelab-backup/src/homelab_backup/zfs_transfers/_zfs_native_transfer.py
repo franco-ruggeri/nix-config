@@ -7,8 +7,7 @@ from homelab_backup.zfs_transfers._zfs_transfer import ZfsTransfer
 
 class ZfsNativeTransfer(ZfsTransfer):
     def __init__(self, source: ZfsDataset, destination: ZfsDataset) -> None:
-        super().__init__()
-        self._source = source
+        super().__init__(source)
         self._destination = destination
 
     def transfer(self) -> None:
@@ -27,8 +26,8 @@ class ZfsNativeTransfer(ZfsTransfer):
 
         source_last = self._source.snapshot_ref(last_name)
         source_current = self._source.snapshot_ref(current_name)
-        has_source_last = self._source._snapshot_exists(last_name)
-        has_dest_last = self._destination._snapshot_exists(last_name)
+        has_source_last = self._source.snapshot_exists(last_name)
+        has_dest_last = self._destination.snapshot_exists(last_name)
         use_incremental = has_source_last and has_dest_last
 
         send_cmd = ["zfs", "send"]
