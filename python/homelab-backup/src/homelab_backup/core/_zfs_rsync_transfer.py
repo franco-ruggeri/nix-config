@@ -1,4 +1,5 @@
 from pathlib import Path
+import logging
 
 from homelab_backup.core._zfs_dataset import ZfsDataset
 from homelab_backup.core._zfs_transfer import ZfsTransfer
@@ -13,7 +14,7 @@ class ZfsRsyncTransfer(ZfsTransfer):
         destination_path: Path,
         rsync_runner: Runner,
     ) -> None:
-        super().__init__(source)
+        super().__init__(source=source)
         self._destination_path = destination_path
         self._rsync_runner = rsync_runner
 
@@ -36,5 +37,8 @@ class ZfsRsyncTransfer(ZfsTransfer):
             ]
 
             self._rsync_runner.run(rsync_cmd)
+        except Exception:
+            logging.exception("ZfsRsyncTransfer: transfer failed for %s", self._source.name)
+            raise
         finally:
             self._source.destroy_snapshot(snapshot_name)
