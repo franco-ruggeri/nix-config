@@ -11,20 +11,18 @@ class ZfsRsyncTransfer(ZfsTransfer):
     def __init__(
         self,
         source: ZfsDataset,
-        destination_path: Path,
+        dest_path: Path,
     ) -> None:
         super().__init__(source=source)
-        self._destination_path = destination_path
+        self._dest_path = dest_path
         self._rsync_runner = LocalRunner()
 
     def transfer(self) -> None:
+        snapshot_name = f"{self._prefix}-current"
+        self._source.create_snapshot(snapshot_name)
         try:
-            logging.info("Starting ZFS rsync transfer for %s", self._source.name)
-
-            snapshot_name = f"{self._prefix}-current"
-            self._source.create_snapshot(snapshot_name)
             snapshot_path = self._source.snapshot_path(snapshot_name)
-            self._rsync_runner.run(["mkdir", "-p", str(self._destination_path)])
+            self._rsync_runner.run(["mkdir", "-p", str(self._dest_path)])
 
             source_ref = str(snapshot_path) + "/"
             rsync_cmd = ["rsync", "-a", "--delete"]
@@ -34,7 +32,7 @@ class ZfsRsyncTransfer(ZfsTransfer):
                 "-e",
                 self._source.runner.ssh_transport(),
                 self._source.runner.remote(source_ref),
-                f"{self._destination_path}/",
+                f"{self._dest_path}/",
             ]
 
             self._rsync_runner.run(rsync_cmd)

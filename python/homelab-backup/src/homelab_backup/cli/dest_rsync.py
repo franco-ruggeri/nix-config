@@ -18,10 +18,10 @@ def main() -> None:
                 user=os.environ["SOURCE_USER"],
             ),
         )
-        destination_path = Path(os.environ["RSYNC_DEST_PATH"]).expanduser()
+        dest_path = Path(os.environ["RSYNC_DEST_PATH"]).expanduser()
         zfs_transfer = ZfsRsyncTransfer(
             source=source,
-            destination_path=destination_path,
+            dest_path=dest_path,
         )
         zfs_transfer.transfer()
 

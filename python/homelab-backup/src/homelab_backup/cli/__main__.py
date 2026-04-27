@@ -1,21 +1,21 @@
 import argparse
 import logging
 
-from homelab_backup.cli import dst_rsync, dst_zfs, src
+from homelab_backup.cli import dest_rsync, dest_zfs, source
 
 
 def main() -> None:
     logging.basicConfig(level=logging.INFO)
     parser = argparse.ArgumentParser(prog="homelab-backup")
-    parser.add_argument("command", choices=["src", "dst-zfs", "dst-rsync"])
+    parser.add_argument("command", choices=["source", "dest-zfs", "dest-rsync"])
     args = parser.parse_args()
 
-    if args.command == "src":
-        src.main()
-    elif args.command == "dst-zfs":
-        dst_zfs.main()
-    elif args.command == "dst-rsync":
-        dst_rsync.main()
+    if args.command == "source":
+        source.main()
+    elif args.command == "dest-zfs":
+        dest_zfs.main()
+    elif args.command == "dest-rsync":
+        dest_rsync.main()
     else:
         raise ValueError(f"Unknown command: {args.command}")
 

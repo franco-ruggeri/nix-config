@@ -9,11 +9,11 @@
   ...
 }:
 let
-  cfg = config.myModules.system.homelab.backup.src;
+  cfg = config.myModules.system.homelab.backup.source;
   homelabBackup = myLib.mkPythonApplication "homelab-backup";
 in
 {
-  options.myModules.system.homelab.backup.src.enable =
+  options.myModules.system.homelab.backup.source.enable =
     lib.mkEnableOption "Enable backup source for homelab";
 
   config = lib.mkIf cfg.enable {
@@ -37,11 +37,11 @@ in
     ];
 
     systemd = {
-      services.homelab-backup-src = {
+      services.homelab-backup-source = {
         description = "Homelab backup source";
         serviceConfig = {
           Type = "oneshot";
-          ExecStart = "${homelabBackup}/bin/homelab-backup src";
+          ExecStart = "${homelabBackup}/bin/homelab-backup source";
           Environment = [
             "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
             "RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path}"
@@ -49,7 +49,7 @@ in
           ];
         };
       };
-      timers.homelab-backup-src = {
+      timers.homelab-backup-source = {
         description = "Homelab backup source";
         wantedBy = [ "timers.target" ];
         timerConfig = {

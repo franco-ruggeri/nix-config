@@ -9,11 +9,11 @@
   ...
 }:
 let
-  cfg = config.myModules.system.homelab.backup.dst;
+  cfg = config.myModules.system.homelab.backup.dest;
   homelabBackup = myLib.mkPythonApplication "homelab-backup";
 in
 {
-  options.myModules.system.homelab.backup.dst = {
+  options.myModules.system.homelab.backup.dest = {
     enable = lib.mkEnableOption "Enable backup destination for homelab";
     sourceHost = lib.mkOption {
       type = lib.types.str;
@@ -38,11 +38,11 @@ in
     ];
 
     systemd = {
-      services.homelab-backup-dst = {
+      services.homelab-backup-dest = {
         description = "Homelab backup destination";
         serviceConfig = {
           Type = "oneshot";
-          ExecStart = "${homelabBackup}/bin/homelab-backup dst-zfs";
+          ExecStart = "${homelabBackup}/bin/homelab-backup dest-zfs";
           Environment = [
             "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
             "SOURCE_HOST=${cfg.sourceHost}"
@@ -50,7 +50,7 @@ in
             "RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path}"
             "SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path}"
           ];
-          ExecStartPre = pkgs.writeShellScript "homelab-backup-zfs-pull-pre" ''
+          ExecStartPre = pkgs.writeShellScript "homelab-backup-dest-pre" ''
             echo "Waiting for WireGuard to be ready..."
             until wg show wg0 latest-handshakes | awk '{print $2}' | grep -qv '^0$'; do
               sleep 5
@@ -58,7 +58,7 @@ in
           '';
         };
       };
-      timers.homelab-backup-dst = {
+      timers.homelab-backup-dest = {
         description = "Homelab backup destination";
         wantedBy = [ "timers.target" ];
         timerConfig = {

@@ -38,10 +38,10 @@ in
     ];
 
     launchd.agents = {
-      homelab-backup-dst = {
+      homelab-backup-dest = {
         enable = true;
         config = {
-          Label = "org.nixos.homelab-backup-dst";
+          Label = "org.nixos.homelab-backup-dest";
           # In EnvironmentVariables, the home-manager command to get the agenix path would not be expanded.
           # So we have to export the environment variables with agenix secrets in ProgramArguments.
           ProgramArguments = [
@@ -51,7 +51,7 @@ in
               export RESTIC_REPOSITORY_FILE=${cfg.resticRepositoryFile} && \
               export RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path} && \
               export SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path} && \
-              ${homelabBackup}/bin/homelab-backup dst-rsync
+              ${homelabBackup}/bin/homelab-backup dest-rsync
             ''
           ];
           StartCalendarInterval = [
@@ -63,8 +63,8 @@ in
           EnvironmentVariables = {
             PATH = "${config.home.homeDirectory}/.nix-profile/bin:/usr/bin:/bin:/usr/sbin:/sbin";
           };
-          StandardOutPath = "${config.home.homeDirectory}/Library/Logs/homelab-backup-restic/out.log";
-          StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/homelab-backup-restic/error.log";
+          StandardOutPath = "${config.home.homeDirectory}/Library/Logs/homelab-backup-dest/out.log";
+          StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/homelab-backup-dest/error.log";
         };
       };
     };
