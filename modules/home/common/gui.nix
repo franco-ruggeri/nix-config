@@ -17,7 +17,6 @@ in
         zotero
         bitwarden-desktop
         telegram-desktop
-        spotify
         discord
         super-productivity
         zoom-us

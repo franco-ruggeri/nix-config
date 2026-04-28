@@ -23,6 +23,7 @@ in
         polychromatic
         shotcut
         inkscape
+        spotify
       ];
 
       pointerCursor = {
