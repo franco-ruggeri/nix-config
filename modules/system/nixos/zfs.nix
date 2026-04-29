@@ -16,12 +16,6 @@ in
 
     services.zfs.autoSnapshot = {
       enable = true;
-      # Only daily snapshots, as restic backups are done daily.
-      # Keep last 7 days (default) to have a large margin for restic backups to finish.
-      frequent = 0;
-      hourly = 0;
-      weekly = 0;
-      monthly = 0;
       flags = "--utc";
     };
   };
