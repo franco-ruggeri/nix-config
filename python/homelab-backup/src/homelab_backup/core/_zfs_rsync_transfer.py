@@ -19,7 +19,9 @@ class ZfsRsyncTransfer(ZfsTransfer):
 
     def transfer(self) -> None:
         try:
-            snapshot_name = f"{self._prefix}-current"
+            logging.info("ZFS: Starting ZFS rsync transfer for %s", self._src.name)
+
+            snapshot_name = f"{self._hostname}-current"
             self._src.create_snapshot(snapshot_name)
             snapshot_path = self._src.snapshot_path(snapshot_name)
             self._rsync_runner.run(["mkdir", "-p", str(self._dst_path)])
@@ -43,7 +45,7 @@ class ZfsRsyncTransfer(ZfsTransfer):
 
             self._rsync_runner.run(rsync_cmd)
         except Exception:
-            logging.exception("ZfsRsyncTransfer: transfer failed for %s", self._src.name)
+            logging.exception("ZFS: transfer failed for %s", self._src.name)
             raise
         finally:
             self._src.destroy_snapshot(snapshot_name)

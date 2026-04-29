@@ -10,10 +10,10 @@ class ZfsTransfer(ABC):
         if not src.is_remote:
             raise ValueError(f"ZfsTransfer src must be a remote dataset, got local: {src.name}")
         self._src = src
-        self._prefix = self._get_prefix()
+        self._hostname = self._get_hostname()
 
     @staticmethod
-    def _get_prefix() -> str:
+    def _get_hostname() -> str:
         raw_hostname = subprocess.run(["hostname", "-s"], capture_output=True, text=True).stdout.strip()
         if not raw_hostname:
             raise Exception("Could not determine local hostname for snapshot prefix.")
