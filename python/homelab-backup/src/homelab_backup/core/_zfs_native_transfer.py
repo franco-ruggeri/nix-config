@@ -14,10 +14,10 @@ class ZfsNativeTransfer(ZfsTransfer):
 
     def transfer(self) -> None:
         try:
-            logging.info("Starting ZFS native transfer for %s", self._src.name)
+            logging.info("ZFS: Starting ZFS native transfer for %s", self._src.name)
 
-            last_name = f"{self._prefix}-last"
-            current_name = f"{self._prefix}-current"
+            last_name = f"{self._hostname}-last"
+            current_name = f"{self._hostname}-current"
 
             self._src.create_snapshot(current_name)
 
@@ -27,23 +27,22 @@ class ZfsNativeTransfer(ZfsTransfer):
             has_dst_last = self._dst.has_snapshot(last_name)
             use_incremental = has_src_last and has_dst_last
 
-            send_cmd = ["zfs", "send"]
+            send_cmd = ["zfs", "send", "-v"]
             if use_incremental:
                 send_cmd += ["-I", src_last]
                 logging.info(
-                    "Running incremental replication for %s from %s to %s",
+                    "ZFS: Running incremental replication for %s from %s to %s",
                     self._src.name,
                     src_last,
                     src_current,
                 )
             else:
-                logging.info("Running full replication for %s", src_current)
+                logging.info("ZFS: Running full replication for %s", src_current)
             send_cmd += [src_current]
 
             send_proc = subprocess.Popen(
                 self._src.runner.build(send_cmd),
                 stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
             )
             recv_proc = subprocess.Popen(
                 self._dst.runner.build(["zfs", "receive", "-F", self._dst.name]),
@@ -55,13 +54,12 @@ class ZfsNativeTransfer(ZfsTransfer):
                 send_proc.stdout.close()
 
             recv_stdout, recv_stderr = recv_proc.communicate()
-            send_stderr = send_proc.stderr.read() if send_proc.stderr else b""
             send_rc = send_proc.wait()
 
             if send_rc != 0:
-                raise Exception(f"zfs send failed:\n{send_stderr.decode(errors='replace')}")
+                raise Exception(f"ZFS: zfs send failed with exit code {send_rc} (see stderr above)")
             if recv_proc.returncode != 0:
-                raise Exception(f"zfs receive failed:\n{recv_stderr.decode(errors='replace')}")
+                raise Exception(f"ZFS: zfs receive failed:\n{recv_stderr.decode(errors='replace')}")
             if recv_stdout:
                 logging.info(recv_stdout.decode(errors="replace").strip())
 
