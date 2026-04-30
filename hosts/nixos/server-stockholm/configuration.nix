@@ -19,7 +19,6 @@
         enable = true;
         srcHost = "10.34.0.2";
         srcUser = "franco";
-        fullTransfer = false;
       };
 
       # Staging
