@@ -23,6 +23,7 @@ in
       type = lib.types.str;
       description = "User on the source host to connect as via SSH.";
     };
+    fullTransfer = lib.mkEnableOption "Force full ZFS transfer. Use only for the initial transfer.";
   };
 
   config = lib.mkIf cfg.enable {
@@ -42,7 +43,7 @@ in
         description = "Homelab backup destination";
         serviceConfig = {
           Type = "oneshot";
-          ExecStart = "${homelabBackup}/bin/homelab-backup dst-zfs";
+          ExecStart = "${homelabBackup}/bin/homelab-backup dst-zfs${lib.optionalString cfg.fullTransfer " --full"}";
           Environment = [
             "PATH=/run/current-system/sw/bin/:/usr/bin:/bin:/usr/sbin:/sbin"
             "SRC_HOST=${cfg.srcHost}"
