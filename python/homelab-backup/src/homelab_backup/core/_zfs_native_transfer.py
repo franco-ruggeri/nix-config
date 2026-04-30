@@ -6,12 +6,11 @@ from homelab_backup.core._zfs_transfer import ZfsTransfer
 
 
 class ZfsNativeTransfer(ZfsTransfer):
-    def __init__(self, src: ZfsDataset, dst: ZfsDataset, full: bool) -> None:
+    def __init__(self, src: ZfsDataset, dst: ZfsDataset) -> None:
         super().__init__(src=src)
         if dst.is_remote:
             raise ValueError(f"ZfsNativeTransfer dst must be a local dataset, got remote: {dst.name}")
         self._dst = dst
-        self._full = full
 
     def transfer(self) -> None:
         try:
@@ -19,15 +18,17 @@ class ZfsNativeTransfer(ZfsTransfer):
 
             last_name = f"{self._hostname}-last"
             current_name = f"{self._hostname}-current"
+
             self._src.create_snapshot(current_name)
+
             src_last = self._src.snapshot_ref(last_name)
             src_current = self._src.snapshot_ref(current_name)
+            has_src_last = self._src.has_snapshot(last_name)
+            has_dst_last = self._dst.has_snapshot(last_name)
+            use_incremental = has_src_last and has_dst_last
 
             send_cmd = ["zfs", "send"]
-            if self._full:
-                send_cmd += ["-R"]
-                logging.info("ZFS: Running full replication (forced) for %s", src_current)
-            elif self._src.has_snapshot(last_name) and self._dst.has_snapshot(last_name):
+            if use_incremental:
                 send_cmd += ["-I", src_last]
                 logging.info(
                     "ZFS: Running incremental replication for %s from %s to %s",
@@ -36,7 +37,7 @@ class ZfsNativeTransfer(ZfsTransfer):
                     src_current,
                 )
             else:
-                raise Exception(f"ZFS: Cannot run incremental transfer for {self._src.name}")
+                logging.info("ZFS: Running full replication for %s", src_current)
             send_cmd += [src_current]
 
             send_proc = subprocess.Popen(

@@ -7,7 +7,7 @@ from homelab_backup.shell import LocalRunner, SshRunner
 from homelab_backup.smtp import EmailNotifier
 
 
-def main(full: bool) -> None:
+def main() -> None:
     try:
         now = datetime.now()
         src = ZfsDataset(
@@ -19,7 +19,7 @@ def main(full: bool) -> None:
         )
         dst = ZfsDataset(name=BACKUP_DATASET, runner=LocalRunner())
 
-        zfs_transfer = ZfsNativeTransfer(src=src, dst=dst, full=full)
+        zfs_transfer = ZfsNativeTransfer(src=src, dst=dst)
         zfs_transfer.transfer()
 
         restic_repository = ResticRepository(path=dst.mountpoint)
