@@ -37,6 +37,7 @@ class ZfsNativeTransfer(ZfsTransfer):
                     src_current,
                 )
             else:
+                send_cmd += ["-R"]
                 logging.info("ZFS: Running full replication for %s", src_current)
             send_cmd += [src_current]
 
