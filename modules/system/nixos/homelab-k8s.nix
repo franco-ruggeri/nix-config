@@ -12,7 +12,10 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    environment.etc = myLib.mkEtcFiles [ "rancher/k3s/config.yaml" ];
+    environment.etc = myLib.mkEtcFiles [
+      "rancher/k3s/config.yaml"
+      "sysctl.d/99-k3s.conf"
+    ];
 
     networking = {
       firewall = {
@@ -59,13 +62,5 @@ in
       BindPaths = "/run/current-system/sw/bin:/bin";
     };
 
-    # Hardening guide
-    # See https://docs.k3s.io/security/hardening-guide#configuration-for-kubernetes-components
-    boot.kernel.sysctl = {
-      "vm.panic_on_oom" = 0;
-      "vm.overcommit_memory" = 1;
-      "kernel.panic" = 10;
-      "kernel.panic_on_oops" = 1;
-    };
   };
 }
