@@ -45,6 +45,9 @@ in
             "--disable=traefik"
             "--disable=servicelb"
             "--disable=local-storage"
+            # Hardening guide
+            # See https://docs.k3s.io/security/hardening-guide#configuration-for-kubernetes-components
+            "--secrets-encryption"
           ];
       };
       openiscsi = {
