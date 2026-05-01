@@ -1,36 +1,21 @@
 { pkgs, lib }:
 rec {
-  dotfilesConfigDir = ../dotfiles/config;
-  dotfilesLocalDir = ../dotfiles/local;
-  etcDir = ../etc;
+  dotfilesDir = ../files/dot;
+  etcDir = ../files/etc;
   pythonDir = ../python;
   secretsDir = ../secrets;
 
-  mkConfigDotfiles =
+  mkDotfiles =
     paths:
     let
-      mkConfigDir = map (path: {
+      mkDotfilesEntry = map (path: {
         name = path;
         value = {
-          source = dotfilesConfigDir + "/${path}";
+          source = dotfilesDir + "/${path}";
           recursive = true;
         };
       });
-      dotfiles = builtins.listToAttrs (mkConfigDir paths);
-    in
-    dotfiles;
-
-  mkLocalDotfiles =
-    paths:
-    let
-      mkLocalDir = map (path: {
-        name = ".local/${path}";
-        value = {
-          source = dotfilesLocalDir + "/${path}";
-          recursive = true;
-        };
-      });
-      dotfiles = builtins.listToAttrs (mkLocalDir paths);
+      dotfiles = builtins.listToAttrs (mkDotfilesEntry paths);
     in
     dotfiles;
 

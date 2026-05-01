@@ -29,7 +29,7 @@ modules/              # Reusable opt-in modules (home/ and system/)
   system/             #   common/, nixos/, darwin/
 lib/                  # Shared helper functions (myLib)
 pkgs/                 # Custom packages via overlay
-dotfiles/             # Raw config files (config/ → ~/.config, local/ → ~/.local)
+files/                # Managed files (dot/ → ~/.config + ~/.local, etc/ → /etc)
 scripts/              # Python scripts used by homelab modules
 secrets/              # agenix-encrypted .age files + secrets.nix (public keys)
 ```
@@ -190,9 +190,9 @@ age.secrets =
 `myLib` is injected via `specialArgs` (NixOS/Darwin) or `extraSpecialArgs`
 (home-manager). Use it for:
 
-- `myLib.mkConfigDotfiles [ "nvim" "tmux" ]` — install dotfiles from
-  `dotfiles/config/`
-- `myLib.mkLocalDotfiles [ "share/hypr" ]` — install from `dotfiles/local/`
+- `myLib.mkDotfiles [ ".config/nvim" ".config/tmux" ]` — install dotfiles from
+  `files/dot/`
+- `myLib.mkDotfiles [ ".local/share/hypr" ]` — install from `files/dot/`
 - `myLib.mkSecrets [ "secret-name" ]` — generate `age.secrets` entries
 - `myLib.mkWireguardSecrets [ "wg-key" ]` — secrets with WireGuard-specific
   permissions

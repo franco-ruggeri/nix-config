@@ -35,8 +35,8 @@ in
         hyprcursor.enable = true;
       };
 
-      file = myLib.mkLocalDotfiles [
-        "share/hypr"
+      file = myLib.mkDotfiles [
+        ".local/share/hypr"
       ];
     };
 
@@ -61,12 +61,12 @@ in
     };
 
     xdg = {
-      configFile = myLib.mkConfigDotfiles [
-        "dunst"
-        "hypr"
-        "pipewire"
-        "waybar"
-        "wofi"
+      configFile = myLib.mkDotfiles [
+        ".config/dunst"
+        ".config/hypr"
+        ".config/pipewire"
+        ".config/waybar"
+        ".config/wofi"
       ];
       userDirs = {
         enable = true;

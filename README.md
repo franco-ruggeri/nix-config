@@ -55,7 +55,7 @@ The repository is structured as follows:
 
 ```bash
 .
-├── dotfiles
+├── files
 │   ├── config
 │   └── local
 ├── flake
@@ -73,9 +73,10 @@ The repository is structured as follows:
 
 where:
 
-- `dotfiles`:
-  - `dotfiles/config` contains dotfiles installed at `~/.config`.
-  - `dotfiles/local` contains dotfiles installed at `~/.local`.
+- `files`:
+  - `files/dot/.config` contains dotfiles installed at `~/.config`.
+  - `files/dot/.local` contains dotfiles installed at `~/.local`.
+  - `files/etc` contains repo-managed `/etc` files.
 - `flake` contains [flake parts](https://flake.parts/).
 - `hosts`:
   - `hosts/nixos` contains system configurations for NixOS machines.
