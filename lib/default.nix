@@ -26,7 +26,6 @@ rec {
         name = path;
         value = {
           source = etcDir + "/${path}";
-          recursive = true;
         };
       });
       etcFiles = builtins.listToAttrs (mkEtcEntry paths);
