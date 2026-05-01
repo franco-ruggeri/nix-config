@@ -1,5 +1,5 @@
 # Based on https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/cluster/k3s/docs/USAGE.md
-{ config, lib, ... }:
+{ config, lib, myLib, ... }:
 let
   cfg = config.myModules.system.homelab.k8s;
   group = "homelab-admin";
@@ -12,6 +12,8 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    environment.etc = myLib.mkEtcFiles [ "rancher/k3s/config.yaml" ];
+
     networking = {
       firewall = {
         allowedTCPPorts = [
@@ -32,26 +34,12 @@ in
         role = "server";
         clusterInit = true;
         tokenFile = cfg.tokenFile;
-        extraFlags =
-          # Change CIDRs for non-production clusters so that non-production k8s
-          # nodes can still use the production services (VPN, DNS, services).
-          lib.optionals (!cfg.production) [
-            "--cluster-cidr=10.45.0.0/16"
-            "--service-cidr=10.46.0.0/16"
-          ]
-          ++ [
-            "--write-kubeconfig-mode=640"
-            "--write-kubeconfig-group=${group}"
-            "--disable=traefik"
-            "--disable=servicelb"
-            "--disable=local-storage"
-            # Hardening guide
-            # See https://docs.k3s.io/security/hardening-guide#configuration-for-kubernetes-components
-            # ====================
-            "--secrets-encryption"
-            "--protect-kernel-defaults"
-            # ====================
-          ];
+        # Change CIDRs for non-production clusters so that non-production k8s
+        # nodes can still use the production services (VPN, DNS, services).
+        extraFlags = lib.mkIf (!cfg.production) [
+          "--cluster-cidr=10.45.0.0/16"
+          "--service-cidr=10.46.0.0/16"
+        ];
       };
       openiscsi = {
         enable = true; # for longhorn

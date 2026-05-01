@@ -2,6 +2,7 @@
 rec {
   dotfilesConfigDir = ../dotfiles/config;
   dotfilesLocalDir = ../dotfiles/local;
+  etcDir = ../etc;
   pythonDir = ../python;
   secretsDir = ../secrets;
 
@@ -32,6 +33,20 @@ rec {
       dotfiles = builtins.listToAttrs (mkLocalDir paths);
     in
     dotfiles;
+
+  mkEtcFiles =
+    paths:
+    let
+      mkEtcEntry = map (path: {
+        name = path;
+        value = {
+          source = etcDir + "/${path}";
+          recursive = true;
+        };
+      });
+      etcFiles = builtins.listToAttrs (mkEtcEntry paths);
+    in
+    etcFiles;
 
   fromJSON = file: builtins.fromJSON (builtins.unsafeDiscardStringContext file);
 

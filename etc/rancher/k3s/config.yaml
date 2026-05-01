@@ -1,0 +1,10 @@
+write-kubeconfig-mode: "640"
+write-kubeconfig-group: "homelab-admin"
+disable:
+  - traefik
+  - servicelb
+  - local-storage
+# Hardening guide
+# See https://docs.k3s.io/security/hardening-guide#configuration-for-kubernetes-components
+secrets-encryption: true
+protect-kernel-defaults: true
