@@ -1,5 +1,10 @@
 # Based on https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/cluster/k3s/docs/USAGE.md
-{ config, lib, myLib, ... }:
+{
+  config,
+  lib,
+  myLib,
+  ...
+}:
 let
   cfg = config.myModules.system.homelab.k8s;
   group = "homelab-admin";
@@ -14,6 +19,7 @@ in
   config = lib.mkIf cfg.enable {
     environment.etc = myLib.mkEtcFiles [
       "rancher/k3s/config.yaml"
+      "rancher/k3s/psa.yaml"
       "sysctl.d/99-k3s.conf"
     ];
 
