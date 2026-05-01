@@ -47,7 +47,10 @@ in
             "--disable=local-storage"
             # Hardening guide
             # See https://docs.k3s.io/security/hardening-guide#configuration-for-kubernetes-components
+            # ====================
             "--secrets-encryption"
+            "--protect-kernel-defaults"
+            # ====================
           ];
       };
       openiscsi = {
@@ -66,6 +69,15 @@ in
       # See https://github.com/longhorn/longhorn/issues/2166
       PrivateMounts = "yes";
       BindPaths = "/run/current-system/sw/bin:/bin";
+    };
+
+    # Hardening guide
+    # See https://docs.k3s.io/security/hardening-guide#configuration-for-kubernetes-components
+    boot.kernel.sysctl = {
+      "vm.panic_on_oom" = 0;
+      "vm.overcommit_memory" = 1;
+      "kernel.panic" = 10;
+      "kernel.panic_on_oops" = 1;
     };
   };
 }
