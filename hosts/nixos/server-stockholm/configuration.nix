@@ -24,8 +24,7 @@
       # Staging
       nfs = {
         enable = true;
-        rwIPs = [ "10.34.0.6/32" ];
-        roIPs = [ ];
+        allowedIPs = [ "10.34.0.6/32" ];
         production = false;
       };
       k8s = {

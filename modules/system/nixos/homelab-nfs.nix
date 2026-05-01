@@ -8,16 +8,15 @@
 }:
 let
   cfg = config.myModules.system.homelab.nfs;
-  rwIPs =
-    cfg.rwIPs
+  allowedIPs =
+    cfg.allowedIPs
     ++ lib.optionals cfg.production [ "10.42.0.0/16" ]
     ++ lib.optionals (!cfg.production) [ "10.45.0.0/16" ];
 in
 {
   options.myModules.system.homelab.nfs = {
     enable = lib.mkEnableOption "Enable NFS server for homelab";
-    rwIPs = lib.mkOption { type = lib.types.listOf lib.types.str; };
-    roIPs = lib.mkOption { type = lib.types.listOf lib.types.str; };
+    allowedIPs = lib.mkOption { type = lib.types.listOf lib.types.str; };
     production = lib.mkOption { type = lib.types.bool; };
   };
 
@@ -51,28 +50,18 @@ in
         };
       };
 
-    # The no_root_squash option is needed:
-    # * read-write: for NextCloud to work property.
-    #   See https://github.com/nextcloud/helm/issues/588
-    # * read-only: for backup servers to be able to read files as root.
+    # The no_root_squash option is needed for NextCloud to work property.
+    # See https://github.com/nextcloud/helm/issues/588
     services.nfs.server =
       let
-        rwOptions = "rw,no_root_squash";
-        roOptions = "ro,no_root_squash,crossmnt";
-        rootOptions = "${roOptions},fsid=0";
         rootExport = myLib.mkNfsExport {
-          allowedIPs = rwIPs ++ cfg.roIPs;
-          options = rootOptions;
+          allowedIPs = allowedIPs;
+          options = "ro,no_root_squash,crossmnt,fsid=0";
         };
-        rwExport = myLib.mkNfsExport {
-          allowedIPs = rwIPs;
-          options = rwOptions;
+        nonRootExport = myLib.mkNfsExport {
+          allowedIPs = allowedIPs;
+          options = "rw,no_root_squash";
         };
-        roExport = myLib.mkNfsExport {
-          allowedIPs = cfg.roIPs;
-          options = roOptions;
-        };
-        nonRootExport = "${rwExport} ${roExport}";
       in
       {
         enable = true;

@@ -12,14 +12,7 @@
     homelab = {
       nfs = {
         enable = true;
-        # Read-write access from K8s nodes and K8s cluster
-        rwIPs = [ "10.34.0.2/32" ];
-        # Read-only access from backup servers
-        roIPs = [
-          "10.34.0.3/32"
-          "10.34.0.5/32"
-          "10.34.0.6/32"
-        ];
+        allowedIPs = [ "10.34.0.2/32" ];
         production = true;
       };
       k8s = {
