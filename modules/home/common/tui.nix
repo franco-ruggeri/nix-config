@@ -116,7 +116,7 @@ in
       oh-my-posh = {
         enable = true;
         enableZshIntegration = true;
-        settings = myLib.fromJSON (builtins.readFile (myLib.dotfilesDir + "/.config/oh-my-posh/config.json"));
+        settings = myLib.fromJSON (builtins.readFile (myLib.dotfilesDir + "/config/oh-my-posh/config.json"));
       };
       htop.enable = true;
       fzf = {
@@ -146,12 +146,12 @@ in
           '';
         };
       in
-      myLib.mkDotfiles [
-        ".config/opencode"
-        ".config/nvim"
-        ".config/tmux"
-        ".config/zsh"
-        ".config/git"
+      myLib.mkConfigFiles [
+        "opencode"
+        "nvim"
+        "tmux"
+        "zsh"
+        "git"
       ]
       // nvim_constants;
   };

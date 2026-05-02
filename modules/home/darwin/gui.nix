@@ -19,13 +19,13 @@ in
       aerospace = {
         enable = true;
         userSettings = builtins.fromTOML (
-          builtins.readFile (myLib.dotfilesDir + "/.config/aerospace/aerospace.toml")
+          builtins.readFile (myLib.dotfilesDir + "/config/aerospace/aerospace.toml")
         );
       };
     };
 
-    xdg.configFile = myLib.mkDotfiles [
-      ".config/karabiner"
+    xdg.configFile = myLib.mkConfigFiles [
+      "karabiner"
     ];
   };
 }

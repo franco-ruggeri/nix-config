@@ -5,13 +5,27 @@ rec {
   pythonDir = ../python;
   secretsDir = ../secrets;
 
-  mkDotfiles =
+  mkLocalFiles =
+    paths:
+    let
+      mkDotfilesEntry = map (path: {
+        name = ".local/${path}";
+        value = {
+          source = dotfilesDir + "/local/${path}";
+          recursive = true;
+        };
+      });
+      dotfiles = builtins.listToAttrs (mkDotfilesEntry paths);
+    in
+    dotfiles;
+
+  mkConfigFiles =
     paths:
     let
       mkDotfilesEntry = map (path: {
         name = path;
         value = {
-          source = dotfilesDir + "/${path}";
+          source = dotfilesDir + "/config/${path}";
           recursive = true;
         };
       });

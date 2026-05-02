@@ -31,10 +31,10 @@ in
       mpv.enable = true;
     };
 
-    xdg.configFile = myLib.mkDotfiles [
-      ".config/ghostty"
-      ".config/mpv"
-      ".config/discord"
+    xdg.configFile = myLib.mkConfigFiles [
+      "ghostty"
+      "mpv"
+      "discord"
     ];
   };
 }
