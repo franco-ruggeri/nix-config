@@ -19,7 +19,7 @@ in
   config = lib.mkIf cfg.enable {
     environment.etc = myLib.mkEtcFiles [
       "rancher/k3s/config.yaml"
-      "rancher/k3s/psa.yaml"
+      "rancher/k3s/admission.yaml"
       "rancher/k3s/audit.yaml"
       "sysctl.d/99-k3s.conf"
     ];

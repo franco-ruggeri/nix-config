@@ -11,7 +11,7 @@ secrets-encryption: true
 protect-kernel-defaults: true
 kube-apiserver-arg:
   - "enable-admission-plugins=NodeRestriction,EventRateLimit"
-  - "admission-control-config-file=/etc/rancher/k3s/psa.yaml"
+  - "admission-control-config-file=/etc/rancher/k3s/admission.yaml"
   - "audit-log-path=/var/lib/rancher/k3s/server/logs/audit.log"
   - "audit-policy-file=/var/lib/rancher/k3s/server/audit.yaml"
   - "audit-log-maxage=30"
