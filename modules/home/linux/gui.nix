@@ -72,21 +72,24 @@ in
         enable = true;
         createDirectories = true;
       };
-      mimeApps.defaultApplications = {
-        "inode/directory" = "nemo.desktop";
-        "text/html" = "firefox.desktop";
-        "image/svg+xml" = "org.inkscape.Inkscape.desktop";
-        "video/mp4" = "mpv.desktop";
-        "application/pdf" = "org.kde.okular.desktop";
-        "application/x-extension-htm" = "firefox.desktop";
-        "application/x-extension-html" = "firefox.desktop";
-        "application/x-extension-shtml" = "firefox.desktop";
-        "application/xhtml+xml" = "firefox.desktop";
-        "application/x-extension-xhtml" = "firefox.desktop";
-        "application/x-extension-xht" = "firefox.desktop";
-        "x-scheme-handler/http" = "firefox.desktop";
-        "x-scheme-handler/https" = "firefox.desktop";
-        "x-scheme-handler/chrome" = "firefox.desktop";
+      mimeApps = {
+        enable = true;
+        defaultApplications = {
+          "inode/directory" = "nemo.desktop";
+          "text/html" = "firefox.desktop";
+          "image/svg+xml" = "org.inkscape.Inkscape.desktop";
+          "video/mp4" = "mpv.desktop";
+          "application/pdf" = "org.kde.okular.desktop";
+          "application/x-extension-htm" = "firefox.desktop";
+          "application/x-extension-html" = "firefox.desktop";
+          "application/x-extension-shtml" = "firefox.desktop";
+          "application/xhtml+xml" = "firefox.desktop";
+          "application/x-extension-xhtml" = "firefox.desktop";
+          "application/x-extension-xht" = "firefox.desktop";
+          "x-scheme-handler/http" = "firefox.desktop";
+          "x-scheme-handler/https" = "firefox.desktop";
+          "x-scheme-handler/chrome" = "firefox.desktop";
+        };
       };
     };
 
