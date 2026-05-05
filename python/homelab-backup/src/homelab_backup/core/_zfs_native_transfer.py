@@ -24,7 +24,7 @@ class ZfsNativeTransfer(ZfsTransfer):
                 capture_output=True,
             )
             resume_token = result.stdout.strip()
-            is_resuming = resume_token not in ("", "none")
+            is_resuming = resume_token not in ("", "-", "none")
 
             if is_resuming:
                 logging.info("ZFS: Resuming interrupted transfer for %s", self._src.name)
