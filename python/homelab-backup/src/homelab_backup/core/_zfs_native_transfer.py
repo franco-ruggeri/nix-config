@@ -19,34 +19,45 @@ class ZfsNativeTransfer(ZfsTransfer):
             last_name = f"{self._hostname}-last"
             current_name = f"{self._hostname}-current"
 
-            self._src.create_snapshot(current_name)
+            result = self._dst.runner.run(
+                cmd=["zfs", "get", "-H", "-o", "value", "receive_resume_token", self._dst.name],
+                capture_output=True,
+            )
+            resume_token = result.stdout.strip()
+            is_resuming = resume_token not in ("", "none")
 
-            src_last = self._src.snapshot_ref(last_name)
-            src_current = self._src.snapshot_ref(current_name)
-            has_src_last = self._src.has_snapshot(last_name)
-            has_dst_last = self._dst.has_snapshot(last_name)
-            use_incremental = has_src_last and has_dst_last
-
-            send_cmd = ["zfs", "send"]
-            if use_incremental:
-                send_cmd += ["-I", src_last]
-                logging.info(
-                    "ZFS: Running incremental replication for %s from %s to %s",
-                    self._src.name,
-                    src_last,
-                    src_current,
-                )
+            if is_resuming:
+                logging.info("ZFS: Resuming interrupted transfer for %s", self._src.name)
+                send_cmd = ["zfs", "send", "-t", resume_token]
             else:
-                logging.info("ZFS: Running full replication for %s", src_current)
-            send_cmd += [src_current]
+                self._src.create_snapshot(current_name)
+
+                src_last = self._src.snapshot_ref(last_name)
+                src_current = self._src.snapshot_ref(current_name)
+                has_src_last = self._src.has_snapshot(last_name)
+                has_dst_last = self._dst.has_snapshot(last_name)
+                use_incremental = has_src_last and has_dst_last
+
+                send_cmd = ["zfs", "send"]
+                if use_incremental:
+                    send_cmd += ["-I", src_last]
+                    logging.info(
+                        "ZFS: Running incremental replication for %s from %s to %s",
+                        self._src.name,
+                        src_last,
+                        src_current,
+                    )
+                else:
+                    logging.info("ZFS: Running full replication for %s", src_current)
+                send_cmd += [src_current]
 
             send_proc = subprocess.Popen(
-                self._src.runner.build(send_cmd),
+                args=self._src.runner.build(send_cmd),
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
             )
             recv_proc = subprocess.Popen(
-                self._dst.runner.build(["zfs", "receive", "-F", self._dst.name]),
+                args=self._dst.runner.build(["zfs", "receive", "-F", "-s", self._dst.name]),
                 stdin=send_proc.stdout,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,

@@ -25,7 +25,7 @@ class ResticRepository:
         os.environ["RESTIC_CACHE_DIR"] = "/tmp/restic-cache"
         os.environ["RESTIC_PROGRESS_FPS"] = str(1 / 60)
         os.environ["RESTIC_FEATURES"] = "device-id-for-hardlinks"
-        return self._runner.run(cmd, capture_output=capture_output, cwd=cwd)
+        return self._runner.run(cmd=cmd, capture_output=capture_output, cwd=cwd)
 
     def ensure_initialized(self) -> None:
         try:
@@ -36,7 +36,7 @@ class ResticRepository:
 
     def backup(self, path: Path) -> None:
         logging.info("Restic: Backing up %s...", path)
-        self._run(["restic", "backup", "."], cwd=path)
+        self._run(cmd=["restic", "backup", "."], cwd=path)
         logging.info("Restic: Backup of %s completed.", path)
 
     def prune(self) -> None:
@@ -54,7 +54,7 @@ class ResticRepository:
 
     def verify_snapshot(self, path: Path) -> None:
         result = self._run(
-            ["restic", "snapshots", "--json", "--path", str(path)],
+            cmd=["restic", "snapshots", "--json", "--path", str(path)],
             capture_output=True,
         )
         snapshots = json.loads(result.stdout)

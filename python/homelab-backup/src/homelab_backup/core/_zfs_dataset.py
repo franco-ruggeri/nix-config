@@ -21,7 +21,7 @@ class ZfsDataset:
     @property
     def mountpoint(self) -> Path:
         result = self._runner.run(
-            [
+            cmd=[
                 "zfs",
                 "get",
                 "-H",
@@ -47,7 +47,7 @@ class ZfsDataset:
     def has_snapshot(self, snapshot_name: str) -> bool:
         try:
             self._runner.run(
-                [
+                cmd=[
                     "zfs",
                     "list",
                     "-H",
@@ -82,7 +82,7 @@ class ZfsDataset:
     def rename_snapshot(self, old_name: str, new_name: str) -> None:
         old_ref = self.snapshot_ref(old_name)
         new_ref = self.snapshot_ref(new_name)
-        self._runner.run(["zfs", "rename", old_ref, new_ref])
+        self._runner.run(cmd=["zfs", "rename", old_ref, new_ref])
         logging.info("ZFS: Renamed snapshot %s -> %s", old_ref, new_ref)
 
     def snapshot_path(self, snapshot_name: str) -> Path:

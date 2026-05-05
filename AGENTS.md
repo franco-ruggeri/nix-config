@@ -239,6 +239,21 @@ it for packages that need a newer version than the stable channel provides.
 
 ### Python (in `python/`)
 
+#### Keyword Arguments
+
+Use keyword arguments whenever a function call has two or more arguments:
+
+```python
+# Correct
+result = runner.run(cmd=["zfs", "list"], capture_output=True)
+subprocess.run(args=cmd, capture_output=True, text=True, cwd=cwd)
+
+# Wrong
+runner.run(["zfs", "list"], True)
+```
+
+#### Formatting and Linting
+
 Format and lint with ruff:
 
 ```bash

@@ -24,7 +24,7 @@ class ZfsRsyncTransfer(ZfsTransfer):
             snapshot_name = f"{self._hostname}-current"
             self._src.create_snapshot(snapshot_name)
             snapshot_path = self._src.snapshot_path(snapshot_name)
-            self._rsync_runner.run(["mkdir", "-p", str(self._dst_path)])
+            self._rsync_runner.run(cmd=["mkdir", "-p", str(self._dst_path)])
 
             src_ref = str(snapshot_path) + "/"
             rsync_cmd = [

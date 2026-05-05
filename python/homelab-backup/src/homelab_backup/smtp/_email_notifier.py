@@ -46,8 +46,8 @@ class EmailNotifier:
         msg.set_content(body)
 
         try:
-            with smtplib.SMTP_SSL(self._SMTP_SERVER, self._SMTP_PORT) as smtp:
-                smtp.login(self._SMTP_USER, self._smtp_password)
+            with smtplib.SMTP_SSL(host=self._SMTP_SERVER, port=self._SMTP_PORT) as smtp:
+                smtp.login(user=self._SMTP_USER, password=self._smtp_password)
                 smtp.send_message(msg)
             logging.info("Email sent to %s", self._EMAIL_RECIPIENT)
         except Exception as e:
