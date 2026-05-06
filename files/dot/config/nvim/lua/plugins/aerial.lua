@@ -8,6 +8,10 @@ return {
 		layout = {
 			default_direction = "float",
 			min_width = 0.5,
+			win_opts = {
+				number = true,
+				relativenumber = true,
+			},
 		},
 		float = {
 			relative = "editor",
