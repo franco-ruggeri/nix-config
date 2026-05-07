@@ -78,9 +78,6 @@ in
         # Python
         basedpyright
         python3Packages.debugpy
-        ruff
-        pylint
-        mypy
 
         # C/C++
         clang-tools # clangd and clang-format
@@ -116,7 +113,9 @@ in
       oh-my-posh = {
         enable = true;
         enableZshIntegration = true;
-        settings = myLib.fromJSON (builtins.readFile (myLib.dotfilesDir + "/config/oh-my-posh/config.json"));
+        settings = myLib.fromJSON (
+          builtins.readFile (myLib.dotfilesDir + "/config/oh-my-posh/config.json")
+        );
       };
       htop.enable = true;
       fzf = {
