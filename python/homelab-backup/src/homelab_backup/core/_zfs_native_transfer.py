@@ -66,13 +66,12 @@ class ZfsNativeTransfer(ZfsTransfer):
                 send_proc.stdout.close()
 
             recv_stdout, recv_stderr = recv_proc.communicate()
-            send_stderr = send_proc.stderr.read() if send_proc.stderr else b""
-            send_rc = send_proc.wait()
+            send_proc.wait()
 
-            if send_rc != 0:
-                raise Exception(f"ZFS: zfs send failed:\n{send_stderr.decode(errors='replace')}")
             if recv_proc.returncode != 0:
-                raise Exception(f"ZFS: zfs receive failed:\n{recv_stderr.decode(errors='replace')}")
+                raise Exception(f"ZFS: Receive failed:\n{recv_stderr.decode(errors='replace')}")
+            if not self._dst.has_snapshot(current_name):
+                raise Exception(f"ZFS: Receive succeeded but snapshot {current_name} not found")
             if recv_stdout:
                 logging.info(recv_stdout.decode(errors="replace").strip())
 
