@@ -44,6 +44,7 @@ class ZfsRsyncTransfer(ZfsTransfer):
             ]
 
             self._rsync_runner.run(rsync_cmd)
+            logging.info("ZFS: Rsync transfer completed successfully for %s", self._src.name)
         except Exception:
             logging.exception("ZFS: transfer failed for %s", self._src.name)
             raise

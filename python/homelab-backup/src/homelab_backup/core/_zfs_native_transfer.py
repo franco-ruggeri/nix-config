@@ -78,6 +78,8 @@ class ZfsNativeTransfer(ZfsTransfer):
             for dataset in [self._src, self._dst]:
                 dataset.destroy_snapshot(last_name)
                 dataset.rename_snapshot(current_name, last_name)
+
+            logging.info("ZFS: Native transfer completed successfully for %s", self._src.name)
         except Exception as e:
             logging.error("%s", e)
             raise
