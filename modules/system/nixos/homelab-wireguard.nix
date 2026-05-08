@@ -43,7 +43,7 @@ in
             {
               publicKey = "PqMzcV9O8M/X6EkM9OETa065Vg1mTHWaikbQR5Z55Ro=";
               allowedIPs = allowedIPs;
-              endpoint = "ruggeri.asuscomm.com:51820";
+              endpoint = "wireguard.francoruggeri.dev:51820";
               persistentKeepalive = 15;
             }
           ];
