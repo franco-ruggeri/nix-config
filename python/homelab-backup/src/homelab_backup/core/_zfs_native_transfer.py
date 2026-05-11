@@ -40,7 +40,7 @@ class ZfsNativeTransfer(ZfsTransfer):
 
                 send_cmd = ["zfs", "send"]
                 if use_incremental:
-                    send_cmd += ["-I", src_last]
+                    send_cmd += ["-i", src_last]
                     logging.info(
                         "ZFS: Running incremental replication for %s from %s to %s",
                         self._src.name,
