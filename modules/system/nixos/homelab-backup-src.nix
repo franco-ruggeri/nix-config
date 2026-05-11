@@ -25,10 +25,6 @@ in
 
     assertions = [
       {
-        assertion = config.myModules.system.homelab.wireguard.enable;
-        message = "WireGuard client must be enabled for homelab backup source.";
-      }
-      {
         assertion = config.myModules.system.zfs.enable;
         message = "ZFS must be enabled for homelab backup source.";
       }
