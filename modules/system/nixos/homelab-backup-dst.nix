@@ -37,6 +37,8 @@ in
       }
     ];
 
+    environment.systemPackages = with pkgs; [ restic ];
+
     systemd = {
       services.homelab-backup-dst = {
         description = "Homelab backup destination";
