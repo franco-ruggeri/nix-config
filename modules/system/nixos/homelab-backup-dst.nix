@@ -50,11 +50,20 @@ in
             "RESTIC_PASSWORD_FILE=${config.age.secrets.restic-password.path}"
             "SMTP_PASSWORD_FILE=${config.age.secrets.smtp-password.path}"
           ];
-          ExecStartPre = pkgs.writeShellScript "homelab-backup-dst-pre" ''
+          ExecStartPre = pkgs.writeShellScript "homelab-backup-restic-pre" ''
             echo "Waiting for WireGuard to be ready..."
             until wg show wg0 latest-handshakes | awk '{print $2}' | grep -qv '^0$'; do
               sleep 5
             done
+
+            echo "Setting RTC wakealarm for tomorrow 2 AM..."
+            echo 0 > /sys/class/rtc/rtc0/wakealarm
+            date -d "tomorrow 02:00" +%s > /sys/class/rtc/rtc0/wakealarm
+          '';
+          ExecStartPost = pkgs.writeShellScript "homelab-backup-restic-post" ''
+            echo "Shutting down in 10 seconds..."
+            sleep 10
+            systemctl poweroff
           '';
         };
       };

@@ -34,7 +34,7 @@ in
         enable = true;
         config = {
           Label = "org.nixos.homelab-backup-dst";
-          # In EnvironmentVariables, the home-manager command to get the agenix path would not be expanded.
+          # In EnvironmentVariables, the home-manager command getting the agenix path would not be expanded.
           # So we have to export the environment variables with agenix secrets in ProgramArguments.
           ProgramArguments = [
             "bash"
