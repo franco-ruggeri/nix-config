@@ -27,6 +27,7 @@ def main() -> None:
         zfs_transfer.transfer()
 
         restic_repository = ResticRepository(path=dst_path)
+        restic_repository.unlock()
         restic_repository.check_metadata()
         if datetime.now().day == 1:
             restic_repository.check_data()

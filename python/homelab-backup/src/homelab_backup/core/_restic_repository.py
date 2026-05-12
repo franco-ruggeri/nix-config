@@ -69,6 +69,10 @@ class ResticRepository:
             raise Exception(f"Restic: Snapshot size is 0 for {path}.")
         logging.info("Restic: Found valid snapshot for %s.", path)
 
+    def unlock(self) -> None:
+        self._run(["restic", "unlock", "--remove-all"])
+        logging.info("Restic: Removed all locks from repository.")
+
     def check_metadata(self) -> None:
         self._run(["restic", "check"])
         logging.info("Restic: Metadata for shared repository is valid.")
