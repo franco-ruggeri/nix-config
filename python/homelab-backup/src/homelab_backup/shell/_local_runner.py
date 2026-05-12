@@ -13,5 +13,6 @@ class LocalRunner(Runner):
         cmd: list[str],
         capture_output: bool = False,
         cwd: Path | None = None,
+        env: dict[str, str] | None = None,
     ) -> CompletedProcess[str]:
-        return self._run_cmd(cmd, capture_output=capture_output, cwd=cwd)
+        return self._run_cmd(cmd, capture_output=capture_output, cwd=cwd, env=env)

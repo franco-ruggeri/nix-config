@@ -11,10 +11,11 @@ class Runner(ABC):
         cmd: list[str],
         capture_output: bool = False,
         cwd: Path | None = None,
+        env: dict[str, str] | None = None,
     ) -> CompletedProcess[str]:
         cmd_str = " ".join(cmd)
         logging.debug(f"Running: {cmd_str} (cwd={cwd})")
-        result = subprocess.run(args=cmd, capture_output=capture_output, text=True, cwd=cwd)
+        result = subprocess.run(args=cmd, capture_output=capture_output, text=True, cwd=cwd, env=env)
         if result.returncode != 0:
             raise Exception(f"Command failed: {cmd_str}\n{result.stderr}")
         return result
@@ -29,5 +30,6 @@ class Runner(ABC):
         cmd: list[str],
         capture_output: bool = False,
         cwd: Path | None = None,
+        env: dict[str, str] | None = None,
     ) -> CompletedProcess[str]:
         raise NotImplementedError

@@ -33,6 +33,7 @@ class SshRunner(Runner):
         cmd: list[str],
         capture_output: bool = False,
         cwd: Path | None = None,
+        env: dict[str, str] | None = None,
     ) -> CompletedProcess[str]:
         if cwd is not None:
             raise Exception("cwd is not supported for remote commands.")

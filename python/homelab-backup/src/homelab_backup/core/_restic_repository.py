@@ -17,32 +17,38 @@ class ResticRepository:
 
     def _run(
         self,
-        cmd: list[str],
+        args: list[str],
         capture_output: bool = False,
         cwd: Path | None = None,
     ) -> CompletedProcess[str]:
-        os.environ["RESTIC_REPOSITORY"] = str(self._path)
-        os.environ["RESTIC_CACHE_DIR"] = "/tmp/restic-cache"
-        os.environ["RESTIC_PROGRESS_FPS"] = str(1 / 60)
-        os.environ["RESTIC_FEATURES"] = "device-id-for-hardlinks"
-        return self._runner.run(cmd=cmd, capture_output=capture_output, cwd=cwd)
+        return self._runner.run(
+            cmd=["restic"] + args,
+            capture_output=capture_output,
+            cwd=cwd,
+            env={k: v for k, v in os.environ.items() if k != "RESTIC_REPOSITORY_FILE"}
+            | {
+                "RESTIC_REPOSITORY": str(self._path),
+                "RESTIC_CACHE_DIR": "/tmp/restic-cache",
+                "RESTIC_PROGRESS_FPS": str(1 / 60),
+                "RESTIC_FEATURES": "device-id-for-hardlinks",
+            },
+        )
 
     def ensure_initialized(self) -> None:
         try:
-            self._run(["restic", "cat", "config"])
+            self._run(["cat", "config"])
         except Exception:
-            self._run(["restic", "init"])
+            self._run(["init"])
             logging.info("Restic: Initialized repository %s", self._path)
 
     def backup(self, path: Path) -> None:
         logging.info("Restic: Backing up %s...", path)
-        self._run(cmd=["restic", "backup", "."], cwd=path)
+        self._run(args=["backup", "."], cwd=path)
         logging.info("Restic: Backup of %s completed.", path)
 
     def prune(self) -> None:
         self._run(
             [
-                "restic",
                 "forget",
                 "--keep-daily=7",
                 "--keep-weekly=4",
@@ -54,7 +60,7 @@ class ResticRepository:
 
     def verify_snapshot(self, path: Path) -> None:
         result = self._run(
-            cmd=["restic", "snapshots", "--json", "--path", str(path)],
+            args=["snapshots", "--json", "--path", str(path)],
             capture_output=True,
         )
         snapshots = json.loads(result.stdout)
@@ -70,13 +76,13 @@ class ResticRepository:
         logging.info("Restic: Found valid snapshot for %s.", path)
 
     def unlock(self) -> None:
-        self._run(["restic", "unlock", "--remove-all"])
+        self._run(["unlock", "--remove-all"])
         logging.info("Restic: Removed all locks from repository.")
 
     def check_metadata(self) -> None:
-        self._run(["restic", "check"])
+        self._run(["check"])
         logging.info("Restic: Metadata for shared repository is valid.")
 
     def check_data(self) -> None:
-        self._run(["restic", "check", "--read-data"])
+        self._run(["check", "--read-data"])
         logging.info("Restic: Data for shared repository is valid.")
