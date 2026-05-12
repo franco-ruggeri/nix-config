@@ -28,8 +28,7 @@ def main() -> None:
             zfs_dataset.destroy_snapshot(_SNAPSHOT_NAME)
         restic_repository.prune()
 
-        if now.weekday() == 0:
-            restic_repository.check_metadata()
+        restic_repository.check_metadata()
         if now.day == 1:
             restic_repository.check_data()
 
