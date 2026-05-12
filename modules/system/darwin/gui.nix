@@ -27,8 +27,11 @@ in
         # WARNING: The Nix package (pkgs.inkscape) does not start on darwin.
         # See https://github.com/NixOS/nixpkgs/issues/475236
         "inkscape"
-        # WARNING: The NIx package (pkgs.spotify) does not start on darwin.
+        # WARNING: The Nix package (pkgs.spotify) does not start on darwin.
         "spotify"
+        # WARNING: Whatsapp requires to be updated often and stops starting otherwise.
+        # We install it via homebrew to avoid having to update nixpkgs-unstable often.
+        "whatsapp"
       ];
       masApps = {
         # WARNING: The Nix module (networking.wg-quick) has problems in autostarting the launchd service.
