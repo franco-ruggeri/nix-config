@@ -19,7 +19,7 @@ in
           config = rec {
             type = "webdav";
             user = "franco-ruggeri";
-            url = "https://www.nextcloud.ruggeri.ddnsfree.com/remote.php/dav/files/${user}";
+            url = "https://www.nextcloud.francoruggeri.dev/remote.php/dav/files/${user}";
             vendor = "nextcloud";
           };
           secrets = {
