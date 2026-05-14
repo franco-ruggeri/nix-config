@@ -42,6 +42,7 @@ in
         texliveFull
         rustup
         awscli2
+        gh
 
         # LSP, DAP, formatters, linteger
         # ====================
