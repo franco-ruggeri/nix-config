@@ -39,10 +39,10 @@ in
         devpod
         sops
         age
-        texliveFull
         rustup
         awscli2
         gh
+        texlive.combined.scheme-small # full is huge
 
         # LSP, DAP, formatters, linteger
         # ====================
