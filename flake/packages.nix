@@ -29,6 +29,7 @@
       permittedInsecurePackages = [
         "electron-36.9.5" # for heroic
         "electron-37.10.3" # for super-productivity
+        "openclaw-2026.4.21" # used only in sandboxed environment
       ];
       pkgsConfig = {
         allowUnfreePredicate = allowUnfreePredicate;
@@ -61,6 +62,8 @@
             super-productivity = pkgsUnstable.super-productivity;
             spotify = pkgsUnstable.spotify;
             basedpyright = pkgsUnstable.basedpyright;
+            # WARNING: openclaw is only in unstable
+            openclaw = pkgsUnstable.openclaw;
             # WARNING: The stable Nix package currently has issues with providers.
             opencode = pkgsUnstable.opencode;
             # WARNING: The stable Nix package is currently broken.
