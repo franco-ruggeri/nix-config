@@ -9,8 +9,7 @@
       },
       "models": {
         "qwen3.5:latest": {},
-        "gemma4:latest": {},
-        "deepseek-r1:latest": {}
+        "gemma4:latest": {}
       }
     },
     "amazon-bedrock": {
