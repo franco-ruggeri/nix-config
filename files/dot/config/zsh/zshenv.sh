@@ -16,4 +16,7 @@ if is_linux && [ "$XDG_CURRENT_DESKTOP" = "Hyprland" ]; then
 	export XDG_SESSION_TYPE="wayland"
 fi
 
+# Set Ollama API server for Ollama CLI
+export OLLAMA_HOST="https://api.ollama.francoruggeri.dev"
+
 source "$zsh_config_path/utils-clear.sh"

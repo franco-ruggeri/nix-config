@@ -43,6 +43,7 @@ in
         awscli2
         gh
         texlive.combined.scheme-small # full is huge
+        ollama
 
         # LSP, DAP, formatters, linteger
         # ====================
