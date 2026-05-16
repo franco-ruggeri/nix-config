@@ -1,22 +1,21 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
-    "homelab": {
+    "ollama": {
       "npm": "@ai-sdk/openai-compatible",
-      "name": "Homelab",
+      "name": "Ollama",
       "options": {
-        "baseURL": "https://api.ollama.francoruggeri.dev/v1"
+        "baseURL": "https://api.ollama.francoruggeri.dev/v1",
       },
       "models": {
-        "qwen3.5:latest": {},
-        "gemma4:latest": {}
-      }
+        "default": {},
+      },
     },
     "amazon-bedrock": {
       "options": {
         "region": "eu-west-1",
-        "profile": "GFTLIoT-Bedrock"
-      }
-    }
-  }
+        "profile": "GFTLIoT-Bedrock",
+      },
+    },
+  },
 }
