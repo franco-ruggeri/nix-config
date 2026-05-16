@@ -62,6 +62,7 @@
             super-productivity = pkgsUnstable.super-productivity;
             spotify = pkgsUnstable.spotify;
             basedpyright = pkgsUnstable.basedpyright;
+            ollama = pkgsUnstable.ollama;
             # WARNING: openclaw is only in unstable
             openclaw = pkgsUnstable.openclaw;
             # WARNING: The stable Nix package currently has issues with providers.
